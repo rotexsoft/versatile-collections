@@ -51,3 +51,7 @@ class PdoCollection extends \VersatileCollections\StrictlyTypedCollection {
 
 
 ```
+
+You can declare your custom typed collection classes as `final` so that users of your 
+classes will not be able to extend them and thereby circumvent the type-checking 
+being enforced at construct time and item addition time.
