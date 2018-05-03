@@ -27,7 +27,9 @@ class PdoCollection extends \VersatileCollections\StrictlyTypedCollection {
         $this->collection_items = $arr_objs;
     }
 
-    // This will be used when items are added to this collection via
+    // $this->checkType($item) will be used in 
+    // \VersatileCollections\StrictlyTypedCollection::offsetSet($key, $val)
+    // when items are added to this collection via
     // the $this['key_name'] = ....
     // or the  $this[] = .......
     // or $this->key_name = .....
