@@ -4,8 +4,8 @@
 
 Use or extend the `GenericCollection` class to create collections that can contain items of differing types.
 
-Extend the `StrictlyTypedCollection` class or any of its sub-classes to create collections that will only contain 
-items of the same type (e.g. instances of the same class, ints, floats, etc).
+Extend the `StrictlyTypedCollection` class or directly use any of its sub-classes to create collections 
+that will only contain items of the same type (e.g. objects, ints, floats, strings, callables, resources etc).
 
 To create a custom strictly typed collection of objects belonging to a specific class, follow the pattern below 
 (we are creating a collection of PDO objects below):
