@@ -1,0 +1,33 @@
+{
+    "name": "rotexsoft/versatile-collections",
+    "type": "library",
+    "description": "A collections package for common use cases.",
+    "keywords": [ "collections", "collection", "array", "arrays", "iterable", "iterator", "ArrayAccess"],
+    "homepage": "https://github.com/rotexsoft/versatile-collections",
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Rotimi Adegbamigbe",
+            "email": "rotexdegba007-github@yahoo.ca",
+            "homepage": "https://github.com/rotexdegba",
+            "role": "Developer"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {
+        "php": ">=5.6.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^5.7",
+        "bartlett/umlwriter": "1.2"
+    },
+    "autoload": {
+        "classmap": ["src/"],
+        "files": [ ]
+    },
+    "autoload-dev": {
+        "classmap": ["src/", "tests/"],
+        "files": [ ]
+    }
+}
