@@ -19,13 +19,16 @@ For example if you are implementing a **PdoCollection** class which extends
 `\VersatileCollections\StrictlyTypedCollection`, then your constructor could look 
 like this: `PdoCollection::__construct(\PDO ...$arr_objs)`
 
-Here is what a full **PdoCollection** class would look like (you can choose not to 
-override **\VersatileCollections\StrictlyTypedCollection::__construct(...$arr_objs)**
-if you want):
+Here is what a full **PdoCollection** class would look like:
 
 ```php
 class PdoCollection extends \VersatileCollections\StrictlyTypedCollection {
 
+    // You can choose not to override 
+    // \VersatileCollections\StrictlyTypedCollection::__construct(...$arr_objs)
+    // if you want and rely on
+    // \VersatileCollections\StrictlyTypedCollection::__construct(...$arr_objs)
+    // for construct-time type-checking.
     public function __construct(\PDO ...$pdo_objs) {
                 
         $this->collection_items = $pdo_objs;
