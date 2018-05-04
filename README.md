@@ -36,11 +36,7 @@ class PdoCollection extends \VersatileCollections\StrictlyTypedCollection {
     // syntax
     protected function checkType($item) {
         
-        return is_object($item) 
-               && 
-               ( 
-                    trim(get_class($item)) === ($this->getType()) 
-               );
+        return ($item instanceof \PDO);
     }
     
     protected function getType() {
