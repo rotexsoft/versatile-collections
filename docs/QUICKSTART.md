@@ -131,6 +131,163 @@ object(VersatileCollections\GenericCollection)#3 (1) {
 }
 ```
 
+To access items in the collection, you can loop through the collection via 
+`foreach` or call the `getIterator()` method on the collection object to get
+the iterator and the use that iterator in whatever way you choose. You can also
+access items using the object property syntax (e.g. `$empty_generic_collection->new_item`)
+or array syntax (e.g. `$empty_generic_collection['another_new_item']`).
+
+To delete items from the collection, you can call `unset` like so:
+
+```php
+    unset($empty_generic_collection->new_item);
+
+    // OR 
+
+    unset($empty_generic_collection['another_new_item']);
+```
+
+To check if a key exists in the collection, you can call `isset` like so:
+```php
+    isset($empty_generic_collection->new_item);
+
+    // OR 
+
+    isset($empty_generic_collection['another_new_item']);
+```
+
+## Other methods applicable to all Collection classes or their descendants:
+* **`toArray()`:** returns a copy of the underlying array storing the items in a collection object
+* **`count()`:** returns the number of items in a collection object
+* **`firstItem()`:** returns the first item in a collection object
+* **`lastItem()`:** returns the last item in a collection object
+* **`getKeys()`:** returns an array containing the keys to each item in a collection object
+* **`setValForEachItem($field_name, $field_val, $add_field_if_not_present=false)`:** this method is useful for collections where each item is either an object or an array. It sets a value for a field / key in each item (object / array) in the collection. See example below:
+
+    ```php
+        $empty_generic_collection = new \VersatileCollections\GenericCollection();
+
+        $empty_generic_collection[] = ['name'=>'John Doe', 'age'=>20];
+        $empty_generic_collection[] = ['name'=>'Jane Doe', 'age'=>30];
+        $empty_generic_collection[] = ['name'=>'Jack Doe', 'age'=>40];
+        $empty_generic_collection[] = ['name'=>'Jill Doe', 'age'=>50];
+
+        // set the `age` field for each collection item to 25
+        $empty_generic_collection->setValForEachItem('age', 25);
+
+        // will throw an exception because there is no `hobby` key in each item's array
+        // $empty_generic_collection->setValForEachItem('hobby', 'Baseball');
+
+
+        // Now, add a hobby field to each collection item with a value of `Baseball`.
+        // Will not throw an exception even though there is no `hobby` key in each item's array
+        // because we paased a third parameter value of true, allowing setValForEachItem to
+        // add non-existent keys to each item.
+        $empty_generic_collection->setValForEachItem('hobby', 'Baseball', true);
+
+        var_dump($empty_generic_collection);
+    ```
+    ```
+        object(VersatileCollections\GenericCollection)#3 (1) {
+          ["collection_items":protected]=>
+          array(4) {
+            [0]=>
+            array(3) {
+              ["name"]=>
+              string(8) "John Doe"
+              ["age"]=>
+              int(25)
+              ["hobby"]=>
+              string(8) "Baseball"
+            }
+            [1]=>
+            array(3) {
+              ["name"]=>
+              string(8) "Jane Doe"
+              ["age"]=>
+              int(25)
+              ["hobby"]=>
+              string(8) "Baseball"
+            }
+            [2]=>
+            array(3) {
+              ["name"]=>
+              string(8) "Jack Doe"
+              ["age"]=>
+              int(25)
+              ["hobby"]=>
+              string(8) "Baseball"
+            }
+            [3]=>
+            array(3) {
+              ["name"]=>
+              string(8) "Jill Doe"
+              ["age"]=>
+              int(25)
+              ["hobby"]=>
+              string(8) "Baseball"
+            }
+          }
+        }
+    ```
+    `setValForEachItem` also works with a collection containing objects:
+
+    ```php
+        $collection = new \BaseCollectionTestImplementation();
+        $collection[] = (object)['name'=>'Joe', 'age'=>'10',];
+        $collection[] = (object)['name'=>'Jane', 'age'=>'20',];
+        $collection[] = (object)['name'=>'Janice', 'age'=>'30',];
+
+        // set the `age` field for each collection item to 24
+        $collection->setValForEachItem('age', 24);
+
+        // will throw an exception because there is no `hobby` propety in each item's object
+        // $collection->setValForEachItem('hobby', 'Baseball');
+
+        // Now, add a hobby property to each collection item with a value of `Baseball`.
+        // Will not throw an exception even though there is no `hobby` property in each item's
+        // object because we paased a third parameter value of true, allowing setValForEachItem to
+        // add non-existent property to each item.
+        $collection->setValForEachItem('hobby', 'Baseball', true);
+
+        var_dump($collection);
+    ```
+
+    ```
+        object(BaseCollectionTestImplementation)#3 (1) {
+          ["collection_items":protected]=>
+          array(3) {
+            [0]=>
+            object(stdClass)#2 (3) {
+              ["name"]=>
+              string(3) "Joe"
+              ["age"]=>
+              int(24)
+              ["hobby"]=>
+              string(8) "Baseball"
+            }
+            [1]=>
+            object(stdClass)#4 (3) {
+              ["name"]=>
+              string(4) "Jane"
+              ["age"]=>
+              int(24)
+              ["hobby"]=>
+              string(8) "Baseball"
+            }
+            [2]=>
+            object(stdClass)#5 (3) {
+              ["name"]=>
+              string(6) "Janice"
+              ["age"]=>
+              int(24)
+              ["hobby"]=>
+              string(8) "Baseball"
+            }
+          }
+        }
+    ```
+
 More details about the collection objects in this package are contained in the links below:
 
 * [Generic Collections](GenericCollections.md)

@@ -14,8 +14,7 @@ class TestValueObjectCollection extends \VersatileCollections\ObjectCollection {
 
     protected function checkType($item) {
         
-        return is_object($item) 
-            && ( trim(get_class($item)) === ($this->getType()) );
+        return ($item instanceof TestValueObject);
     }
     
     protected function getType() {
