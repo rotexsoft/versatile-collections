@@ -56,7 +56,7 @@ abstract class BaseCollection implements \ArrayAccess, \Countable, \IteratorAggr
             
         } else {
 
-            throw new \Exception(get_class($this)."::offsetGet({$key})");
+            throw new \VersatileCollections\Exceptions\NonExistentItemException(get_class($this)."::offsetGet({$key})");
         }
     }
 
@@ -155,9 +155,9 @@ abstract class BaseCollection implements \ArrayAccess, \Countable, \IteratorAggr
         
         if( $this->count() <= 0 ) { return null; }
         
-        $keys = array_keys($this->collection_items);
+        reset($this->collection_items);
         
-        return $this[$keys[0]];
+        return current($this->collection_items);
     }
     
     /**
@@ -171,15 +171,48 @@ abstract class BaseCollection implements \ArrayAccess, \Countable, \IteratorAggr
         
         if( $this->count() <= 0 ) { return null; }
         
-        $keys = array_keys($this->collection_items);
-        $reversed_keys = array_reverse($keys);
+        $last = end($this->collection_items);
+        reset($this->collection_items);
         
-        return $this[$reversed_keys[0]];
+        return $last;
     }
     
     public function getKeys()
     {
         return array_keys($this->collection_items);
     }
+    
+    public function setValForEachItem($field_name, $field_val, $add_field_if_not_present=false) {
+        
+        foreach ($this->collection_items as &$item) {
+            
+            if( 
+                is_object($item)
+                && 
+                ( $add_field_if_not_present || property_exists($item, $field_name) )
+            ) {
+                $item->$field_name = $field_val;
+                
+            } else if(
+                is_array($item)
+                && ( $add_field_if_not_present  || array_key_exists($field_name, $item) )
+            ) {
+                $item[$field_name] = $field_val;
+                
+            } else {
+                
+                $class = get_class($this);
+                $function = __FUNCTION__;
+                $msg = "Error [{$class}::{$function}(...)]:Trying to set a property named `$field_name` on a collection item of type "
+                    . "`". gettype($item)."` "
+                    . PHP_EOL . " `\$field_val`: " . var_export($field_val, true)
+                    . PHP_EOL . " `\$add_field_if_not_present`: " . var_export($add_field_if_not_present, true);
+                
+                throw new Exceptions\InvalidCollectionOperationException($msg);
+            }
+            
+        } // foreach ($this->collection_items as &$item) 
+    }
+        
 
 }

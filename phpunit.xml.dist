@@ -9,8 +9,10 @@
         <whitelist>
             <directory suffix=".php">./src</directory>
             <exclude>
+            <!--
                 <file>./src/templates/controller-class-template.php</file>
                 <file>./src/templates/index-view-template.php</file>
+            -->
             </exclude>
         </whitelist>
     </filter>
