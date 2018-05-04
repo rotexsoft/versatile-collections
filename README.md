@@ -1,4 +1,4 @@
-# versatile-collections
+# Versatile Collections
 
 ![Collection Classes](https://raw.githubusercontent.com/rotexsoft/versatile-collections/master/versatile-collections.png)
 
@@ -55,3 +55,23 @@ class PdoCollection extends \VersatileCollections\StrictlyTypedCollection {
 You can declare your custom typed collection classes as `final` so that users of your 
 classes will not be able to extend them and thereby circumvent the type-checking 
 being enforced at construct time and item addition time.
+
+
+## Documentation
+
+* [Quick Start Guide](docs/QUICKSTART.md)
+* [Generic Collections](docs/GenericCollections.md)
+* [Strictly Typed Collections](docs/StrictlyTypedCollections.md)
+    * [Callables Collections](docs/CallablesCollections.md)
+    * [Float Collections](docs/FloatCollections.md)
+    * [Int Collections](docs/IntCollections.md)
+    * [Object Collections](docs/ObjectCollections.md)
+    * [Resource Collections](docs/ResourceCollections.md)
+    * [Scalar Collections](docs/ScalarCollections.md)
+    * [String Collections](docs/StringCollections.md)
+* Please submit an issue or a pull request if you find any issues with the documentation.
+
+## Issues
+
+* Please submit an issue or a pull request if you find any bugs or better and 
+more efficient way(s) things could be implemented in this package.
