@@ -26,7 +26,7 @@ class PdoCollection extends \VersatileCollections\StrictlyTypedCollection {
 
     // You can choose not to override 
     // \VersatileCollections\StrictlyTypedCollection::__construct(...$arr_objs)
-    // if you want and rely on
+    // if you want to rely on
     // \VersatileCollections\StrictlyTypedCollection::__construct(...$arr_objs)
     // for construct-time type-checking.
     public function __construct(\PDO ...$pdo_objs) {
