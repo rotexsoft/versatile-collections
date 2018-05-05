@@ -52,3 +52,14 @@ items are added to the collection via any of the syntaxes like:
 * `$collection[] = 'item'`
 * or `$collection['item1'] = 'item'` 
 * or `$collection->item1 = 'item'`
+
+Below are the strictly-typed Collection classes implemented in this package:
+
+* [Callables Collections](CallablesCollections.md): a collection that can only contain [callables](http://php.net/manual/en/language.types.callable.php)
+* [Float Collections](FloatCollections.md): a collection that can only contain [floats](http://php.net/manual/en/language.types.float.php)
+* [Int Collections](IntCollections.md): a collection that can only contain [integers](http://php.net/manual/en/language.types.integer.php)
+* [Object Collections](ObjectCollections.md): a collection that can only contain [objects](http://php.net/manual/en/language.types.object.php) (any kind of object)
+* [Resource Collections](ResourceCollections.md): a collection that can only contain [resources](http://php.net/manual/en/language.types.resource.php)
+* [Scalar Collections](ScalarCollections.md): a collection that can only scalar values. I.e. any of [booleans](http://php.net/manual/en/language.types.boolean.php), [floats](http://php.net/manual/en/language.types.float.php), [integers](http://php.net/manual/en/language.types.integer.php) or [strings](http://php.net/manual/en/language.types.string.php). It accepts any mix of scalars, e.g. ints, booleans, floats and strings can all be present in an instance of this type of collection.
+* [String Collections](StringCollections.md): a collection that can only contain [strings](http://php.net/manual/en/language.types.string.php)
+
