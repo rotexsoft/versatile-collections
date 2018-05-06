@@ -24,7 +24,8 @@ A good use-case for this type of collection would be in applications that requir
 a list of strictly numeric values (integers or floating point numbers) 
 for some calculation.
 
-## Specific Methods
+## Other methods applicable to this Collection class and its descendants:
+
 * **`average()`:** returns the average of all the values in the collection
 * **`max()`:** returns the highest of all the values in the collection
 * **`min()`:** returns the lowest of all the values in the collection
