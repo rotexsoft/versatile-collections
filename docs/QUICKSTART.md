@@ -290,7 +290,7 @@ To check if a key exists in the collection, you can call `isset` like so:
         // $collection_of_first_3_even_ints->toArray() === [1=>2, 3=>4, 5=>6]
     ```
 * **`firstItem()`:** Returns the first item in a collection object
-* **`getCollectionsOfSizeN($max_size_of_each_collection=1)`:** Returns a generator that yields collections each having a maximum of $num_of_items. Original keys are preserved in each returned collection.
+* **`getCollectionsOfSizeN($max_size_of_each_collection=1)`:** Returns a generator that yields collections each having a maximum of `$max_size_of_each_collection`. Original keys are preserved in each returned collection.
     ```php
         $int_collection = new \VersatileCollections\IntCollection(
             1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15
