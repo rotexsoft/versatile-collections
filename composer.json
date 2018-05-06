@@ -2,7 +2,10 @@
     "name": "rotexsoft/versatile-collections",
     "type": "library",
     "description": "A collections package for common use cases.",
-    "keywords": [ "collections", "collection", "array", "arrays", "iterable", "iterator", "ArrayAccess"],
+    "keywords": [ 
+        "collections", "collection", "array", "arrays", "iterable", "iterator", 
+        "ArrayAccess", "typed", "typed collection", "typed collections"
+    ],
     "homepage": "https://github.com/rotexsoft/versatile-collections",
     "license": "BSD-3-Clause",
     "authors": [
