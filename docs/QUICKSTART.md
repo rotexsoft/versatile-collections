@@ -475,7 +475,7 @@ To check if a key exists in the collection, you can call `isset` like so:
         var_dump($collection->toArray());
     ```
 
-    Code above now outputs:
+    code above now outputs:
 
     ```
         array(3) {
