@@ -13,7 +13,7 @@ property syntax.
 
 ## Installation 
 
-**Via composer:**
+**Via composer:** (Requires PHP 5.6+)
 
 
     composer require rotexsoft/versatile-collections
