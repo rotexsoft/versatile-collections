@@ -645,10 +645,9 @@ To check if a key exists in the collection, you can call `isset` like so:
         // will throw an exception because there is no `hobby` key in each item's array
         // $empty_generic_collection->setValForEachItem('hobby', 'Baseball');
 
-
         // Now, add a hobby field to each collection item with a value of `Baseball`.
         // Will not throw an exception even though there is no `hobby` key in each item's array
-        // because we paased a third parameter value of true, allowing setValForEachItem to
+        // because we passed a third parameter value of true, allowing setValForEachItem to
         // add non-existent keys to each item.
         $empty_generic_collection->setValForEachItem('hobby', 'Baseball', true);
 
@@ -700,7 +699,7 @@ To check if a key exists in the collection, you can call `isset` like so:
     `setValForEachItem` also works with a collection containing objects:
 
     ```php
-        $collection = new \GenericCollection();
+        $collection = new \VersatileCollections\GenericCollection();
         $collection[] = (object)['name'=>'Joe', 'age'=>'10',];
         $collection[] = (object)['name'=>'Jane', 'age'=>'20',];
         $collection[] = (object)['name'=>'Janice', 'age'=>'30',];
@@ -713,7 +712,7 @@ To check if a key exists in the collection, you can call `isset` like so:
 
         // Now, add a hobby property to each collection item with a value of `Baseball`.
         // Will not throw an exception even though there is no `hobby` property in each item's
-        // object because we paased a third parameter value of true, allowing setValForEachItem to
+        // object because we passed a third parameter value of true, allowing setValForEachItem to
         // add non-existent property to each item.
         $collection->setValForEachItem('hobby', 'Baseball', true);
 
