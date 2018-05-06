@@ -54,7 +54,7 @@ object(VersatileCollections\GenericCollection)#3 (1) {
     [3]=>
     string(6) "item 4"
   }
-}
+}[Quick Start Guide](docs/QUICKSTART.md)
 ```
 
 To continue working with the `$generic_collection_with_items` in list mode (i.e.
@@ -157,12 +157,479 @@ To check if a key exists in the collection, you can call `isset` like so:
 ```
 
 ## Other methods applicable to all Collection classes or their descendants:
-* **`toArray()`:** returns a copy of the underlying array storing the items in a collection object
-* **`count()`:** returns the number of items in a collection object
-* **`firstItem()`:** returns the first item in a collection object
-* **`lastItem()`:** returns the last item in a collection object
-* **`getKeys()`:** returns an array containing the keys to each item in a collection object
-* **`setValForEachItem($field_name, $field_val, $add_field_if_not_present=false)`:** this method is useful for collections where each item is either an object or an array. It sets a value for a field / key in each item (object / array) in the collection. See example below:
+* **`appendCollection(CollectionInterface $other)`:** Appends all items from $other collection to the end of $this collection. Note that appended items will be assigned numeric keys.
+    ```php
+        
+        $numeric_collection = new \VersatileCollections\NumericsCollection(
+            1.0, 2.0, 3, 4, 5, 6
+        );
+        
+        $int_collection = new \VersatileCollections\IntCollection(
+            8, 9, 10, 11
+        );
+        
+        // append a sub-class collection
+        $numeric_collection->appendCollection($int_collection);
+
+        var_dump( $numeric_collection->toArray() );
+    ```
+    outputs
+    ```
+        array(10) {
+          [0] =>
+          double(1)
+          [1] =>
+          double(2)
+          [2] =>
+          int(3)
+          [3] =>
+          int(4)
+          [4] =>
+          int(5)
+          [5] =>
+          int(6)
+          [6] =>
+          int(8)
+          [7] =>
+          int(9)
+          [8] =>
+          int(10)
+          [9] =>
+          int(11)
+        }
+    ```
+* **`appendItem($item)`:** Appends an $item to the end of $this collection. Same effect as `$collection[] = 'some item';`
+* **`containsItem($item)`:** Check if a collection contains an item
+* **`containsKey($key)`:** Check if a key exists in a collection
+* **`count()`:** Returns the number of items in a collection object
+* **`filterAll(callable $filterer, $copy_keys=false)`:** Filter out items in the collection via a callback function and return filtered items in a new collection. Note that the filtered items are not removed from the original collection. `$filterer` is a callback with the following signature `function($key, $item)` that returns true if an item should be filtered out, or false if not
+    ```php
+        $collection_of_ints = 
+            new \BaseCollectionTestImplementation(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+        
+        // don't preserve keys
+        $collection_of_even_ints = $collection_of_ints->filter(
+            
+            function($key, $item) {
+            
+                return ($item % 2) === 0;
+            }    
+        );
+        
+        // At this point
+        // $collection_of_even_ints->toArray() === [2, 4, 6, 8, 10]
+        
+        // preserve keys 
+        $collection_of_even_ints = $collection_of_ints->filter(
+            
+            function($key, $item) {
+            
+                return ($item % 2) === 0;
+            },
+            true
+        );
+        
+        // At this point
+        // $collection_of_even_ints->toArray() === [1=>2, 3=>4, 5=>6, 7=>8, 9=>10]
+    ```
+* **`filterFirstN(callable $filterer, $max_number_of_filtered_items_to_return =null, $copy_keys=false)`:** Filter out the first N items in the collection via a callback function and return filtered items in a new collection. Note that the filtered items are not removed from the original collection. `$filterer` is a callback with the following signature `function($key, $item)` that returns true if an item should be filtered out, or false if not
+    ```php
+        $collection_of_ints = 
+            new \BaseCollectionTestImplementation(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+        
+        // don't preserve keys
+        $collection_of_all_even_ints = $collection_of_ints->filterFirstN(
+            
+            function($key, $item) {
+            
+                return ($item % 2) === 0;
+            }    
+        );
+        
+        // At this point
+        // $collection_of_all_even_ints->toArray() === [2, 4, 6, 8, 10]
+        
+        // first 3
+        $collection_of_first_3_even_ints = $collection_of_ints->filterFirstN(
+            
+            function($key, $item) {
+            
+                return ($item % 2) === 0;
+            },
+            3
+        );
+
+        // At this point
+        // $collection_of_first_3_even_ints->toArray() === [2, 4, 6]
+        
+        // preserve keys 
+        $collection_of_all_even_ints = $collection_of_ints->filterFirstN(
+            
+            function($key, $item) {
+            
+                return ($item % 2) === 0;
+            },
+            null,
+            true
+        );
+        
+        // At this point
+        // $collection_of_all_even_ints->toArray() === [1=>2, 3=>4, 5=>6, 7=>8, 9=>10]
+
+        $collection_of_first_3_even_ints = $collection_of_ints->filterFirstN(
+            
+            function($key, $item) {
+            
+                return ($item % 2) === 0;
+            },
+            3,
+            true
+        );
+        
+        // At this point
+        // $collection_of_first_3_even_ints->toArray() === [1=>2, 3=>4, 5=>6]
+    ```
+* **`firstItem()`:** Returns the first item in a collection object
+* **`getCollectionsOfSizeN($max_size_of_each_collection=1)`:** Returns a generator that yields collections each having a maximum of $num_of_items. Original keys are preserved in each returned collection.
+    ```php
+        $int_collection = new \VersatileCollections\IntCollection(
+            1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15
+        );
+        
+        $sub_collections_generator = $int_collection->getCollectionsOfSizeN(3);
+        
+        foreach( $sub_collections_generator as $sub_collection ) {
+            
+            var_dump( $sub_collection->toArray() );
+        }
+    ```
+    outputs
+    ```
+        array(3) {
+          [0] =>
+          int(1)
+          [1] =>
+          int(2)
+          [2] =>
+          int(3)
+        }
+
+        array(3) {
+          [3] =>
+          int(4)
+          [4] =>
+          int(5)
+          [5] =>
+          int(6)
+        }
+
+        array(3) {
+          [6] =>
+          int(7)
+          [7] =>
+          int(8)
+          [8] =>
+          int(9)
+        }
+
+        array(3) {
+          [9] =>
+          int(10)
+          [10] =>
+          int(11)
+          [11] =>
+          int(12)
+        }
+
+        array(3) {
+          [12] =>
+          int(13)
+          [13] =>
+          int(14)
+          [14] =>
+          int(15)
+        }
+    ```
+    You can use the `iterator_to_array()` function to convert the generator to an array of collections like so:
+    ```php
+        $int_collection = new \VersatileCollections\IntCollection(
+            1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15
+        );
+        
+        $sub_collections = iterator_to_array($int_collection->getCollectionsOfSizeN(3));
+        
+        var_dump($sub_collections);
+    ```
+    which outputs
+    ```
+        array(5) {
+          [0] =>
+          class VersatileCollections\IntCollection#6 (1) {
+            protected $collection_items =>
+            array(3) {
+              [0] =>
+              int(1)
+              [1] =>
+              int(2)
+              [2] =>
+              int(3)
+            }
+          }
+          [1] =>
+          class VersatileCollections\IntCollection#7 (1) {
+            protected $collection_items =>
+            array(3) {
+              [3] =>
+              int(4)
+              [4] =>
+              int(5)
+              [5] =>
+              int(6)
+            }
+          }
+          [2] =>
+          class VersatileCollections\IntCollection#8 (1) {
+            protected $collection_items =>
+            array(3) {
+              [6] =>
+              int(7)
+              [7] =>
+              int(8)
+              [8] =>
+              int(9)
+            }
+          }
+          [3] =>
+          class VersatileCollections\IntCollection#9 (1) {
+            protected $collection_items =>
+            array(3) {
+              [9] =>
+              int(10)
+              [10] =>
+              int(11)
+              [11] =>
+              int(12)
+            }
+          }
+          [4] =>
+          class VersatileCollections\IntCollection#10 (1) {
+            protected $collection_items =>
+            array(3) {
+              [12] =>
+              int(13)
+              [13] =>
+              int(14)
+              [14] =>
+              int(15)
+            }
+          }
+        }
+    ```
+* **`getKeys()`:** Returns an array containing the keys to each item in a collection object
+* **`getIfExists($key, $default_value=null)`:** Try to get an item with the specified key ($key) or return $default_value if key does not exist
+* **`isEmpty()`:** Returns true if a collection object contains one or more items, else false
+* **`lastItem()`:** Returns the last item in a collection object
+* **`makeAllKeysNumeric()`:** Convert all keys in the collection to consecutive integer keys
+    ```php
+        $collection = new \VersatileCollections\GenericCollection();
+        $collection->item1 = ['name'=>'Joe', 'age'=>'10',];
+        $collection->item2 = ['name'=>'Jane', 'age'=>'20',];
+        $collection->item3 = ['name'=>'Janice', 'age'=>'30',];
+        
+        var_dump($collection->toArray());
+    ```
+
+    outputs
+
+    ```
+        array(3) {
+          'item1' =>
+          array(2) {
+            'name' =>
+            string(3) "Joe"
+            'age' =>
+            string(2) "10"
+          }
+          'item2' =>
+          array(2) {
+            'name' =>
+            string(4) "Jane"
+            'age' =>
+            string(2) "20"
+          }
+          'item3' =>
+          array(2) {
+            'name' =>
+            string(6) "Janice"
+            'age' =>
+            string(2) "30"
+          }
+        }
+    ```
+
+    now make all keys numeric like so:
+
+    ```php
+        $collection->makeAllKeysNumeric();
+
+        var_dump($collection->toArray());
+    ```
+
+    Code above now outputs:
+
+    ```
+        array(3) {
+          [0] =>
+          array(2) {
+            'name' =>
+            string(3) "Joe"
+            'age' =>
+            string(2) "10"
+          }
+          [1] =>
+          array(2) {
+            'name' =>
+            string(4) "Jane"
+            'age' =>
+            string(2) "20"
+          }
+          [2] =>
+          array(2) {
+            'name' =>
+            string(6) "Janice"
+            'age' =>
+            string(2) "30"
+          }
+        }
+    ```
+* **`merge(CollectionInterface $other)`:** Adds all items from $other collection to $this collection. Items in $other with existing keys in $this will overwrite the existing items in $this.
+    ```php
+        $numeric_collection = new \VersatileCollections\NumericsCollection(
+            1.0, 2.0, 3, 4, 5, 6
+        ); // underlying array contains [ 0=>1.0, 1=>2.0, 2=>3, 3=>4, 4=>5, 5=>6 ]
+        
+        $int_collection = new \VersatileCollections\IntCollection(
+            8, 9, 10, 11
+        ); // underlying array contains [ 0=>8, 1=>9, 2=>10, 3=>11 ]
+
+        // do the merge
+        $numeric_collection->merge($int_collection);
+
+        var_dump( $numeric_collection->toArray() );
+    ```
+    outputs
+    ```
+        array(6) {
+          [0] =>
+          int(8)
+          [1] =>
+          int(9)
+          [2] =>
+          int(10)
+          [3] =>
+          int(11)
+          [4] =>
+          int(5)
+          [5] =>
+          int(6)
+        }
+    ```
+* **`prependCollection(CollectionInterface $other)`:** Prepends all items from $other collection to the front of $this collection. Note that all numerical keys will be modified to start counting from zero while literal keys won't be changed.
+    ```php
+        $numeric_collection = new \VersatileCollections\NumericsCollection(
+            1.0, 2.0, 3, 4, 5, 6
+        );
+
+        $int_collection = new \VersatileCollections\IntCollection(
+            8, 9, 10, 11
+        );
+
+        // prepend a sub-class collection
+        $numeric_collection->prependCollection($int_collection);
+
+        var_dump( $numeric_collection->toArray() );
+    ```
+    outputs
+    ```
+        array(10) {
+          [0] =>
+          int(8)
+          [1] =>
+          int(9)
+          [2] =>
+          int(10)
+          [3] =>
+          int(11)
+          [4] =>
+          double(1)
+          [5] =>
+          double(2)
+          [6] =>
+          int(3)
+          [7] =>
+          int(4)
+          [8] =>
+          int(5)
+          [9] =>
+          int(6)
+        }
+    ```
+* **`prependItem($item)`:** Prepends an $item to the front of $this collection.
+    ```php
+        $numeric_collection = new \VersatileCollections\NumericsCollection(
+            1.0, 2.0, 3, 4, 5, 6
+        );
+
+        // prepend an item
+        $numeric_collection->prependItem(99);
+
+        var_dump( $numeric_collection->toArray() );
+    ```
+    outputs
+    ```
+        array(7) {
+          [0] =>
+          int(99)
+          [1] =>
+          double(1)
+          [2] =>
+          double(2)
+          [3] =>
+          int(3)
+          [4] =>
+          int(4)
+          [5] =>
+          int(5)
+          [6] =>
+          int(6)
+        }
+    ```
+* **`reduce(callable $reducer, $initial_value=NULL)`:** Iteratively reduce the collection items to a single value using a callback function. See array_reduce documentation for definition of $reducer.
+    ```php
+        $collection = new \VersatileCollections\GenericCollection(
+            50 , 23, 43, 55
+        );
+
+        $sum_of_items = $collection->reduce(
+            function($carry, $item) {
+            
+                return $carry + $item;
+            }
+        );
+        
+        echo $sum_of_items; // will output 171
+
+        $sum_of_items_plus_ten = $collection->reduce(
+            function($carry, $item) {
+            
+                return $carry + $item;
+            },
+            10
+        );
+        
+        echo $sum_of_items_plus_ten; // will output 181
+    ```
+* **`setValForEachItem($field_name, $field_val, $add_field_if_not_present=false)`:** This method is useful for collections where each item is either an object or an array. It sets a value for a field / key in each item (object / array) in the collection. See example below:
 
     ```php
         $empty_generic_collection = new \VersatileCollections\GenericCollection();
@@ -233,7 +700,7 @@ To check if a key exists in the collection, you can call `isset` like so:
     `setValForEachItem` also works with a collection containing objects:
 
     ```php
-        $collection = new \BaseCollectionTestImplementation();
+        $collection = new \GenericCollection();
         $collection[] = (object)['name'=>'Joe', 'age'=>'10',];
         $collection[] = (object)['name'=>'Jane', 'age'=>'20',];
         $collection[] = (object)['name'=>'Janice', 'age'=>'30',];
@@ -254,7 +721,7 @@ To check if a key exists in the collection, you can call `isset` like so:
     ```
 
     ```
-        object(BaseCollectionTestImplementation)#3 (1) {
+        object(GenericCollection)#3 (1) {
           ["collection_items":protected]=>
           array(3) {
             [0]=>
@@ -287,15 +754,55 @@ To check if a key exists in the collection, you can call `isset` like so:
           }
         }
     ```
+* **`toArray()`:** Returns an array containing all items in the collection object
+* **`transform(callable $transformer)`:** Modifies each item in a collection object via a callback with the following signature `function($key, $item)` that returns a value that will replace $item in the collection. The `$key` and `$item` parameters are each key and item pair contained in the collection.
+    ```php
+        $collection_of_ints = 
+            new \VersatileCollections\GenericCollection(2, 4, 6, 8);
+
+        $collection_of_ints->transform(
+
+            function($key, $item) {
+
+                return $item * $item;
+            }    
+        );
+
+        var_dump($collection_of_ints->toArray());
+    ```
+
+    outputs
+
+    ```
+        array(4) {
+          [0] =>
+          int(4)
+          [1] =>
+          int(16)
+          [2] =>
+          int(36)
+          [3] =>
+          int(64)
+        }
+    ```
+
+
+All examples above work for all the collection classes provided in this package,
+except for the strictly-typed collections which differ in that they enforce item 
+type checking at collection construction-time and when item(s) are added to the 
+collection.
 
 More details about the collection objects in this package are contained in the links below:
 
 * [Generic Collections](GenericCollections.md)
 * [Strictly Typed Collections](StrictlyTypedCollections.md)
-    * [Callables Collections](CallablesCollections.md)
-    * [Float Collections](FloatCollections.md)
-    * [Int Collections](IntCollections.md)
-    * [Object Collections](ObjectCollections.md)
-    * [Resource Collections](ResourceCollections.md)
-    * [Scalar Collections](ScalarCollections.md)
-    * [String Collections](StringCollections.md)
+    * [Callables Collections](CallablesCollections.md): a collection that can only contain [callables](http://php.net/manual/en/language.types.callable.php)
+    * [Object Collections](ObjectCollections.md): a collection that can only contain [objects](http://php.net/manual/en/language.types.object.php) (any kind of object)
+    * [Resource Collections](ResourceCollections.md): a collection that can only contain [resources](http://php.net/manual/en/language.types.resource.php)
+    * [Scalar Collections](ScalarCollections.md): a collection that can only scalar values. I.e. any of [booleans](http://php.net/manual/en/language.types.boolean.php), [floats](http://php.net/manual/en/language.types.float.php), [integers](http://php.net/manual/en/language.types.integer.php) or [strings](http://php.net/manual/en/language.types.string.php). It accepts any mix of scalars, e.g. ints, booleans, floats and strings can all be present in an instance of this type of collection.
+        * [Numeric Collections](NumericCollections.md): a collection that can only contain [floats](http://php.net/manual/en/language.types.float.php) and/or [integers](http://php.net/manual/en/language.types.integer.php)
+            * [Float Collections](FloatCollections.md): a collection that can only contain [floats](http://php.net/manual/en/language.types.float.php)
+            * [Int Collections](IntCollections.md): a collection that can only contain [integers](http://php.net/manual/en/language.types.integer.php)
+        * [String Collections](StringCollections.md): a collection that can only contain [strings](http://php.net/manual/en/language.types.string.php)
+
+

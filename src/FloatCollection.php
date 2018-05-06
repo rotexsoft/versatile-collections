@@ -6,7 +6,7 @@ namespace VersatileCollections;
  *
  * @author rotimi
  */
-class FloatCollection extends ScalarCollection {
+class FloatCollection extends NumericsCollection {
 
     protected function checkType($item) {
         

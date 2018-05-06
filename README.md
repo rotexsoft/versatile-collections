@@ -1,5 +1,10 @@
 # Versatile Collections
 
+A collection package that can be extended to implement things such as a Dependency Injection Container,
+RecordSet objects for housing database records, a bag of http cookies, or technically any collection of
+items that can be looped over and whose items can each be access using array-access syntax or object
+property syntax.
+
 ![Collection Classes](https://raw.githubusercontent.com/rotexsoft/versatile-collections/master/versatile-collections.png)
 
 Use or extend the `GenericCollection` class to create collections that can contain items of differing types.
@@ -44,8 +49,6 @@ class PdoCollection extends \VersatileCollections\StrictlyTypedCollection {
         return \PDO::class;
     }
 }
-
-
 ```
 
 You can declare your custom typed collection classes as `final` so that users of your 
@@ -58,13 +61,15 @@ being enforced at construct time and item addition time.
 * [Quick Start Guide](docs/QUICKSTART.md)
 * [Generic Collections](docs/GenericCollections.md)
 * [Strictly Typed Collections](docs/StrictlyTypedCollections.md)
-    * [Callables Collections](docs/CallablesCollections.md)
-    * [Float Collections](docs/FloatCollections.md)
-    * [Int Collections](docs/IntCollections.md)
-    * [Object Collections](docs/ObjectCollections.md)
-    * [Resource Collections](docs/ResourceCollections.md)
-    * [Scalar Collections](docs/ScalarCollections.md)
-    * [String Collections](docs/StringCollections.md)
+    * [Callables Collections](docs/CallablesCollections.md): a collection that can only contain [callables](http://php.net/manual/en/language.types.callable.php)
+    * [Object Collections](docs/ObjectCollections.md): a collection that can only contain [objects](http://php.net/manual/en/language.types.object.php) (any kind of object)
+    * [Resource Collections](docs/ResourceCollections.md): a collection that can only contain [resources](http://php.net/manual/en/language.types.resource.php)
+    * [Scalar Collections](docs/ScalarCollections.md): a collection that can only scalar values. I.e. any of [booleans](http://php.net/manual/en/language.types.boolean.php), [floats](http://php.net/manual/en/language.types.float.php), [integers](http://php.net/manual/en/language.types.integer.php) or [strings](http://php.net/manual/en/language.types.string.php). It accepts any mix of scalars, e.g. ints, booleans, floats and strings can all be present in an instance of this type of collection.
+        * [Numeric Collections](docs/NumericCollections.md): a collection that can only contain [floats](http://php.net/manual/en/language.types.float.php) and/or [integers](http://php.net/manual/en/language.types.integer.php)
+            * [Float Collections](docs/FloatCollections.md): a collection that can only contain [floats](http://php.net/manual/en/language.types.float.php)
+            * [Int Collections](docs/IntCollections.md): a collection that can only contain [integers](http://php.net/manual/en/language.types.integer.php)
+        * [String Collections](docs/StringCollections.md): a collection that can only contain [strings](http://php.net/manual/en/language.types.string.php)
+
 * Please submit an issue or a pull request if you find any issues with the documentation.
 
 ## Issues

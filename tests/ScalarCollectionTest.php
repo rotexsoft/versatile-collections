@@ -37,4 +37,26 @@ class ScalarCollectionTest extends \PHPUnit_Framework_TestCase {
         // a non-scalar
         $collection->item5 = [];
     }
+    public function testThatUniqueWorksAsExpected() {
+        
+        $collection = new \VersatileCollections\ScalarCollection();
+        $collection->item1 = "4";
+        $collection->item2 = 5.0;
+        $collection->item3 = 7;
+        $collection->item4 = true;
+        $collection->item5 = false;
+        $collection->item12 = "4";
+        $collection->item22 = 5.0;
+        $collection->item32 = 7;
+        $collection->item42 = true;
+        $collection->item52 = false;
+        $collection->item123 = 4;
+        $collection->item223 = '5.0';
+        $collection->item323 = '7';
+        $collection->item423 = 'true';
+        $collection->item523 = 'false';
+        
+        $this->assertEquals($collection->unique(), ['4', 5.0, 7, false, 'true', 'false']);
+        $this->assertEquals($collection->unique(true), ['4', 5.0, 7, true, false, 4, '5.0', '7','true', 'false']);
+    }
 }

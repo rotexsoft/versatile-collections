@@ -1,7 +1,7 @@
 <?php
 namespace VersatileCollections;
 
-abstract class BaseCollection implements \ArrayAccess, \Countable, \IteratorAggregate {
+abstract class BaseCollection implements CollectionInterface {
 
     protected $collection_items = [];
     
@@ -27,25 +27,17 @@ abstract class BaseCollection implements \ArrayAccess, \Countable, \IteratorAggr
     
     /**
      * 
-     * ArrayAccess: does the requested key exist?
-     * 
-     * @param string $key The requested key.
-     * 
-     * @return bool
+     * {@inheritDoc}
      * 
      */
     public function offsetExists($key) {
         
         return array_key_exists($key, $this->collection_items);
     }
-
+    
     /**
      * 
-     * ArrayAccess: get a key value.
-     * 
-     * @param string $key The requested key.
-     * 
-     * @return mixed
+     * {@inheritDoc}
      * 
      */
     public function offsetGet($key) {
@@ -62,38 +54,37 @@ abstract class BaseCollection implements \ArrayAccess, \Countable, \IteratorAggr
 
     /**
      * 
-     * ArrayAccess: set a key value.
-     * 
-     * @param string $key The requested key.
-     * 
-     * @param string $val The value to set it to.
-     * 
-     * @return void
+     * {@inheritDoc}
      * 
      */
     public function offsetSet($key, $val) {
         
-        if ($key === null) {
-
-            //support for $this[] = $val; syntax
-            $key = $this->count();
-
-            if (!$key) {
-
-                $key = 0;
-            }
+//        if ($key === null) {
+//
+//            //support for $this[] = $val; syntax
+//            $key = $this->count();
+//
+//            if (!$key) {
+//
+//                $key = 0;
+//            }
+//        }
+//
+//        $this->collection_items[$key] = $val;
+        
+        if(is_null($key) ) {
+            
+            $this->collection_items[] = $val;
+            
+        } else {
+            
+            $this->collection_items[$key] = $val;
         }
-
-        $this->collection_items[$key] = $val;
     }
-
+    
     /**
      * 
-     * ArrayAccess: unset a key.
-     * 
-     * @param string $key The requested key.
-     * 
-     * @return void
+     * {@inheritDoc}
      * 
      */
     public function offsetUnset($key) {
@@ -101,42 +92,40 @@ abstract class BaseCollection implements \ArrayAccess, \Countable, \IteratorAggr
         $this->collection_items[$key] = null;
         unset($this->collection_items[$key]);
     }
-
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
     public function toArray() {
 
         return $this->collection_items;
     }
-
-    // IteratorAggregate
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
     public function getIterator() {
 
         return new \ArrayIterator($this->collection_items);
     }
-
-    // Countable: how many keys are there?
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
     public function count() {
         
         return count($this->collection_items);
     }
 
-    // Because we are not type hinting here
-    // strict typing will be enforced by assuming
-    // all items in $arr_objs should be of the same
-    // type as the first item in $arr_objs
-    public function __construct(...$arr_objs) {
+    public function __construct(...$items) {
 
-        // if count $arr_objs > 0
-        // gettype of first item
-        // if it's an object get the class name
-        // for subsequent items check that they 
-        // are of the same type and (optionally) class 
-        // as first item. Use native array construct to 
-        // do this e.g array_walk . If an item with different
-        // type is encoutered throw Exception
-        // Actually move the strict type check into a new sub-class
-        // StrictlyTypedGenericCollection
-
-        $this->collection_items = $arr_objs;
+        $this->collection_items = $items;
     }
     
     ////////////////////////////////////////////////////////////////////////////
@@ -146,9 +135,7 @@ abstract class BaseCollection implements \ArrayAccess, \Countable, \IteratorAggr
     
     /**
      * 
-     * Retrieves and returns the first record in this collection.
-     * 
-     * @return mixed The first item in this collection or null if collection is empty.
+     * {@inheritDoc}
      * 
      */
     public function firstItem(){
@@ -162,9 +149,7 @@ abstract class BaseCollection implements \ArrayAccess, \Countable, \IteratorAggr
     
     /**
      * 
-     * Retrieves and returns the last record in this collection.
-     * 
-     * @return mixed The last item in this collection or null if collection is empty.
+     * {@inheritDoc}
      * 
      */
     public function lastItem(){
@@ -177,11 +162,21 @@ abstract class BaseCollection implements \ArrayAccess, \Countable, \IteratorAggr
         return $last;
     }
     
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
     public function getKeys()
     {
         return array_keys($this->collection_items);
     }
     
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
     public function setValForEachItem($field_name, $field_val, $add_field_if_not_present=false) {
         
         foreach ($this->collection_items as &$item) {
@@ -211,8 +206,268 @@ abstract class BaseCollection implements \ArrayAccess, \Countable, \IteratorAggr
                 throw new Exceptions\InvalidCollectionOperationException($msg);
             }
             
-        } // foreach ($this->collection_items as &$item) 
-    }
+        } // foreach ($this->collection_items as &$item)
         
+        return $this;
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
+    public function filterAll(callable $filterer, $copy_keys=false) {
+                
+        return $this->filterFirstN($filterer, $this->count(), $copy_keys);
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
+    public function filterFirstN(callable $filterer, $max_number_of_filtered_items_to_return =null, $copy_keys=false) {
+        
+        $filtered_items = new static();
+        
+        if( 
+            is_null($max_number_of_filtered_items_to_return)
+            || ((int)$max_number_of_filtered_items_to_return) > $this->count()
+            || ((int)$max_number_of_filtered_items_to_return) < 0
+            || !is_numeric($max_number_of_filtered_items_to_return)
+        ) {
+            $max_number_of_filtered_items_to_return = $this->count();
+        }
+        
+        $num_filtered_items = 0;
+        
+        foreach ( $this->collection_items as $key => $item ) {
+            
+            if( $num_filtered_items >= $max_number_of_filtered_items_to_return ) {
+                
+                break;
+            }
+            
+            if( $filterer($key, $item) === true ) {
+                
+                $num_filtered_items++;
+                
+                if( $copy_keys ) {
+                    
+                    $filtered_items[$key] = $item;
+                    
+                } else {
+                    
+                    $filtered_items[] = $item;
+                }
+            }
+            
+        } // foreach ( $this->collection_items as $key => $item )
+        
+        return $filtered_items;
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
+    public function transform(callable $transformer) {
+        
+        foreach ( $this->collection_items as $key => $item ) {
+            
+            // using $this[$key] instead of $this->collection_items[$key]
+            // so that $this->offsetSet(...) will be invoked
+            $this[$key] = $transformer($key, $item);
+            
+        } // foreach ( $this->collection_items as $key => $item )
+        
+        return $this;
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
+    public function reduce(callable $reducer, $initial_value=NULL) {
+        
+        return array_reduce($this->collection_items, $reducer, $initial_value);
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
+    public function isEmpty() {
+        
+        return ($this->count() <= 0);
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
+    public function getIfExists($key, $default_value=null) {
+        
+        return array_key_exists($key, $this->collection_items) 
+                ?  $this->collection_items[$key] : $default_value;
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
+    public function containsItem($item) {
+        
+        return in_array($item, $this->collection_items, true);
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
+    public function containsKey($key) {
+        
+        return array_key_exists($key, $this->collection_items);
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
+    public function appendCollection(CollectionInterface $other) {
+        
+        if( ! $other->isEmpty() ) {
+            
+            foreach ($other as $item) {
+                
+                $this[] = $item;
+            }
+        }
+        
+        return $this;
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
+    public function appendItem($item) {
+        
+        $this[] = $item;
+        
+        return $this;
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
+    public function merge(CollectionInterface $other) {
+        
+        if( ! $other->isEmpty() ) {
+            
+            // not using array_merge , want to trigger $this->offsetSet() logic
+            foreach ( $other->toArray() as $key => $item ) {
+                
+                $this[$key] = $item;
+            }
+        }
+        
+        return $this;
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
+    public function prependCollection(CollectionInterface $other) {
+        
+        if( ! $other->isEmpty() ) {
+            
+            array_unshift($this->collection_items, ...array_values($other->toArray()));
+        }
+        
+        return $this;
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
+    public function prependItem($item) {
+        
+        array_unshift($this->collection_items, $item);
+        
+        return $this;
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
+    public function getCollectionsOfSizeN($max_size_of_each_collection=1) {
 
+        if( 
+            ((int)$max_size_of_each_collection) > $this->count()
+            || ((int)$max_size_of_each_collection) < 0
+            || !is_numeric($max_size_of_each_collection)
+        ) {
+            $max_size_of_each_collection = 1;
+        }
+        
+        $self = $this;
+        $generatorForNextN = function() use ($self) {
+
+            foreach ( $self->toArray() as $key=> $item ) 
+            { yield $key => $item; }
+        };
+        
+        $generator = $generatorForNextN();
+        $current_batch = new static();
+        $counter = 0;
+        
+        while ( $generator->valid() ) {
+            
+            $current_batch[$generator->key()] = $generator->current();
+            
+            if( ++$counter >= $max_size_of_each_collection ) {
+                
+                yield $current_batch;
+                $counter = 0; // reset
+                $current_batch = new static(); // initialize next collection
+            }
+            
+            $generator->next();
+        }
+        
+        // yield last batch if not already yielded
+        if( !$current_batch->isEmpty() ) {
+            
+            yield $current_batch;
+        }
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
+    public function makeAllKeysNumeric() {
+        
+        $this->collection_items = array_values($this->collection_items);
+        
+        return $this;
+    }
 }
