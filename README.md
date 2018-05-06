@@ -15,9 +15,9 @@ property syntax.
 
 **Via composer:**
 
-    ```
+
     composer require rotexsoft/versatile-collections
-    ```
+
 
 ## Usage 
 
