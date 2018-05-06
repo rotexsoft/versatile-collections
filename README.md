@@ -1,6 +1,6 @@
 # Versatile Collections
 [![Build Status](https://img.shields.io/travis/rotexsoft/versatile-collections/master.png?style=flat-square)](https://travis-ci.org/rotexsoft/versatile-collections) &nbsp; 
-[![Codacy Badge](https://img.shields.io/codacy/6cf4ecf85e494f9ab3137656d918fa10.png?style=flat-square)](https://www.codacy.com/app/rotexdegba/versatile-collections/dashboard) &nbsp; 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/39472c4a7ad5402aaf19a38e72ed651c)](https://www.codacy.com/app/rotexdegba/versatile-collections?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=rotexsoft/versatile-collections&amp;utm_campaign=Badge_Grade) &nbsp; 
 [![Release](https://img.shields.io/github/release/rotexsoft/versatile-collections.png?style=flat-square)](https://github.com/rotexsoft/versatile-collections/releases/latest) &nbsp;  [![License](https://img.shields.io/badge/license-BSD-brightgreen.png?style=flat-square)](https://github.com/rotexsoft/versatile-collections/blob/master/LICENSE) 
 
 A collection package that can be extended to implement things such as a Dependency Injection Container,
