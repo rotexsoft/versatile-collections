@@ -205,7 +205,7 @@ To check if a key exists in the collection, you can call `isset` like so:
 * **`filterAll(callable $filterer, $copy_keys=false)`:** Filter out items in the collection via a callback function and return filtered items in a new collection. Note that the filtered items are not removed from the original collection. `$filterer` is a callback with the following signature `function($key, $item)` that returns true if an item should be filtered out, or false if not
     ```php
         $collection_of_ints = 
-            new \VersatileCollections\GenericCollection(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+            new \VersatileCollections\IntCollection(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
         
         // don't preserve keys
         $collection_of_even_ints = $collection_of_ints->filter(
@@ -235,7 +235,7 @@ To check if a key exists in the collection, you can call `isset` like so:
 * **`filterFirstN(callable $filterer, $max_number_of_filtered_items_to_return =null, $copy_keys=false)`:** Filter out the first N items in the collection via a callback function and return filtered items in a new collection. Note that the filtered items are not removed from the original collection. `$filterer` is a callback with the following signature `function($key, $item)` that returns true if an item should be filtered out, or false if not
     ```php
         $collection_of_ints = 
-            new \VersatileCollections\GenericCollection(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+            new \VersatileCollections\IntCollection(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
         
         // don't preserve keys
         $collection_of_all_even_ints = $collection_of_ints->filterFirstN(
