@@ -604,7 +604,7 @@ To check if a key exists in the collection, you can call `isset` like so:
           int(6)
         }
     ```
-* **`reduce(callable $reducer, $initial_value=NULL)`:** Iteratively reduce the collection items to a single value using a callback function. See array_reduce documentation for definition of $reducer.
+* **`reduce(callable $reducer, $initial_value=NULL)`:** Iteratively reduce the collection items to a single value using a callback function. See [array_reduce](http://php.net/manual/en/function.array-reduce.php) documentation for definition of $reducer.
     ```php
         $collection = new \VersatileCollections\GenericCollection(
             50 , 23, 43, 55
