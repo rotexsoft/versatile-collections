@@ -1,6 +1,6 @@
 # Versatile Collections
 [![Build Status](https://img.shields.io/travis/rotexsoft/versatile-collections/master.png?style=flat-square)](https://travis-ci.org/rotexsoft/versatile-collections) &nbsp; 
-[![Release](https://img.shields.io/github/release/rotexsoft/versatile-collections.png?style=flat-square)](https://github.com/rotexsoft/versatile-collections/releases/latest) &nbsp; 
+[![Release](https://img.shields.io/github/release/rotexsoft/versatile-collections.png?style=flat-square)](https://github.com/rotexsoft/versatile-collections/releases/latest) &nbsp;  [![License](https://img.shields.io/badge/license-BSD-brightgreen.png?style=flat-square)](https://github.com/rotexsoft/versatile-collections/blob/master/LICENSE) 
 
 A collection package that can be extended to implement things such as a Dependency Injection Container,
 RecordSet objects for housing database records, a bag of http cookies, or technically any collection of
