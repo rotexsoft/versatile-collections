@@ -1,7 +1,7 @@
 {
     "name": "rotexsoft/versatile-collections",
     "type": "library",
-    "description": "A collections package for common use cases.",
+    "description": "A collection package that can be extended to implement things such as a Dependency Injection Container, RecordSet objects for housing database records, a bag of http cookies, or technically any collection of items that can be looped over and whose items can each be accessed using array-access syntax or object property syntax.",
     "keywords": [ 
         "collections", "collection", "array", "arrays", "iterable", "iterator", 
         "ArrayAccess", "typed", "typed collection", "typed collections"
