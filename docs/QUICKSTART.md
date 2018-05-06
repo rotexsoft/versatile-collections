@@ -754,7 +754,7 @@ To check if a key exists in the collection, you can call `isset` like so:
         }
     ```
 * **`toArray()`:** Returns an array containing all items in the collection object
-* **`transform(callable $transformer)`:** Modifies each item in a collection object via a callback with the following signature `function($key, $item)` that returns a value that will replace $item in the collection. The `$key` and `$item` parameters are each key and item pair contained in the collection.
+* **`transform(callable $transformer)`:** Modifies each item in a collection object via a callback with the following signature `function($key, $item)` that returns a value that will replace each item in the collection. The `$key` and `$item` parameters are each key and item pairs contained in the collection.
     ```php
         $collection_of_ints = 
             new \VersatileCollections\GenericCollection(2, 4, 6, 8);
