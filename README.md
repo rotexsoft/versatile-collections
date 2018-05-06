@@ -2,7 +2,7 @@
 
 A collection package that can be extended to implement things such as a Dependency Injection Container,
 RecordSet objects for housing database records, a bag of http cookies, or technically any collection of
-items that can be looped over and whose items can each be access using array-access syntax or object
+items that can be looped over and whose items can each be accessed using array-access syntax or object
 property syntax.
 
 ![Collection Classes](https://raw.githubusercontent.com/rotexsoft/versatile-collections/master/versatile-collections.png)
