@@ -19,7 +19,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * 
      * @return \VersatileCollections\CollectionInterface newly created collection
      */
-    public static function makeNewCollection(array $items);
+    public static function makeNewCollection(array $items=[]);
 
 
     /**
