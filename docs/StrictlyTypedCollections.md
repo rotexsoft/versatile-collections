@@ -13,13 +13,12 @@ methods:
 **\VersatileCollections\StrictlyTypedCollection::__construct(...$arr_objs)** does 
 type checking by looping through each argument passed to it and checking that they 
 are of the expexcted type, but you can override it and use php's native type hinting 
-in your constructor's signature (like **`__construct(\PDO ...$pdo_objs)`** in the `class` **PdoCollection** example below. 
-This is actually more performant than relying on **`StrictlyTypedCollection::__construct(...$arr_objs)`** 
+in your constructor's signature (this is actually more performant than relying on **`StrictlyTypedCollection::__construct(...$arr_objs)`** 
 if you would be loading a large amount of items into your collection via the constructor). 
 
 For example if you are implementing a **PdoCollection** class which extends 
-**`\VersatileCollections\StrictlyTypedCollection`**, then your constructor could look 
-like this: **`PdoCollection::__construct(\PDO ...$arr_objs)`**
+**`\VersatileCollections\StrictlyTypedCollection`**, then your more performant 
+constructor could look like this: **`PdoCollection::__construct(\PDO ...$arr_objs)`**
 
 Here is what a full **PdoCollection** class would look like:
 
