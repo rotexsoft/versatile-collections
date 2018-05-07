@@ -8,6 +8,21 @@ namespace VersatileCollections;
 interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggregate {
 
     /**
+     * A factory method to help create a new collection.
+     * 
+     * The purpose is to act as a shortcut to __construct(...$items)
+     * Calling this method eliminates the need to unpack the items .e.g
+     * new \VersatileCollections\NumericsCollection(...[1,2,3])
+     * vs \VersatileCollections\NumericsCollection::makeNewCollection([1,2,3])
+     * 
+     * @param array $items an array of items for the new collection to be created
+     * 
+     * @return \VersatileCollections\CollectionInterface newly created collection
+     */
+    public static function makeNewCollection(array $items);
+
+
+    /**
      * 
      * ArrayAccess: does the requested key exist?
      * 

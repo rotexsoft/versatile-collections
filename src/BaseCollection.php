@@ -30,6 +30,16 @@ abstract class BaseCollection implements CollectionInterface {
      * {@inheritDoc}
      * 
      */
+    public static function makeNewCollection(array $items) {
+        
+        return new static(...$items);
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
     public function offsetExists($key) {
         
         return array_key_exists($key, $this->collection_items);
