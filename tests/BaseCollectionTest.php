@@ -8,6 +8,127 @@ class BaseCollectionTest extends \PHPUnit_Framework_TestCase {
         parent::setUp();
     }
     
+    public function testThatMakeNewCollectionWorksAsExpected() {
+        
+        $collection = \BaseCollectionTestImplementation::makeNewCollection();
+        
+        $this->assertEquals($collection->count(), 0);
+        $this->assertInstanceOf(\BaseCollectionTestImplementation::class, $collection);
+        
+        $collection = \BaseCollectionTestImplementation::makeNewCollection([1, 2, 3]);
+        
+        $this->assertEquals($collection->count(), 3);
+        $this->assertInstanceOf(\BaseCollectionTestImplementation::class, $collection);
+        
+        ///////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////
+        $collection = \VersatileCollections\CallablesCollection::makeNewCollection();
+        
+        $this->assertEquals($collection->count(), 0);
+        $this->assertInstanceOf(\VersatileCollections\CallablesCollection::class, $collection);
+        
+        $collection = \VersatileCollections\CallablesCollection::makeNewCollection(['strtolower', 'strtoupper', function(){ return 'boo'; }]);
+        
+        $this->assertEquals($collection->count(), 3);
+        $this->assertInstanceOf(\VersatileCollections\CallablesCollection::class, $collection);
+        
+        ///////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////
+        $collection = \VersatileCollections\FloatCollection::makeNewCollection();
+        
+        $this->assertEquals($collection->count(), 0);
+        $this->assertInstanceOf(\VersatileCollections\FloatCollection::class, $collection);
+        
+        $collection = \VersatileCollections\FloatCollection::makeNewCollection([1.1, 2.2, 3.3]);
+        
+        $this->assertEquals($collection->count(), 3);
+        $this->assertInstanceOf(\VersatileCollections\FloatCollection::class, $collection);
+        
+        ///////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////
+        $collection = \VersatileCollections\GenericCollection::makeNewCollection();
+        
+        $this->assertEquals($collection->count(), 0);
+        $this->assertInstanceOf(\VersatileCollections\GenericCollection::class, $collection);
+        
+        $collection = \VersatileCollections\GenericCollection::makeNewCollection([1.1, 2.2, 3.3]);
+        
+        $this->assertEquals($collection->count(), 3);
+        $this->assertInstanceOf(\VersatileCollections\GenericCollection::class, $collection);
+        
+        ///////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////
+        $collection = \VersatileCollections\IntCollection::makeNewCollection();
+        
+        $this->assertEquals($collection->count(), 0);
+        $this->assertInstanceOf(\VersatileCollections\IntCollection::class, $collection);
+        
+        $collection = \VersatileCollections\IntCollection::makeNewCollection([1, 2, 3]);
+        
+        $this->assertEquals($collection->count(), 3);
+        $this->assertInstanceOf(\VersatileCollections\IntCollection::class, $collection);
+        
+        ///////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////
+        $collection = \VersatileCollections\NumericsCollection::makeNewCollection();
+        
+        $this->assertEquals($collection->count(), 0);
+        $this->assertInstanceOf(\VersatileCollections\NumericsCollection::class, $collection);
+        
+        $collection = \VersatileCollections\NumericsCollection::makeNewCollection([1, 2, 3]);
+        
+        $this->assertEquals($collection->count(), 3);
+        $this->assertInstanceOf(\VersatileCollections\NumericsCollection::class, $collection);
+        
+        ///////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////
+        $collection = \VersatileCollections\ObjectCollection::makeNewCollection();
+        
+        $this->assertEquals($collection->count(), 0);
+        $this->assertInstanceOf(\VersatileCollections\ObjectCollection::class, $collection);
+        
+        $collection = \VersatileCollections\ObjectCollection::makeNewCollection([new stdClass(), new ArrayObject(), new DateTime('2000-04-04')]);
+        
+        $this->assertEquals($collection->count(), 3);
+        $this->assertInstanceOf(\VersatileCollections\ObjectCollection::class, $collection);
+        
+        ///////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////
+        $collection = \VersatileCollections\ResourceCollection::makeNewCollection();
+        
+        $this->assertEquals($collection->count(), 0);
+        $this->assertInstanceOf(\VersatileCollections\ResourceCollection::class, $collection);
+        
+        $collection = \VersatileCollections\ResourceCollection::makeNewCollection([tmpfile(), tmpfile(), tmpfile()]);
+        
+        $this->assertEquals($collection->count(), 3);
+        $this->assertInstanceOf(\VersatileCollections\ResourceCollection::class, $collection);
+        
+        ///////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////
+        $collection = \VersatileCollections\ScalarCollection::makeNewCollection();
+        
+        $this->assertEquals($collection->count(), 0);
+        $this->assertInstanceOf(\VersatileCollections\ScalarCollection::class, $collection);
+        
+        $collection = \VersatileCollections\ScalarCollection::makeNewCollection([1, 2, 3]);
+        
+        $this->assertEquals($collection->count(), 3);
+        $this->assertInstanceOf(\VersatileCollections\ScalarCollection::class, $collection);
+        
+        ///////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////
+        $collection = \VersatileCollections\StringCollection::makeNewCollection();
+        
+        $this->assertEquals($collection->count(), 0);
+        $this->assertInstanceOf(\VersatileCollections\StringCollection::class, $collection);
+        
+        $collection = \VersatileCollections\StringCollection::makeNewCollection(['1', '2', '3']);
+        
+        $this->assertEquals($collection->count(), 3);
+        $this->assertInstanceOf(\VersatileCollections\StringCollection::class, $collection);
+    }
+    
     public function testThatEmptyConstructorWorksAsExpected() {
         
         $collection = new \BaseCollectionTestImplementation();

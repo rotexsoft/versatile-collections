@@ -30,7 +30,7 @@ abstract class BaseCollection implements CollectionInterface {
      * {@inheritDoc}
      * 
      */
-    public static function makeNewCollection(array $items) {
+    public static function makeNewCollection(array $items=[]) {
         
         return new static(...$items);
     }
