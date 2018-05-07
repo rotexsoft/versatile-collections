@@ -31,6 +31,12 @@ $generic_collection_with_items =
     new \VersatileCollections\GenericCollection(...$items);
 ```
 
+> Note that the constructors for all collection classes use the variadic function signature. 
+Therefore if you want to pass an array of items to the constructor you have to use the 
+argument unpacking syntax (like in the last example above) or you could call the `static` 
+method `\VersatileCollections\CollectionInterface::makeNewCollection(array $items=[])` which
+can accept an array of items without the need for argument unpacking.
+
 When collections are created with items (like in the last two examples above), 
 the collection is in list mode (i.e. the keys for each item in the newly created
 collection are sequential-numeric keys.) For example:
@@ -501,6 +507,12 @@ To check if a key exists in the collection, you can call `isset` like so:
             string(2) "30"
           }
         }
+    ```
+* **`makeNewCollection(array $items=[])`:** A static factory method for creating new collection objects from an array of items. Using this method eliminates the need for argument unpacking which is required by all collection constructors when you try to create new collection objects from an array of items.
+    ```php
+        $items = ['item 1', 'item 2', 'item 3', 'item 4'];
+        $generic_collection_with_items = 
+            \VersatileCollections\GenericCollection::makeNewCollection($items);
     ```
 * **`merge(CollectionInterface $other)`:** Adds all items from $other collection to $this collection. Items in $other with existing keys in $this will overwrite the existing items in $this.
     ```php
