@@ -15,7 +15,7 @@ type checking by looping through each argument passed to it and checking that th
 are of the expexcted type, but you can override it and use php's native type hinting 
 in your constructor's signature (like **`__construct(\PDO ...$pdo_objs)`** in the `class` **PdoCollection** example below. 
 This is actually more performant than relying on **`StrictlyTypedCollection::__construct(...$arr_objs)`** 
-if you would be loading a large amount of items into your collection). 
+if you would be loading a large amount of items into your collection via the constructor). 
 
 For example if you are implementing a **PdoCollection** class which extends 
 `\VersatileCollections\StrictlyTypedCollection`, then your constructor could look 
