@@ -18,8 +18,8 @@ This is actually more performant than relying on **`StrictlyTypedCollection::__c
 if you would be loading a large amount of items into your collection via the constructor). 
 
 For example if you are implementing a **PdoCollection** class which extends 
-`\VersatileCollections\StrictlyTypedCollection`, then your constructor could look 
-like this: `PdoCollection::__construct(\PDO ...$arr_objs)`
+**`\VersatileCollections\StrictlyTypedCollection`**, then your constructor could look 
+like this: **`PdoCollection::__construct(\PDO ...$arr_objs)`**
 
 Here is what a full **PdoCollection** class would look like:
 
