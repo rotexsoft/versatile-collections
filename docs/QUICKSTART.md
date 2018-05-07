@@ -511,8 +511,7 @@ To check if a key exists in the collection, you can call `isset` like so:
 * **`makeNewCollection(array $items=[])`:** A static factory method for creating new collection objects from an array of items. Using this method eliminates the need for argument unpacking which is required by all collection constructors when you try to create new collection objects from an array of items.
     ```php
         $items = ['item 1', 'item 2', 'item 3', 'item 4'];
-        $generic_collection_with_items = 
-            \VersatileCollections\GenericCollection::makeNewCollection($items);
+        $generic_collection_with_items = \VersatileCollections\GenericCollection::makeNewCollection($items);
     ```
 * **`merge(CollectionInterface $other)`:** Adds all items from $other collection to $this collection. Items in $other with existing keys in $this will overwrite the existing items in $this.
     ```php
