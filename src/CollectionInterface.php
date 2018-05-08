@@ -280,7 +280,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * 
      * @param int $max_size_of_each_collection
      * 
-     * @return generator a generator that yields sub-collections
+     * @return \Generator a generator that yields sub-collections
      * 
      */
     public function getCollectionsOfSizeN($max_size_of_each_collection=1);
