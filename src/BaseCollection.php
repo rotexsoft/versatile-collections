@@ -434,7 +434,7 @@ abstract class BaseCollection implements CollectionInterface {
             || ((int)$max_size_of_each_collection) < 0
             || !is_numeric($max_size_of_each_collection)
         ) {
-                $max_size_of_each_collection = 1;
+            $max_size_of_each_collection = 1;
         }
             
             
