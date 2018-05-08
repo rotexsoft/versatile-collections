@@ -428,29 +428,23 @@ abstract class BaseCollection implements CollectionInterface {
      * 
      */
     public function getCollectionsOfSizeN($max_size_of_each_collection=1) {
-
-        if( 
+        
+        if(
             ((int)$max_size_of_each_collection) > $this->count()
             || ((int)$max_size_of_each_collection) < 0
             || !is_numeric($max_size_of_each_collection)
         ) {
-            $max_size_of_each_collection = 1;
+                $max_size_of_each_collection = 1;
         }
-        
-        $self = $this;
-        $generatorForNextN = function() use ($self) {
-
-            foreach ( $self->toArray() as $key=> $item ) 
-            { yield $key => $item; }
-        };
-        
-        $generator = $generatorForNextN();
+            
+            
         $current_batch = new static();
+        $result = [];
         $counter = 0;
         
-        while ( $generator->valid() ) {
+        foreach ($this->collection_items as $key=>$item) {
             
-            $current_batch[$generator->key()] = $generator->current();
+            $current_batch[$key] = $item;
             
             if( ++$counter >= $max_size_of_each_collection ) {
                 
@@ -458,10 +452,8 @@ abstract class BaseCollection implements CollectionInterface {
                 $counter = 0; // reset
                 $current_batch = new static(); // initialize next collection
             }
-            
-            $generator->next();
         }
-        
+
         // yield last batch if not already yielded
         if( !$current_batch->isEmpty() ) {
             
