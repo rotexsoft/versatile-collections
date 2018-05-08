@@ -9,6 +9,8 @@ RecordSet objects for housing database records, a bag of http cookies, or techni
 items that can be looped over and whose items can each be accessed using array-access syntax or object
 property syntax.
 
+This package provides optional strict-typing of collection items and strives for 100 % unit-test coverage.
+
 ![Collection Classes](https://raw.githubusercontent.com/rotexsoft/versatile-collections/master/versatile-collections.png)
 
 ## Installation 
