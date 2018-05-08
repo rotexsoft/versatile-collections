@@ -69,19 +69,6 @@ abstract class BaseCollection implements CollectionInterface {
      */
     public function offsetSet($key, $val) {
         
-//        if ($key === null) {
-//
-//            //support for $this[] = $val; syntax
-//            $key = $this->count();
-//
-//            if (!$key) {
-//
-//                $key = 0;
-//            }
-//        }
-//
-//        $this->collection_items[$key] = $val;
-        
         if(is_null($key) ) {
             
             $this->collection_items[] = $val;
