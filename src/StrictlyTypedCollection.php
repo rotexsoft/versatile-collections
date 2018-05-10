@@ -8,17 +8,28 @@ namespace VersatileCollections;
  */
 abstract class StrictlyTypedCollection extends BaseCollection {
 
+    /**
+     * @return bool true if $item is of the expected type, else false
+     */
     abstract protected function checkType($item);
+    
+    /**
+     * @return string|array a string or array of strings of type name(s) for items acceptable in a collection
+     */
     abstract protected function getType();
     
     protected function isRightTypeOrThrowInvalidTypeException($item, $calling_functions_name) {
         
         if( !$this->checkType($item) ) {
 
+            $returned_type = $this->getType();
+            $type = (is_array($returned_type) && count($returned_type) > 0)
+                    ? implode(' or ', $returned_type) : ((string)$returned_type);
+            
             $class = get_class($this);
             $msg = "Error ({$class}::{$calling_functions_name}):"
             . " Trying to add an item of type `" . gettype($item) 
-            . "` to a strictly typed collection of type `{$this->getType()}`"
+            . "` to a strictly typed collection of type `{$type}`"
             . PHP_EOL;
             
             throw new Exceptions\InvalidItemException($msg);
