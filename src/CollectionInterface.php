@@ -15,7 +15,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * new \VersatileCollections\NumericsCollection(...[1,2,3])
      * vs \VersatileCollections\NumericsCollection::makeNewCollection([1,2,3])
      * 
-     * @param array $items an array of items for the new collection to be created
+     * @param array $items an array of items for the new collection to be created. Keys will be preserved in the created collection.
      * 
      * @return \VersatileCollections\CollectionInterface newly created collection
      */

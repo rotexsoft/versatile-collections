@@ -31,8 +31,15 @@ abstract class BaseCollection implements CollectionInterface {
      * 
      */
     public static function makeNewCollection(array $items=[]) {
+
+        $collection = new static();
         
-        return new static(...$items);
+        foreach ($items as $key => $item ) {
+            
+            $collection[$key] = $item;
+        }
+        
+        return $collection;
     }
     
     /**

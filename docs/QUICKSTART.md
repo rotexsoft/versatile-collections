@@ -35,7 +35,10 @@ $generic_collection_with_items =
 Therefore if you want to pass an array of items to the constructor you have to use the 
 argument unpacking syntax (like in the last example above) or you could call the `static` 
 method `\VersatileCollections\CollectionInterface::makeNewCollection(array $items=[])` which
-can accept an array of items without the need for argument unpacking.
+can accept an array of items without the need for argument unpacking, it also preserves the 
+keys in the **`$items`** array (this is actually the way to create a collection with desired
+keys other than the sequential 0-based numeric keys that are generated when argument unpacking
+is used with the constructor).
 
 When collections are created with items (like in the last two examples above), 
 the collection is in list mode (i.e. the keys for each item in the newly created
@@ -508,10 +511,11 @@ To check if a key exists in the collection, you can call `isset` like so:
           }
         }
     ```
-* **`makeNewCollection(array $items=[])`:** A static factory method for creating new collection objects from an array of items. Using this method eliminates the need for argument unpacking which is required by all collection constructors when you try to create new collection objects from an array of items.
+* **`makeNewCollection(array $items=[])`:** A static factory method for creating new collection objects from an array of items. Using this method eliminates the need for argument unpacking which is required by all collection constructors when you try to create new collection objects from an array of items. The keys in the **`$items`** array will be maintained in the created collection.
     ```php
-        $items = ['item 1', 'item 2', 'item 3', 'item 4'];
+        $items = ['item 1', 'key_for_item_2'=>'item 2', 'item 3', 'item 4'];
         $generic_collection_with_items = \VersatileCollections\GenericCollection::makeNewCollection($items);
+        // $generic_collection_with_items->toArray() === [ 0 => 'item 1', 'key_for_item_2' => 'item 2', 1 => 'item 3', 2 => 'item 4' ]
     ```
 * **`merge(CollectionInterface $other)`:** Adds all items from $other collection to $this collection. Items in $other with existing keys in $this will overwrite the existing items in $this.
     ```php
