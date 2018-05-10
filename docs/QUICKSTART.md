@@ -515,6 +515,7 @@ To check if a key exists in the collection, you can call `isset` like so:
     ```php
         $items = ['item 1', 'key_for_item_2'=>'item 2', 'item 3', 'item 4'];
         $generic_collection_with_items = \VersatileCollections\GenericCollection::makeNewCollection($items);
+
         // $generic_collection_with_items->toArray() 
         //  === [ 0 => 'item 1', 'key_for_item_2' => 'item 2', 1 => 'item 3', 2 => 'item 4' ]
     ```
