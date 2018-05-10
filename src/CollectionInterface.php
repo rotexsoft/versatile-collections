@@ -247,10 +247,11 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * Prepends an $item to the front of $this collection.
      * 
      * @param mixed $item
+     * @param string|int $key
      * 
      * @return $this
      */
-    public function prependItem($item);
+    public function prependItem($item, $key=null);
     
     /**
      * Adds all items from $other collection to $this collection. Items in $other with existing keys in $this will overwrite the existing items in $this.

@@ -585,35 +585,21 @@ To check if a key exists in the collection, you can call `isset` like so:
           int(6)
         }
     ```
-* **`prependItem($item)`:** Prepends an $item to the front of $this collection.
+* **`prependItem($item, $key=null)`:** Prepends an $item to the front of $this collection.
     ```php
         $numeric_collection = new \VersatileCollections\NumericsCollection(
             1.0, 2.0, 3, 4, 5, 6
         );
 
         // prepend an item
-        $numeric_collection->prependItem(99);
+        $numeric_collection->prependItem(99, 'key_for99');
+        $numeric_collection->prependItem(150);
 
-        var_dump( $numeric_collection->toArray() );
+        var_export( $numeric_collection->toArray() );
     ```
     outputs
     ```
-        array(7) {
-          [0] =>
-          int(99)
-          [1] =>
-          double(1)
-          [2] =>
-          double(2)
-          [3] =>
-          int(3)
-          [4] =>
-          int(4)
-          [5] =>
-          int(5)
-          [6] =>
-          int(6)
-        }
+        [ 0 => 150, 'key_for99' => 99, 1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5, 6 => 6 ]
     ```
 * **`reduce(callable $reducer, $initial_value=NULL)`:** Iteratively reduce the collection items to a single value using a callback function. See [array_reduce](http://php.net/manual/en/function.array-reduce.php) documentation for definition of $reducer.
     ```php

@@ -448,7 +448,23 @@ class CustomStrictlyTypedCollectionTest extends \PHPUnit_Framework_TestCase {
         $collection->prependItem($other_item1);
     }
     
+    /**
+     * @expectedException \VersatileCollections\Exceptions\InvalidKeyException
+     */
     public function testThatPrependItemWorksAsExpected2() {
+                
+        $collection = new \TestValueObjectCollection(
+            new TestValueObject('Johnny Cash', 50),
+            new TestValueObject('Suzzy Something', 23),
+            new TestValueObject('Jack Bauer', 43),
+            new TestValueObject('Jane Fonda', 55)
+        );
+                
+        $other_item1 = new TestValueObject('Joe Blow', 35);
+        $collection->prependItem($other_item1, 3.0); // non-string & non-int key
+    }
+    
+    public function testThatPrependItemWorksAsExpected3() {
         
         $item1 = new TestValueObject('Johnny Cash', 50);
         $item2 = new TestValueObject('Suzzy Something', 23);
@@ -463,25 +479,28 @@ class CustomStrictlyTypedCollectionTest extends \PHPUnit_Framework_TestCase {
         $other_item2 = new TestValueObject('Suzzy Something2', 223);
         $other_item3 = new TestValueObject('Jack Bauer2', 423);
         $other_item4 = new TestValueObject('Jane Fonda2', 525);
+        $other_item5 = new TestValueObject('Jane Fonda2', 525);
                 
         $collection->prependItem($other_item1);
         $collection->prependItem($other_item2);
-        $collection->prependItem($other_item3);
+        $collection->prependItem($other_item3, 'custom_key');
         $collection->prependItem($other_item4);
+        $collection->prependItem($other_item5);
         
         $this->assertTrue($collection->containsItem($other_item1));
         $this->assertTrue($collection->containsItem($other_item2));
         $this->assertTrue($collection->containsItem($other_item3));
         $this->assertTrue($collection->containsItem($other_item4));
+        $this->assertTrue($collection->containsItem($other_item5));
         $this->assertTrue($collection->containsItem($item1));
         $this->assertTrue($collection->containsItem($item2));
         $this->assertTrue($collection->containsItem($item3));
         $this->assertTrue($collection->containsItem($item4));
-        $this->assertSame($collection->firstItem() , $other_item4);
-        $this->assertSame($collection->lastItem() , $item4);
+        $this->assertSame($collection->firstItem(), $other_item5);
+        $this->assertSame($collection->lastItem(), $item4);
         $this->assertEquals(
             $collection->toArray() ,
-            [  $other_item4, $other_item3, $other_item2, $other_item1, $item1, $item2, $item3, $item4, ]
+            [  $other_item5, $other_item4, 'custom_key'=>$other_item3, $other_item2, $other_item1, $item1, $item2, $item3, $item4, ]
         );
     }
 }

@@ -25,3 +25,5 @@ vendor/
 
 composer.lock
 phpunit.xml
+
+playground.php

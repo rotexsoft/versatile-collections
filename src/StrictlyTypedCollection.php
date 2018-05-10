@@ -37,6 +37,11 @@ abstract class StrictlyTypedCollection extends BaseCollection {
         $this->collection_items = $arr_objs;
     }
     
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
     public function offsetSet($key, $val) {
         
         $this->isRightTypeOrThrowInvalidTypeException($val, __FUNCTION__);
@@ -46,10 +51,8 @@ abstract class StrictlyTypedCollection extends BaseCollection {
     
     /**
      * 
-     * @param \VersatileCollections\CollectionInterface $other
-     * @throws Exceptions\InvalidCollectionOperationException
+     * {@inheritDoc}
      * 
-     * @return $this
      */
     public function appendCollection(CollectionInterface $other) {
         
@@ -74,10 +77,8 @@ abstract class StrictlyTypedCollection extends BaseCollection {
     
     /**
      * 
-     * @param \VersatileCollections\CollectionInterface $other
-     * @throws Exceptions\InvalidCollectionOperationException
+     * {@inheritDoc}
      * 
-     * @return $this
      */
     public function prependCollection(CollectionInterface $other) {
         
@@ -102,23 +103,20 @@ abstract class StrictlyTypedCollection extends BaseCollection {
     
     /**
      * 
-     * @param mixed $item
+     * {@inheritDoc}
      * 
-     * @return $this
      */
-    public function prependItem($item) {
+    public function prependItem($item, $key=null) {
         
         $this->isRightTypeOrThrowInvalidTypeException($item, __FUNCTION__);
         
-        return parent::prependItem($item);
+        return parent::prependItem($item, $key);
     }
     
     /**
      * 
-     * @param \VersatileCollections\CollectionInterface $other
-     * @throws Exceptions\InvalidCollectionOperationException
+     * {@inheritDoc}
      * 
-     * @return $this
      */
     public function merge(CollectionInterface $other) {
         

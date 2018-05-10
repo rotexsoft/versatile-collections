@@ -402,9 +402,26 @@ abstract class BaseCollection implements CollectionInterface {
      * {@inheritDoc}
      * 
      */
-    public function prependItem($item) {
+    public function prependItem($item, $key=null) {
         
-        array_unshift($this->collection_items, $item);
+        if( is_null($key) ) {
+            
+            array_unshift($this->collection_items, $item);
+            
+        } else if( is_string($key) || is_int($key) ) {
+            
+            $this->collection_items = [$key=>$item] + $this->collection_items;
+            
+        } else {
+            
+            $class = get_class($this);
+            $function = __FUNCTION__;
+            $msg = "Error [{$class}::{$function}(...)]:Trying prepend an item with a non-integer and non-string key on a collection. "
+                . PHP_EOL . " `\$key`: " . var_export($key, true)
+                . PHP_EOL . " `\$item`: " . var_export($item, true);
+            
+            throw new Exceptions\InvalidKeyException($msg);
+        }
         
         return $this;
     }
