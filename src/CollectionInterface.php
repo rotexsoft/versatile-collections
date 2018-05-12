@@ -16,10 +16,11 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * vs \VersatileCollections\NumericsCollection::makeNewCollection([1,2,3])
      * 
      * @param array $items an array of items for the new collection to be created. Keys will be preserved in the created collection.
+     * @param array $preserve_keys true if keys in $items will be preserved in the created collection.
      * 
      * @return \VersatileCollections\CollectionInterface newly created collection
      */
-    public static function makeNewCollection(array $items=[]);
+    public static function makeNewCollection(array $items=[], $preserve_keys=true);
 
 
     /**

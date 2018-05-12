@@ -30,16 +30,28 @@ abstract class BaseCollection implements CollectionInterface {
      * {@inheritDoc}
      * 
      */
-    public static function makeNewCollection(array $items=[]) {
+    public static function makeNewCollection(array $items=[], $preserve_keys=true) {
 
-        $collection = new static();
-        
-        foreach ($items as $key => $item ) {
-            
-            $collection[$key] = $item;
+        if ($preserve_keys === true) {
+       
+            $collection = new static();
+
+            foreach ($items as $key => $item ) {
+
+                $collection[$key] = $item;
+            }
+
+            return $collection;
         }
         
-        return $collection;
+        // don't preserve keys 
+        // (WARNING: $items should only contain numeric (non-string) keys, else 
+        // a fatal php error will be generating when trying to unpack args from
+        // an array with one or more string keys)
+        
+        return new static(...$items); // This should be faster than loop above
+                                      // since looping triggers offsetSet()
+                                      // for each item
     }
     
     /**

@@ -46,12 +46,12 @@ class SortParameters {
             $this->field_name = $field_name;
         }
         
-        if( in_array($sort_direction, static::$valid_sort_directions) ) {
+        if( in_array($sort_direction, static::$valid_sort_directions, true) ) {
             
             $this->sort_direction = $sort_direction;
             
         } else if( 
-            !in_array($sort_direction, static::$valid_sort_directions) 
+            !in_array($sort_direction, static::$valid_sort_directions, true) 
             && !is_null($sort_direction)
         ) {
             $class = get_class($this);
@@ -63,12 +63,12 @@ class SortParameters {
             throw new Exceptions\InvalidMultiSortParameter($msg);
         }
         
-        if( in_array($sort_type, static::$valid_sort_types) ) {
+        if( in_array($sort_type, static::$valid_sort_types, true) ) {
             
             $this->sort_type = $sort_type;
             
         } else if( 
-            !in_array($sort_direction, static::$valid_sort_types) 
+            !in_array($sort_direction, static::$valid_sort_types, true) 
             && !is_null($sort_type)
         ) {
             $class = get_class($this);

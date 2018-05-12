@@ -35,7 +35,7 @@ $generic_collection_with_items =
 Therefore if you want to pass an array of items to the constructor you have to use the 
 argument unpacking syntax (like in the last example above) or you could call the `static` 
 method `\VersatileCollections\CollectionInterface::makeNewCollection(array $items=[])` which
-can accept an array of items without the need for argument unpacking, it also preserves the 
+can accept an array of items without the need for argument unpacking, it can also preserve the 
 keys in the **`$items`** array (this is actually the way to create a collection with desired
 keys other than the sequential 0-based numeric keys that are generated when argument unpacking
 is used with the constructor).
@@ -511,7 +511,7 @@ To check if a key exists in the collection, you can call `isset` like so:
           }
         }
     ```
-* **`makeNewCollection(array $items=[])`:** A static factory method for creating new collection objects from an array of items. Using this method eliminates the need for argument unpacking which is required by all collection constructors when you try to create new collection objects from an array of items. The keys in the **`$items`** array will be maintained in the created collection.
+* **`makeNewCollection(array $items=[], $preserve_keys=true)`:** A static factory method for creating new collection objects from an array of items. Using this method eliminates the need for argument unpacking which is required by all collection constructors when you try to create new collection objects from an array of items. The keys in the **`$items`** array will be maintained in the created collection if **$preserve_keys** is set to **true**. If **$preserve_keys** is set to **false**, the keys in the created collection will be sequentially numeric starting from **0** (only set **$preserve_keys** to **false** if **$items** contains no string keys, else a PHP fatal error will be thrown because this method uses argument unpacking when **$preserve_keys** is set to **false**). If you don't need to preserve the keys in **$items**, it is more efficient to set **$preserve_keys** to **false**.
     ```php
         $items = ['item 1', 'key_for_item_2'=>'item 2', 'item 3', 'item 4'];
         $generic_collection_with_items = \VersatileCollections\GenericCollection::makeNewCollection($items);

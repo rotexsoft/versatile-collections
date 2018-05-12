@@ -127,6 +127,39 @@ class BaseCollectionTest extends \PHPUnit_Framework_TestCase {
         
         $this->assertEquals($collection->count(), 3);
         $this->assertInstanceOf(\VersatileCollections\StringCollection::class, $collection);
+        
+        ////////////////////////////////////////////////////////////////////////
+        // Test with array with string keys and preserve keys
+        ////////////////////////////////////////////////////////////////////////
+        $collection = \BaseCollectionTestImplementation::makeNewCollection(['a'=>'taylor', 'b'=>'abigail', null]);
+        
+        $this->assertTrue($collection->containsKey('a'));
+        $this->assertTrue($collection->containsKey('b'));
+        $this->assertTrue($collection->containsKey(0));
+        $this->assertTrue($collection->containsItem('taylor'));
+        $this->assertTrue($collection->containsItem('abigail'));
+        $this->assertTrue($collection->containsItem(null));
+        $this->assertTrue($collection['a'] === 'taylor');
+        $this->assertTrue($collection['b'] === 'abigail');
+        $this->assertTrue($collection[0] === null);
+        
+        ////////////////////////////////////////////////////////////////////////
+        // Test with array with numeric keys, don't preserve keys
+        ////////////////////////////////////////////////////////////////////////
+        $collection = \BaseCollectionTestImplementation::makeNewCollection([5=>'taylor', 10=>'abigail', 9=>null], false);
+
+        $this->assertTrue($collection->containsKey(0));
+        $this->assertTrue($collection->containsKey(1));
+        $this->assertTrue($collection->containsKey(2));
+        $this->assertTrue(!$collection->containsKey(10));
+        $this->assertTrue(!$collection->containsKey(5));
+        $this->assertTrue(!$collection->containsKey(9));
+        $this->assertTrue($collection->containsItem('taylor'));
+        $this->assertTrue($collection->containsItem('abigail'));
+        $this->assertTrue($collection->containsItem(null));
+        $this->assertTrue($collection[0] === 'taylor');
+        $this->assertTrue($collection[1] === 'abigail');
+        $this->assertTrue($collection[2] === null);
     }
     
     public function testThatEmptyConstructorWorksAsExpected() {
