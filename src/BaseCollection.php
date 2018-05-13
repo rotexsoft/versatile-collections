@@ -158,9 +158,7 @@ abstract class BaseCollection implements CollectionInterface {
         
         if( $this->count() <= 0 ) { return null; }
         
-        reset($this->collection_items);
-        
-        return current($this->collection_items);
+        return reset($this->collection_items);
     }
     
     /**
