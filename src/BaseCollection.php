@@ -46,7 +46,7 @@ abstract class BaseCollection implements CollectionInterface {
         
         // don't preserve keys 
         // (WARNING: $items should only contain numeric (non-string) keys, else 
-        // a fatal php error will be generating when trying to unpack args from
+        // a fatal php error will be generated when trying to unpack args from
         // an array with one or more string keys)
         
         return new static(...$items); // This should be faster than loop above
@@ -158,9 +158,7 @@ abstract class BaseCollection implements CollectionInterface {
         
         if( $this->count() <= 0 ) { return null; }
         
-        reset($this->collection_items);
-        
-        return current($this->collection_items);
+        return reset($this->collection_items);
     }
     
     /**
