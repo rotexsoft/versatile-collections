@@ -32,16 +32,39 @@ class NumericsCollection extends ScalarCollection {
     
     public function average() {
         
-        return ($this->count() > 0) ? ($this->sum() / $this->count()) : NULL;
+        return ($this->count() > 0) ? ($this->sum() / $this->count()) : null;
     }
     
     public function max() {
         
-        return ($this->count() > 0) ? max($this->collection_items) : NULL;
+        return ($this->count() > 0) ? max($this->collection_items) : null;
     }
     
     public function min() {
         
-        return ($this->count() > 0) ? min($this->collection_items) : NULL;
+        return ($this->count() > 0) ? min($this->collection_items) : null;
+    }
+    
+    public function median()
+    {
+        $count = $this->count();
+
+        if ( $count === 0) {
+            
+            return null;
+        }
+
+        $values = $this->collection_items;
+        
+        sort($values, SORT_NUMERIC);
+
+        $middle = (int) ($count / 2);
+
+        if ( $count % 2 === 1) {
+            
+            return $values[$middle];
+        }
+
+        return (($values[$middle - 1] + $values[$middle]) / 2);
     }
 }

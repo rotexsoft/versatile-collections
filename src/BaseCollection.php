@@ -293,7 +293,8 @@ abstract class BaseCollection implements CollectionInterface {
         foreach ( $this->collection_items as $key => $item ) {
             
             // using $this[$key] instead of $this->collection_items[$key]
-            // so that $this->offsetSet(...) will be invoked
+            // so that $this->offsetSet(...) will be invoked which will
+            // trigger type-checking in sub-classes like StrictlyTypedCollection
             $this[$key] = $transformer($key, $item);
             
         } // foreach ( $this->collection_items as $key => $item )

@@ -49,6 +49,44 @@ class NumericsCollectionTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($collection->max(), 10.5);
     }
     
+    public function testThatMedianWorksAsExpected() {
+        
+        $collection = new \VersatileCollections\NumericsCollection();
+        
+        $this->assertEquals($collection->count(), 0);
+        $this->assertNull($collection->median());
+        
+        // 6 items, average of the sum of the items at index 2 and 
+        // index 3 is the median value when items in collection are
+        //sorted in ascending numeric order
+        $collection = new \VersatileCollections\NumericsCollection(
+            4.0, 5.0, 7, 8, 9, 10
+        );
+        $this->assertEquals($collection->median(), 7.5);
+        
+        // 6 items, average of the sum of the items at index 2 and 
+        // index 3 is the median value when items in collection are
+        //sorted in ascending numeric order
+        $collection = new \VersatileCollections\NumericsCollection(
+            8, 9, 10, 4.0, 5.0, 7
+        );
+        $this->assertEquals($collection->median(), 7.5);
+        
+        // 7 items, item at index 3 is the median value when
+        // items in collection are sorted in ascending numeric order
+        $collection = new \VersatileCollections\NumericsCollection(
+            3, 5.0, 7, 8, 9, 10.5, 20
+        );
+        $this->assertEquals($collection->median(), 8);
+        
+        // 7 items, item at index 3 is the median value when
+        // items in collection are sorted in ascending numeric order
+        $collection = new \VersatileCollections\NumericsCollection(
+            20, 3, 5.0, 7, 8, 9, 10.5
+        );
+        $this->assertEquals($collection->median(), 8);
+    }
+    
     public function testThatMinWorksAsExpected() {
         
         $collection = new \VersatileCollections\NumericsCollection();
