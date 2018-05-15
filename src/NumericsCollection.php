@@ -9,17 +9,30 @@ namespace VersatileCollections;
  */
 class NumericsCollection extends ScalarCollection {
 
+    /**
+     * This method should be overridden in sub-classes of this class
+     * 
+     * @param mixed $item
+     * @return bool
+     */
     protected function checkType($item) {
         
         return is_float($item) || is_int($item);
     }
 
+    /**
+     * This method should be overridden in sub-classes of this class
+     * 
+     * @return string
+     */
     protected function getType() {
         
         return 'numeric';
     }
     
     /**
+     * 
+     * This method should be overridden in sub-classes of this class 
      * 
      * @param mixed $item an item in this collection
      * 
@@ -31,6 +44,7 @@ class NumericsCollection extends ScalarCollection {
     }
     
     /**
+     * This method should be overridden in sub-classes of this class 
      * 
      * @param string $str a string representation of an item in this collection
      * 
