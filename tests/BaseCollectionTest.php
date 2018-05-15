@@ -571,6 +571,25 @@ class BaseCollectionTest extends \PHPUnit_Framework_TestCase {
 
     public function testThatSetValForEachItemWorksAsExpected() {
 
+        $collection_of_collections = new \BaseCollectionTestImplementation( );
+        $collection_of_collections->item1 = \BaseCollectionTestImplementation::makeNewCollection( ['name'=>'Joe', 'age'=>'10'] );
+        $collection_of_collections->item2 = \BaseCollectionTestImplementation::makeNewCollection( ['name'=>'Jane', 'age'=>'20'] );
+        $collection_of_collections->item3 = \BaseCollectionTestImplementation::makeNewCollection( ['name'=>'Janice', 'age'=>'30'] );
+        
+        $collection_of_collections->setValForEachItem('age', '50');
+        
+        $this->assertEquals($collection_of_collections->item1['age'], '50');
+        $this->assertEquals($collection_of_collections->item2['age'], '50');
+        $this->assertEquals($collection_of_collections->item3['age'], '50');
+        
+        $collection_of_collections->setValForEachItem('age', 55);
+        $this->assertEquals($collection_of_collections->item1['age'], 55);
+        $this->assertEquals($collection_of_collections->item2['age'], 55);
+        $this->assertEquals($collection_of_collections->item3['age'], 55);
+        
+        ////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////
+        
         $collection = new \BaseCollectionTestImplementation( );
         $collection->item1 = ['name'=>'Joe', 'age'=>'10',];
         $collection->item2 = ['name'=>'Jane', 'age'=>'20',];

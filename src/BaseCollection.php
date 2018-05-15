@@ -208,6 +208,12 @@ abstract class BaseCollection implements CollectionInterface {
             ) {
                 $item[$field_name] = $field_val;
                 
+            } else if(
+                $item instanceof \ArrayAccess
+                && ( $add_field_if_not_present  || $item->offsetExists($field_name) )
+            ) {
+                $item->offsetSet($field_name, $field_val);
+                
             } else {
                 
                 $class = get_class($this);

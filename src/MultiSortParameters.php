@@ -6,7 +6,7 @@ namespace VersatileCollections;
  *
  * @author aadegbam
  */
-class SortParameters {
+class MultiSortParameters {
     
     protected $field_name = null;
     protected $sort_direction = SORT_ASC;

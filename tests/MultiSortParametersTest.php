@@ -4,7 +4,7 @@
  *
  * @author aadegbam
  */
-class SortParametersTest extends \PHPUnit_Framework_TestCase {
+class MultiSortParametersTest extends \PHPUnit_Framework_TestCase {
     
     protected function setUp() { 
         
@@ -16,7 +16,7 @@ class SortParametersTest extends \PHPUnit_Framework_TestCase {
      */
     public function testThatConstructorWithFieldNameEmptyStringWorksAsExpected() {
         
-        $sort_param = new \VersatileCollections\SortParameters('');
+        $sort_param = new \VersatileCollections\MultiSortParameters('');
     }
     
     /**
@@ -24,29 +24,29 @@ class SortParametersTest extends \PHPUnit_Framework_TestCase {
      */
     public function testThatConstructorWithNonStringFieldNameWorksAsExpected() {
         
-        $sort_param = new \VersatileCollections\SortParameters([]);
+        $sort_param = new \VersatileCollections\MultiSortParameters([]);
     }
 
     public function testThatConstructorWithStringFieldNameAndNoOtherArgsWorksAsExpected() {
         
-        $sort_param = new \VersatileCollections\SortParameters('joe');
+        $sort_param = new \VersatileCollections\MultiSortParameters('joe');
 
         $this->assertTrue($sort_param->getFieldName() === 'joe');
         $this->assertTrue($sort_param->getSortDirection() === SORT_ASC);
         $this->assertTrue($sort_param->getSortType() === SORT_REGULAR);
-        $this->assertTrue(in_array($sort_param->getSortDirection(), \VersatileCollections\SortParameters::getValidSortDirections()));
-        $this->assertTrue(in_array($sort_param->getSortType(), \VersatileCollections\SortParameters::getValidSortTypes()));
+        $this->assertTrue(in_array($sort_param->getSortDirection(), \VersatileCollections\MultiSortParameters::getValidSortDirections()));
+        $this->assertTrue(in_array($sort_param->getSortType(), \VersatileCollections\MultiSortParameters::getValidSortTypes()));
     }
 
     public function testThatConstructorWithStringFieldNameAndAllOtherArgsWorksAsExpected() {
         
-        $sort_param = new \VersatileCollections\SortParameters('joe2', SORT_DESC, SORT_STRING);
+        $sort_param = new \VersatileCollections\MultiSortParameters('joe2', SORT_DESC, SORT_STRING);
 
         $this->assertTrue($sort_param->getFieldName() === 'joe2');
         $this->assertTrue($sort_param->getSortDirection() === SORT_DESC);
         $this->assertTrue($sort_param->getSortType() === SORT_STRING);
-        $this->assertTrue(in_array($sort_param->getSortDirection(), \VersatileCollections\SortParameters::getValidSortDirections()));
-        $this->assertTrue(in_array($sort_param->getSortType(), \VersatileCollections\SortParameters::getValidSortTypes()));
+        $this->assertTrue(in_array($sort_param->getSortDirection(), \VersatileCollections\MultiSortParameters::getValidSortDirections()));
+        $this->assertTrue(in_array($sort_param->getSortType(), \VersatileCollections\MultiSortParameters::getValidSortTypes()));
     }
     
     /**
@@ -54,7 +54,7 @@ class SortParametersTest extends \PHPUnit_Framework_TestCase {
      */
     public function testThatConstructorWithStringFieldNameAndInvalidSortTypeWorksAsExpected() {
         
-        $sort_param = new \VersatileCollections\SortParameters('Jack', SORT_DESC, new ArrayObject() );
+        $sort_param = new \VersatileCollections\MultiSortParameters('Jack', SORT_DESC, new ArrayObject() );
     }
     
     /**
@@ -62,12 +62,12 @@ class SortParametersTest extends \PHPUnit_Framework_TestCase {
      */
     public function testThatConstructorWithStringFieldNameAndInvalidSortDirectionWorksAsExpected() {
         
-        $sort_param = new \VersatileCollections\SortParameters('Jack', new ArrayObject() );
+        $sort_param = new \VersatileCollections\MultiSortParameters('Jack', new ArrayObject() );
     }
     
     public function testThatSettersWorkAsExpected() {
         
-        $sort_param = new \VersatileCollections\SortParameters('joe2', SORT_ASC, SORT_LOCALE_STRING);
+        $sort_param = new \VersatileCollections\MultiSortParameters('joe2', SORT_ASC, SORT_LOCALE_STRING);
 
         $this->assertTrue($sort_param->getFieldName() === 'joe2');
         $this->assertTrue($sort_param->getSortDirection() === SORT_ASC);
