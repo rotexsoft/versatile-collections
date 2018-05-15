@@ -68,7 +68,7 @@ class MultiSortParameters {
             $this->sort_type = $sort_type;
             
         } else if( 
-            !in_array($sort_direction, static::$valid_sort_types, true) 
+            !in_array($sort_type, static::$valid_sort_types, true) 
             && !is_null($sort_type)
         ) {
             $class = get_class($this);

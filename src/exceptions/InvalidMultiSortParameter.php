@@ -2,7 +2,7 @@
 namespace VersatileCollections\Exceptions;
 
 /**
- * Description of MissingOrInvalidMultiSortParameterFieldName
+ * Description of InvalidMultiSortParameter
  *
  * @author Rotimi
  */

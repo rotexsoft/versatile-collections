@@ -1,6 +1,6 @@
 <?php
 /**
- * Description of SortParametersTest
+ * Description of MultiSortParametersTest
  *
  * @author aadegbam
  */
