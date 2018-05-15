@@ -17,4 +17,15 @@ class IntCollection extends NumericsCollection {
         
         return 'int';
     }
+
+    protected function itemFromString($str) {
+        
+        return ((int) ($str.''));
+    }
+
+    protected function itemToString($item) {
+        
+        return $item.'';
+    }
+
 }

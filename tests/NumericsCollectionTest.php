@@ -106,6 +106,59 @@ class NumericsCollectionTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($collection->min(), 3.0);
     }
     
+    public function testThatModeWorksAsExpected() {
+        
+        $collection = new \VersatileCollections\NumericsCollection();
+        
+        $this->assertSame($collection->count(), 0);
+        $this->assertNull($collection->mode());
+        
+        $collection = new \VersatileCollections\NumericsCollection(
+            0, 0, 2, 4
+        );
+        $this->assertSame($collection->mode(), [0] );
+        
+        $collection = new \VersatileCollections\NumericsCollection(
+            0, -0, 0, 0, 2, 4
+        );
+        $this->assertSame($collection->mode(), [0] );
+        
+        $collection = new \VersatileCollections\NumericsCollection(
+            1, 1, 2, 4
+        );
+        $this->assertSame($collection->mode(), [1] );
+        
+        $collection = new \VersatileCollections\NumericsCollection(
+            -1, 1, -20, 4
+        );
+        $this->assertSame($collection->mode(), [-1, 1, -20, 4] );
+        
+        $collection = new \VersatileCollections\NumericsCollection(
+            -1, 1, -20, 4, -1
+        );
+        $this->assertSame($collection->mode(), [-1] );
+        
+        $collection = new \VersatileCollections\NumericsCollection(
+            4.0, 5.0, 7, 8, 9, 10
+        );
+        $this->assertSame($collection->mode(), [4, 5, 7, 8, 9, 10] );
+        
+        $collection = new \VersatileCollections\NumericsCollection(
+            3, 5.0, 7, 8, 9, 10.5
+        );
+        $this->assertSame($collection->mode(), [3, 5, 7, 8, 9, 10.5] );
+        
+        $collection = new \VersatileCollections\NumericsCollection(
+            10.5, 9, 8, 7, 5.0, 3
+        );
+        $this->assertSame($collection->mode(), [10.5, 9, 8, 7, 5, 3] );
+        
+        $collection = new \VersatileCollections\NumericsCollection(
+            10.5, 9, 8, 7, 5.0, 3, 10.5, 3
+        );
+        $this->assertSame($collection->mode(), [10.5, 3] );
+    }
+    
     public function testThatSumWorksAsExpected() {
         
         $collection = new \VersatileCollections\NumericsCollection();
@@ -263,5 +316,31 @@ class NumericsCollectionTest extends \PHPUnit_Framework_TestCase {
             $numeric_collection->toArray() ,
             [ 8.5, 9.7, 10.8, 11.9, 5, 6, ]
         );
-    } 
+    }
+    
+    public function testThatItemFromStringWorksAsExpected() {
+        
+        $collection = new \TestNumericsCollection();
+        
+        $this->assertSame($collection->getItemFromString('4.0'), 4.0);
+        $this->assertSame($collection->getItemFromString('7.777'), 7.777);
+        $this->assertSame($collection->getItemFromString('-7.777'), -7.777);
+        
+        $this->assertSame($collection->getItemFromString('4'), 4);
+        $this->assertSame($collection->getItemFromString('7'), 7);
+        $this->assertSame($collection->getItemFromString('-7'), -7);
+    }
+    
+    public function testThatItemToStringWorksAsExpected() {
+        
+        $collection = new \TestNumericsCollection();
+        
+        $this->assertSame($collection->getItemAsString(4.0), '4');
+        $this->assertSame($collection->getItemAsString(7.777), '7.777');
+        $this->assertSame($collection->getItemAsString(-7.777), '-7.777');
+        
+        $this->assertSame($collection->getItemAsString(4), '4');
+        $this->assertSame($collection->getItemAsString(7), '7');
+        $this->assertSame($collection->getItemAsString(-7), '-7');
+    }
 }

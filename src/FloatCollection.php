@@ -17,4 +17,15 @@ class FloatCollection extends NumericsCollection {
         
         return 'float';
     }
+    
+
+    protected function itemFromString($str) {
+        
+        return ((float) ($str.''));
+    }
+
+    protected function itemToString($item) {
+        
+        return $item.'';
+    }
 }

@@ -36,4 +36,22 @@ class IntCollectionTest extends \PHPUnit_Framework_TestCase {
         // a non-int
         $collection->item5 = 'boo';
     }
+    
+    public function testThatItemFromStringWorksAsExpected() {
+        
+        $collection = new \TestIntCollection();
+        
+        $this->assertSame($collection->getItemFromString('4'), 4);
+        $this->assertSame($collection->getItemFromString('7'), 7);
+        $this->assertSame($collection->getItemFromString('-7'), -7);
+    }
+    
+    public function testThatItemToStringWorksAsExpected() {
+        
+        $collection = new \TestIntCollection();
+        
+        $this->assertSame($collection->getItemAsString(4), '4');
+        $this->assertSame($collection->getItemAsString(7), '7');
+        $this->assertSame($collection->getItemAsString(-7), '-7');
+    }
 }

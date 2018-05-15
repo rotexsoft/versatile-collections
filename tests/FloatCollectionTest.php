@@ -36,4 +36,22 @@ class FloatCollectionTest extends \PHPUnit_Framework_TestCase {
         // a non-float
         $collection->item5 = 'boo';
     }
+    
+    public function testThatItemFromStringWorksAsExpected() {
+        
+        $collection = new \TestFloatCollection();
+        
+        $this->assertSame($collection->getItemFromString('4.0'), 4.0);
+        $this->assertSame($collection->getItemFromString('7.777'), 7.777);
+        $this->assertSame($collection->getItemFromString('-7.777'), -7.777);
+    }
+    
+    public function testThatItemToStringWorksAsExpected() {
+        
+        $collection = new \TestFloatCollection();
+        
+        $this->assertSame($collection->getItemAsString(4.0), '4');
+        $this->assertSame($collection->getItemAsString(7.777), '7.777');
+        $this->assertSame($collection->getItemAsString(-7.777), '-7.777');
+    }
 }
