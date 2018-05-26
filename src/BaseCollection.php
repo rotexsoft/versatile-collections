@@ -5,6 +5,189 @@ abstract class BaseCollection implements CollectionInterface {
 
     protected $collection_items = [];
     
+    protected static $methods_for_all_instances = [];
+    protected $methods_for_this_instance = [];
+    protected static $static_methods = [];
+    
+    protected static function validateMethodName($name, $method_name_was_passed_to, $class_in_which_method_was_called=null) {
+        
+        $regex_4_valid_method_name = '/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/';
+
+        if( !is_string($name)) {
+            
+            $class = 
+                (!is_null($class_in_which_method_was_called) && is_string($class_in_which_method_was_called))
+                    ? $class_in_which_method_was_called : static::class;
+            
+            $function = $method_name_was_passed_to;
+            $name_type = gettype($name);
+            $msg = "Error [{$class}::{$function}(...)]: Trying to add a dynamic method with an invalid name of type `{$name_type}` to a collection"
+                . PHP_EOL . " `\$name`: " . var_export($name, true);
+            
+            throw new \InvalidArgumentException($msg);
+            
+        } else if( 
+            !preg_match( $regex_4_valid_method_name, preg_quote($name, '/') ) 
+        ) {
+            // A valid php class' method name starts with a letter or underscore, 
+            // followed by any number of letters, numbers, or underscores.
+
+            // Make sure the controller name is a valid string usable as a class name
+            // in php as defined in http://php.net/manual/en/language.oop5.basic.php
+            $class = 
+                (!is_null($class_in_which_method_was_called) && is_string($class_in_which_method_was_called))
+                    ? $class_in_which_method_was_called : static::class;
+            
+            $function = $method_name_was_passed_to;
+            $name_var = var_export($name, true);
+            $msg = "Error [{$class}::{$function}(...)]: Trying to add a dynamic method with an invalid name `{$name_var}` to a collection";
+            
+            throw new \InvalidArgumentException($msg);
+        }
+        
+        return true;
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
+    public static function addStaticMethod(
+        $name, 
+        callable $callable, 
+        $has_return_val=false
+    ) {
+        if( static::validateMethodName($name, __FUNCTION__) ) {
+            
+            static::$static_methods[$name] = [
+                'method' => $callable,
+                'has_return_val' => ((bool)$has_return_val)
+            ];
+        }
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
+    public static function addMethodForAllInstances(
+        $name, 
+        callable $callable, 
+        $has_return_val=false,
+        $bind_to_this_on_invocation=false
+    ) {
+        if( static::validateMethodName($name, __FUNCTION__) ) {
+            
+            static::$methods_for_all_instances[$name] = [
+                'method' => $callable,
+                'has_return_val' => ((bool)$has_return_val),
+                'bind_to_this_on_invocation' => ((bool)$bind_to_this_on_invocation)
+            ];
+        }
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
+    public function addMethod(
+        $name, 
+        callable $callable, 
+        $has_return_val=false,
+        $bind_to_this=false
+    ) {
+        if( static::validateMethodName($name, __FUNCTION__, get_class($this)) ) {
+            
+            if( ((bool)$bind_to_this) ) {
+                
+                $new_callable = \Closure::bind($callable, $this);
+                
+                if( is_callable($new_callable) ) {
+                    
+                    $callable = $new_callable;
+                }
+            }
+            
+            $this->methods_for_this_instance[$name] = [
+                'method' => $callable,
+                'has_return_val' => ((bool)$has_return_val)
+            ];
+        }
+    }
+    
+    public function __call($name, $arguments) {
+        
+        if ( array_key_exists($name, $this->methods_for_this_instance) ) {
+            
+            $result = call_user_func_array($this->methods_for_this_instance[$name]['method'], $arguments);
+            
+            if( $this->methods_for_this_instance[$name]['has_return_val'] ) {
+                
+                return $result;
+            }
+        
+        } else if( array_key_exists($name, static::$methods_for_all_instances) ) {
+            
+            $new_callable = static::$methods_for_all_instances[$name]['method'];
+            
+            if( ((bool)static::$methods_for_all_instances[$name]['bind_to_this_on_invocation']) ) {
+                
+                $new_callable = \Closure::bind($new_callable, $this);
+            }
+            
+            if( is_callable($new_callable) ) {
+            
+                $result = call_user_func_array($new_callable, $arguments);
+
+                if( static::$methods_for_all_instances[$name]['has_return_val'] ) {
+
+                    return $result;
+                }
+                
+            } else {
+                
+                // throw exception, un-callable callable
+            }
+            
+        } else {
+            
+            // throw exception
+            $function = __FUNCTION__;
+            $class = get_class($this);
+            $name_var = var_export($name, true);
+            $msg = "Error [{$class}::{$function}(...)]: Trying to call a non-existent dynamic method named `{$name_var}` on a collection";
+            throw new \BadMethodCallException($msg);
+        }
+    }
+    
+    public static function __callStatic($name, $arguments) {
+        
+        if( array_key_exists($name, static::$static_methods) ) {
+            
+            // never bind to this when method is called statically            
+            $result = call_user_func_array(
+                static::$static_methods[$name]['method'], $arguments
+            );
+            
+            if( static::$static_methods[$name]['has_return_val'] ) {
+                
+                return $result;
+            }
+            
+        } else {
+            
+            // throw exception
+            $function = __FUNCTION__;
+            $class = static::class;
+            $name_var = var_export($name, true);
+            $msg = "Error [{$class}::{$function}(...)]: Trying to statically call a non-existent dynamic method named `{$name_var}` on a collection";
+            throw new \BadMethodCallException($msg);
+        }
+    }
+    
     public function __get($key) {
         
         return $this->offsetGet($key);

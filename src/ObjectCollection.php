@@ -33,34 +33,43 @@ class ObjectCollection extends StrictlyTypedCollection {
      */
     public function __call($method_name, $arguments) {
 
-        $results = [];
-        
-        foreach ( $this as $key_in_collection => $object ) {
+        try {
             
-            try {
-                
-                if( count($arguments) <= 0 ) {
-                    
-                    $arguments = [];
+            $result = parent::__call($method_name, $arguments);
+            
+            return $result;
+            
+        } catch (\Exception $ex) {
+
+            $results = [];
+
+            foreach ( $this as $key_in_collection => $object ) {
+
+                try {
+
+                    if( count($arguments) <= 0 ) {
+
+                        $arguments = [];
+                    }
+
+                    $results[$key_in_collection] =
+                        call_user_func_array([$object, $method_name], $arguments);
+
+                } catch (\Exception $exc) {
+
+                    $class = get_class($this);
+                    $function = __FUNCTION__;
+                    $msg = "Error [{$class}::{$function}(...)]:Trying to call a"
+                        . " method named `$method_name` on a collection item with key `{$key_in_collection}` of type "
+                        . "`". gettype($object)."` "
+                        . PHP_EOL . " `\$arguments`: " . var_export($arguments, true)
+                        . PHP_EOL . " `Original Exception Message`: " . $exc->getMessage();
+
+                    throw new Exceptions\InvalidCollectionOperationException($msg);
                 }
-                
-                $results[$key_in_collection] =
-                    call_user_func_array([$object, $method_name], $arguments);
-                
-            } catch (\Exception $exc) {
-                
-                $class = get_class($this);
-                $function = __FUNCTION__;
-                $msg = "Error [{$class}::{$function}(...)]:Trying to call a"
-                    . " method named `$method_name` on a collection item with key `{$key_in_collection}` of type "
-                    . "`". gettype($object)."` "
-                    . PHP_EOL . " `\$arguments`: " . var_export($arguments, true)
-                    . PHP_EOL . " `Original Exception Message`: " . $exc->getMessage();
-                
-                throw new Exceptions\InvalidCollectionOperationException($msg);
-            }
-        } // foreach ( $this as $key_in_collection => $object )
-        
-        return $results;
+            } // foreach ( $this as $key_in_collection => $object )
+
+            return $results;
+        }
     }
 }
