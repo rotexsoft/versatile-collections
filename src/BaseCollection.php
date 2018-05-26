@@ -60,7 +60,7 @@ abstract class BaseCollection implements CollectionInterface {
     ) {
         if( static::validateMethodName($name, __FUNCTION__) ) {
             
-            static::$static_methods[$name] = [
+            static::$static_methods[ static::class.'::'. $name] = [
                 'method' => $callable,
                 'has_return_val' => ((bool)$has_return_val)
             ];
@@ -80,7 +80,7 @@ abstract class BaseCollection implements CollectionInterface {
     ) {
         if( static::validateMethodName($name, __FUNCTION__) ) {
             
-            static::$methods_for_all_instances[$name] = [
+            static::$methods_for_all_instances[ static::class.'::'. $name] = [
                 'method' => $callable,
                 'has_return_val' => ((bool)$has_return_val),
                 'bind_to_this_on_invocation' => ((bool)$bind_to_this_on_invocation)
@@ -108,32 +108,65 @@ abstract class BaseCollection implements CollectionInterface {
                 if( is_callable($new_callable) ) {
                     
                     $callable = $new_callable;
+                    
+                } else {
+
+                    $function = __FUNCTION__;
+                    $class = get_class($this);
+                    $msg = "Error [{$class}::{$function}(...)]: Could not bind \$this to the supplied callable"
+                        . PHP_EOL . " `\$callable`: " . var_export($callable, true);
+                    throw new \InvalidArgumentException($msg);
                 }
             }
             
-            $this->methods_for_this_instance[$name] = [
+            $this->methods_for_this_instance[ static::class.'::'. $name] = [
                 'method' => $callable,
                 'has_return_val' => ((bool)$has_return_val)
             ];
         }
     }
     
+    protected static function getKeyForDynamicMethod($name, array &$methods_array) {
+        
+        if( array_key_exists( static::class.'::'.$name , $methods_array) ) {
+            
+            return static::class.'::'.$name;
+        }
+        
+        $parent_class = get_parent_class(static::class);
+
+        while( $parent_class !== false ) {
+
+            if( array_key_exists( $parent_class.'::'.$name , $methods_array) ) {
+
+                return $parent_class.'::'.$name;
+            }
+            
+            $parent_class = get_parent_class($parent_class);
+        }
+        
+        return false;
+    }
+    
     public function __call($name, $arguments) {
         
-        if ( array_key_exists($name, $this->methods_for_this_instance) ) {
+        $key_for_this_instance = static::getKeyForDynamicMethod($name, $this->methods_for_this_instance);
+        $key_for_all_instances = static::getKeyForDynamicMethod($name, static::$methods_for_all_instances);
+        
+        if ( $key_for_this_instance !== false ) {
             
-            $result = call_user_func_array($this->methods_for_this_instance[$name]['method'], $arguments);
+            $result = call_user_func_array($this->methods_for_this_instance[$key_for_this_instance]['method'], $arguments);
             
-            if( $this->methods_for_this_instance[$name]['has_return_val'] ) {
+            if( $this->methods_for_this_instance[$key_for_this_instance]['has_return_val'] ) {
                 
                 return $result;
             }
         
-        } else if( array_key_exists($name, static::$methods_for_all_instances) ) {
+        } else if( $key_for_all_instances !== false ) {
             
-            $new_callable = static::$methods_for_all_instances[$name]['method'];
+            $new_callable = static::$methods_for_all_instances[$key_for_all_instances]['method'];
             
-            if( ((bool)static::$methods_for_all_instances[$name]['bind_to_this_on_invocation']) ) {
+            if( ((bool)static::$methods_for_all_instances[$key_for_all_instances]['bind_to_this_on_invocation']) ) {
                 
                 $new_callable = \Closure::bind($new_callable, $this);
             }
@@ -142,7 +175,7 @@ abstract class BaseCollection implements CollectionInterface {
             
                 $result = call_user_func_array($new_callable, $arguments);
 
-                if( static::$methods_for_all_instances[$name]['has_return_val'] ) {
+                if( static::$methods_for_all_instances[$key_for_all_instances]['has_return_val'] ) {
 
                     return $result;
                 }
@@ -150,11 +183,15 @@ abstract class BaseCollection implements CollectionInterface {
             } else {
                 
                 // throw exception, un-callable callable
+                $function = __FUNCTION__;
+                $class = get_class($this);
+                $name_var = var_export($name, true);
+                $msg = "Error [{$class}::{$function}(...)]: Trying to call an un-callable dynamic method named `{$name_var}` on a collection";
+                throw new \BadMethodCallException($msg);
             }
             
         } else {
             
-            // throw exception
             $function = __FUNCTION__;
             $class = get_class($this);
             $name_var = var_export($name, true);
@@ -165,21 +202,22 @@ abstract class BaseCollection implements CollectionInterface {
     
     public static function __callStatic($name, $arguments) {
         
-        if( array_key_exists($name, static::$static_methods) ) {
+        $key_for_static_method = static::getKeyForDynamicMethod($name, static::$static_methods);
+        
+        if( $key_for_static_method !== false ) {
             
             // never bind to this when method is called statically            
             $result = call_user_func_array(
-                static::$static_methods[$name]['method'], $arguments
+                static::$static_methods[$key_for_static_method]['method'], $arguments
             );
             
-            if( static::$static_methods[$name]['has_return_val'] ) {
+            if( static::$static_methods[$key_for_static_method]['has_return_val'] ) {
                 
                 return $result;
             }
             
         } else {
             
-            // throw exception
             $function = __FUNCTION__;
             $class = static::class;
             $name_var = var_export($name, true);
