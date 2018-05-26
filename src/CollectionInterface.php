@@ -30,7 +30,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
         $name, 
         callable $callable, 
         $has_return_val=false,
-        $bind_to_this_on_invocation=false
+        $bind_to_this_on_invocation=true
     );
 
     /**
@@ -44,7 +44,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
         $name, 
         callable $callable, 
         $has_return_val=false,
-        $bind_to_this=false
+        $bind_to_this=true
     );
 
     /**

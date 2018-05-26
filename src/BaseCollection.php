@@ -76,7 +76,7 @@ abstract class BaseCollection implements CollectionInterface {
         $name, 
         callable $callable, 
         $has_return_val=false,
-        $bind_to_this_on_invocation=false
+        $bind_to_this_on_invocation=true
     ) {
         if( static::validateMethodName($name, __FUNCTION__) ) {
             
@@ -97,7 +97,7 @@ abstract class BaseCollection implements CollectionInterface {
         $name, 
         callable $callable, 
         $has_return_val=false,
-        $bind_to_this=false
+        $bind_to_this=true
     ) {
         if( static::validateMethodName($name, __FUNCTION__, get_class($this)) ) {
             
