@@ -62,7 +62,6 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      */
     public static function makeNewCollection(array $items=[], $preserve_keys=true);
 
-
     /**
      * 
      * ArrayAccess: does the requested key exist?
@@ -334,5 +333,4 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @return $this
      */
     public function makeAllKeysNumeric();
-
 }
