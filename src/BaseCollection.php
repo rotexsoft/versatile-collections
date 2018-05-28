@@ -50,7 +50,9 @@ abstract class BaseCollection implements CollectionInterface {
     
     /**
      * 
-     * {@inheritDoc}
+     * @param string $name name of the method being added
+     * @param callable $callable method being added
+     * @param bool $has_return_val true means $callable returns a value, else false if $callable returns no value
      * 
      */
     public static function addStaticMethod(
@@ -69,7 +71,10 @@ abstract class BaseCollection implements CollectionInterface {
     
     /**
      * 
-     * {@inheritDoc}
+     * @param string $name name of the method being added
+     * @param callable $callable method being added
+     * @param bool $has_return_val true means $callable returns a value, else false if $callable returns no value
+     * @param bool $bind_to_this_on_invocation true means $callable will be bound to $this before invocation, else false if $callable should not be explicitly bound to $this before invocation
      * 
      */
     public static function addMethodForAllInstances(
@@ -90,7 +95,10 @@ abstract class BaseCollection implements CollectionInterface {
     
     /**
      * 
-     * {@inheritDoc}
+     * @param string $name name of the method being added
+     * @param callable $callable method being added
+     * @param bool $has_return_val true means $callable returns a value, else false if $callable returns no value
+     * @param bool $bind_to_this true means $callable will be bound to $this, else false if $callable should not be explicitly bound to $this
      * 
      */
     public function addMethod(
