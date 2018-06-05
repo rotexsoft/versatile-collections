@@ -729,4 +729,88 @@ abstract class BaseCollection implements CollectionInterface {
         
         return $this;
     }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
+    public function each(
+        callable $callback, $termination_value=false, $bind_callback_to_this=true
+    ) {   
+        if( $bind_callback_to_this === true ) {
+            
+            $new_callback = \Closure::bind($callback, $this);
+
+            if( !is_callable($new_callback) ) {
+
+                $function = __FUNCTION__;
+                $class = get_class($this);
+                $msg = "Error [{$class}::{$function}(...)]: Could not bind \$this to the supplied callable"
+                    . PHP_EOL . " `\$callable`: " . var_export($callback, true);
+                throw new \InvalidArgumentException($msg);
+
+            } else {
+
+                $callback = $new_callback;
+            }
+        }
+        
+        foreach ($this->collection_items as $key => $item) {
+        
+            if ( $callback($item, $key) === $termination_value ) {
+                
+                break;
+            }
+        }
+        
+        return $this;
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
+    public function map(callable $callback, $preserve_keys = true, $bind_callback_to_this=true) {
+        
+        if( $bind_callback_to_this === true ) {
+            
+            $new_callback = \Closure::bind($callback, $this);
+
+            if( !is_callable($new_callback) ) {
+
+                $function = __FUNCTION__;
+                $class = get_class($this);
+                $msg = "Error [{$class}::{$function}(...)]: Could not bind \$this to the supplied callable"
+                    . PHP_EOL . " `\$callable`: " . var_export($callback, true);
+                throw new \InvalidArgumentException($msg);
+
+            } else {
+
+                $callback = $new_callback;
+            }
+        }
+        
+        $new_collection = new static();
+        
+        foreach ( $this->collection_items as $key => $item ) {
+            
+            // using $new_collection[$key] or $new_collection[]
+            // so that $new_collection->offsetSet(...) will be invoked which will
+            // trigger type-checking in sub-classes like StrictlyTypedCollection
+            
+            if( $preserve_keys === true ) {
+                
+                $new_collection[$key] = $callback($key, $item);
+                
+            } else {
+                
+                $new_collection[] = $callback($key, $item);
+            }
+            
+        } // foreach ( $this->collection_items as $key => $item )
+        
+        return $new_collection;
+    }
 }

@@ -293,4 +293,58 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @return $this
      */
     public function makeAllKeysNumeric();
+    
+    /**
+     * 
+     * Iterate through a collection and execute a callback over each item during the iteration.
+     * 
+     * @param callable $callback a callback with the following signature
+     *                           function($key, $item). To stop iteration at any
+     *                           point, the callback should return the value 
+     *                           specified via $termination_value. For example,
+     *                           if you wanted to loop through the first half of
+     *                           a collection you 
+     * 
+     * @param mixed $termination_value a value that should be returned by $callback 
+     *                                 signifying that iteration through a collection
+     *                                 should stop.
+     * 
+     * @param bool $bind_callback_to_this true if the variable $this inside the supplied 
+     *                                    $callback should refer to the collection object
+     *                                    this method is being invoked on, else false if
+     *                                    you want the variable $this to be undefined 
+     *                                    inside the supplied $callback.
+     * 
+     * @return $this
+     */
+    public function each(callable $callback, $termination_value=false, $bind_callback_to_this=true);
+    
+    /**
+     * 
+     * Applies the callback to the items in the collection and returns a new 
+     * collection containing all the items in the original collection after 
+     * applying the callback function to each one.
+     * 
+     * 
+     * 
+     * @param callable $callback a callback with the following signature
+     *                           function($key, $item). It should perform an
+     *                           operation on each item and return the result 
+     *                           of the operation on each item.
+     *                          
+     * @param bool $preserve_keys true if keys in the returned collection should 
+     *                            match the keys in the original collection, else
+     *                            false for sequentially incrementing integer keys 
+     *                            (starting from 0) in the returned collection.
+     * 
+     * @param bool $bind_callback_to_this true if the variable $this inside the supplied 
+     *                                    $callback should refer to the collection object
+     *                                    this method is being invoked on, else false if
+     *                                    you want the variable $this to be undefined 
+     *                                    inside the supplied $callback.
+     * 
+     * @return \VersatileCollections\CollectionInterface
+     * 
+     */
+    public function map(callable $callback, $preserve_keys=true, $bind_callback_to_this=true);    
 }
