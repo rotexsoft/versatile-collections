@@ -69,6 +69,22 @@ class ObjectCollectionTest extends \PHPUnit_Framework_TestCase {
         $ages = $collection->getAge();
         $this->assertEquals($ages, ['item1' => 99, 'item2' => 99, 'item3' => 99, 'item4' => 99]);
         
+        $collection->addMethod(
+            'toUpper', 
+            function() {
+            
+                foreach($this as $item) {
+                    
+                    $item->setName( strtoupper($item->getName()) );
+                }
+            }, 
+            true
+        );
+        
+        $collection->toUpper();
+        $names = $collection->getName();
+        $this->assertEquals($names, ['item1' => 'JOHNNY CASH', 'item2' => 'SUZZY SOMETHING', 'item3' => 'JACK BAUER', 'item4' => 'JANE FONDA']);
+        
         $collection->nonExistentMethod();
     }
 }
