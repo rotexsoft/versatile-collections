@@ -8,6 +8,7 @@ namespace VersatileCollections;
 interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggregate {
 
     /**
+     * 
      * A factory method to help create a new collection.
      * 
      * The purpose is to act as a shortcut to __construct(...$items)
@@ -69,16 +70,19 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
     public function offsetUnset($key);
     
     /**
+     * 
      * @return array an array containing all items in the collection object
      */
     public function toArray();
     
     /**
+     * 
      * @return \Iterator an iterator
      */
     public function getIterator();
     
     /**
+     * 
      * @return int number of items in collection
      */
     public function count();
@@ -107,6 +111,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
     public function lastItem();
     
     /**
+     * 
      * @return array keys to this collection
      */
     public function getKeys();
@@ -216,6 +221,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
     public function getIfExists($key, $default_value=null);
     
     /**
+     * 
      * Check if a collection contains an item
      * 
      * @param mixed $item item whose existence in the collection is to be checked
@@ -225,6 +231,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
     public function containsItem($item);
     
     /**
+     * 
      * Check if a key exists in a collection
      * 
      * @param mixed $key key whose existence in the collection is to be checked
@@ -234,6 +241,17 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
     public function containsKey($key);
     
     /**
+     * 
+     * Check if all the specified keys exist in a collection
+     * 
+     * @param array $keys specified keys whose existence is to be checked in the collection 
+     * 
+     * @return bool true if all specified keys exist in collection, false otherwise
+     */
+    public function containsKeys(array $keys);
+    
+    /**
+     * 
      * Appends all items from $other collection to the end of $this collection. Note that appended items will be assigned numeric keys.
      * 
      * @param \VersatileCollections\CollectionInterface $other
@@ -243,6 +261,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
     public function appendCollection(CollectionInterface $other);
     
     /**
+     * 
      * Appends an $item to the end of $this collection.
      * 
      * @param mixed $item
@@ -262,6 +281,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
     public function prependCollection(CollectionInterface $other);
     
     /**
+     * 
      * Prepends an $item to the front of $this collection.
      * 
      * @param mixed $item
@@ -272,6 +292,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
     public function prependItem($item, $key=null);
     
     /**
+     * 
      * Adds all items from $other collection to $this collection. Items in $other with existing keys in $this will overwrite the existing items in $this.
      * 
      * @param \VersatileCollections\CollectionInterface $other
@@ -364,5 +385,135 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @return \VersatileCollections\CollectionInterface
      * 
      */
-    public function map(callable $callback, $preserve_keys=true, $bind_callback_to_this=true);    
+    public function map(callable $callback, $preserve_keys=true, $bind_callback_to_this=true);
+    
+    /**
+     * 
+     * Create a new collection consisting of every n-th element.
+     *
+     * @param  int  $n the number representing n
+     * @param  int  $position_of_first_nth_item position in the collection to 
+     *                                          start counting for the nth elements. 
+     *                                          0 represents the position of 
+     *                                          the first item in the collection.
+     * 
+     * @return \VersatileCollections\CollectionInterface (a new collection consisting of every n-th element)
+     */
+    public function nth($n, $position_of_first_nth_item = 0);
+    
+    /**
+     * 
+     * Pass the collection to the given callback and return whatever value is
+     * returned from executing the given callback.
+     *
+     * @param  callable $callback a callback with the following signature
+     *                            function($collection). The $collection 
+     *                            argument in the callback's signature is
+     *                            collection object this pipe method is 
+     *                            being invoked on.
+     * 
+     * @return mixed whatever is returned by $callback
+     */
+    public function pipe(callable $callback);
+    
+    /**
+     * 
+     * Get and remove the last item from the collection.
+     *
+     * @return mixed
+     */
+    public function getAndRemoveLastItem();
+    
+    /**
+     * 
+     * Get and remove an item from the collection.
+     *
+     * @param  mixed  $key
+     * @param  mixed  $default
+     * @return mixed
+     */
+    public function pull($key, $default = null);
+    
+    /**
+     * 
+     * Alias of appendItem($item)
+     *
+     * @param  mixed  $item
+     * @return $this
+     */
+    public function push($item);
+    
+
+    /**
+     * 
+     * Put an item in the collection by key.
+     *
+     * @param  mixed  $key
+     * @param  mixed  $value
+     * 
+     * @return $this
+     */
+    public function put($key, $value);
+
+    /**
+     * 
+     * Search the collection for a given value and return the first 
+     * corresponding key if successful.
+     * 
+     * @param mixed $value the value to be searched for
+     * @param bool $strict true if strict comparison should be used when searching, 
+     *                          else false for loose comparison
+     * 
+     * @return mixed the first key in the collection whose item matches $value 
+     *               or false if $value is not found in the collection
+     */
+    public function searchByVal( $value, $strict = false );
+
+    /**
+     * 
+     * Search the collection for a given value and return an array of all 
+     * corresponding key(s) in the collection whose item(s) match the value, 
+     * if successful.
+     * 
+     * @param mixed $value the value to be searched for
+     * @param bool $strict true if strict comparison should be used when searching, 
+     *                          else false for loose comparison
+     * 
+     * @return mixed an array of all key(s) in the collection whose item(s) match $value 
+     *               or false if $value is not found in the collection
+     */
+    public function searchAllByVal( $value, $strict = false );
+
+
+    /**
+     * 
+     * Search the collection using a callback. The callback will be executed on
+     * each item and corresponding key in the collection. Returns an array of all 
+     * corresponding key(s) in the collection for which the callback returns
+     * true.
+     * 
+     * @param callable $callback a callback with the following signature
+     *                           function($key, $item). It should return true
+     *                           if a $key should be returned or false otherwise.
+     *  
+     * @param bool $bind_callback_to_this true if the variable $this inside the supplied 
+     *                                    $callback should refer to the collection object
+     *                                    this method is being invoked on, else false if
+     *                                    you want the variable $this to be undefined 
+     *                                    inside the supplied $callback.
+     * 
+     * @return mixed an array of all key(s) in the collection for which the callback 
+     *               returned true or false if the callback did not return true for 
+     *               any iteration over the collection
+     */
+    public function searchByCallback($callback, $bind_callback_to_this=true);
+    
+
+    /**
+     * 
+     * Get and remove the first item from the collection.
+     *
+     * @return mixed
+     */
+    public function getAndRemoveFirstItem ();
 }

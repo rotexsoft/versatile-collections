@@ -874,6 +874,31 @@ class BaseCollectionTest extends \PHPUnit_Framework_TestCase {
         $this->assertFalse($collection->containsKey('not in collection'));
     }
     
+    public function testThatContainsKeysWorksAsExpected() {
+
+        $item1 = "4";
+        $item2 = 5.0;
+        $item3 = 7;
+        
+        $collection = 
+            new \BaseCollectionTestImplementation($item1, $item2, $item3);
+        
+        $collection->item1 = ['name'=>'Joe', 'age'=>'10',];
+        $collection->item2 = ['name'=>'Jane', 'age'=>'20',];
+        
+        $this->assertTrue($collection->containsKeys([0]));
+        $this->assertTrue($collection->containsKeys([0, 1]));
+        $this->assertTrue($collection->containsKeys([0, 1, 2]));
+        $this->assertTrue($collection->containsKeys([0, 1, 2, 'item1']));
+        $this->assertTrue($collection->containsKeys([0, 1, 2, 'item1', 'item2']));
+        $this->assertFalse($collection->containsKeys(['not in collection']));
+        $this->assertFalse($collection->containsKeys([0, 1, 2, 'item1', 'item2', 'not in collection']));
+        
+        $collection[] = 55;
+        $this->assertTrue($collection->containsKeys([0, 1, 2, 'item1', 'item2', 3]));
+        $this->assertFalse($collection->containsKeys([0, 1, 2, 'item1', 'item2', 'not in collection', 3]));
+    }
+    
     public function testThatAppendCollectionWorksAsExpected() {
 
         $item1 = "4";
@@ -1199,6 +1224,214 @@ class BaseCollectionTest extends \PHPUnit_Framework_TestCase {
             $array_of_static_methods[$expected_key_for_new_method]['method'], 
             $method
         );
+    }
+    
+    public function testThatNthWorksAsExpected() {
+        
+        $collection = new \BaseCollectionTestImplementation(
+            'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'
+        );
+                
+        $every_4th_starting_at_0 = $collection->nth(4);
+        $this->assertEquals(
+            $every_4th_starting_at_0->toArray(), ['a',  'e']
+        );
+        
+        $every_4th_starting_at_3 = $collection->nth(4, 3);
+        $this->assertEquals(
+            $every_4th_starting_at_3->toArray(), ['d',  'h']
+        );
+        
+        $empty_collection = new \BaseCollectionTestImplementation();
+        $this->assertSame($empty_collection->nth(4)->count(), 0);
+    }
+    
+    public function testThatPipeWorksAsExpected() {
+        
+        $collection = new \BaseCollectionTestImplementation(
+            'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'
+        );
+        
+        $counter = function($collection) { return $collection->count(); };
+        $to_array = function($collection) { return $collection->toArray(); };
+        
+        $this->assertSame($collection->pipe($counter), 8);
+        $this->assertSame(
+            $collection->pipe($to_array), 
+            ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
+        );
+    }
+    
+    public function testThatGetAndRemoveLastItemWorksAsExpected() {
+        
+        $collection = new \BaseCollectionTestImplementation(
+            'a', 'b', 'c', 'd'
+        );
+        
+        $this->assertSame( $collection->getAndRemoveLastItem(), 'd');
+        $this->assertSame( $collection->getAndRemoveLastItem(), 'c');
+        $this->assertSame( $collection->getAndRemoveLastItem(), 'b');
+        $this->assertSame( $collection->getAndRemoveLastItem(), 'a');
+        $this->assertSame( $collection->getAndRemoveLastItem(), NULL);
+    }
+    
+    public function testThatGetAndRemoveFirstItemWorksAsExpected() {
+        
+        $collection = new \BaseCollectionTestImplementation(
+            'a', 'b', 'c', 'd'
+        );
+        
+        $this->assertSame( $collection->getAndRemoveFirstItem(), 'a');
+        $this->assertSame( $collection->getAndRemoveFirstItem(), 'b');
+        $this->assertSame( $collection->getAndRemoveFirstItem(), 'c');
+        $this->assertSame( $collection->getAndRemoveFirstItem(), 'd');
+        $this->assertSame( $collection->getAndRemoveFirstItem(), NULL);
+    }
+    
+    public function testThatPullWorksAsExpected() {
+        
+        $collection = new \BaseCollectionTestImplementation();
+        $collection['item1'] = 22;
+        $collection['item2'] = 23;
+        $collection['item3'] = 24;
+        $collection['item4'] = 25;
+        
+        $this->assertSame( $collection->pull('item1'), 22);
+        $this->assertFalse( $collection->containsKey('item1'));
+        
+        $this->assertSame( $collection->pull('item2'), 23);
+        $this->assertFalse( $collection->containsKey('item2'));
+        
+        $this->assertSame( $collection->pull('item3'), 24);
+        $this->assertFalse( $collection->containsKey('item3'));
+        
+        $this->assertSame( $collection->pull('item4'), 25);
+        $this->assertFalse( $collection->containsKey('item4'));
+        
+        $this->assertSame( $collection->pull('key_4_non_existent_item', -999), -999);
+    }
+    
+    public function testThatPutWorksAsExpected() {
+        
+        $collection = new \BaseCollectionTestImplementation();
+        
+        $this->assertSame( $collection->put('item1', 12), $collection);
+        $this->assertSame( $collection->offsetGet('item1'), 12);
+        
+        $this->assertSame( $collection->put('item2', 13), $collection);
+        $this->assertSame( $collection->offsetGet('item2'), 13);
+        
+        $this->assertSame( $collection->put('item3', 14), $collection);
+        $this->assertSame( $collection->offsetGet('item3'), 14);
+        
+        $this->assertSame( $collection->put('item4',15), $collection);
+        $this->assertSame( $collection->offsetGet('item4'), 15);
+        
+        $collection['item1'] = 22;
+        $collection['item2'] = 23;
+        $collection['item3'] = 24;
+        $collection['item4'] = 25;
+        
+        $this->assertSame( $collection->put('item1', 32), $collection);
+        $this->assertSame( $collection->offsetGet('item1'), 32);
+        
+        $this->assertSame( $collection->put('item2', 33), $collection);
+        $this->assertSame( $collection->offsetGet('item2'), 33);
+        
+        $this->assertSame( $collection->put('item3', 34), $collection);
+        $this->assertSame( $collection->offsetGet('item3'), 34);
+        
+        $this->assertSame( $collection->put('item4',35), $collection);
+        $this->assertSame( $collection->offsetGet('item4'), 35);
+    }
+    
+    public function testThatSearchByValWorksAsExpected() {
+        
+        $collection = new \BaseCollectionTestImplementation(
+            'blue', 'red', 'green', 'red', 1, 'blue', '2'
+        );
+        
+        // non-strict searches
+        $this->assertSame( $collection->searchByVal('blue'), 0); // found at $collection[0]
+        $this->assertSame( $collection->searchByVal('non existent item'), false); // not found
+        
+        // strict searches
+        $this->assertSame( $collection->searchByVal(1, true), 4); // found at $collection[4]
+        $this->assertSame( $collection->searchByVal('1', true), false); // not found
+        
+        $this->assertSame( $collection->searchByVal('2', true), 6); // found at $collection[6]
+        $this->assertSame( $collection->searchByVal(2, true), false); // not found
+    }
+    
+    public function testThatSearchAllByValWorksAsExpected() {
+        
+        $collection = new \BaseCollectionTestImplementation(
+            'blue', 'red', 'green', 'red', 1, 'blue', '2', 1
+        );
+        
+        // non-strict searches
+        // found at $collection[0] & $collection[5]
+        $this->assertSame( $collection->searchAllByVal('blue'), [0, 5]);
+        $this->assertSame( $collection->searchAllByVal('non existent item'), false); // not found
+        
+        // strict searches
+        // found at $collection[4] & $collection[7]
+        $this->assertSame( $collection->searchAllByVal(1, true), [4, 7]);
+        $this->assertSame( $collection->searchAllByVal('1', true), false); // not found
+        
+        $this->assertSame( $collection->searchAllByVal('2', true), [6]); // found at $collection[6]
+        $this->assertSame( $collection->searchAllByVal(2, true), false); // not found
+    }
+    
+    /**
+     * @expectedException \RuntimeException
+     */
+    public function testThatSearchByCallbackWorksAsExpected() {
+        
+        $collection = new \BaseCollectionTestImplementation(
+            'blue', 'red', 'green', 'red', 1, 'blue', '2', 1
+        );
+        
+        // Added  && $this->count() > 0
+        // check to make sure that $this is
+        // available by default in the callbacks
+        
+        $object_searcher = function($key, $item) {
+          
+            return is_object($item) && $this->count() > 0;
+        };
+        
+        $int_searcher = function($key, $item) {
+          
+            return is_int($item) && $this->count() > 0;
+        };
+        
+        $string_searcher = function($key, $item) {
+          
+            return is_string($item) && $this->count() > 0;
+        };
+        
+        // found at $collection[4] & $collection[7]
+        $this->assertSame( $collection->searchByCallback($int_searcher), [4, 7]);
+        $this->assertSame( $collection->searchByCallback($object_searcher), false); // not found
+        
+        // found at $collection[0], $collection[1], $collection[2], $collection[3]
+        // $collection[5] & $collection[6] 
+        $this->assertSame( $collection->searchByCallback($string_searcher), [0, 1, 2, 3, 5, 6]);
+        
+        // test $this does not exist when specified not to
+        $throw_exception_if_this_is_not_set = function($key, $item) use ($collection) {
+          
+            if( $this !== $collection ) {
+                
+                throw new \RuntimeException('blah');
+            }
+            
+            return true;
+        };
+        
+        // exception will be thrown
+        $collection->searchByCallback($throw_exception_if_this_is_not_set, false); 
     }
     
     /**

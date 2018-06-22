@@ -652,6 +652,28 @@ abstract class BaseCollection implements CollectionInterface {
      * {@inheritDoc}
      * 
      */
+    public function containsKeys(array $keys) {
+        
+        $all_keys_exist = true;
+        
+        foreach ($keys as $key) {
+            
+            $all_keys_exist = $all_keys_exist && $this->containsKey($key);
+            
+            if( $all_keys_exist === false ) {
+                
+                break;
+            }
+        }
+        
+        return $all_keys_exist;
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
     public function appendCollection(CollectionInterface $other) {
         
         if( ! $other->isEmpty() ) {
@@ -798,7 +820,7 @@ abstract class BaseCollection implements CollectionInterface {
      */
     public function each(
         callable $callback, $termination_value=false, $bind_callback_to_this=true
-    ) {   
+    ) {
         if( $bind_callback_to_this === true ) {
             
             $new_callback = \Closure::bind($callback, $this);
@@ -874,5 +896,146 @@ abstract class BaseCollection implements CollectionInterface {
         } // foreach ( $this->collection_items as $key => $item )
         
         return $new_collection;
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
+    public function nth($n, $position_of_first_nth_item = 0) {
+        
+        $new = new static();
+        $iteration_counter = 0;
+
+        foreach ($this->collection_items as $item) {
+            
+            if ( ($iteration_counter % $n) === $position_of_first_nth_item ) {
+                
+                $new[] = $item;
+            }
+
+            $iteration_counter++;
+        }
+
+        return $new;
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
+    public function pipe(callable $callback) {
+        
+        return $callback($this);
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
+    public function getAndRemoveLastItem()
+    {
+        return array_pop($this->collection_items);
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
+    public function pull($key, $default = null) {
+
+        $item = $this->getIfExists($key, $default);
+        
+        unset($this[$key]);
+        
+        return $item;
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
+    public function push($item) {
+        
+        return $this->appendItem($item);
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
+    public function put($key, $value) {
+        
+        $this->offsetSet($key, $value);
+        
+        return $this;
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */    
+    public function searchByVal( $value, $strict = false ) {
+        
+        return array_search($value, $this->collection_items, $strict);
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */  
+    public function searchAllByVal( $value, $strict = false ){
+        
+        $result = array_keys($this->collection_items, $value, $strict);
+        
+        if( is_array($result) && count($result) <= 0 ) {
+            
+            $result = false;
+        }
+        
+        return $result;
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */  
+    public function searchByCallback($callback, $bind_callback_to_this=true) {
+        
+        $results = [];
+        
+        $searcher = function($key, $item) use ($callback, &$results) {
+            
+            if( $callback($key, $item) === true ) {
+                
+                $results[] = $key;
+            }
+        };
+        
+        // using 9999 as termination value since $callback is only ever 
+        // expected to return true or false, which means each will not
+        // terminate until iteration is fully completed.
+        $this->each($searcher, 9999, $bind_callback_to_this);
+        
+        return count($results) > 0 ? $results : false;
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */  
+    public function getAndRemoveFirstItem() {
+        
+        return array_shift($this->collection_items);
     }
 }

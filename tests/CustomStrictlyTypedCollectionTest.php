@@ -430,6 +430,49 @@ class CustomStrictlyTypedCollectionTest extends \PHPUnit_Framework_TestCase {
             $collection->toArray() ,
             [  $item1, $item2, $item3, $item4, $other_item1, $other_item2, $other_item3, $other_item4, ]
         );
+        
+        // test return $this 
+        $this->assertSame($collection->appendItem($other_item1) , $collection);
+    }
+    
+    public function testThatPushWorksAsExpected() {
+        
+        $item1 = new TestValueObject('Johnny Cash', 50);
+        $item2 = new TestValueObject('Suzzy Something', 23);
+        $item3 = new TestValueObject('Jack Bauer', 43);
+        $item4 = new TestValueObject('Jane Fonda', 55);
+        
+        $collection = new \TestValueObjectCollection(
+            $item1, $item2, $item3, $item4
+        );
+                
+        $other_item1 = new TestValueObject('Johnny Cash2', 502);
+        $other_item2 = new TestValueObject('Suzzy Something2', 223);
+        $other_item3 = new TestValueObject('Jack Bauer2', 423);
+        $other_item4 = new TestValueObject('Jane Fonda2', 525);
+                
+        $collection->push($other_item1);
+        $collection->push($other_item2);
+        $collection->push($other_item3);
+        $collection->push($other_item4);
+        
+        $this->assertTrue($collection->containsItem($other_item1));
+        $this->assertTrue($collection->containsItem($other_item2));
+        $this->assertTrue($collection->containsItem($other_item3));
+        $this->assertTrue($collection->containsItem($other_item4));
+        $this->assertTrue($collection->containsItem($item1));
+        $this->assertTrue($collection->containsItem($item2));
+        $this->assertTrue($collection->containsItem($item3));
+        $this->assertTrue($collection->containsItem($item4));
+        $this->assertSame($collection->firstItem() , $item1);
+        $this->assertSame($collection->lastItem() , $other_item4);
+        $this->assertEquals(
+            $collection->toArray() ,
+            [  $item1, $item2, $item3, $item4, $other_item1, $other_item2, $other_item3, $other_item4, ]
+        );
+        
+        // test return $this 
+        $this->assertSame($collection->push($other_item1) , $collection);
     }
     
     /**
