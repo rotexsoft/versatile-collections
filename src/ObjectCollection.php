@@ -62,7 +62,7 @@ class ObjectCollection extends StrictlyTypedCollection {
                     $msg = "Error [{$class}::{$function}(...)]:Trying to call a"
                         . " method named `$method_name` on a collection item with key `{$key_in_collection}` of type "
                         . "`". gettype($object)."` "
-                        . PHP_EOL . " `\$arguments`: " . var_export($arguments, true)
+                        . PHP_EOL . " `\$arguments`: " . var_to_string($arguments)
                         . PHP_EOL . " `Original Exception Message`: " . $exc->getMessage();
 
                     throw new Exceptions\InvalidCollectionOperationException($msg);

@@ -24,7 +24,7 @@ abstract class BaseCollection implements CollectionInterface {
             $function = $method_name_was_passed_to;
             $name_type = gettype($name);
             $msg = "Error [{$class}::{$function}(...)]: Trying to add a dynamic method with an invalid name of type `{$name_type}` to a collection"
-                . PHP_EOL . " `\$name`: " . var_export($name, true);
+                . PHP_EOL . " `\$name`: " . var_to_string($name);
             
             throw new \InvalidArgumentException($msg);
             
@@ -41,7 +41,7 @@ abstract class BaseCollection implements CollectionInterface {
                     ? $class_in_which_method_was_called : static::class;
             
             $function = $method_name_was_passed_to;
-            $name_var = var_export($name, true);
+            $name_var = var_to_string($name);
             $msg = "Error [{$class}::{$function}(...)]: Trying to add a dynamic method with an invalid name `{$name_var}` to a collection";
             
             throw new \InvalidArgumentException($msg);
@@ -147,7 +147,7 @@ abstract class BaseCollection implements CollectionInterface {
                     $function = __FUNCTION__;
                     $class = get_class($this);
                     $msg = "Error [{$class}::{$function}(...)]: Could not bind \$this to the supplied callable"
-                        . PHP_EOL . " `\$callable`: " . var_export($callable, true);
+                        . PHP_EOL . " `\$callable`: " . var_to_string($callable);
                     throw new \InvalidArgumentException($msg);
                 }
             }
@@ -218,7 +218,7 @@ abstract class BaseCollection implements CollectionInterface {
                 // throw exception, un-callable callable
                 $function = __FUNCTION__;
                 $class = get_class($this);
-                $name_var = var_export($name, true);
+                $name_var = var_to_string($name);
                 $msg = "Error [{$class}::{$function}(...)]: Trying to call an un-callable dynamic method named `{$name_var}` on a collection";
                 throw new \BadMethodCallException($msg);
             }
@@ -227,7 +227,7 @@ abstract class BaseCollection implements CollectionInterface {
             
             $function = __FUNCTION__;
             $class = get_class($this);
-            $name_var = var_export($name, true);
+            $name_var = var_to_string($name);
             $msg = "Error [{$class}::{$function}(...)]: Trying to call a non-existent dynamic method named `{$name_var}` on a collection";
             throw new \BadMethodCallException($msg);
         }
@@ -253,7 +253,7 @@ abstract class BaseCollection implements CollectionInterface {
             
             $function = __FUNCTION__;
             $class = static::class;
-            $name_var = var_export($name, true);
+            $name_var = var_to_string($name);
             $msg = "Error [{$class}::{$function}(...)]: Trying to statically call a non-existent dynamic method named `{$name_var}` on a collection";
             throw new \BadMethodCallException($msg);
         }
@@ -474,8 +474,8 @@ abstract class BaseCollection implements CollectionInterface {
                 $function = __FUNCTION__;
                 $msg = "Error [{$class}::{$function}(...)]:Trying to set a property named `$field_name` on a collection item of type "
                     . "`". gettype($item)."` "
-                    . PHP_EOL . " `\$field_val`: " . var_export($field_val, true)
-                    . PHP_EOL . " `\$add_field_if_not_present`: " . var_export($add_field_if_not_present, true);
+                    . PHP_EOL . " `\$field_val`: " . var_to_string($field_val)
+                    . PHP_EOL . " `\$add_field_if_not_present`: " . var_to_string($add_field_if_not_present);
                 
                 throw new Exceptions\InvalidCollectionOperationException($msg);
             }
@@ -511,7 +511,7 @@ abstract class BaseCollection implements CollectionInterface {
                 $function = __FUNCTION__;
                 $class = get_class($this);
                 $msg = "Error [{$class}::{$function}(...)]: Could not bind \$this to the supplied callable"
-                    . PHP_EOL . " `\$filterer`: " . var_export($filterer, true);
+                    . PHP_EOL . " `\$filterer`: " . var_to_string($filterer);
                 throw new \InvalidArgumentException($msg);
 
             } else {
@@ -575,7 +575,7 @@ abstract class BaseCollection implements CollectionInterface {
                 $function = __FUNCTION__;
                 $class = get_class($this);
                 $msg = "Error [{$class}::{$function}(...)]: Could not bind \$this to the supplied callable"
-                    . PHP_EOL . " `\$transformer`: " . var_export($transformer, true);
+                    . PHP_EOL . " `\$transformer`: " . var_to_string($transformer);
                 throw new \InvalidArgumentException($msg);
 
             } else {
@@ -731,8 +731,8 @@ abstract class BaseCollection implements CollectionInterface {
             $class = get_class($this);
             $function = __FUNCTION__;
             $msg = "Error [{$class}::{$function}(...)]:Trying prepend an item with a non-integer and non-string key on a collection. "
-                . PHP_EOL . " `\$key`: " . var_export($key, true)
-                . PHP_EOL . " `\$item`: " . var_export($item, true);
+                . PHP_EOL . " `\$key`: " . var_to_string($key)
+                . PHP_EOL . " `\$item`: " . var_to_string($item);
             
             throw new Exceptions\InvalidKeyException($msg);
         }
@@ -808,7 +808,7 @@ abstract class BaseCollection implements CollectionInterface {
                 $function = __FUNCTION__;
                 $class = get_class($this);
                 $msg = "Error [{$class}::{$function}(...)]: Could not bind \$this to the supplied callable"
-                    . PHP_EOL . " `\$callback`: " . var_export($callback, true);
+                    . PHP_EOL . " `\$callback`: " . var_to_string($callback);
                 throw new \InvalidArgumentException($msg);
 
             } else {
@@ -845,7 +845,7 @@ abstract class BaseCollection implements CollectionInterface {
                 $function = __FUNCTION__;
                 $class = get_class($this);
                 $msg = "Error [{$class}::{$function}(...)]: Could not bind \$this to the supplied callable"
-                    . PHP_EOL . " `\$callback`: " . var_export($callback, true);
+                    . PHP_EOL . " `\$callback`: " . var_to_string($callback);
                 throw new \InvalidArgumentException($msg);
 
             } else {

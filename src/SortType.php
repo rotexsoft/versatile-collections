@@ -29,7 +29,7 @@ class SortType {
             $function = __FUNCTION__;
             $msg = "Error [{$class}::{$function}(...)]:Invalid \$sort_type supplied to "
                 . "`{$class}::{$function}(...)` "
-                . PHP_EOL . " `\$sort_type`: " . var_export($sort_type, true);
+                . PHP_EOL . " `\$sort_type`: " . var_to_string($sort_type);
             
             throw new Exceptions\InvalidSortType($msg);
         }

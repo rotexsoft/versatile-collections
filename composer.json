@@ -28,7 +28,7 @@
     },
     "autoload": {
         "classmap": ["src/"],
-        "files": [ ]
+        "files": ["src/helper-functions.php"]
     },
     "autoload-dev": {
         "classmap": ["src/", "tests/"],

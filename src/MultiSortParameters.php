@@ -27,7 +27,7 @@ class MultiSortParameters {
             $function = __FUNCTION__;
             $msg = "Error [{$class}::{$function}(...)]:Invalid \$field_name supplied to "
                 . "`{$class}::{$function}(...)` "
-                . PHP_EOL . " `\$field_name`: " . var_export($field_name, true);
+                . PHP_EOL . " `\$field_name`: " . var_to_string($field_name);
             
             throw new Exceptions\InvalidMultiSortParameter($msg);
             
@@ -37,7 +37,7 @@ class MultiSortParameters {
             $function = __FUNCTION__;
             $msg = "Error [{$class}::{$function}(...)]:Missing \$field_name"
                 . " in `{$class}::{$function}(...)` "
-                . PHP_EOL . " `\$field_name`: " . var_export($field_name, true);
+                . PHP_EOL . " `\$field_name`: " . var_to_string($field_name);
             
             throw new Exceptions\MissingMultiSortParameterFieldName($msg);
             
@@ -58,7 +58,7 @@ class MultiSortParameters {
             $function = __FUNCTION__;
             $msg = "Error [{$class}::{$function}(...)]:Invalid \$sort_direction supplied to "
                 . "`{$class}::{$function}(...)` "
-                . PHP_EOL . " `\$sort_direction`: " . var_export($sort_direction, true);
+                . PHP_EOL . " `\$sort_direction`: " . var_to_string($sort_direction);
             
             throw new Exceptions\InvalidMultiSortParameter($msg);
         }
@@ -75,7 +75,7 @@ class MultiSortParameters {
             $function = __FUNCTION__;
             $msg = "Error [{$class}::{$function}(...)]:Invalid \$sort_type supplied to "
                 . "`{$class}::{$function}(...)` "
-                . PHP_EOL . " `\$sort_type`: " . var_export($sort_type, true);
+                . PHP_EOL . " `\$sort_type`: " . var_to_string($sort_type);
             
             throw new Exceptions\InvalidMultiSortParameter($msg);
         }
