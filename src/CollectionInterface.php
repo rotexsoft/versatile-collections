@@ -131,9 +131,15 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * 
      * @param bool $copy_keys true if key for each filtered item in $this should be copied into the collection to be returned
      * 
+     * @param bool $bind_callback_to_this true if the variable $this inside the supplied 
+     *                                    $filterer should refer to the collection object
+     *                                    this method is being invoked on, else false if
+     *                                    you want the variable $this to be undefined 
+     *                                    inside the supplied $filterer.
+     * 
      * @return \VersatileCollections\CollectionInterface a collection of filtered items or an empty collection
      */
-    public function filterAll(callable $filterer, $copy_keys=false);
+    public function filterAll(callable $filterer, $copy_keys=false, $bind_callback_to_this=true);
     
     /**
      * 
@@ -147,9 +153,15 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * 
      * @param bool $copy_keys true if key for each filtered item in $this should be copied into the collection to be returned
      * 
+     * @param bool $bind_callback_to_this true if the variable $this inside the supplied 
+     *                                    $filterer should refer to the collection object
+     *                                    this method is being invoked on, else false if
+     *                                    you want the variable $this to be undefined 
+     *                                    inside the supplied $filterer.
+     * 
      * @return \VersatileCollections\CollectionInterface a collection of filtered items or an empty collection
      */
-    public function filterFirstN(callable $filterer, $max_number_of_filtered_items_to_return=null, $copy_keys=false);
+    public function filterFirstN(callable $filterer, $max_number_of_filtered_items_to_return=null, $copy_keys=false, $bind_callback_to_this=true);
     
     /**
      * 
@@ -158,9 +170,15 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @param callable $transformer a callback with the following signature
      *                 function($key, $item) that returns a value that will replace $this[$key]
      * 
+     * @param bool $bind_callback_to_this true if the variable $this inside the supplied 
+     *                                    $transformer should refer to the collection object
+     *                                    this method is being invoked on, else false if
+     *                                    you want the variable $this to be undefined 
+     *                                    inside the supplied $transformer.
+     * 
      * @return $this
      */
-    public function transform(callable $transformer);
+    public function transform(callable $transformer, $bind_callback_to_this=true);
     
     /**
      * 
@@ -288,7 +306,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
     
     /**
      * 
-     * Convert all keys in the collection to consecutive integer keys  
+     * Convert all keys in the collection to consecutive integer keys starting from zero 
      * 
      * @return $this
      */

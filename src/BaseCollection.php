@@ -12,6 +12,8 @@ abstract class BaseCollection implements CollectionInterface {
     protected static function validateMethodName($name, $method_name_was_passed_to, $class_in_which_method_was_called=null) {
         
         $regex_4_valid_method_name = '/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/';
+        $class_name_for_instantiation = static::class;
+        $is_class_name_abstract = (new \ReflectionClass($class_name_for_instantiation))->isAbstract();
 
         if( !is_string($name)) {
             
@@ -43,6 +45,29 @@ abstract class BaseCollection implements CollectionInterface {
             $msg = "Error [{$class}::{$function}(...)]: Trying to add a dynamic method with an invalid name `{$name_var}` to a collection";
             
             throw new \InvalidArgumentException($msg);
+            
+        } else if(
+            is_string($name) 
+            && 
+            (
+                (
+                    $is_class_name_abstract === false
+                    && method_exists((new $class_name_for_instantiation()), $name)
+                )
+                || 
+                method_exists(static::class, $name) 
+            )
+        ) {
+            // valid method name was supplied but conflicts with an
+            // already defined real class method
+            $class = 
+                (!is_null($class_in_which_method_was_called) && is_string($class_in_which_method_was_called))
+                    ? $class_in_which_method_was_called : static::class;
+            
+            $function = $method_name_was_passed_to;
+            $msg = "Error [{$class}::{$function}(...)]: Trying to add a dynamic method with the same name `{$name}` as an existing actual method to a collection";
+            
+            throw new Exceptions\AddConflictingMethodException($msg);
         }
         
         return true;
@@ -113,7 +138,7 @@ abstract class BaseCollection implements CollectionInterface {
                 
                 $new_callable = \Closure::bind($callable, $this);
                 
-                if( is_callable($new_callable) ) {
+                if( $new_callable !== false ) {
                     
                     $callable = $new_callable;
                     
@@ -465,9 +490,9 @@ abstract class BaseCollection implements CollectionInterface {
      * {@inheritDoc}
      * 
      */
-    public function filterAll(callable $filterer, $copy_keys=false) {
+    public function filterAll(callable $filterer, $copy_keys=false, $bind_callback_to_this=true) {
                 
-        return $this->filterFirstN($filterer, $this->count(), $copy_keys);
+        return $this->filterFirstN($filterer, $this->count(), $copy_keys, $bind_callback_to_this);
     }
     
     /**
@@ -475,7 +500,25 @@ abstract class BaseCollection implements CollectionInterface {
      * {@inheritDoc}
      * 
      */
-    public function filterFirstN(callable $filterer, $max_number_of_filtered_items_to_return =null, $copy_keys=false) {
+    public function filterFirstN(callable $filterer, $max_number_of_filtered_items_to_return =null, $copy_keys=false, $bind_callback_to_this=true) {
+        
+        if( $bind_callback_to_this === true ) {
+            
+            $new_callback = \Closure::bind($filterer, $this);
+
+            if( $new_callback === false ) {
+
+                $function = __FUNCTION__;
+                $class = get_class($this);
+                $msg = "Error [{$class}::{$function}(...)]: Could not bind \$this to the supplied callable"
+                    . PHP_EOL . " `\$filterer`: " . var_export($filterer, true);
+                throw new \InvalidArgumentException($msg);
+
+            } else {
+
+                $filterer = $new_callback;
+            }
+        }
         
         $filtered_items = new static();
         
@@ -521,7 +564,25 @@ abstract class BaseCollection implements CollectionInterface {
      * {@inheritDoc}
      * 
      */
-    public function transform(callable $transformer) {
+    public function transform(callable $transformer, $bind_callback_to_this=true) {
+        
+        if( $bind_callback_to_this === true ) {
+            
+            $new_callback = \Closure::bind($transformer, $this);
+
+            if( $new_callback === false ) {
+
+                $function = __FUNCTION__;
+                $class = get_class($this);
+                $msg = "Error [{$class}::{$function}(...)]: Could not bind \$this to the supplied callable"
+                    . PHP_EOL . " `\$transformer`: " . var_export($transformer, true);
+                throw new \InvalidArgumentException($msg);
+
+            } else {
+
+                $transformer = $new_callback;
+            }
+        }
         
         foreach ( $this->collection_items as $key => $item ) {
             
@@ -742,12 +803,12 @@ abstract class BaseCollection implements CollectionInterface {
             
             $new_callback = \Closure::bind($callback, $this);
 
-            if( !is_callable($new_callback) ) {
+            if( $new_callback === false ) {
 
                 $function = __FUNCTION__;
                 $class = get_class($this);
                 $msg = "Error [{$class}::{$function}(...)]: Could not bind \$this to the supplied callable"
-                    . PHP_EOL . " `\$callable`: " . var_export($callback, true);
+                    . PHP_EOL . " `\$callback`: " . var_export($callback, true);
                 throw new \InvalidArgumentException($msg);
 
             } else {
@@ -758,7 +819,7 @@ abstract class BaseCollection implements CollectionInterface {
         
         foreach ($this->collection_items as $key => $item) {
         
-            if ( $callback($item, $key) === $termination_value ) {
+            if ( $callback($key, $item) === $termination_value ) {
                 
                 break;
             }
@@ -772,18 +833,19 @@ abstract class BaseCollection implements CollectionInterface {
      * {@inheritDoc}
      * 
      */
-    public function map(callable $callback, $preserve_keys = true, $bind_callback_to_this=true) {
-        
+    public function map(
+        callable $callback, $preserve_keys = true, $bind_callback_to_this=true
+    ) {    
         if( $bind_callback_to_this === true ) {
             
             $new_callback = \Closure::bind($callback, $this);
 
-            if( !is_callable($new_callback) ) {
+            if( $new_callback === false ) {
 
                 $function = __FUNCTION__;
                 $class = get_class($this);
                 $msg = "Error [{$class}::{$function}(...)]: Could not bind \$this to the supplied callable"
-                    . PHP_EOL . " `\$callable`: " . var_export($callback, true);
+                    . PHP_EOL . " `\$callback`: " . var_export($callback, true);
                 throw new \InvalidArgumentException($msg);
 
             } else {

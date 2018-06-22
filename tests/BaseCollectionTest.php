@@ -418,7 +418,7 @@ class BaseCollectionTest extends \PHPUnit_Framework_TestCase {
         $collection->item1;
     }
     
-    public function testThatFilterWorksAsExpected() {
+    public function testThatFilterAllWorksAsExpected() {
         
         $collection_of_ints = 
             new \BaseCollectionTestImplementation(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
@@ -511,6 +511,22 @@ class BaseCollectionTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(
             $collection_of_even_ints->toArray(), [1=>2, 3=>4, 5=>6]
         );
+
+        // test $this inside callback
+        $collection_of_ints_except_first_and_last_items = $collection_of_ints->filterFirstN(
+            
+            function($key, $item) {
+            
+                return $item !== $this->lastItem()
+                     && $item !== $this->firstItem();
+            },
+            null,
+            false
+        );
+        
+        $this->assertEquals(
+            $collection_of_ints_except_first_and_last_items->toArray(), [2, 3, 4, 5, 6, 7, 8, 9]
+        );
     }
     
     public function testThatTransformWorksAsExpected() {
@@ -529,6 +545,111 @@ class BaseCollectionTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(
             $collection_of_ints->toArray(), [4, 16, 36, 64]
         );
+        
+        // reference $this in callback
+        $collection_of_ints = 
+            new \BaseCollectionTestImplementation(2, 4, 6, 8);
+        
+        $collection_of_ints->transform(
+            
+            function($key, $item) {
+            
+                return $item * $this->count();
+            }    
+        );
+        
+        $this->assertEquals(
+            $collection_of_ints->toArray(), [8, 16, 24, 32]
+        );
+    }
+    
+    public function testThatEachWorksAsExpected() {
+        
+        $numeric_collection = new \VersatileCollections\NumericsCollection(
+            1, 2, 3, 4, 5, 6
+        );
+        
+        $accumulator = 0;
+        $counter = 1;
+        
+        $first_half_summator = function($key, $item) use (&$accumulator, &$counter) {
+            
+            $accumulator = $accumulator + $item;
+
+            if( ((int)ceil($this->count() / 2)) === $counter++ ) {
+
+                return false;
+            }
+
+        };
+        
+        $all_items_summator = function($key, $item) use (&$accumulator) {
+            
+            $accumulator += $item;
+        };
+
+        // sum of first half of [1, 2, 3, 4, 5, 6]
+        // i.e. 1 + 2 + 3 = 6
+        $numeric_collection->each(
+            $first_half_summator, 
+            false, 
+            true
+        );
+        $this->assertEquals($accumulator, 6);
+        
+        //reset accumulator
+        $accumulator = 0;
+        
+        // sum of all of [1, 2, 3, 4, 5, 6]
+        // i.e. 1 + 2 + 3 + 4 + 5 + 6 = 21
+        $return_val_from_each = $numeric_collection->each(
+            $all_items_summator, 
+            false, 
+            false
+        );
+        $this->assertEquals($accumulator, 21);
+        
+        $this->assertSame($return_val_from_each, $numeric_collection);
+    }
+    
+    public function testThatMapWorksAsExpected() {
+        
+        $int_collection = new \VersatileCollections\IntCollection(1, 2, 3, 4, 5);
+
+        $multiplied = $int_collection->map(
+            function ($key, $item) {
+                return $item * 2;
+            },
+            false,
+            false
+        );
+        $this->assertEquals($multiplied->toArray(), [2, 4, 6, 8, 10]);
+
+        $multiplied = $int_collection->map(
+            function ($key, $item) {
+                return $item * $this->count();
+            },
+            false,
+            true
+        );
+        $this->assertEquals($multiplied->toArray(), [5, 10, 15, 20, 25]);
+        
+        // test preserve keys
+        $int_collection = new \VersatileCollections\IntCollection();
+        $int_collection[5] = 1;
+        $int_collection[6] = 2;
+        $int_collection[7] = 3;
+        $int_collection[8] = 4;
+        $int_collection[9] = 5;
+        
+        $multiplied = $int_collection->map(
+            function ($key, $item) {
+                return $item * $this->count();
+            },
+            true,
+            true
+        );
+        $this->assertEquals($multiplied->toArray(), [5=>5, 6=>10, 7=>15, 8=>20, 9=>25]);
     }
     
     public function testThatToArrayWorksAsExpected() {
@@ -884,5 +1005,333 @@ class BaseCollectionTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($collection[0], $item1);
         $this->assertEquals($collection[1], $item2);
         $this->assertEquals($collection[2], $item3);
+    }
+    
+    public function testThatValidateMethodNameWorksAsExpected() {
+        
+        $collection = new \BaseCollectionTestImplementation();
+        
+        $this->assertTrue(
+            $collection->validateMethodNamePublic('newMethod', __FUNCTION__)
+        );
+    }
+    
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testThatValidateMethodNameWorksAsExpected2() {
+        
+        $collection = new \BaseCollectionTestImplementation();
+                
+        // This should trigger an Exception because we are
+        // passing a non-string (in this case an array)
+        // as the method name
+        $collection->validateMethodNamePublic([], __FUNCTION__);
+    }
+    
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testThatValidateMethodNameWorksAsExpected3() {
+        
+        $collection = new \BaseCollectionTestImplementation();
+                
+        // This should trigger an Exception because we are
+        // passing a string that is not valid for a method
+        // name according to php syntax rules as the method
+        // name.
+        $collection->validateMethodNamePublic('!badMethodName', __FUNCTION__);
+    }
+    
+    /**
+     * @expectedException \VersatileCollections\Exceptions\AddConflictingMethodException
+     */
+    public function testThatValidateMethodNameWorksAsExpected4() {
+        
+        $collection = new \BaseCollectionTestImplementation();
+                
+        // This should trigger an Exception because we are
+        // trying to validate the name of an instance method 
+        // that exists in the collection class.
+        $collection->validateMethodNamePublic('each', __FUNCTION__);
+    }
+    
+    /**
+     * @expectedException \VersatileCollections\Exceptions\AddConflictingMethodException
+     */
+    public function testThatValidateMethodNameWorksAsExpected5() {
+        
+        $collection = new \BaseCollectionTestImplementation();
+                
+        // This should trigger an Exception because we are
+        // trying to validate the name of a static method 
+        // that exists in the collection class.
+        $collection->validateMethodNamePublic('makeNewCollection', __FUNCTION__);
+    }
+    
+    public function testThatAddStaticMethodWorksAsExpected() {
+        
+        //$collection = new \BaseCollectionTestImplementation();
+                
+        $method_name = 'newMethod';
+        $method = function(){ return 'blah'; };
+        $has_return_val = true;
+        
+        \BaseCollectionTestImplementation::addStaticMethod(
+            $method_name, $method, $has_return_val
+        );
+        
+        $array_of_static_methods = 
+            \BaseCollectionTestImplementation::getArrayOfStaticMethods();
+        
+        $expected_key_for_new_method = 
+            \BaseCollectionTestImplementation::class . '::' . $method_name;
+        
+        $this->assertArrayHasKey(
+            $expected_key_for_new_method, 
+            $array_of_static_methods
+        );
+        
+        $this->assertSame(
+            $array_of_static_methods[$expected_key_for_new_method]['method'], 
+            $method
+        );
+        
+        $this->assertSame(
+            $array_of_static_methods[$expected_key_for_new_method]['has_return_val'], 
+            $has_return_val
+        );
+    }
+    
+    public function testThatAddMethodForAllInstancesWorksAsExpected() {
+        
+        //$collection = new \BaseCollectionTestImplementation();
+                
+        $method_name = 'newMethod';
+        $method = function(){ return 'blah'; };
+        $has_return_val = true;
+        $bind_to_this_on_invocation=true;
+        
+        \BaseCollectionTestImplementation::addMethodForAllInstances(
+            $method_name, $method, $has_return_val, $bind_to_this_on_invocation
+        );
+        
+        $array_of_static_methods = 
+            \BaseCollectionTestImplementation::getArrayOfMethodsForAllInstances();
+        
+        $expected_key_for_new_method = 
+            \BaseCollectionTestImplementation::class . '::' . $method_name;
+        
+        $this->assertArrayHasKey(
+            $expected_key_for_new_method, 
+            $array_of_static_methods
+        );
+        
+        $this->assertSame(
+            $array_of_static_methods[$expected_key_for_new_method]['method'], 
+            $method
+        );
+        
+        $this->assertSame(
+            $array_of_static_methods[$expected_key_for_new_method]['has_return_val'], 
+            $has_return_val
+        );
+        
+        $this->assertSame(
+            $array_of_static_methods[$expected_key_for_new_method]['bind_to_this_on_invocation'], 
+            $bind_to_this_on_invocation
+        );
+    }
+    
+    public function testThatAddMethodWorksAsExpected() {
+        
+        $collection = new \BaseCollectionTestImplementation();
+                
+        $method_name = 'numElements';
+        $method = function(){ return $this->count(); };
+        $has_return_val = true;
+        $bind_to_this=true;
+        
+        $collection->addMethod(
+            $method_name, $method, $has_return_val, $bind_to_this
+        );
+        
+        $array_of_static_methods = 
+            $collection->getArrayOfMethodsForThisInstance();
+        
+        $expected_key_for_new_method = 
+            \BaseCollectionTestImplementation::class . '::' . $method_name;
+        
+        $this->assertArrayHasKey(
+            $expected_key_for_new_method, 
+            $array_of_static_methods
+        );
+        
+        $this->assertEquals(
+            $array_of_static_methods[$expected_key_for_new_method]['method'], 
+            \Closure::bind($method, $collection)
+        );
+        
+        $this->assertSame(
+            $array_of_static_methods[$expected_key_for_new_method]['has_return_val'], 
+            $has_return_val
+        );
+        
+        // add two elemets
+        $collection[] = 'one';
+        $collection[] = 'two';
+        
+        // test that the 
+        $this->assertEquals(
+            $collection->$method_name(), 
+            2
+        );
+        
+        // without binding to this
+        $collection->addMethod(
+            $method_name, $method, $has_return_val, false
+        );
+        
+        $array_of_static_methods = 
+            $collection->getArrayOfMethodsForThisInstance();
+        
+        $this->assertSame(
+            $array_of_static_methods[$expected_key_for_new_method]['method'], 
+            $method
+        );
+    }
+    
+    /**
+     * @expectedException \BadMethodCallException
+     */
+    public function testThat__CallWorksAsExpected() {
+        
+        // add to parent class
+        \VersatileCollections\BaseCollection::addMethodForAllInstances(
+            'toUpper', 
+            function() {
+            
+                $upperred_items = [];
+            
+                foreach($this as $item) {
+                    
+                    $upperred_items[] = 
+                        strtoupper($item).' via addMethodForAllInstances'
+                        . \VersatileCollections\BaseCollection::class;
+                }
+                return $upperred_items;
+            }, 
+            true,
+            true
+        );
+        
+        $collection = new \BaseCollectionTestImplementation();
+        
+        $this->assertEquals($collection->count(), 0);
+        
+        $collection[] = 'Johnny Cash';
+        $collection[] = 'Suzzy Something';
+        $collection[] = 'Jack Bauer';
+        $collection[] = 'Jane Fonda';
+        
+        $this->assertEquals($collection->count(), 4);
+        
+        $upperred_items = $collection->toUpper();
+        
+        $this->assertContains('JOHNNY CASH via addMethodForAllInstances'. \VersatileCollections\BaseCollection::class, $upperred_items);
+        $this->assertContains('SUZZY SOMETHING via addMethodForAllInstances'. \VersatileCollections\BaseCollection::class, $upperred_items);
+        $this->assertContains('JACK BAUER via addMethodForAllInstances'. \VersatileCollections\BaseCollection::class, $upperred_items);
+        $this->assertContains('JANE FONDA via addMethodForAllInstances'. \VersatileCollections\BaseCollection::class, $upperred_items);
+        
+        // add to specific class, which should override the one
+        // added to the parent class
+        \BaseCollectionTestImplementation::addMethodForAllInstances(
+            'toUpper', 
+            function() {
+            
+                $upperred_items = [];
+            
+                foreach($this as $item) {
+                    
+                    $upperred_items[] = 
+                        strtoupper($item).' via addMethodForAllInstances'
+                        . \BaseCollectionTestImplementation::class;
+                }
+                return $upperred_items;
+            }, 
+            true,
+            true
+        );
+        
+        $upperred_items = $collection->toUpper();
+        
+        $this->assertContains('JOHNNY CASH via addMethodForAllInstances'. \BaseCollectionTestImplementation::class, $upperred_items);
+        $this->assertContains('SUZZY SOMETHING via addMethodForAllInstances'. \BaseCollectionTestImplementation::class, $upperred_items);
+        $this->assertContains('JACK BAUER via addMethodForAllInstances'. \BaseCollectionTestImplementation::class, $upperred_items);
+        $this->assertContains('JANE FONDA via addMethodForAllInstances'. \BaseCollectionTestImplementation::class, $upperred_items);
+            
+        $collection->addMethod(
+            'toUpper', 
+            function() {
+            
+                $upperred_items = [];
+            
+                foreach($this as $item) {
+                    
+                    $upperred_items[] = 
+                        strtoupper($item).' via addMethod';
+                }
+                return $upperred_items;
+            }, 
+            true
+        );
+        
+        $upperred_items = $collection->toUpper();
+        
+        $this->assertContains('JOHNNY CASH via addMethod', $upperred_items);
+        $this->assertContains('SUZZY SOMETHING via addMethod', $upperred_items);
+        $this->assertContains('JACK BAUER via addMethod', $upperred_items);
+        $this->assertContains('JANE FONDA via addMethod', $upperred_items);
+        
+        $collection->nonExistentMethod();
+    }
+    
+    /**
+     * @expectedException \BadMethodCallException
+     */
+    public function testThat__CallStaticWorksAsExpected() {
+        
+        // add to parent class
+        \VersatileCollections\BaseCollection::addStaticMethod(
+            'toUpper', 
+            function() {
+            
+                return 'toUpper via addStaticMethod'
+                        . \VersatileCollections\BaseCollection::class;
+            }, 
+            true
+        );
+        
+        $result = \BaseCollectionTestImplementation::toUpper();
+        
+        $this->assertEquals('toUpper via addStaticMethod'. \VersatileCollections\BaseCollection::class, $result);
+        
+        // add to specific class, which should override the one
+        // added to the parent class
+        \BaseCollectionTestImplementation::addStaticMethod(
+            'toUpper', 
+            function() {
+            
+                return 'toUpper via addStaticMethod'
+                        . \BaseCollectionTestImplementation::class;
+            }, 
+            true
+        );
+        
+        $result = \BaseCollectionTestImplementation::toUpper();
+        
+        $this->assertEquals('toUpper via addStaticMethod'. \BaseCollectionTestImplementation::class, $result);
+
+        \BaseCollectionTestImplementation::nonExistentMethod();
     }
 }

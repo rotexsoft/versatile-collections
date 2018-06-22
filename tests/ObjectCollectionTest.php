@@ -20,7 +20,6 @@ class ObjectCollectionTest extends \PHPUnit_Framework_TestCase {
         
         $this->assertEquals($collection->count(), 0);
         
-        // lines below should produce no exception since we are injecting floats
         $collection->item1 = new stdClass();
         $collection->item2 = new DateTime('2000-01-01');
         $collection->item3 = new \PDO(
@@ -41,7 +40,7 @@ class ObjectCollectionTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($collection->count(), 4);
         
         // line below should produce an exception since we are injecting
-        // a non-string
+        // a non-object
         $collection->item5 = [];
     }
     
@@ -54,7 +53,6 @@ class ObjectCollectionTest extends \PHPUnit_Framework_TestCase {
         
         $this->assertEquals($collection->count(), 0);
         
-        // lines below should produce no exception since we are injecting floats
         $collection->item1 = new TestValueObject('Johnny Cash', 50);
         $collection->item2 = new TestValueObject('Suzzy Something', 23);
         $collection->item3 = new TestValueObject('Jack Bauer', 43);
