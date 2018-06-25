@@ -1,60 +1,55 @@
 <?php
-
 error_reporting(E_ALL | E_STRICT);
-
 require_once dirname(__DIR__).DIRECTORY_SEPARATOR.'vendor/autoload.php';
 
-$numeric_collection = new \VersatileCollections\NumericsCollection(
-    1.0, 2.0, 3, 4, 5, 6
-);
+$array = [];
 
-$numeric_collection->each(
-        
-    function($key, $item) {
-
-        static $count;
-
-        if( !$count ) {
-
-            $count = 1;
-        }
-
-        echo "$key : $item count: {$this->count()}". PHP_EOL;
-
-        if( ceil($this->count() / 2) == $count++ ) {
-
-            return false;
-        }
-
-    }, 
-    false, 
-    true
-);
-
-$int_collection = new \VersatileCollections\IntCollection(
-    8, 9, 10, 11
-);
-// append a sub-class collection
-$numeric_collection->merge($int_collection);
-
-//var_dump( $numeric_collection->toArray() );
-        
-
-$int_collection = new \VersatileCollections\IntCollection(1, 2, 3, 4, 5);
-
-$multiplied = $int_collection->map(function ($key, $item) {
-    return $item * 2;
-});
-
-print_r($multiplied->toArray());
-
-//$float_collection = new \VersatileCollections\FloatCollection(
-//    8.5, 9.7, 10.8, 11.9
-//);
-//// append another sub-class collection
-//$numeric_collection->merge($float_collection);
+//$obj1 = new stdClass();
+//$obj1->name = 'Zoe';
+//$array[] = $obj1;
 //
-//var_dump($numeric_collection->toArray());
+//$obj1 = new stdClass();
+//$obj1->name = 'Yoe';
+//$array[] = $obj1;
+//
+//$obj1 = new stdClass();
+//$obj1->name = 'Roe';
+//$array[] = $obj1;
+//
+//$obj1 = new stdClass();
+//$obj1->name = 'Joe';
+//$array[] = $obj1;
+
+//$array[] = new TestValueObject('Johnny Cash', 50);
+//$array[] = new TestValueObject('Suzzy Something', 23);
+//$array[] = new TestValueObject('Jack Bauer', 43);
+//$array[] = new TestValueObject('Jane Fonda', 55);
+//        
+//echo \VersatileCollections\var_to_string($array) . PHP_EOL;
+//
+//asort($array);
+//
+//echo \VersatileCollections\var_to_string($array) . PHP_EOL;
+
+//$collection2 = \BaseCollectionTestImplementation::makeNewCollection(
+//    [ 
+//        'a'=>'blue', 'b'=>'red', 'c'=>'green', 
+//        'd'=>'red', 'e'=>1, 'f'=>'blue', 'g'=>'2' 
+//    ]
+//);
 
 
-        
+$data = [];
+$data[0] = [ 'volume' => 67, 'edition' => 2 ];
+$data[1] = [ 'volume' => 86, 'edition' => 2 ];
+$data[2] = [ 'volume' => 85, 'edition' => 6 ];
+$data[3] = [ 'volume' => 86, 'edition' => 1 ];
+
+$collection = new \VersatileCollections\GenericCollection(...$data);
+$sort_param = new \VersatileCollections\MultiSortParameters('volume', SORT_ASC, SORT_NUMERIC);
+$sort_param2 = new \VersatileCollections\MultiSortParameters('edition', SORT_DESC, SORT_NUMERIC);
+$sorted_collection = $collection->sortMeByMultipleFields($sort_param, $sort_param2);
+
+//echo VersatileCollections\var_to_string($sorted_collection->toArray()) . PHP_EOL;
+echo VersatileCollections\var_to_string($collection->toArray()) . PHP_EOL;
+

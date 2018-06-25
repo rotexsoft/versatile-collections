@@ -652,9 +652,31 @@ abstract class BaseCollection implements CollectionInterface {
      * {@inheritDoc}
      * 
      */
+    public function containsItems(array $items) {
+        
+        $all_items_exist = count($items) > 0;
+        
+        foreach ($items as $item) {
+            
+            $all_items_exist = $all_items_exist && $this->containsItem($item);
+            
+            if( $all_items_exist === false ) {
+                
+                break;
+            }
+        }
+        
+        return $all_items_exist;
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
     public function containsKeys(array $keys) {
         
-        $all_keys_exist = true;
+        $all_keys_exist = count($keys) > 0;
         
         foreach ($keys as $key) {
             
@@ -776,8 +798,7 @@ abstract class BaseCollection implements CollectionInterface {
         ) {
             $max_size_of_each_collection = 1;
         }
-            
-            
+        
         $current_batch = new static();
         $result = [];
         $counter = 0;
@@ -926,9 +947,21 @@ abstract class BaseCollection implements CollectionInterface {
      * {@inheritDoc}
      * 
      */
-    public function pipe(callable $callback) {
+    public function pipeAndReturnCallbackResult(callable $callback) {
         
         return $callback($this);
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
+    public function pipeAndReturnSelf(callable $callback) {
+        
+        $callback($this);
+        
+        return $this;
     }
     
     /**
@@ -975,6 +1008,172 @@ abstract class BaseCollection implements CollectionInterface {
         $this->offsetSet($key, $value);
         
         return $this;
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
+    public function randomKey() {
+        
+        if( $this->count() <= 0 ) {
+            
+            $function = __FUNCTION__;
+            $class = get_class($this);
+            $msg = "Error [{$class}::{$function}(...)]: You cannot request a random key from an empty collection.";
+            throw new \LengthException($msg);
+        }
+        
+        return random_array_key($this->collection_items);
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
+    public function randomItem() {
+        
+        if( $this->count() <= 0 ) {
+            
+            $function = __FUNCTION__;
+            $class = get_class($this);
+            $msg = "Error [{$class}::{$function}(...)]: You cannot request a random item from an empty collection.";
+            throw new \LengthException($msg);
+        }
+        
+        return $this[$this->randomKey()];
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
+    public function randomKeys($number = 1) {
+        
+        if( $this->count() <= 0 ) {
+            
+            $function = __FUNCTION__;
+            $class = get_class($this);
+            $msg = "Error [{$class}::{$function}(...)]: You cannot request random keys from an empty collection.";
+            throw new \LengthException($msg);
+        }
+        
+        if( !is_int($number) ) {
+            
+            $function = __FUNCTION__;
+            $class = get_class($this);
+            $number_type = gettype($number);
+            $msg = "Error [{$class}::{$function}(...)]:"
+            . " You must specify a valid integer as the number of random keys."
+            . " You supplied a(n) `{$number_type}` with a value of: ". var_to_string($number);
+            throw new \InvalidArgumentException($msg); 
+        }
+        
+        if( is_int($number) && $number > $this->count() ) {
+            
+            $function = __FUNCTION__;
+            $class = get_class($this);
+            $msg = "Error [{$class}::{$function}(...)]:"
+            . " You requested {$number} key(s), but there are only {$this->count()} keys available.";
+            throw new \InvalidArgumentException($msg); 
+        }
+        
+        $keys = random_array_keys($this->collection_items, $number);
+
+        // keys could be strings or ints or a mix
+        // GenericCollection will allow both types
+        return new GenericCollection(...$keys); 
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
+    public function randomItems($number = 1, $preserve_keys=false) {
+        
+        if( $this->count() <= 0 ) {
+            
+            $function = __FUNCTION__;
+            $class = get_class($this);
+            $msg = "Error [{$class}::{$function}(...)]: You cannot request random items from an empty collection.";
+            throw new \LengthException($msg);
+        }
+        
+        if( !is_int($number) ) {
+            
+            $function = __FUNCTION__;
+            $class = get_class($this);
+            $number_type = gettype($number);
+            $msg = "Error [{$class}::{$function}(...)]:"
+            . " You must specify a valid integer as the number of random items."
+            . " You supplied a(n) `{$number_type}` with a value of: ". var_to_string($number);
+            throw new \InvalidArgumentException($msg); 
+        }
+        
+        if( is_int($number) && $number > $this->count() ) {
+            
+            $function = __FUNCTION__;
+            $class = get_class($this);
+            $msg = "Error [{$class}::{$function}(...)]:"
+            . " You requested {$number} item(s), but there are only {$this->count()} items available.";
+            throw new \InvalidArgumentException($msg); 
+        }
+        
+        $random_items = new static();
+        $random_keys = $this->randomKeys($number);
+        
+        foreach ($random_keys as $random_key) {
+            
+            if( ((bool)$preserve_keys) ) {
+                
+                $random_items[$random_key] = $this[$random_key];
+                
+            } else {
+                
+                $random_items[] = $this[$random_key];
+            }
+        }
+        
+        return $random_items;
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */   
+    public function shuffle($preserve_keys=true) {
+                
+        if( $this->isEmpty() ) {
+            
+            return new static();
+        }
+        
+        $shuffled_collection = new static();
+        
+        // Decided to use $this->randomKeys() instead of php's
+        // native shuffle(array &$array) since $this->randomKeys() uses 
+        // random_array_keys(...) which uses the more cryptographically
+        // secure random_int(...) under the hood.
+        $all_keys_randomized = $this->randomKeys($this->count());
+        
+        foreach ($all_keys_randomized as $current_random_key) {
+            
+            if( ((bool) $preserve_keys) ) {
+                
+                $shuffled_collection[$current_random_key] = $this[$current_random_key];
+                
+            } else {
+                
+                $shuffled_collection[] = $this[$current_random_key];
+            }
+        }
+        
+        return $shuffled_collection;
     }
     
     /**
@@ -1037,5 +1236,525 @@ abstract class BaseCollection implements CollectionInterface {
     public function getAndRemoveFirstItem() {
         
         return array_shift($this->collection_items);
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
+    public function sort(callable $callable=null, \VersatileCollections\SortType $type=null) {
+        
+        $items_to_sort = $this->collection_items;
+        
+        if( is_null($callable) ) {
+            
+            $sort_type = SORT_REGULAR;
+            
+            if( !is_null($type) ) {
+                
+                $sort_type = $type->getSortType();
+            }
+            
+            asort($items_to_sort, $sort_type);
+            
+        } else {
+            
+            uasort($items_to_sort, $callable);
+        }
+        
+        return static::makeNewCollection($items_to_sort);
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
+    public function sortDesc($callable=null, \VersatileCollections\SortType $type=null) {
+        
+        $items_to_sort = $this->collection_items;
+        
+        if( is_null($callable) ) {
+            
+            $sort_type = SORT_REGULAR;
+            
+            if( !is_null($type) ) {
+                
+                $sort_type = $type->getSortType();
+            }
+            
+            arsort($items_to_sort, $sort_type);
+            
+        } else {
+            
+            uasort($items_to_sort, $callable);
+        }
+        
+        return static::makeNewCollection($items_to_sort);
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
+    public function sortByKey($callable=null, \VersatileCollections\SortType $type=null) {
+        
+        $items_to_sort = $this->collection_items;
+        
+        if( is_null($callable) ) {
+            
+            $sort_type = SORT_REGULAR;
+            
+            if( !is_null($type) ) {
+                
+                $sort_type = $type->getSortType();
+            }
+            
+            ksort($items_to_sort, $sort_type);
+            
+        } else {
+            
+            uksort($items_to_sort, $callable);
+        }
+        
+        return static::makeNewCollection($items_to_sort);
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
+    public function sortDescByKey($callable=null, \VersatileCollections\SortType $type=null) {
+        
+        $items_to_sort = $this->collection_items;
+        
+        if( is_null($callable) ) {
+            
+            $sort_type = SORT_REGULAR;
+            
+            if( !is_null($type) ) {
+                
+                $sort_type = $type->getSortType();
+            }
+            
+            krsort($items_to_sort, $sort_type);
+            
+        } else {
+            
+            uksort($items_to_sort, $callable);
+        }
+        
+        return static::makeNewCollection($items_to_sort);
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
+    public function sortByMultipleFields(\VersatileCollections\MultiSortParameters ...$param) {
+        
+        if( count($param) <= 0 ) {
+            
+            $function = __FUNCTION__;
+            $class = get_class($this);
+            $msg = "Error [{$class}::{$function}(...)]:"
+            . " {$class}::{$function}(...) expects at least one parameter of type `". \VersatileCollections\MultiSortParameters::class ."`";
+            throw new \InvalidArgumentException($msg);
+        }
+        
+        $multi_sort_args = [];
+        $columns_to_sort_by = [];
+        // copy items
+        $array_to_be_sorted = $this->collection_items;
+        $original_key_tracker = 'http://versatile-collections.com/original_key_b4_sort';
+        
+        foreach( $array_to_be_sorted as $key => $item) {
+            
+            if( is_array($item) || $item instanceof \ArrayAccess ) {
+                
+                $array_to_be_sorted[$key][$original_key_tracker] = $key;
+                
+                foreach($param as $current_param) {
+                    
+                    if( !array_key_exists($current_param->getFieldName() , $columns_to_sort_by) ) {
+                        
+                        $columns_to_sort_by[$current_param->getFieldName()] = [];
+                    }
+                    
+                    $columns_to_sort_by[$current_param->getFieldName()][$key] 
+                                        = $item[$current_param->getFieldName()];
+                }
+                
+            } else {
+                
+                $function = __FUNCTION__;
+                $class = get_class($this);
+                $msg = "Error [{$class}::{$function}(...)]:"
+                . " {$class}::{$function}(...) does not work with collections containing items that are"
+                . " not associative arrays or instances of ArrayAccess.";
+                throw new \RuntimeException($msg);
+            }
+        }
+        
+        foreach($param as $current_param) {
+            
+            // set column
+            $multi_sort_args[] = $columns_to_sort_by[$current_param->getFieldName()];
+            
+            // set sort direction
+            $multi_sort_args[] = $current_param->getSortDirection();
+            
+            // set sort type
+            $multi_sort_args[] = $current_param->getSortType();
+        }
+        
+        // last parameter is the array to be sorted
+        $multi_sort_args[] = &$array_to_be_sorted;
+        
+        call_user_func_array("array_multisort", $multi_sort_args);
+        
+        $sorted_array_with_unpreserved_keys = array_pop($multi_sort_args);
+        
+        // Restore original key associations
+        $sorted_array_with_preserved_keys = [];
+
+        foreach( $sorted_array_with_unpreserved_keys as $array_key => $current_array_data ) {
+
+            $original_key = $sorted_array_with_unpreserved_keys[$array_key][$original_key_tracker];
+            
+            // Remove the key we added in this method 
+            // to keep track of the original key of each array item
+            unset($sorted_array_with_unpreserved_keys[$array_key][$original_key_tracker]); 
+
+            $sorted_array_with_preserved_keys[$original_key] = $sorted_array_with_unpreserved_keys[$array_key];
+        }
+
+        //take out da trash
+        unset($sorted_array_with_unpreserved_keys);
+        
+        return static::makeNewCollection($sorted_array_with_preserved_keys);
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
+    public function sortMe(callable $callable=null, \VersatileCollections\SortType $type=null) {
+                
+        if( is_null($callable) ) {
+            
+            $sort_type = SORT_REGULAR;
+            
+            if( !is_null($type) ) {
+                
+                $sort_type = $type->getSortType();
+            }
+            
+            asort($this->collection_items, $sort_type);
+            
+        } else {
+            
+            uasort($this->collection_items, $callable);
+        }
+        
+        return $this;
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
+    public function sortMeDesc($callable=null, \VersatileCollections\SortType $type=null) {
+                
+        if( is_null($callable) ) {
+            
+            $sort_type = SORT_REGULAR;
+            
+            if( !is_null($type) ) {
+                
+                $sort_type = $type->getSortType();
+            }
+            
+            arsort($this->collection_items, $sort_type);
+            
+        } else {
+            
+            uasort($this->collection_items, $callable);
+        }
+        
+        return $this;
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
+    public function sortMeByKey($callable=null, \VersatileCollections\SortType $type=null) {
+        
+        if( is_null($callable) ) {
+            
+            $sort_type = SORT_REGULAR;
+            
+            if( !is_null($type) ) {
+                
+                $sort_type = $type->getSortType();
+            }
+            
+            ksort($this->collection_items, $sort_type);
+            
+        } else {
+            
+            uksort($this->collection_items, $callable);
+        }
+        
+        return $this;
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
+    public function sortMeDescByKey($callable=null, \VersatileCollections\SortType $type=null) {
+        
+        if( is_null($callable) ) {
+            
+            $sort_type = SORT_REGULAR;
+            
+            if( !is_null($type) ) {
+                
+                $sort_type = $type->getSortType();
+            }
+            
+            krsort($this->collection_items, $sort_type);
+            
+        } else {
+            
+            uksort($this->collection_items, $callable);
+        }
+        
+        return $this;
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
+    public function sortMeByMultipleFields(\VersatileCollections\MultiSortParameters ...$param) {
+        
+        if( count($param) <= 0 ) {
+            
+            $function = __FUNCTION__;
+            $class = get_class($this);
+            $msg = "Error [{$class}::{$function}(...)]:"
+            . " {$class}::{$function}(...) expects at least one parameter of type `". \VersatileCollections\MultiSortParameters::class ."`";
+            throw new \InvalidArgumentException($msg);
+        }
+        
+        $multi_sort_args = [];
+        $columns_to_sort_by = [];
+
+        $original_key_tracker = 'http://versatile-collections.com/original_key_b4_sort';
+        
+        foreach( $this->collection_items as $key => $item) {
+            
+            if( is_array($item) || $item instanceof \ArrayAccess ) {
+                
+                $this->collection_items[$key][$original_key_tracker] = $key;
+                
+                foreach($param as $current_param) {
+                    
+                    if( !array_key_exists($current_param->getFieldName() , $columns_to_sort_by) ) {
+                        
+                        $columns_to_sort_by[$current_param->getFieldName()] = [];
+                    }
+                    
+                    $columns_to_sort_by[$current_param->getFieldName()][$key] 
+                                        = $item[$current_param->getFieldName()];
+                }
+                
+            } else {
+                
+                $function = __FUNCTION__;
+                $class = get_class($this);
+                $msg = "Error [{$class}::{$function}(...)]:"
+                . " {$class}::{$function}(...) does not work with collections containing items that are"
+                . " not associative arrays or instances of ArrayAccess.";
+                throw new \RuntimeException($msg);
+            }
+        }
+        
+        foreach($param as $current_param) {
+            
+            // set column
+            $multi_sort_args[] = $columns_to_sort_by[$current_param->getFieldName()];
+            
+            // set sort direction
+            $multi_sort_args[] = $current_param->getSortDirection();
+            
+            // set sort type
+            $multi_sort_args[] = $current_param->getSortType();
+        }
+        
+        // last parameter is the array to be sorted
+        $multi_sort_args[] = &$this->collection_items;
+        
+        call_user_func_array("array_multisort", $multi_sort_args);
+        
+        $sorted_array_with_unpreserved_keys = array_pop($multi_sort_args);
+        
+        // Restore original key associations
+        $sorted_array_with_preserved_keys = [];
+
+        foreach( $sorted_array_with_unpreserved_keys as $array_key => $current_array_data ) {
+
+            $original_key = $sorted_array_with_unpreserved_keys[$array_key][$original_key_tracker];
+            
+            // Remove the key we added in this method 
+            // to keep track of the original key of each array item
+            unset($sorted_array_with_unpreserved_keys[$array_key][$original_key_tracker]); 
+
+            $sorted_array_with_preserved_keys[$original_key] = $sorted_array_with_unpreserved_keys[$array_key];
+        }
+
+        //take out da trash
+        unset($sorted_array_with_unpreserved_keys);
+        
+        $this->collection_items = $sorted_array_with_preserved_keys;
+        
+        return $this;
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
+    public function split($numberOfGroups) {
+        
+        if( !is_int($numberOfGroups) ) {
+            
+            $function = __FUNCTION__;
+            $class = get_class($this);
+            $number_type = gettype($numberOfGroups);
+            $msg = "Error [{$class}::{$function}(...)]:"
+            . " You must specify a valid integer as the number of groups."
+            . " You supplied a(n) `{$number_type}` with a value of: ". var_to_string($numberOfGroups);
+            throw new \InvalidArgumentException($msg); 
+        }
+        
+        if( is_int($numberOfGroups) && $numberOfGroups > $this->count() ) {
+            
+            $function = __FUNCTION__;
+            $class = get_class($this);
+            $msg = "Error [{$class}::{$function}(...)]:"
+            . " You requested {$numberOfGroups} group(s), but there are only {$this->count()} items available.";
+            throw new \InvalidArgumentException($msg); 
+        }
+        
+        if( is_int($numberOfGroups) && $numberOfGroups < 0 ) {
+            
+            $function = __FUNCTION__;
+            $class = get_class($this);
+            $msg = "Error [{$class}::{$function}(...)]:"
+            . " You requested a negative number `{$numberOfGroups}` of group(s).";
+            throw new \InvalidArgumentException($msg); 
+        }
+        
+        if ( $this->isEmpty() || $numberOfGroups === 0 ) {
+            
+            return new static();
+        }
+
+        $groupSize = ceil($this->count() / $numberOfGroups);
+        
+        $groups = new static();
+
+        foreach ( $this->getCollectionsOfSizeN($groupSize) as $group ) {
+            
+            $groups[] = $group;
+        }
+        
+        return $groups;
+    }
+    
+    /**
+     * 
+     * Return the values from a single column in the collection.
+     * Will only work on collections whose items are arrays or objects.
+     * 
+     * Must throw an exception if $column_key and / or $index_key contain
+     * non-string or non-int value.
+     * 
+     * Must throw an exception if any item in the collection is not an array
+     * or object or if $column_key is not a key in one or more array(s) in the
+     * collection or $column_key is not an accessible property in one or more
+     * objects in the collection.
+     *
+     * Must throw an exception if $index_key is not null and is not a key in one 
+     * or more array(s) in the collection or $index_key is not null and is not an 
+     * accessible property in one or more objects in the collection.
+     * 
+     * @param string|int $column_key name of field in each item to be used as values / items in the collection to be returned
+     * @param string|int $index_key name of field in each item to be used as key in the collection to be returned. 
+     *                              If null, the returned collection will have sequential integer keys starting from 0
+     * 
+     * @return \VersatileCollections\CollectionInterface A new collection containing the values from a single column in this collection
+     *
+     * @throws \InvalidArgumentException
+     * @throws \RuntimeException
+     * 
+     */
+    public function column($column_key, $index_key=null) {
+
+        $column_2_return = new static();
+
+//     *
+//     * Must throw an exception if $index_key is not null and is not a key in one 
+//     * or more array(s) in the collection or $index_key is not null and is not an 
+//     * accessible property in one or more objects in the collection.
+        
+        if( !is_int($column_key) && !is_string($column_key) ) {
+            
+            $function = __FUNCTION__;
+            $class = get_class($this);
+            $column_key_type = gettype($column_key);
+            $msg = "Error [{$class}::{$function}(...)]:"
+            . " You must specify an integer or string as the \$column_key parameter."
+            . " You supplied a(n) `{$column_key_type}` with a value of: ". var_to_string($column_key);
+            throw new \InvalidArgumentException($msg); 
+        }
+        
+        if( !is_null($index_key) && !is_int($index_key) && !is_string($index_key) ) {
+            
+            $function = __FUNCTION__;
+            $class = get_class($this);
+            $index_key_type = gettype($index_key);
+            $msg = "Error [{$class}::{$function}(...)]:"
+            . " You must specify an integer or string as the \$index_key_type parameter."
+            . " You supplied a(n) `{$index_key_type}` with a value of: ". var_to_string($index_key);
+            throw new \InvalidArgumentException($msg); 
+        }
+        
+//     * Must throw an exception if any item in the collection is not an array
+//     * or object or if $column_key is not a key in one or more array(s) in the
+//     * collection or $column_key is not an accessible property in one or more
+//     * objects in the collection.
+        
+        foreach ( $this->collection_items as $item ) {
+            
+            
+            
+        }
+        
+        return $column_2_return;
     }
 }

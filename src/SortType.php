@@ -42,6 +42,17 @@ class SortType {
 
     public function setSortType($sort_type) {
         
+        if( !in_array($sort_type, static::$valid_sort_types, true) ) {
+            
+            $class = get_class($this);
+            $function = __FUNCTION__;
+            $msg = "Error [{$class}::{$function}(...)]:Invalid \$sort_type supplied to "
+                . "`{$class}::{$function}(...)` "
+                . PHP_EOL . " `\$sort_type`: " . var_to_string($sort_type);
+            
+            throw new Exceptions\InvalidSortType($msg);
+        }
+        
         $this->sort_type = $sort_type;
         
         return $this;

@@ -232,6 +232,16 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
     
     /**
      * 
+     * Check if all the specified items exist in a collection
+     * 
+     * @param array $items specified items whose existence is to be checked in the collection 
+     * 
+     * @return bool true if all specified items exist in collection, false otherwise
+     */
+    public function containsItems(array $items);
+    
+    /**
+     * 
      * Check if a key exists in a collection
      * 
      * @param mixed $key key whose existence in the collection is to be checked
@@ -409,12 +419,27 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @param  callable $callback a callback with the following signature
      *                            function($collection). The $collection 
      *                            argument in the callback's signature is
-     *                            collection object this pipe method is 
-     *                            being invoked on.
+     *                            collection object this 
+     *                            pipeAndReturnCallbackResult 
+     *                            method is being invoked on.
      * 
      * @return mixed whatever is returned by $callback
      */
-    public function pipe(callable $callback);
+    public function pipeAndReturnCallbackResult(callable $callback);
+    
+    /**
+     * 
+     * Pass the collection to the given callback and return the collection.
+     *
+     * @param  callable $callback a callback with the following signature
+     *                            function($collection). The $collection 
+     *                            argument in the callback's signature is
+     *                            collection object this pipeAndReturnSelf 
+     *                            method is being invoked on.
+     * 
+     * @return $this
+     */
+    public function pipeAndReturnSelf(callable $callback);
     
     /**
      * 
@@ -454,8 +479,81 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @return $this
      */
     public function put($key, $value);
+    
+    /**
+     * 
+     * Get one key randomly from the collection.
+     * A length exception (\LengthException) should be thrown if this method is called on an empty collection.
+     * 
+     * @return mixed a random key from the collection if there is at least an item in the collection
+     * 
+     * @throws \LengthException
+     *
+     */
+    public function randomKey();
+    
+    /**
+     * 
+     * Get one item randomly from the collection.
+     * A length exception (\LengthException) should be thrown if this method is called on an empty collection.
+     * 
+     * @return mixed a random item from the collection if there is at least an item in the collection
+     * 
+     * @throws \LengthException
+     *
+     */
+    public function randomItem();
 
     /**
+     * 
+     * Get a specified number of unique keys randomly from the collection and return them in a new collection.
+     * 
+     * A \LengthException should be thrown if this method is called on an empty collection.
+     * An \InvalidArgumentException should be thrown if $number is either not an int or if it is bigger than the number of items in the collection.
+     *
+     * @param int $number number of random keys to be returned
+     * 
+     * @return \VersatileCollections\CollectionInterface (a new collection containing the random keys)
+     *
+     * @throws \InvalidArgumentException
+     * @throws \LengthException
+     * 
+     */
+    public function randomKeys($number = 1);
+
+    /**
+     * 
+     * Get a specified number of items randomly from the collection and return them in a new collection.
+     * 
+     * A \LengthException should be thrown if this method is called on an empty collection.
+     * An \InvalidArgumentException should be thrown if $number is either not an int or if it is bigger than the number of items in the collection.
+     *
+     * @param int $number number of random items to be returned
+     * @param bool $preserve_keys true if the key associated with each random item should be used in the new collection returned by this method,
+     *                            otherwise false if the new collection returned should have sequential integer keys starting at zero.
+     * 
+     * @return \VersatileCollections\CollectionInterface (a new collection containing the random items)
+     *
+     * @throws \InvalidArgumentException
+     * @throws \LengthException
+     * 
+     */
+    public function randomItems($number = 1, $preserve_keys=false);
+    
+    /**
+     * 
+     * Shuffle all the items in the collection and return shuffled items in a new collection.
+     * If collection is empty, this method should also return an empty collection.
+     * 
+     * @param bool $preserve_keys true if the key associated with each shuffled item should be used in the new collection returned by this method,
+     *                            otherwise false if the new collection returned should have sequential integer keys starting at zero.
+     * 
+     * @return \VersatileCollections\CollectionInterface (a new collection containing the shuffled items)
+     * 
+     */
+    public function shuffle($preserve_keys=true);
+
+        /**
      * 
      * Search the collection for a given value and return the first 
      * corresponding key if successful.
@@ -516,4 +614,313 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @return mixed
      */
     public function getAndRemoveFirstItem ();
+    
+    /**
+     * 
+     * Sort the collection's items in ascending order while maintaining key association.
+     * A new collection containing the sorted items is returned.
+     * 
+     * @param callable $callable a callback with the following signature
+     *                           function(mixed $a, mixed $b): int. 
+     *                           The callback function must return an INTEGER 
+     *                           less than, equal to, or greater than zero if the 
+     *                           first argument is considered to be respectively 
+     *                           less than, equal to, or greater than the second.
+     *                           If callback is not supplied, a native php sorting
+     *                           function that maintains key association should be
+     *                           used for the sorting.
+     * 
+     * @param \VersatileCollections\SortType $type an object indicating the sort type.
+     *                                             See \VersatileCollections\SortType::$valid_sort_types
+     *                                             for available sort types.
+     * 
+     * @return \VersatileCollections\CollectionInterface A new collection containing the sorted items
+     * 
+     */
+    public function sort(callable $callable=null, \VersatileCollections\SortType $type=null);
+    
+    /**
+     * 
+     * Sort the collection's items in descending order while maintaining key association.
+     * A new collection containing the sorted items is returned.
+     * 
+     * @param callable $callable a callback with the following signature
+     *                           function(mixed $a, mixed $b): int. 
+     *                           The callback function must return an INTEGER 
+     *                           less than, equal to, or greater than zero if the 
+     *                           second argument is considered to be respectively 
+     *                           less than, equal to, or greater than the first.
+     *                           If callback is not supplied, a native php sorting
+     *                           function that maintains key association should be
+     *                           used for the sorting.
+     * 
+     * @param \VersatileCollections\SortType $type an object indicating the sort type.
+     *                                             See \VersatileCollections\SortType::$valid_sort_types
+     *                                             for available sort types.
+     * 
+     * @return \VersatileCollections\CollectionInterface A new collection containing the sorted items
+     * 
+     */
+    public function sortDesc($callable=null, \VersatileCollections\SortType $type=null);
+    
+    /**
+     * 
+     * Sort the collection's items by keys in ascending order while maintaining key association.
+     * A new collection containing the sorted items is returned.
+     * 
+     * @param callable $callable a callback with the following signature
+     *                           function(mixed $a, mixed $b): int. 
+     *                           The callback function must return an INTEGER 
+     *                           less than, equal to, or greater than zero if the 
+     *                           first argument is considered to be respectively 
+     *                           less than, equal to, or greater than the second.
+     *                           If callback is not supplied, a native php sorting
+     *                           function that sorts by key and maintains key 
+     *                           association should be used for the sorting.
+     * 
+     * @param \VersatileCollections\SortType $type an object indicating the sort type.
+     *                                             See \VersatileCollections\SortType::$valid_sort_types
+     *                                             for available sort types.
+     * 
+     * @return \VersatileCollections\CollectionInterface A new collection containing the sorted items
+     * 
+     */
+    public function sortByKey($callable=null, \VersatileCollections\SortType $type=null);
+    
+    /**
+     * 
+     * Sort the collection's items by keys in descending order while maintaining key association.
+     * A new collection containing the sorted items is returned.
+     * 
+     * @param callable $callable a callback with the following signature
+     *                           function(mixed $a, mixed $b): int. 
+     *                           The callback function must return an INTEGER 
+     *                           less than, equal to, or greater than zero if the 
+     *                           second argument is considered to be respectively 
+     *                           less than, equal to, or greater than the first.
+     *                           If callback is not supplied, a native php sorting
+     *                           function that sorts by key and maintains key 
+     *                           association should be used for the sorting.
+     * 
+     * @param \VersatileCollections\SortType $type an object indicating the sort type.
+     *                                             See \VersatileCollections\SortType::$valid_sort_types
+     *                                             for available sort types.
+     * 
+     * @return \VersatileCollections\CollectionInterface A new collection containing the sorted items
+     * 
+     */
+    public function sortDescByKey($callable=null, \VersatileCollections\SortType $type=null);
+    
+    /**
+     * 
+     * Sort a collection of associative arrays or objects that implement \ArrayAccess by 
+     * specified field name(s) and return a new collection containing the sorted items
+     * with their original key associations preserved.
+     * 
+     * This method should throw a \RuntimeException if any of the items in the 
+     * collection is not an associative array or an object that implements \ArrayAccess.
+     * 
+     * Example:
+     * $data = [];
+     * $data[0] = [ 'volume' => 67, 'edition' => 2 ]; <br />
+     * $data[1] = [ 'volume' => 86, 'edition' => 1 ]; <br />
+     * $data[2] = [ 'volume' => 85, 'edition' => 6 ]; <br />
+     * 
+     * $collection = new \VersatileCollections\GenericCollection(...$data);
+     * $sort_param = new \VersatileCollections\MultiSortParameters('volume', SORT_ASC, SORT_NUMERIC);
+     * $sorted_collection = $collection->SortByMultipleFields($sort_param);
+     * 
+     * // $sorted_collection->toArray() will look like:
+     * 
+     * [
+     *      0 => [ 'volume' => 67, 'edition' => 2 ], 
+     *      2 => [ 'volume' => 85, 'edition' => 6 ], 
+     *      1 => [ 'volume' => 86, 'edition' => 1 ], 
+     * ]
+     * 
+     * @param \VersatileCollections\MultiSortParameters $param
+     * ........
+     * ........
+     * @param \VersatileCollections\MultiSortParameters $param
+     * 
+     * @return \VersatileCollections\CollectionInterface A new collection containing the sorted items
+     * 
+     */
+    public function sortByMultipleFields(\VersatileCollections\MultiSortParameters ...$param);
+    
+    /**
+     * 
+     * Sort the collection's items in ascending order while maintaining key association.
+     * 
+     * @param callable $callable a callback with the following signature
+     *                           function(mixed $a, mixed $b): int. 
+     *                           The callback function must return an INTEGER 
+     *                           less than, equal to, or greater than zero if the 
+     *                           first argument is considered to be respectively 
+     *                           less than, equal to, or greater than the second.
+     *                           If callback is not supplied, a native php sorting
+     *                           function that maintains key association should be
+     *                           used for the sorting.
+     * 
+     * @param \VersatileCollections\SortType $type an object indicating the sort type.
+     *                                             See \VersatileCollections\SortType::$valid_sort_types
+     *                                             for available sort types.
+     * 
+     * @return $this
+     * 
+     */
+    public function sortMe(callable $callable=null, \VersatileCollections\SortType $type=null);
+    
+    /**
+     * 
+     * Sort the collection's items in descending order while maintaining key association.
+     * 
+     * @param callable $callable a callback with the following signature
+     *                           function(mixed $a, mixed $b): int. 
+     *                           The callback function must return an INTEGER 
+     *                           less than, equal to, or greater than zero if the 
+     *                           second argument is considered to be respectively 
+     *                           less than, equal to, or greater than the first.
+     *                           If callback is not supplied, a native php sorting
+     *                           function that maintains key association should be
+     *                           used for the sorting.
+     * 
+     * @param \VersatileCollections\SortType $type an object indicating the sort type.
+     *                                             See \VersatileCollections\SortType::$valid_sort_types
+     *                                             for available sort types.
+     * 
+     * @return $this
+     * 
+     */
+    public function sortMeDesc($callable=null, \VersatileCollections\SortType $type=null);
+    
+    /**
+     * 
+     * Sort the collection's items by keys in ascending order while maintaining key association.
+     * 
+     * @param callable $callable a callback with the following signature
+     *                           function(mixed $a, mixed $b): int. 
+     *                           The callback function must return an INTEGER 
+     *                           less than, equal to, or greater than zero if the 
+     *                           first argument is considered to be respectively 
+     *                           less than, equal to, or greater than the second.
+     *                           If callback is not supplied, a native php sorting
+     *                           function that sorts by key and maintains key 
+     *                           association should be used for the sorting.
+     * 
+     * @param \VersatileCollections\SortType $type an object indicating the sort type.
+     *                                             See \VersatileCollections\SortType::$valid_sort_types
+     *                                             for available sort types.
+     * 
+     * @return $this
+     * 
+     */
+    public function sortMeByKey($callable=null, \VersatileCollections\SortType $type=null);
+    
+    /**
+     * 
+     * Sort the collection's items by keys in descending order while maintaining key association.
+     * 
+     * @param callable $callable a callback with the following signature
+     *                           function(mixed $a, mixed $b): int. 
+     *                           The callback function must return an INTEGER 
+     *                           less than, equal to, or greater than zero if the 
+     *                           second argument is considered to be respectively 
+     *                           less than, equal to, or greater than the first.
+     *                           If callback is not supplied, a native php sorting
+     *                           function that sorts by key and maintains key 
+     *                           association should be used for the sorting.
+     * 
+     * @param \VersatileCollections\SortType $type an object indicating the sort type.
+     *                                             See \VersatileCollections\SortType::$valid_sort_types
+     *                                             for available sort types.
+     * 
+     * @return $this
+     * 
+     */
+    public function sortMeDescByKey($callable=null, \VersatileCollections\SortType $type=null);
+    
+    /**
+     * 
+     * Sort a collection of associative arrays or objects that implement \ArrayAccess by 
+     * specified field name(s) while preserving original key associations.
+     * 
+     * This method should throw a \RuntimeException if any of the items in the 
+     * collection is not an associative array or an object that implements \ArrayAccess.
+     * 
+     * Example:
+     * $data = [];
+     * $data[0] = [ 'volume' => 67, 'edition' => 2 ]; <br />
+     * $data[1] = [ 'volume' => 86, 'edition' => 1 ]; <br />
+     * $data[2] = [ 'volume' => 85, 'edition' => 6 ]; <br />
+     * 
+     * $collection = new \VersatileCollections\GenericCollection(...$data);
+     * $sort_param = new \VersatileCollections\MultiSortParameters('volume', SORT_ASC, SORT_NUMERIC);
+     * $collection->SortMeByMultipleFields($sort_param);
+     * 
+     * // $collection->toArray() will look like:
+     * 
+     * [
+     *      0 => [ 'volume' => 67, 'edition' => 2 ], 
+     *      2 => [ 'volume' => 85, 'edition' => 6 ], 
+     *      1 => [ 'volume' => 86, 'edition' => 1 ], 
+     * ]
+     * 
+     * @param \VersatileCollections\MultiSortParameters $param
+     * ........
+     * ........
+     * @param \VersatileCollections\MultiSortParameters $param
+     * 
+     * @return \VersatileCollections\CollectionInterface A new collection containing the sorted items
+     * 
+     */
+    public function sortMeByMultipleFields(\VersatileCollections\MultiSortParameters ...$param);
+    
+    /**
+     * 
+     * Split a collection into a certain number of groups.
+     * 
+     * Throw an excption if 
+     *      !is_int($numberOfGroups) or
+     *      $numberOfGroups > $this->count() or
+     *      $numberOfGroups < 0
+     *
+     * @param  int $numberOfGroups
+     * 
+     * @return \VersatileCollections\CollectionInterface A new collection containing $numberOfGroups collections
+     *
+     * @throws \InvalidArgumentException
+     * 
+     */
+    public function split($numberOfGroups);
+    
+    /**
+     * 
+     * Return the values from a single column in the collection.
+     * Will only work on collections whose items are arrays or objects.
+     * 
+     * Must throw an exception if $column_key and / or $index_key contain
+     * non-string or non-int value.
+     * 
+     * Must throw an exception if any item in the collection is not an array
+     * or object or if $column_key is not a key in one or more array(s) in the
+     * collection or $column_key is not an accessible property in one or more
+     * objects in the collection.
+     * 
+     * 
+     * Must throw an exception if $index_key is not null and is not a key in one 
+     * or more array(s) in the collection or $index_key is not null and is not an 
+     * accessible property in one or more objects in the collection.
+     * 
+     * @param string|int $column_key name of field in each item to be used as values / items in the collection to be returned
+     * @param string|int $index_key name of field in each item to be used as key in the collection to be returned. 
+     *                              If null, the returned collection will have sequential integer keys starting from 0
+     * 
+     * @return \VersatileCollections\CollectionInterface A new collection containing the values from a single column in this collection
+     *
+     * @throws \InvalidArgumentException
+     * @throws \RuntimeException
+     * 
+     */
+    public function column($column_key, $index_key=null);
 }

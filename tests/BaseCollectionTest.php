@@ -899,6 +899,33 @@ class BaseCollectionTest extends \PHPUnit_Framework_TestCase {
         $this->assertFalse($collection->containsKeys([0, 1, 2, 'item1', 'item2', 'not in collection', 3]));
     }
     
+    public function testThatContainsItemsWorksAsExpected() {
+
+        $item1 = "4";
+        $item2 = 5.0;
+        $item3 = 7;
+        $item4 = ['name'=>'Joe', 'age'=>'10',];
+        $item5 = ['name'=>'Jane', 'age'=>'20',];
+        
+        $collection = 
+            new \BaseCollectionTestImplementation($item1, $item2, $item3);
+        
+        $collection->item1 = $item4;
+        $collection->item2 = $item5;
+        
+        $this->assertTrue($collection->containsItems([$item1]));
+        $this->assertTrue($collection->containsItems([$item1, $item2]));
+        $this->assertTrue($collection->containsItems([$item1, $item2, $item3]));
+        $this->assertTrue($collection->containsItems([$item1, $item2, $item3, $item4]));
+        $this->assertTrue($collection->containsItems([$item1, $item2, $item3, $item4, $item5]));
+        $this->assertFalse($collection->containsItems(['not in collection']));
+        $this->assertFalse($collection->containsItems([$item1, $item2, $item3, $item4, $item5, 'not in collection']));
+        
+        $collection[] = 55;
+        $this->assertTrue($collection->containsItems([$item1, $item2, $item3, $item4, $item5, 55]));
+        $this->assertFalse($collection->containsItems([$item1, $item2, $item3, $item4, $item5, 'not in collection', 55]));
+    }
+    
     public function testThatAppendCollectionWorksAsExpected() {
 
         $item1 = "4";
@@ -1246,7 +1273,7 @@ class BaseCollectionTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame($empty_collection->nth(4)->count(), 0);
     }
     
-    public function testThatPipeWorksAsExpected() {
+    public function testThatPipeAndReturnCallbackResultWorksAsExpected() {
         
         $collection = new \BaseCollectionTestImplementation(
             'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'
@@ -1255,11 +1282,29 @@ class BaseCollectionTest extends \PHPUnit_Framework_TestCase {
         $counter = function($collection) { return $collection->count(); };
         $to_array = function($collection) { return $collection->toArray(); };
         
-        $this->assertSame($collection->pipe($counter), 8);
+        $this->assertSame($collection->pipeAndReturnCallbackResult($counter), 8);
         $this->assertSame(
-            $collection->pipe($to_array), 
+            $collection->pipeAndReturnCallbackResult($to_array), 
             ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
         );
+    }
+    
+    public function testThatPipeAndReturnSelfWorksAsExpected() {
+        
+        $collection = new \BaseCollectionTestImplementation(
+            'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'
+        );
+        
+        $add_items = function($collection) { 
+            $collection['y'] = 'i'; $collection['z'] = 'j'; 
+        };
+        
+        // test that $this is returned
+        $this->assertSame($collection->pipeAndReturnSelf($add_items), $collection);
+        
+        // test that callback was invoked on collection
+        $this->assertTrue($collection->containsKeys(['y', 'z']));
+        $this->assertTrue($collection->containsItems(['i', 'j']));
     }
     
     public function testThatGetAndRemoveLastItemWorksAsExpected() {
@@ -1343,6 +1388,240 @@ class BaseCollectionTest extends \PHPUnit_Framework_TestCase {
         
         $this->assertSame( $collection->put('item4',35), $collection);
         $this->assertSame( $collection->offsetGet('item4'), 35);
+    }
+    
+    /**
+     * @expectedException \LengthException
+     */
+    public function testThatRandomKeyWorksAsExpected() {
+        
+        $collection = new \BaseCollectionTestImplementation(
+            'blue', 'red', 'green', 'red', 1, 'blue', '2'
+        );
+        
+        $random_key1 = $collection->randomKey();
+        $random_key2 = $collection->randomKey();
+        $random_key3 = $collection->randomKey();
+        $random_key4 = $collection->randomKey();
+        $random_key5 = $collection->randomKey();
+        $random_key6 = $collection->randomKey();
+        $random_key7 = $collection->randomKey();
+        
+        $this->assertTrue( $collection->containsKey($random_key1) );
+        $this->assertTrue( $collection->containsKey($random_key2) );
+        $this->assertTrue( $collection->containsKey($random_key3) );
+        $this->assertTrue( $collection->containsKey($random_key4) );
+        $this->assertTrue( $collection->containsKey($random_key5) );
+        $this->assertTrue( $collection->containsKey($random_key6) );
+        $this->assertTrue( $collection->containsKey($random_key7) );
+        
+        $all_random_keys_equal =
+            $random_key1 === $random_key2
+            && $random_key1 === $random_key3
+            && $random_key1 === $random_key4
+            && $random_key1 === $random_key5
+            && $random_key1 === $random_key6
+            && $random_key1 === $random_key7;
+        
+        $this->assertFalse($all_random_keys_equal);
+
+        // Should throw a \LengthException. 
+        // Can't get a random key from an empty collection.
+        \BaseCollectionTestImplementation::makeNewCollection()->randomKey();
+    }
+    
+    /**
+     * @expectedException \LengthException
+     */
+    public function testThatRandomKeysWorksAsExpected() {
+        
+        $collection = new \BaseCollectionTestImplementation(
+            'blue', 'red', 'green', 'red', 1, 'blue', '2'
+        );
+        
+        // default 1 key
+        $this->assertTrue( $collection->randomKeys()->count() === 1 );
+        
+        $random_keys1 = $collection->randomKeys(4);
+        $random_keys2 = $collection->randomKeys(4);
+        $random_keys3 = $collection->randomKeys(4);
+        $random_keys4 = $collection->randomKeys(6);
+        
+        $this->assertTrue( $random_keys1 instanceof \VersatileCollections\GenericCollection );
+        $this->assertTrue( $random_keys2 instanceof \VersatileCollections\GenericCollection );
+        $this->assertTrue( $random_keys3 instanceof \VersatileCollections\GenericCollection );
+        $this->assertTrue( $random_keys4 instanceof \VersatileCollections\GenericCollection );
+        
+        $this->assertTrue( $random_keys1->count() === 4 );
+        $this->assertTrue( $random_keys2->count() === 4 );
+        $this->assertTrue( $random_keys3->count() === 4 );
+        $this->assertTrue( $random_keys4->count() === 6 );
+        
+        $this->assertTrue( $collection->containsKeys($random_keys1->toArray()) );
+        $this->assertTrue( $collection->containsKeys($random_keys2->toArray()) );
+        $this->assertTrue( $collection->containsKeys($random_keys3->toArray()) );
+        $this->assertTrue( $collection->containsKeys($random_keys4->toArray()) );
+        
+        $all_random_keys_collections_of_same_length_are_equal =
+            $random_keys1->toArray() === $random_keys2->toArray()
+            && $random_keys1->toArray() === $random_keys3->toArray();
+        
+        $this->assertFalse($all_random_keys_collections_of_same_length_are_equal);
+
+        // Should throw a \LengthException. 
+        // Can't get a random keys from an empty collection.
+        \BaseCollectionTestImplementation::makeNewCollection()->randomKeys();
+    }
+    
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testThatRandomKeysWorksAsExpected2() {
+        
+        \BaseCollectionTestImplementation::makeNewCollection([1, 2])
+                                ->randomKeys("Invalid Length Data Type");
+    }
+    
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testThatRandomKeysWorksAsExpected3() {
+        
+        // requesting more random keys than collection size
+        \BaseCollectionTestImplementation::makeNewCollection([1, 2])->randomKeys(5);
+    }
+    
+    /**
+     * @expectedException \LengthException
+     */
+    public function testThatRandomKeysWorksAsExpected4() {
+        
+        // requesting random keys from an empty collection
+        \BaseCollectionTestImplementation::makeNewCollection()->randomKeys(5);
+    }
+    
+    /**
+     * @expectedException \LengthException
+     */
+    public function testThatRandomItemWorksAsExpected() {
+        
+        $collection = new \BaseCollectionTestImplementation(
+            'blue', 'red', 'green', 'red', 1, 'blue', '2'
+        );
+        
+        $random_item1 = $collection->randomItem();
+        $random_item2 = $collection->randomItem();
+        $random_item3 = $collection->randomItem();
+        $random_item4 = $collection->randomItem();
+        $random_item5 = $collection->randomItem();
+        $random_item6 = $collection->randomItem();
+        $random_item7 = $collection->randomItem();
+        
+        $this->assertTrue( $collection->containsItem($random_item1) );
+        $this->assertTrue( $collection->containsItem($random_item2) );
+        $this->assertTrue( $collection->containsItem($random_item3) );
+        $this->assertTrue( $collection->containsItem($random_item4) );
+        $this->assertTrue( $collection->containsItem($random_item5) );
+        $this->assertTrue( $collection->containsItem($random_item6) );
+        $this->assertTrue( $collection->containsItem($random_item7) );
+        
+        $all_random_items_equal =
+            $random_item1 === $random_item2
+            && $random_item1 === $random_item3
+            && $random_item1 === $random_item4
+            && $random_item1 === $random_item5
+            && $random_item1 === $random_item6
+            && $random_item1 === $random_item7;
+        
+        $this->assertFalse($all_random_items_equal);
+
+        // Should throw a \LengthException. 
+        // Can't get a random item from an empty collection.
+        \BaseCollectionTestImplementation::makeNewCollection()->randomItem();
+    }
+    
+    /**
+     * @expectedException \LengthException
+     */
+    public function testThatRandomItemsWorksAsExpected() {
+        
+        $collection = new \BaseCollectionTestImplementation(
+            'blue', 'red', 'green', 'red', 1, 'blue', '2'
+        );
+        
+        $collection2 = \BaseCollectionTestImplementation::makeNewCollection(
+            [ 
+                'a'=>'blue', 'b'=>'red', 'c'=>'green', 
+                'd'=>'red', 'e'=>1, 'f'=>'blue', 'g'=>'2' 
+            ]
+        );
+
+        // default 1 key
+        $this->assertTrue( $collection->randomItems()->count() === 1 );
+        
+        $random_items1 = $collection->randomItems(4);
+        $random_items2 = $collection->randomItems(4);
+        $random_items3 = $collection->randomItems(4);
+        $random_items4 = $collection2->randomItems(6, true);
+        
+        $this->assertTrue( $random_items1 instanceof \BaseCollectionTestImplementation );
+        $this->assertTrue( $random_items2 instanceof \BaseCollectionTestImplementation );
+        $this->assertTrue( $random_items3 instanceof \BaseCollectionTestImplementation );
+        $this->assertTrue( $random_items4 instanceof \BaseCollectionTestImplementation );
+        
+        $this->assertTrue( $random_items1->count() === 4 );
+        $this->assertTrue( $random_items2->count() === 4 );
+        $this->assertTrue( $random_items3->count() === 4 );
+        $this->assertTrue( $random_items4->count() === 6 );
+        
+        $this->assertTrue( $collection->containsItems($random_items1->toArray()) );
+        $this->assertTrue( $collection->containsItems($random_items2->toArray()) );
+        $this->assertTrue( $collection->containsItems($random_items3->toArray()) );
+        $this->assertTrue( $collection->containsItems($random_items4->toArray()) );
+        
+        $all_random_items_collections_of_same_length_are_equal =
+            $random_items1->toArray() === $random_items2->toArray()
+            && $random_items1->toArray() === $random_items3->toArray();
+        
+        $this->assertFalse($all_random_items_collections_of_same_length_are_equal);
+
+        // test preserve keys
+        foreach ( $random_items4 as $key => $random_item ) {
+            
+            $this->assertTrue($collection2->containsKey($key));
+            $this->assertTrue($collection2[$key] === $random_item);
+        }
+        
+        // Should throw a \LengthException. 
+        // Can't get a random key from an empty collection.
+        \BaseCollectionTestImplementation::makeNewCollection()->randomItems();
+    }
+    
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testThatRandomItemsWorksAsExpected2() {
+        
+        \BaseCollectionTestImplementation::makeNewCollection([1, 2])
+                                ->randomItems("Invalid Length Data Type");
+    }
+    
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testThatRandomItemsWorksAsExpected3() {
+        
+        // requesting more random keys than collection size
+        \BaseCollectionTestImplementation::makeNewCollection([1, 2])->randomItems(5);
+    }
+    
+    /**
+     * @expectedException \LengthException
+     */
+    public function testThatRandomItemsWorksAsExpected4() {
+        
+        // requesting random keys from an empty collection
+        \BaseCollectionTestImplementation::makeNewCollection()->randomItems(5);
     }
     
     public function testThatSearchByValWorksAsExpected() {
@@ -1432,6 +1711,855 @@ class BaseCollectionTest extends \PHPUnit_Framework_TestCase {
         
         // exception will be thrown
         $collection->searchByCallback($throw_exception_if_this_is_not_set, false); 
+    }
+    
+    public function testThatShuffleWorksAsExpected4() {
+        
+        $empty_collection = 
+            \BaseCollectionTestImplementation::makeNewCollection();
+        
+        $collection = \BaseCollectionTestImplementation::makeNewCollection(
+            [ 
+                'a'=>'blue', 'b'=>'red', 'c'=>'green', 
+                'd'=>'red', 'e'=>1, 'f'=>'blue', 'g'=>'2' 
+            ]
+        );
+        
+        $this->assertTrue($empty_collection->shuffle()->isEmpty());
+        
+        // shuffle ($collection->count() * 2) times and assert
+        // each shuffle is different from original collection
+        // but with the same size.
+        for ($i = 0 ; $i < ($collection->count() * 2); $i++ ) {
+            
+            $shuffled_collection = $collection->shuffle();
+            
+            // both collections are of the same length
+            $this->assertTrue(
+                $collection->count() === $shuffled_collection->count()
+            );
+            
+            // keys are not in same order
+            $this->assertTrue(
+                $collection->getKeys() !== $shuffled_collection->getKeys()
+            );
+            
+            // same keys exist in both collection
+            $this->assertTrue(
+                $collection->containsKeys($shuffled_collection->getKeys())
+            );
+        }
+        
+        // test not preserving keys
+        $shuffled_collection = $collection->shuffle(false);
+        
+        // both collections are of the same length
+        $this->assertTrue(
+            $collection->count() === $shuffled_collection->count()
+        );
+
+        // same keys do not exist in both collection
+        $this->assertFalse(
+            $collection->containsKeys($shuffled_collection->getKeys())
+        );
+    }
+    
+    public function testThatSortWorksAsExpected() {
+        
+        $sorted_collection = (new \BaseCollectionTestImplementation(5, 3, 1, 2, 4))->sort();
+        $this->assertEquals( [1, 2, 3, 4, 5], array_values($sorted_collection->toArray()) );
+
+        $sorted_collection = (new \BaseCollectionTestImplementation(-1, -3, -2, -4, -5, 0, 5, 3, 1, 2, 4))->sort();
+        $this->assertEquals( [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5], array_values($sorted_collection->toArray()) );
+
+        $sorted_collection = (new \BaseCollectionTestImplementation('foo', 'bar-10', 'bar-1'))->sort();
+        $this->assertEquals( ['bar-1', 'bar-10', 'foo'], array_values($sorted_collection->toArray()) );
+
+        $sorted_collection = 
+            (new \BaseCollectionTestImplementation("orange2", "Orange3", "Orange1", "orange20"))
+                ->sort(null, new \VersatileCollections\SortType((SORT_NATURAL | SORT_FLAG_CASE)));
+        $this->assertEquals( ["Orange1", "orange2", "Orange3", "orange20"], array_values($sorted_collection->toArray()) );
+        
+        $collection = new \TestValueObjectCollection(
+            new TestValueObject('Johnny Cash', 50),
+            new TestValueObject('Suzzy Something', 23),
+            new TestValueObject('Jack Bauer', 43),
+            new TestValueObject('Jane Fonda', 55)
+        );
+        $sorted_collection = $collection->sort();
+        $this->assertEquals( 
+            [ $collection[2], $collection[3], $collection[0], $collection[1] ], 
+            array_values($sorted_collection->toArray()) 
+        );
+        
+        $age_sorter = function(\TestValueObject $a, \TestValueObject $b) {
+            
+            return $a->getAge() < $b->getAge() 
+                   ? -1 
+                   : 
+                   (
+                        ($a->getAge() == $b->getAge())
+                        ? 0 
+                        : 1 
+                   ); 
+        };
+        $sorted_collection = $collection->sort($age_sorter);
+        $this->assertEquals( 
+            [ $collection[1], $collection[2], $collection[0], $collection[3] ], 
+            array_values($sorted_collection->toArray()) 
+        );
+    }
+    
+    public function testThatSortDescWorksAsExpected() {
+        
+        $sorted_collection = (new \BaseCollectionTestImplementation(5, 3, 1, 2, 4))->sortDesc();
+        $this->assertEquals( array_reverse([1, 2, 3, 4, 5]), array_values($sorted_collection->toArray()) );
+
+        $sorted_collection = (new \BaseCollectionTestImplementation(-1, -3, -2, -4, -5, 0, 5, 3, 1, 2, 4))->sortDesc();
+        $this->assertEquals( array_reverse([-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5]), array_values($sorted_collection->toArray()) );
+
+        $sorted_collection = (new \BaseCollectionTestImplementation('foo', 'bar-10', 'bar-1'))->sortDesc();
+        $this->assertEquals( array_reverse(['bar-1', 'bar-10', 'foo']), array_values($sorted_collection->toArray()) );
+
+        $sorted_collection = 
+            (new \BaseCollectionTestImplementation("orange2", "Orange3", "Orange1", "orange20"))
+                ->sortDesc(null, new \VersatileCollections\SortType((SORT_NATURAL | SORT_FLAG_CASE)));
+        $this->assertEquals( 
+            array_reverse(["Orange1", "orange2", "Orange3", "orange20"]), 
+            array_values($sorted_collection->toArray()) 
+        );
+        
+        $collection = new \TestValueObjectCollection(
+            new TestValueObject('Johnny Cash', 50),
+            new TestValueObject('Suzzy Something', 23),
+            new TestValueObject('Jack Bauer', 43),
+            new TestValueObject('Jane Fonda', 55)
+        );
+        $sorted_collection = $collection->sortDesc();
+        $this->assertEquals( 
+            array_reverse([ $collection[2], $collection[3], $collection[0], $collection[1] ]), 
+            array_values($sorted_collection->toArray()) 
+        );
+        
+        $age_sorter = function(\TestValueObject $a, \TestValueObject $b) {
+            
+            return $a->getAge() < $b->getAge() 
+                   ? 1 
+                   : 
+                   (
+                        ($a->getAge() == $b->getAge())
+                        ? 0 
+                        : -1 
+                   ); 
+        };
+        $sorted_collection = $collection->sortDesc($age_sorter);
+        $this->assertEquals( 
+            array_reverse([ $collection[1], $collection[2], $collection[0], $collection[3] ]), 
+            array_values($sorted_collection->toArray()) 
+        );
+    }
+    
+    public function testThatSortByKeyWorksAsExpected() {
+        
+        $collection = \BaseCollectionTestImplementation::makeNewCollection(
+            ["d"=>"lemon", "a"=>"orange", "b"=>"banana", "c"=>"apple"]
+        );
+        $sorted_collection = $collection->sortByKey();
+        $this->assertEquals( [ "a"=>"orange", "b"=>"banana", "c"=>"apple", "d"=>"lemon" ], $sorted_collection->toArray() );
+        
+        $collection = \BaseCollectionTestImplementation::makeNewCollection(
+            ["3"=>"lemon", "0"=>"orange", "1"=>"banana", "2"=>"apple"]
+        );
+        $sorted_collection = $collection->sortByKey();
+        $this->assertEquals( [ "0"=>"orange", "1"=>"banana", "2"=>"apple", "3"=>"lemon" ], $sorted_collection->toArray() );
+        
+        $collection = \BaseCollectionTestImplementation::makeNewCollection(
+            [ 3=>"lemon", 0=>"orange", 1=>"banana", 2=>"apple", "d"=>"lemon", "a"=>"orange", "b"=>"banana", "c"=>"apple"]
+        );
+        $sorted_collection = $collection->sortByKey(null, new \VersatileCollections\SortType(SORT_STRING));
+        $this->assertEquals( 
+            [
+                0 => 'orange', 1 => 'banana', 2 => 'apple', 3 => 'lemon',
+                'a' => 'orange', 'b' => 'banana', 'c' => 'apple', 'd' => 'lemon'
+            ], 
+            $sorted_collection->toArray() 
+        );
+        
+        $string_sorter = function($a, $b) {
+            
+            return $a.'' < $b.''
+                   ? -1 
+                   : 
+                   (
+                        ($a.'' == $b.'')
+                        ? 0 
+                        : 1 
+                   ); 
+        };
+        $sorted_collection = $collection->sortByKey($string_sorter);
+        $this->assertEquals( 
+            [
+                0 => 'orange', 1 => 'banana', 2 => 'apple', 3 => 'lemon',
+                'a' => 'orange', 'b' => 'banana', 'c' => 'apple', 'd' => 'lemon'
+            ], 
+            $sorted_collection->toArray() 
+        );
+    }
+    
+    public function testThatSortDescByKeyWorksAsExpected() {
+        
+        $collection = \BaseCollectionTestImplementation::makeNewCollection(
+            ["d"=>"lemon", "a"=>"orange", "b"=>"banana", "c"=>"apple"]
+        );
+        $sorted_collection = $collection->sortDescByKey();
+        $this->assertEquals( 
+            [ "d"=>"lemon", "c"=>"apple", "b"=>"banana", "a"=>"orange" ], 
+            $sorted_collection->toArray() 
+        );
+        
+        $collection = \BaseCollectionTestImplementation::makeNewCollection(
+            ["3"=>"lemon", "0"=>"orange", "1"=>"banana", "2"=>"apple"]
+        );
+        $sorted_collection = $collection->sortDescByKey();
+        $this->assertEquals( 
+            [ "3"=>"lemon", "2"=>"apple", "1"=>"banana", "0"=>"orange" ], 
+            $sorted_collection->toArray() 
+        );
+        
+        $collection = \BaseCollectionTestImplementation::makeNewCollection(
+            [ 
+                3=>"lemon", 0=>"orange", 1=>"banana", 2=>"apple", "d"=>"lemon", 
+                "a"=>"orange", "b"=>"banana", "c"=>"apple"
+            ]
+        );
+        $sorted_collection = $collection->sortDescByKey(null, new \VersatileCollections\SortType(SORT_STRING));
+        $this->assertEquals(
+            array_reverse(
+                [
+                    0 => 'orange', 1 => 'banana', 2 => 'apple', 3 => 'lemon',
+                    'a' => 'orange', 'b' => 'banana', 'c' => 'apple', 'd' => 'lemon'
+                ],
+                true
+            ), 
+            $sorted_collection->toArray() 
+        );
+        
+        $string_sorter = function($a, $b) {
+            
+            return $a.'' < $b.''
+                   ? 1 
+                   : 
+                   (
+                        ($a.'' == $b.'')
+                        ? 0 
+                        : -1 
+                   ); 
+        };
+        $sorted_collection = $collection->sortDescByKey($string_sorter);
+        $this->assertEquals( 
+            array_reverse(
+                [
+                    0 => 'orange', 1 => 'banana', 2 => 'apple', 3 => 'lemon',
+                    'a' => 'orange', 'b' => 'banana', 'c' => 'apple', 'd' => 'lemon'
+                ],
+                true
+            ), 
+            $sorted_collection->toArray() 
+        );
+    }
+    
+    /**
+     * @expectedException \RuntimeException
+     */
+    public function testThatSortByMultipleFieldsWorksAsExpected() {
+
+        $data = [];
+        $data[0] = [ 'volume' => 67, 'edition' => 2 ];
+        $data[1] = [ 'volume' => 86, 'edition' => 2 ];
+        $data[2] = [ 'volume' => 85, 'edition' => 6 ];
+        $data[3] = [ 'volume' => 86, 'edition' => 1 ];
+
+        $collection = new \VersatileCollections\GenericCollection(...$data);
+        $sort_param = new \VersatileCollections\MultiSortParameters('volume', SORT_ASC, SORT_NUMERIC);
+        $sort_param2 = new \VersatileCollections\MultiSortParameters('edition', SORT_DESC, SORT_NUMERIC);
+        $sorted_collection_asc_desc = $collection->sortByMultipleFields($sort_param, $sort_param2);
+        $this->assertSame(
+            [
+                0 => [
+                    'volume' => 67,
+                    'edition' => 2
+                ],
+                2 => [
+                    'volume' => 85,
+                    'edition' => 6
+                ],
+                1 => [
+                    'volume' => 86,
+                    'edition' => 2
+                ],
+                3 => [
+                    'volume' => 86,
+                    'edition' => 1
+                ]
+            ], 
+            $sorted_collection_asc_desc->toArray()
+        );
+        
+        $sort_param2->setSortDirection(SORT_ASC);
+        $sorted_collection_asc_asc = $collection->sortByMultipleFields($sort_param, $sort_param2);
+        $this->assertSame(
+            [
+                0 => [
+                    'volume' => 67,
+                    'edition' => 2
+                ],
+                2 => [
+                    'volume' => 85,
+                    'edition' => 6
+                ],
+                3 => [
+                    'volume' => 86,
+                    'edition' => 1
+                ],
+                1 => [
+                    'volume' => 86,
+                    'edition' => 2
+                ]
+            ], 
+            $sorted_collection_asc_asc->toArray()
+        );
+        
+        $collection_of_wrong_types = new \VersatileCollections\GenericCollection(...[1,2,3]);
+        
+        // Can't multi sort collection of non-arrays or ArrayAccess objects
+        $collection_of_wrong_types->sortByMultipleFields($sort_param);
+    }
+    
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testThatSortByMultipleFieldsWithNoArgsWorksAsExpected() {
+
+        $data = [];
+        $data[0] = [ 'volume' => 67, 'edition' => 2 ];
+        $data[1] = [ 'volume' => 86, 'edition' => 2 ];
+        $data[2] = [ 'volume' => 85, 'edition' => 6 ];
+        $data[3] = [ 'volume' => 86, 'edition' => 1 ];
+
+        $collection = new \VersatileCollections\GenericCollection(...$data);
+        
+        // Exception should be thrown if no sort param supplied
+        $collection->sortByMultipleFields();
+    }
+    
+    public function testThatSortMeWorksAsExpected() {
+        
+        $sorted_collection = (new \BaseCollectionTestImplementation(5, 3, 1, 2, 4))->sortMe();
+        $this->assertEquals( [1, 2, 3, 4, 5], array_values($sorted_collection->toArray()) );
+
+        $sorted_collection = (new \BaseCollectionTestImplementation(-1, -3, -2, -4, -5, 0, 5, 3, 1, 2, 4))->sortMe();
+        $this->assertEquals( [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5], array_values($sorted_collection->toArray()) );
+
+        $sorted_collection = (new \BaseCollectionTestImplementation('foo', 'bar-10', 'bar-1'))->sortMe();
+        $this->assertEquals( ['bar-1', 'bar-10', 'foo'], array_values($sorted_collection->toArray()) );
+
+        $sorted_collection = 
+            (new \BaseCollectionTestImplementation("orange2", "Orange3", "Orange1", "orange20"))
+                ->sortMe(null, new \VersatileCollections\SortType((SORT_NATURAL | SORT_FLAG_CASE)));
+        $this->assertEquals( ["Orange1", "orange2", "Orange3", "orange20"], array_values($sorted_collection->toArray()) );
+        
+        $collection = new \TestValueObjectCollection(
+            new TestValueObject('Johnny Cash', 50),
+            new TestValueObject('Suzzy Something', 23),
+            new TestValueObject('Jack Bauer', 43),
+            new TestValueObject('Jane Fonda', 55)
+        );
+        $sorted_collection = $collection->sortMe();
+        $this->assertEquals( 
+            [ $collection[2], $collection[3], $collection[0], $collection[1] ], 
+            array_values($sorted_collection->toArray()) 
+        );
+        
+        $age_sorter = function(\TestValueObject $a, \TestValueObject $b) {
+            
+            return $a->getAge() < $b->getAge() 
+                   ? -1 
+                   : 
+                   (
+                        ($a->getAge() == $b->getAge())
+                        ? 0 
+                        : 1 
+                   ); 
+        };
+        $sorted_collection = $collection->sortMe($age_sorter);
+        $this->assertEquals( 
+            [ $collection[1], $collection[2], $collection[0], $collection[3] ], 
+            array_values($sorted_collection->toArray()) 
+        );
+        
+        // test that $this was returned
+        $this->assertTrue($sorted_collection === $collection);
+    }
+    
+    public function testThatSortMeDescWorksAsExpected() {
+        
+        $sorted_collection = (new \BaseCollectionTestImplementation(5, 3, 1, 2, 4))->sortMeDesc();
+        $this->assertEquals( array_reverse([1, 2, 3, 4, 5]), array_values($sorted_collection->toArray()) );
+
+        $sorted_collection = (new \BaseCollectionTestImplementation(-1, -3, -2, -4, -5, 0, 5, 3, 1, 2, 4))->sortMeDesc();
+        $this->assertEquals( array_reverse([-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5]), array_values($sorted_collection->toArray()) );
+
+        $sorted_collection = (new \BaseCollectionTestImplementation('foo', 'bar-10', 'bar-1'))->sortMeDesc();
+        $this->assertEquals( array_reverse(['bar-1', 'bar-10', 'foo']), array_values($sorted_collection->toArray()) );
+
+        $sorted_collection = 
+            (new \BaseCollectionTestImplementation("orange2", "Orange3", "Orange1", "orange20"))
+                ->sortMeDesc(null, new \VersatileCollections\SortType((SORT_NATURAL | SORT_FLAG_CASE)));
+        $this->assertEquals( 
+            array_reverse(["Orange1", "orange2", "Orange3", "orange20"]), 
+            array_values($sorted_collection->toArray()) 
+        );
+        
+        $collection = new \TestValueObjectCollection(
+            new TestValueObject('Johnny Cash', 50),
+            new TestValueObject('Suzzy Something', 23),
+            new TestValueObject('Jack Bauer', 43),
+            new TestValueObject('Jane Fonda', 55)
+        );
+        $sorted_collection = $collection->sortMeDesc();
+        $this->assertEquals( 
+            array_reverse([ $collection[2], $collection[3], $collection[0], $collection[1] ]), 
+            array_values($sorted_collection->toArray()) 
+        );
+        
+        $age_sorter = function(\TestValueObject $a, \TestValueObject $b) {
+            
+            return $a->getAge() < $b->getAge() 
+                   ? 1 
+                   : 
+                   (
+                        ($a->getAge() == $b->getAge())
+                        ? 0 
+                        : -1 
+                   ); 
+        };
+        $sorted_collection = $collection->sortMeDesc($age_sorter);
+        $this->assertEquals( 
+            array_reverse([ $collection[1], $collection[2], $collection[0], $collection[3] ]), 
+            array_values($sorted_collection->toArray()) 
+        );
+        
+        // test that $this was returned
+        $this->assertTrue($sorted_collection === $collection);
+    }
+    
+    public function testThatSortMeByKeyWorksAsExpected() {
+        
+        $collection = \BaseCollectionTestImplementation::makeNewCollection(
+            ["d"=>"lemon", "a"=>"orange", "b"=>"banana", "c"=>"apple"]
+        );
+        $sorted_collection = $collection->sortMeByKey();
+        $this->assertEquals( [ "a"=>"orange", "b"=>"banana", "c"=>"apple", "d"=>"lemon" ], $sorted_collection->toArray() );
+        // test that $this was returned
+        $this->assertTrue($sorted_collection === $collection);
+        
+        $collection = \BaseCollectionTestImplementation::makeNewCollection(
+            ["3"=>"lemon", "0"=>"orange", "1"=>"banana", "2"=>"apple"]
+        );
+        $sorted_collection = $collection->sortMeByKey();
+        $this->assertEquals( [ "0"=>"orange", "1"=>"banana", "2"=>"apple", "3"=>"lemon" ], $sorted_collection->toArray() );
+        // test that $this was returned
+        $this->assertTrue($sorted_collection === $collection);
+        
+        $collection = \BaseCollectionTestImplementation::makeNewCollection(
+            [ 3=>"lemon", 0=>"orange", 1=>"banana", 2=>"apple", "d"=>"lemon", "a"=>"orange", "b"=>"banana", "c"=>"apple"]
+        );
+        $sorted_collection = $collection->sortMeByKey(null, new \VersatileCollections\SortType(SORT_STRING));
+        $this->assertEquals( 
+            [
+                0 => 'orange', 1 => 'banana', 2 => 'apple', 3 => 'lemon',
+                'a' => 'orange', 'b' => 'banana', 'c' => 'apple', 'd' => 'lemon'
+            ], 
+            $sorted_collection->toArray() 
+        );
+        // test that $this was returned
+        $this->assertTrue($sorted_collection === $collection);
+        
+        $string_sorter = function($a, $b) {
+            
+            return $a.'' < $b.''
+                   ? -1 
+                   : 
+                   (
+                        ($a.'' == $b.'')
+                        ? 0 
+                        : 1 
+                   ); 
+        };
+        $sorted_collection = $collection->sortMeByKey($string_sorter);
+        $this->assertEquals( 
+            [
+                0 => 'orange', 1 => 'banana', 2 => 'apple', 3 => 'lemon',
+                'a' => 'orange', 'b' => 'banana', 'c' => 'apple', 'd' => 'lemon'
+            ], 
+            $sorted_collection->toArray() 
+        );
+        // test that $this was returned
+        $this->assertTrue($sorted_collection === $collection);
+    }
+    
+    public function testThatSortMeDescByKeyWorksAsExpected() {
+        
+        $collection = \BaseCollectionTestImplementation::makeNewCollection(
+            ["d"=>"lemon", "a"=>"orange", "b"=>"banana", "c"=>"apple"]
+        );
+        $sorted_collection = $collection->sortMeDescByKey();
+        $this->assertEquals( 
+            [ "d"=>"lemon", "c"=>"apple", "b"=>"banana", "a"=>"orange" ], 
+            $sorted_collection->toArray() 
+        );
+        // test that $this was returned
+        $this->assertTrue($sorted_collection === $collection);
+        
+        $collection = \BaseCollectionTestImplementation::makeNewCollection(
+            ["3"=>"lemon", "0"=>"orange", "1"=>"banana", "2"=>"apple"]
+        );
+        $sorted_collection = $collection->sortMeDescByKey();
+        $this->assertEquals( 
+            [ "3"=>"lemon", "2"=>"apple", "1"=>"banana", "0"=>"orange" ], 
+            $sorted_collection->toArray() 
+        );
+        // test that $this was returned
+        $this->assertTrue($sorted_collection === $collection);
+        
+        $collection = \BaseCollectionTestImplementation::makeNewCollection(
+            [ 
+                3=>"lemon", 0=>"orange", 1=>"banana", 2=>"apple", "d"=>"lemon", 
+                "a"=>"orange", "b"=>"banana", "c"=>"apple"
+            ]
+        );
+        $sorted_collection = $collection->sortMeDescByKey(null, new \VersatileCollections\SortType(SORT_STRING));
+        $this->assertEquals(
+            array_reverse(
+                [
+                    0 => 'orange', 1 => 'banana', 2 => 'apple', 3 => 'lemon',
+                    'a' => 'orange', 'b' => 'banana', 'c' => 'apple', 'd' => 'lemon'
+                ],
+                true
+            ), 
+            $sorted_collection->toArray() 
+        );
+        // test that $this was returned
+        $this->assertTrue($sorted_collection === $collection);
+        
+        $string_sorter = function($a, $b) {
+            
+            return $a.'' < $b.''
+                   ? 1 
+                   : 
+                   (
+                        ($a.'' == $b.'')
+                        ? 0 
+                        : -1 
+                   ); 
+        };
+        $sorted_collection = $collection->sortMeDescByKey($string_sorter);
+        $this->assertEquals( 
+            array_reverse(
+                [
+                    0 => 'orange', 1 => 'banana', 2 => 'apple', 3 => 'lemon',
+                    'a' => 'orange', 'b' => 'banana', 'c' => 'apple', 'd' => 'lemon'
+                ],
+                true
+            ), 
+            $sorted_collection->toArray() 
+        );
+        // test that $this was returned
+        $this->assertTrue($sorted_collection === $collection);
+    }
+    
+    /**
+     * @expectedException \RuntimeException
+     */
+    public function testThatSortMeByMultipleFieldsWorksAsExpected() {
+
+        $data = [];
+        $data[0] = [ 'volume' => 67, 'edition' => 2 ];
+        $data[1] = [ 'volume' => 86, 'edition' => 2 ];
+        $data[2] = [ 'volume' => 85, 'edition' => 6 ];
+        $data[3] = [ 'volume' => 86, 'edition' => 1 ];
+
+        $collection = new \VersatileCollections\GenericCollection(...$data);
+        $sort_param = new \VersatileCollections\MultiSortParameters('volume', SORT_ASC, SORT_NUMERIC);
+        $sort_param2 = new \VersatileCollections\MultiSortParameters('edition', SORT_DESC, SORT_NUMERIC);
+        $sorted_collection_asc_desc = $collection->sortMeByMultipleFields($sort_param, $sort_param2);
+        $this->assertSame(
+            [
+                0 => [
+                    'volume' => 67,
+                    'edition' => 2
+                ],
+                2 => [
+                    'volume' => 85,
+                    'edition' => 6
+                ],
+                1 => [
+                    'volume' => 86,
+                    'edition' => 2
+                ],
+                3 => [
+                    'volume' => 86,
+                    'edition' => 1
+                ]
+            ], 
+            $sorted_collection_asc_desc->toArray()
+        );
+        $this->assertTrue($sorted_collection_asc_desc === $collection);
+        
+        $sort_param2->setSortDirection(SORT_ASC);
+        $sorted_collection_asc_asc = $collection->sortMeByMultipleFields($sort_param, $sort_param2);
+        $this->assertSame(
+            [
+                0 => [
+                    'volume' => 67,
+                    'edition' => 2
+                ],
+                2 => [
+                    'volume' => 85,
+                    'edition' => 6
+                ],
+                3 => [
+                    'volume' => 86,
+                    'edition' => 1
+                ],
+                1 => [
+                    'volume' => 86,
+                    'edition' => 2
+                ]
+            ], 
+            $sorted_collection_asc_asc->toArray()
+        );
+        $this->assertTrue($sorted_collection_asc_asc === $collection);
+        
+        $sort_param->setSortDirection(SORT_DESC);
+        $sort_param2->setSortDirection(SORT_ASC);
+        $sorted_collection_desc_asc = $collection->sortMeByMultipleFields($sort_param, $sort_param2);
+        $this->assertSame(
+            [
+                3 => [
+                    'volume' => 86,
+                    'edition' => 1
+                ],
+                1 => [
+                    'volume' => 86,
+                    'edition' => 2
+                ],
+                2 => [
+                    'volume' => 85,
+                    'edition' => 6
+                ],
+                0 => [
+                    'volume' => 67,
+                    'edition' => 2
+                ],
+            ], 
+            $sorted_collection_desc_asc->toArray()
+        );
+        $this->assertTrue($sorted_collection_desc_asc === $collection);
+        
+        $sort_param->setSortDirection(SORT_DESC);
+        $sort_param2->setSortDirection(SORT_DESC);
+        $sorted_collection_desc_desc = $collection->sortMeByMultipleFields($sort_param, $sort_param2);
+        $this->assertSame(
+            [
+                1 => [
+                    'volume' => 86,
+                    'edition' => 2
+                ],
+                3 => [
+                    'volume' => 86,
+                    'edition' => 1
+                ],
+                2 => [
+                    'volume' => 85,
+                    'edition' => 6
+                ],
+                0 => [
+                    'volume' => 67,
+                    'edition' => 2
+                ],
+            ], 
+            $sorted_collection_desc_desc->toArray()
+        );
+        $this->assertTrue($sorted_collection_desc_desc === $collection);
+        
+        $collection_of_wrong_types = new \VersatileCollections\GenericCollection(...[1,2,3]);
+        
+        // Can't multi sort collection of non-arrays or ArrayAccess objects
+        $collection_of_wrong_types->sortMeByMultipleFields($sort_param);
+    }
+    
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testThatSortMeByMultipleFieldsWithNoArgsWorksAsExpected() {
+
+        $data = [];
+        $data[0] = [ 'volume' => 67, 'edition' => 2 ];
+        $data[1] = [ 'volume' => 86, 'edition' => 2 ];
+        $data[2] = [ 'volume' => 85, 'edition' => 6 ];
+        $data[3] = [ 'volume' => 86, 'edition' => 1 ];
+
+        $collection = new \VersatileCollections\GenericCollection(...$data);
+        
+        // Exception should be thrown if no sort param supplied
+        $collection->sortMeByMultipleFields();
+    }
+    
+    public function testThatSplitWorksAsExpected() {
+
+        $data = [ 1, 2, 3, 4, 5, 6, 7 ];
+        $collection = new \VersatileCollections\GenericCollection(...$data);
+        
+        $this->assertTrue(\VersatileCollections\GenericCollection::makeNewCollection()->split(0)->isEmpty());
+        $this->assertTrue($collection->split(0)->isEmpty());
+ 
+        ///////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////
+        $_1_group_with_7_items = $collection->split(1);
+        $this->assertTrue($_1_group_with_7_items->count() === 1);
+        $this->assertTrue($_1_group_with_7_items->firstItem()->count() === 7);
+        $this->assertSame(
+            $_1_group_with_7_items->getAndRemoveFirstItem()->toArray(),
+            [ 1, 2, 3, 4, 5, 6, 7 ]
+        );
+        
+        ///////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////
+        $_7_groups_with_1_item_each = $collection->split(7);
+        $this->assertTrue($_7_groups_with_1_item_each->count() === 7);
+        
+        $this->assertTrue($_7_groups_with_1_item_each->firstItem()->count() === 1);
+        $this->assertSame(
+            $_7_groups_with_1_item_each->getAndRemoveFirstItem()->toArray(),
+            [ 0=>1 ]
+        );
+        
+        $this->assertTrue($_7_groups_with_1_item_each->firstItem()->count() === 1);
+        $this->assertSame(
+            $_7_groups_with_1_item_each->getAndRemoveFirstItem()->toArray(),
+            [ 1=>2 ]
+        );
+        
+        $this->assertTrue($_7_groups_with_1_item_each->firstItem()->count() === 1);
+        $this->assertSame(
+            $_7_groups_with_1_item_each->getAndRemoveFirstItem()->toArray(),
+            [ 2=>3 ]
+        );
+        
+        $this->assertTrue($_7_groups_with_1_item_each->firstItem()->count() === 1);
+        $this->assertSame(
+            $_7_groups_with_1_item_each->getAndRemoveFirstItem()->toArray(),
+            [ 3=>4 ]
+        );
+        
+        $this->assertTrue($_7_groups_with_1_item_each->firstItem()->count() === 1);
+        $this->assertSame(
+            $_7_groups_with_1_item_each->getAndRemoveFirstItem()->toArray(),
+            [ 4=>5 ]
+        );
+        
+        $this->assertTrue($_7_groups_with_1_item_each->firstItem()->count() === 1);
+        $this->assertSame(
+            $_7_groups_with_1_item_each->getAndRemoveFirstItem()->toArray(),
+            [ 5=>6 ]
+        );
+        
+        $this->assertTrue($_7_groups_with_1_item_each->firstItem()->count() === 1);
+        $this->assertSame(
+            $_7_groups_with_1_item_each->getAndRemoveFirstItem()->toArray(),
+            [ 6=>7 ]
+        );
+        
+        ///////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////
+        $_4_groups_with_at_most_2_items_each = $collection->split(4);
+        $this->assertTrue($_4_groups_with_at_most_2_items_each->count() === 4);
+        
+        $this->assertTrue($_4_groups_with_at_most_2_items_each->firstItem()->count() === 2);
+        $this->assertSame(
+            $_4_groups_with_at_most_2_items_each->getAndRemoveFirstItem()->toArray(),
+            [ 0=>1, 1=>2 ]
+        );
+        
+        $this->assertTrue($_4_groups_with_at_most_2_items_each->firstItem()->count() === 2);
+        $this->assertSame(
+            $_4_groups_with_at_most_2_items_each->getAndRemoveFirstItem()->toArray(),
+            [ 2=>3, 3=>4 ]
+        );
+        
+        $this->assertTrue($_4_groups_with_at_most_2_items_each->firstItem()->count() === 2);
+        $this->assertSame(
+            $_4_groups_with_at_most_2_items_each->getAndRemoveFirstItem()->toArray(),
+            [ 4=>5, 5=>6 ]
+        );
+        
+        $this->assertTrue($_4_groups_with_at_most_2_items_each->firstItem()->count() === 1);
+        $this->assertSame(
+            $_4_groups_with_at_most_2_items_each->getAndRemoveFirstItem()->toArray(),
+            [ 6=>7 ]
+        );
+    }
+    
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testThatSplitWithNonIntNumberOfGroupsWorksAsExpected() {
+
+        $data = [];
+        $data[0] = [ 'volume' => 67, 'edition' => 2 ];
+        $data[1] = [ 'volume' => 86, 'edition' => 2 ];
+        $data[2] = [ 'volume' => 85, 'edition' => 6 ];
+        $data[3] = [ 'volume' => 86, 'edition' => 1 ];
+
+        $collection = new \VersatileCollections\GenericCollection(...$data);
+        
+        // Exception should be thrown
+        $collection->split('Invalid Data Type for Number of Groups');
+    }
+    
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testThatSplitWithNumberOfGroupsLargerThanCollectionSizeWorksAsExpected() {
+
+        $data = [];
+        $data[0] = [ 'volume' => 67, 'edition' => 2 ];
+        $data[1] = [ 'volume' => 86, 'edition' => 2 ];
+        $data[2] = [ 'volume' => 85, 'edition' => 6 ];
+        $data[3] = [ 'volume' => 86, 'edition' => 1 ];
+
+        $collection = new \VersatileCollections\GenericCollection(...$data);
+        
+        // Exception should be thrown
+        $collection->split(7);
+    }
+    
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testThatSplitWithNumberOfGroupsLessThanZeroWorksAsExpected() {
+
+        $data = [];
+        $data[0] = [ 'volume' => 67, 'edition' => 2 ];
+        $data[1] = [ 'volume' => 86, 'edition' => 2 ];
+        $data[2] = [ 'volume' => 85, 'edition' => 6 ];
+        $data[3] = [ 'volume' => 86, 'edition' => 1 ];
+
+        $collection = new \VersatileCollections\GenericCollection(...$data);
+        
+        // Exception should be thrown
+        $collection->split(-7);
     }
     
     /**
