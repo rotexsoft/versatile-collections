@@ -37,7 +37,8 @@ class ScalarCollectionTest extends \PHPUnit_Framework_TestCase {
         // a non-scalar
         $collection->item5 = [];
     }
-    public function testThatUniqueWorksAsExpected() {
+    
+    public function testThatUniqueNonStrictWorksAsExpected() {
         
         $collection = new \VersatileCollections\ScalarCollection();
         $collection->item1 = "4";
@@ -56,7 +57,7 @@ class ScalarCollectionTest extends \PHPUnit_Framework_TestCase {
         $collection->item423 = 'true';
         $collection->item523 = 'false';
         
-        $this->assertEquals($collection->unique(), ['4', 5.0, 7, false, 'true', 'false']);
-        $this->assertEquals($collection->unique(true), ['4', 5.0, 7, true, false, 4, '5.0', '7','true', 'false']);
+        $this->assertSame(\VersatileCollections\ScalarCollection::makeNewCollection()->uniqueNonStrict()->toArray(), []);
+        $this->assertEquals($collection->uniqueNonStrict()->toArray(), ['4', 5.0, 7, false, 'true', 'false']);
     }
 }

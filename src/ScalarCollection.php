@@ -29,20 +29,22 @@ class ScalarCollection extends StrictlyTypedCollection {
         return 'scalar';
     }
     
-    public function unique($strict_comparison=false) {
+    public function uniqueNonStrict() {
         
-        return $this->reduce(
+        return static::makeNewCollection(
+            $this->reduce(
                 
-            function($carry, $item) use ($strict_comparison) {
-                
-                if( !in_array($item, $carry, $strict_comparison)) {
-                    
-                    $carry[] = $item;
-                }
-                
-                return $carry;
-            },
-            []
+                function($carry, $item) {
+
+                    if( !in_array($item, $carry, false)) {
+
+                        $carry[] = $item;
+                    }
+
+                    return $carry;
+                },
+                []
+            )
         );
     }
 }

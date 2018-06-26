@@ -2562,6 +2562,36 @@ class BaseCollectionTest extends \PHPUnit_Framework_TestCase {
         $collection->split(-7);
     }
     
+    public function testThatUniqueWorksAsExpected() {
+        
+        $object = new ArrayObject();
+        $object2 = new ArrayObject();
+        
+        $collection = new \BaseCollectionTestImplementation();
+        $collection->item1 = "4";
+        $collection->item2 = 5.0;
+        $collection->item3 = 7;
+        $collection->item4 = true;
+        $collection->item5 = false;
+        $collection->item12 = "4";
+        $collection->item22 = 5.0;
+        $collection->item32 = 7;
+        $collection->item42 = true;
+        $collection->item52 = false;
+        $collection->item123 = 4;
+        $collection->item223 = '5.0';
+        $collection->item323 = '7';
+        $collection->item423 = 'true';
+        $collection->item523 = 'false';
+        $collection->item623 = $object;
+        $collection->item723 = $object2;
+        $collection->item823 = $object;
+        $collection->item923 = $object2;
+        
+        $this->assertSame(\BaseCollectionTestImplementation::makeNewCollection()->unique()->toArray(), []);
+        $this->assertEquals($collection->unique()->toArray(), ['4', 5.0, 7, true, false, 4, '5.0', '7','true', 'false', $object, $object2]);
+    }
+    
     /**
      * @expectedException \BadMethodCallException
      */

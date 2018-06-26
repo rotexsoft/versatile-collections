@@ -1688,6 +1688,30 @@ abstract class BaseCollection implements CollectionInterface {
     
     /**
      * 
+     * {@inheritDoc}
+     * 
+     */
+    public function unique() {
+        
+        return static::makeNewCollection(
+            $this->reduce(
+                
+                function($carry, $item) {
+
+                    if( !in_array($item, $carry, true)) {
+
+                        $carry[] = $item;
+                    }
+
+                    return $carry;
+                },
+                []
+            )
+        );
+    }
+    
+    /**
+     * 
      * Return the values from a single column in the collection.
      * Will only work on collections whose items are arrays or objects.
      * 

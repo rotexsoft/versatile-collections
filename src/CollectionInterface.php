@@ -896,6 +896,24 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
     
     /**
      * 
+     * Get a collection of unique items from an existing collection. The keys
+     * are not preserved in the returned collection. The uniqueness test must be
+     * done via strict comparison (===). 
+     * 
+     * Non-strict comparison is unsafe for collections containing objects, for 
+     * example you can't cast an object to a double or int. To get unique items 
+     * using non-strict comparison see 
+     * \VersatileCollections\ScalarCollection::uniqueNonStrict().
+     * 
+     * @see \VersatileCollections\ScalarCollection::uniqueNonStrict() 
+     * 
+     * @return \VersatileCollections\CollectionInterface
+     * 
+     */
+    public function unique();
+    
+    /**
+     * 
      * Return the values from a single column in the collection.
      * Will only work on collections whose items are arrays or objects.
      * 
