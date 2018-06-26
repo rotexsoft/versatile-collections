@@ -6,7 +6,7 @@ namespace VersatileCollections;
  *
  * @author aadegbam
  */
-abstract class StrictlyTypedCollection extends BaseCollection {
+abstract class StrictlyTypedCollection extends GenericCollection {
 
     /**
      * @return bool true if $item is of the expected type, else false
@@ -45,7 +45,7 @@ abstract class StrictlyTypedCollection extends BaseCollection {
             $this->isRightTypeOrThrowInvalidTypeException($item, __FUNCTION__);
         }
         
-        $this->collection_items = $arr_objs;
+        $this->versatile_collections_items = $arr_objs;
     }
     
     /**

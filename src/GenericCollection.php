@@ -1,7 +1,7 @@
 <?php
 namespace VersatileCollections;
 
-class GenericCollection extends BaseCollection {
-
+class GenericCollection implements CollectionInterface {
     
+    use CollectionInterfaceImplementationTrait;
 }

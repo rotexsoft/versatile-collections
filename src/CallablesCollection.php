@@ -8,7 +8,6 @@ namespace VersatileCollections;
  */
 class CallablesCollection extends StrictlyTypedCollection {
 
-    
     protected function checkType($item) {
         
         return is_callable($item);
@@ -18,5 +17,4 @@ class CallablesCollection extends StrictlyTypedCollection {
         
         return 'callable';
     }
-
 }

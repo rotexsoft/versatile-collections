@@ -9,7 +9,7 @@ class TestValueObjectCollection extends \VersatileCollections\ObjectCollection {
 
     public function __construct(\TestValueObject ...$arr_objs) {
                 
-        $this->collection_items = $arr_objs;
+        $this->versatile_collections_items = $arr_objs;
     }
 
     protected function checkType($item) {

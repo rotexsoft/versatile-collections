@@ -2598,7 +2598,7 @@ class BaseCollectionTest extends \PHPUnit_Framework_TestCase {
     public function testThat__CallWorksAsExpected() {
         
         // add to parent class
-        \VersatileCollections\BaseCollection::addMethodForAllInstances(
+        \VersatileCollections\GenericCollection::addMethodForAllInstances(
             'toUpper', 
             function() {
             
@@ -2608,7 +2608,7 @@ class BaseCollectionTest extends \PHPUnit_Framework_TestCase {
                     
                     $upperred_items[] = 
                         strtoupper($item).' via addMethodForAllInstances'
-                        . \VersatileCollections\BaseCollection::class;
+                        . \VersatileCollections\GenericCollection::class;
                 }
                 return $upperred_items;
             }, 
@@ -2629,10 +2629,10 @@ class BaseCollectionTest extends \PHPUnit_Framework_TestCase {
         
         $upperred_items = $collection->toUpper();
         
-        $this->assertContains('JOHNNY CASH via addMethodForAllInstances'. \VersatileCollections\BaseCollection::class, $upperred_items);
-        $this->assertContains('SUZZY SOMETHING via addMethodForAllInstances'. \VersatileCollections\BaseCollection::class, $upperred_items);
-        $this->assertContains('JACK BAUER via addMethodForAllInstances'. \VersatileCollections\BaseCollection::class, $upperred_items);
-        $this->assertContains('JANE FONDA via addMethodForAllInstances'. \VersatileCollections\BaseCollection::class, $upperred_items);
+        $this->assertContains('JOHNNY CASH via addMethodForAllInstances'. \VersatileCollections\GenericCollection::class, $upperred_items);
+        $this->assertContains('SUZZY SOMETHING via addMethodForAllInstances'. \VersatileCollections\GenericCollection::class, $upperred_items);
+        $this->assertContains('JACK BAUER via addMethodForAllInstances'. \VersatileCollections\GenericCollection::class, $upperred_items);
+        $this->assertContains('JANE FONDA via addMethodForAllInstances'. \VersatileCollections\GenericCollection::class, $upperred_items);
         
         // add to specific class, which should override the one
         // added to the parent class
@@ -2693,19 +2693,19 @@ class BaseCollectionTest extends \PHPUnit_Framework_TestCase {
     public function testThat__CallStaticWorksAsExpected() {
         
         // add to parent class
-        \VersatileCollections\BaseCollection::addStaticMethod(
+        \VersatileCollections\GenericCollection::addStaticMethod(
             'toUpper', 
             function() {
             
                 return 'toUpper via addStaticMethod'
-                        . \VersatileCollections\BaseCollection::class;
+                        . \VersatileCollections\GenericCollection::class;
             }, 
             true
         );
         
         $result = \BaseCollectionTestImplementation::toUpper();
         
-        $this->assertEquals('toUpper via addStaticMethod'. \VersatileCollections\BaseCollection::class, $result);
+        $this->assertEquals('toUpper via addStaticMethod'. \VersatileCollections\GenericCollection::class, $result);
         
         // add to specific class, which should override the one
         // added to the parent class

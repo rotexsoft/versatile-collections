@@ -68,7 +68,7 @@ class NumericsCollection extends ScalarCollection {
      */
     public function sum() {
         
-        return array_sum($this->collection_items);
+        return array_sum($this->versatile_collections_items);
     }
     
     /**
@@ -86,7 +86,7 @@ class NumericsCollection extends ScalarCollection {
      */
     public function max() {
         
-        return ($this->count() > 0) ? max($this->collection_items) : null;
+        return ($this->count() > 0) ? max($this->versatile_collections_items) : null;
     }
     
     /**
@@ -95,7 +95,7 @@ class NumericsCollection extends ScalarCollection {
      */
     public function min() {
         
-        return ($this->count() > 0) ? min($this->collection_items) : null;
+        return ($this->count() > 0) ? min($this->versatile_collections_items) : null;
     }
     
     /**
@@ -111,7 +111,7 @@ class NumericsCollection extends ScalarCollection {
             return null;
         }
 
-        $values = $this->collection_items;
+        $values = $this->versatile_collections_items;
         
         sort($values, SORT_NUMERIC);
 
@@ -144,7 +144,7 @@ class NumericsCollection extends ScalarCollection {
 
         $counts = [];
 
-        foreach ( $this->collection_items as $item ) {
+        foreach ( $this->versatile_collections_items as $item ) {
             
             if( !is_int($item) ) {
                 
