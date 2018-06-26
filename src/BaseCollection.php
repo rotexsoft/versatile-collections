@@ -1749,6 +1749,10 @@ abstract class BaseCollection implements CollectionInterface {
 //     * collection or $column_key is not an accessible property in one or more
 //     * objects in the collection.
         
+        // http://php.net/manual/en/function.isset.php
+        // http://php.net/manual/en/function.property-exists.php
+        // http://php.net/manual/en/language.oop5.overloading.php#object.get
+        
         foreach ( $this->collection_items as $item ) {
             
             
