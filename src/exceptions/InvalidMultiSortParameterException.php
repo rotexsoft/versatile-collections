@@ -6,7 +6,7 @@ namespace VersatileCollections\Exceptions;
  *
  * @author Rotimi
  */
-class InvalidMultiSortParameter extends \Exception {
+class InvalidMultiSortParameterException extends \Exception {
     
     
 }

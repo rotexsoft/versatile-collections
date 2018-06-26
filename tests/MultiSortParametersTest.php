@@ -20,7 +20,7 @@ class MultiSortParametersTest extends \PHPUnit_Framework_TestCase {
     }
     
     /**
-     * @expectedException \VersatileCollections\Exceptions\InvalidMultiSortParameter
+     * @expectedException \VersatileCollections\Exceptions\InvalidMultiSortParameterException
      */
     public function testThatConstructorWithNonStringFieldNameWorksAsExpected() {
         
@@ -50,7 +50,7 @@ class MultiSortParametersTest extends \PHPUnit_Framework_TestCase {
     }
     
     /**
-     * @expectedException \VersatileCollections\Exceptions\InvalidMultiSortParameter
+     * @expectedException \VersatileCollections\Exceptions\InvalidMultiSortParameterException
      */
     public function testThatConstructorWithStringFieldNameAndInvalidSortTypeWorksAsExpected() {
         
@@ -58,7 +58,7 @@ class MultiSortParametersTest extends \PHPUnit_Framework_TestCase {
     }
     
     /**
-     * @expectedException \VersatileCollections\Exceptions\InvalidMultiSortParameter
+     * @expectedException \VersatileCollections\Exceptions\InvalidMultiSortParameterException
      */
     public function testThatConstructorWithStringFieldNameAndInvalidSortDirectionWorksAsExpected() {
         

@@ -102,7 +102,7 @@ class MultiSortParameters {
                 . "`{$class}::{$function}(...)` "
                 . PHP_EOL . " `\$field_name`: " . var_to_string($field_name);
             
-            throw new Exceptions\InvalidMultiSortParameter($msg);
+            throw new Exceptions\InvalidMultiSortParameterException($msg);
             
         } else if( strlen($field_name) <= 0 ) {
             
@@ -128,7 +128,7 @@ class MultiSortParameters {
                 . "`{$class}::{$function}(...)` "
                 . PHP_EOL . " `\$sort_direction`: " . var_to_string($sort_direction);
             
-            throw new Exceptions\InvalidMultiSortParameter($msg);
+            throw new Exceptions\InvalidMultiSortParameterException($msg);
         }
         
         return in_array($sort_direction, static::$valid_sort_directions, true);
@@ -144,7 +144,7 @@ class MultiSortParameters {
                 . "`{$class}::{$function}(...)` "
                 . PHP_EOL . " `\$sort_type`: " . var_to_string($sort_type);
             
-            throw new Exceptions\InvalidMultiSortParameter($msg);
+            throw new Exceptions\InvalidMultiSortParameterException($msg);
         }
         
         return in_array($sort_type, static::$valid_sort_types, true);
