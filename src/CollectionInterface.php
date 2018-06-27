@@ -915,24 +915,45 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
     /**
      * 
      * Return the values from a single column in the collection.
-     * Will only work on collections whose items are arrays or objects.
      * 
-     * Must throw an exception if $column_key and / or $index_key contain
-     * non-string or non-int value.
+     * Will only work on collections containing items that are 
+     * arrays and/or objects.
+     * 
+     * Must throw an exception if either $column_key and / or $index_key 
+     * contain(s) non-string and non-int value(s). 
+     * NOTE: $index_key can be null, meaning that the collection returned by 
+     * this method will have sequential integer keys starting at 0.
      * 
      * Must throw an exception if any item in the collection is not an array
-     * or object or if $column_key is not a key in one or more array(s) in the
-     * collection or $column_key is not an accessible property in one or more
-     * objects in the collection.
+     * or object.
+     *  
+     * Must throw an exception if $column_key is not a key in at least one array
+     * in the collection. 
      * 
+     * Must throw an exception if $column_key is not an accessible property in 
+     * at least one object in the collection.
+     *
+     * Must throw an exception if $index_key is not null and is not a key in 
+     * at least one array in the collection.
      * 
-     * Must throw an exception if $index_key is not null and is not a key in one 
-     * or more array(s) in the collection or $index_key is not null and is not an 
-     * accessible property in one or more objects in the collection.
+     * Must throw an exception if $index_key is not null and is not an 
+     * accessible property in at least one object in the collection.
+     *
+     * Must throw an exception if $index_key is not null and at least one 
+     * array in the collection has a non-int and non-string value for the 
+     * element with key $index_key.
+     *
+     * Must throw an exception if $index_key is not null and at least one 
+     * object in the collection has a non-int and non-string value for the
+     * property named $index_key.
      * 
      * @param string|int $column_key name of field in each item to be used as values / items in the collection to be returned
-     * @param string|int $index_key name of field in each item to be used as key in the collection to be returned. 
-     *                              If null, the returned collection will have sequential integer keys starting from 0
+     * @param string|int $index_key name of field in each item to be used as key in the collection to be returned.
+     *                              If null, the returned collection will have sequential integer keys starting from 0.
+     *                              Be aware that only string or integer values are usuable as keys in the collection
+     *                              to be returned by this method and as a result an excpetion will be thrown if any
+     *                              item in the collection has a non-string and non-integer value for the field 
+     *                              specified in $index_key.
      * 
      * @return \VersatileCollections\CollectionInterface A new collection containing the values from a single column in this collection
      *

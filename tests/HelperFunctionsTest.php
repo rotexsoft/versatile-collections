@@ -2,6 +2,8 @@
 
 use function VersatileCollections\random_array_key;
 use function VersatileCollections\random_array_keys;
+use function VersatileCollections\object_has_property;
+use function VersatileCollections\get_object_property_value;
 
 class HelperFunctionsTest extends \PHPUnit_Framework_TestCase {
     
@@ -143,4 +145,131 @@ class HelperFunctionsTest extends \PHPUnit_Framework_TestCase {
         random_array_keys([], 5);
     }
     
+    public function testThat_object_has_property_WorksAsExpected() {
+        
+        // Object implementing ArrayAccess
+        $obj_arr_access = 
+            \VersatileCollections\GenericCollection::makeNewCollection(
+                ['id' => 17, 777 => 67, 'edition' => 2, 'title'=>"Boo"]
+            );
+        
+        // Object with __get, __isset & __set and some real public, protected 
+        // and private properties
+        $obj_magic_methods_and_real_props = 
+            (new TestValueObject())
+                ->setData(['id'=>17, 777 =>67, 'edition'=>2, 'title'=>"Boo"]);
+        
+        // StdClass Objects without __get, __isset & __set
+        $obj_without_magic_methods = 
+            (object)['id' => 17, 777 => 67, 'edition' => 2, 'title'=>"Boo"];
+        
+        $this->assertTrue( object_has_property($obj_arr_access, 777) ); // int property
+        $this->assertTrue( object_has_property($obj_arr_access, 'id') ); // string property
+        $this->assertTrue( object_has_property($obj_arr_access, 'edition') ); // string property
+        $this->assertTrue( object_has_property($obj_arr_access, 'title') ); // string property
+        $this->assertFalse( object_has_property($obj_arr_access, 1000) ); // int property
+        $this->assertFalse( object_has_property($obj_arr_access, 'title2') ); // string property
+        
+        $this->assertTrue( object_has_property($obj_magic_methods_and_real_props, 777) ); // int property
+        $this->assertTrue( object_has_property($obj_magic_methods_and_real_props, 'id') ); // string property
+        $this->assertTrue( object_has_property($obj_magic_methods_and_real_props, 'edition') ); // string property
+        $this->assertTrue( object_has_property($obj_magic_methods_and_real_props, 'title') ); // string property
+        $this->assertFalse( object_has_property($obj_magic_methods_and_real_props, 1000) ); // int property
+        $this->assertFalse( object_has_property($obj_magic_methods_and_real_props, 'title2') ); // string property
+        
+        $this->assertTrue( object_has_property($obj_without_magic_methods, 777) ); // int property
+        $this->assertTrue( object_has_property($obj_without_magic_methods, 'id') ); // string property
+        $this->assertTrue( object_has_property($obj_without_magic_methods, 'edition') ); // string property
+        $this->assertTrue( object_has_property($obj_without_magic_methods, 'title') ); // string property
+        $this->assertFalse( object_has_property($obj_without_magic_methods, 1000) ); // int property
+        $this->assertFalse( object_has_property($obj_without_magic_methods, 'title2') ); // string property
+    }
+    
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testThat_object_has_property_WithNonObjectFirstArgWorksAsExpected() {
+        
+        object_has_property([], 'id');
+    }
+    
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testThat_object_has_property_WithNonStringNonIntSecondArgWorksAsExpected() {
+        
+        object_has_property((new stdClass()), []);
+    }
+    
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testThat_object_has_property_WithNonObjectFirstArgAndNonStringNonIntSecondArgWorksAsExpected() {
+        
+        object_has_property([], []);
+    }
+    
+    public function testThat_get_object_property_value_WorksAsExpected() {
+        
+        // Object implementing ArrayAccess
+        $obj_arr_access = 
+            \VersatileCollections\GenericCollection::makeNewCollection(
+                ['id' => 17, 777 => 67, 'edition' => 2, 'title'=>"Boo"]
+            );
+        
+        // Object with __get, __isset & __set and some real public, protected 
+        // and private properties
+        $obj_magic_methods_and_real_props = 
+            (new TestValueObject())
+                ->setData(['id'=>17, 777 =>67, 'edition'=>2, 'title'=>"Boo"]);
+        
+        // StdClass Objects without __get, __isset & __set
+        $obj_without_magic_methods = 
+            (object)['id' => 17, 777 => 67, 'edition' => 2, 'title'=>"Boo"];
+        
+        $this->assertSame( get_object_property_value($obj_arr_access, 777), 67 ); // int property
+        $this->assertSame( get_object_property_value($obj_arr_access, 'id'), 17 ); // string property
+        $this->assertSame( get_object_property_value($obj_arr_access, 'edition'), 2 ); // string property
+        $this->assertSame( get_object_property_value($obj_arr_access, 'title'), "Boo" ); // string property
+        $this->assertSame( get_object_property_value($obj_arr_access, 1000, -777), -777 ); // int property
+        $this->assertSame( get_object_property_value($obj_arr_access, 'title2', -777), -777 ); // string property
+        
+        $this->assertSame( get_object_property_value($obj_magic_methods_and_real_props, 777), 67 ); // int property
+        $this->assertSame( get_object_property_value($obj_magic_methods_and_real_props, 'id'), 17 ); // string property
+        $this->assertSame( get_object_property_value($obj_magic_methods_and_real_props, 'edition'), 2 ); // string property
+        $this->assertSame( get_object_property_value($obj_magic_methods_and_real_props, 'title'), "Boo" ); // string property
+        $this->assertSame( get_object_property_value($obj_magic_methods_and_real_props, 1000, -777), -777 ); // int property
+        $this->assertSame( get_object_property_value($obj_magic_methods_and_real_props, 'title2', -777), -777 ); // string property
+        
+        $this->assertSame( get_object_property_value($obj_without_magic_methods, 777), 67 ); // int property
+        $this->assertSame( get_object_property_value($obj_without_magic_methods, 'id'), 17 ); // string property
+        $this->assertSame( get_object_property_value($obj_without_magic_methods, 'edition'), 2 ); // string property
+        $this->assertSame( get_object_property_value($obj_without_magic_methods, 'title'), "Boo" ); // string property
+        $this->assertSame( get_object_property_value($obj_without_magic_methods, 1000, -777), -777 ); // int property
+        $this->assertSame( get_object_property_value($obj_without_magic_methods, 'title2', -777), -777 ); // string property
+    }
+    
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testThat_get_object_property_value_WithNonObjectFirstArgWorksAsExpected() {
+        
+        get_object_property_value([], 'id');
+    }
+    
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testThat_get_object_property_value_WithNonStringNonIntSecondArgWorksAsExpected() {
+        
+        get_object_property_value((new stdClass()), []);
+    }
+    
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testThat_get_object_property_value_WithNonObjectFirstArgAndNonStringNonIntSecondArgWorksAsExpected() {
+        
+        get_object_property_value([], []);
+    }
 }

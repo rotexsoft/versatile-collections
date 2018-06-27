@@ -474,9 +474,19 @@ trait CollectionInterfaceImplementationTrait {
             if( 
                 is_object($item)
                 && 
-                ( $add_field_if_not_present || property_exists($item, $field_name) )
+                ( 
+                    $add_field_if_not_present 
+                    || 
+                    object_has_property($item, $field_name) 
+                    || 
+                    (
+                        method_exists($item, '__set')
+                        && method_exists($item, '__get')
+                        && isset($item->{$field_name})    
+                    )
+                )
             ) {
-                $item->$field_name = $field_val;
+                $item->{$field_name} = $field_val;
                 
             } else if(
                 is_array($item)
@@ -1734,39 +1744,12 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * Return the values from a single column in the collection.
-     * Will only work on collections whose items are arrays or objects.
-     * 
-     * Must throw an exception if $column_key and / or $index_key contain
-     * non-string or non-int value.
-     * 
-     * Must throw an exception if any item in the collection is not an array
-     * or object or if $column_key is not a key in one or more array(s) in the
-     * collection or $column_key is not an accessible property in one or more
-     * objects in the collection.
-     *
-     * Must throw an exception if $index_key is not null and is not a key in one 
-     * or more array(s) in the collection or $index_key is not null and is not an 
-     * accessible property in one or more objects in the collection.
-     * 
-     * @param string|int $column_key name of field in each item to be used as values / items in the collection to be returned
-     * @param string|int $index_key name of field in each item to be used as key in the collection to be returned. 
-     *                              If null, the returned collection will have sequential integer keys starting from 0
-     * 
-     * @return \VersatileCollections\CollectionInterface A new collection containing the values from a single column in this collection
-     *
-     * @throws \InvalidArgumentException
-     * @throws \RuntimeException
+     * {@inheritDoc}
      * 
      */
     public function column($column_key, $index_key=null) {
 
         $column_2_return = new static();
-
-//     *
-//     * Must throw an exception if $index_key is not null and is not a key in one 
-//     * or more array(s) in the collection or $index_key is not null and is not an 
-//     * accessible property in one or more objects in the collection.
         
         if( !is_int($column_key) && !is_string($column_key) ) {
             
@@ -1785,25 +1768,158 @@ trait CollectionInterfaceImplementationTrait {
             $class = get_class($this);
             $index_key_type = gettype($index_key);
             $msg = "Error [{$class}::{$function}(...)]:"
-            . " You must specify an integer or string as the \$index_key_type parameter."
+            . " You must specify an integer or string as the \$index_key parameter."
             . " You supplied a(n) `{$index_key_type}` with a value of: ". var_to_string($index_key);
             throw new \InvalidArgumentException($msg); 
         }
-        
-//     * Must throw an exception if any item in the collection is not an array
-//     * or object or if $column_key is not a key in one or more array(s) in the
-//     * collection or $column_key is not an accessible property in one or more
-//     * objects in the collection.
-        
-        // http://php.net/manual/en/function.isset.php
-        // http://php.net/manual/en/function.property-exists.php
-        // http://php.net/manual/en/language.oop5.overloading.php#object.get
-        
-        foreach ( $this->versatile_collections_items as $item ) {
+
+        foreach ( $this->versatile_collections_items as $coll_key => $item ) {
             
+            if( !is_array($item) && !is_object($item) ) {
+                
+                $function = __FUNCTION__;
+                $class = get_class($this);
+                $item_type = gettype($item);
+                $msg = "Error [{$class}::{$function}(...)]:"
+                . " This method only works on collections containing only arrays and / or objects."
+                . " A(n) invalid item of type `{$item_type}` with a value of: ". var_to_string($item)
+                . " was found with this key `$coll_key` in the collection". PHP_EOL
+                . " Collection Items: ". var_to_string($this->versatile_collections_items);
+                throw new \RuntimeException($msg); 
+            }
             
-            
-        }
+            if( is_array($item) || $item instanceof \ArrayAccess) {
+                
+                if( 
+                    ( is_array($item) && !array_key_exists($column_key, $item) )
+                    ||
+                    ( $item instanceof \ArrayAccess && !isset($item[$column_key]) )
+                ) {
+                    $function = __FUNCTION__;
+                    $class = get_class($this);
+                    $item_type = ($item instanceof \ArrayAccess)
+                                    ? get_class($item) : gettype($item);
+                    
+                    $msg = "Error [{$class}::{$function}(...)]:"
+                    . " An item of type `$item_type` without the specified column key `$column_key`"
+                    . " was found with this key `$coll_key` in the collection." .PHP_EOL
+                    . " Collection Items: ". var_to_string($this->versatile_collections_items);
+                    throw new \RuntimeException($msg); 
+                    
+                } else if (
+                    !is_null($index_key)
+                    &&
+                    (
+                        ( is_array($item) && !array_key_exists($index_key, $item) )
+                        ||
+                        ( $item instanceof \ArrayAccess && !isset($item[$index_key]) ) 
+                    )
+                ) {
+                    $function = __FUNCTION__;
+                    $class = get_class($this);
+                    $item_type = ($item instanceof \ArrayAccess)
+                                    ? get_class($item) : gettype($item);
+                    
+                    $msg = "Error [{$class}::{$function}(...)]:"
+                    . " An item of type `$item_type` without the specified index key `$index_key`"
+                    . " was found with this key `$coll_key` in the collection." .PHP_EOL
+                    . " Collection Items: ". var_to_string($this->versatile_collections_items);
+                    throw new \RuntimeException($msg); 
+                    
+                } else if( is_null($index_key) ) {
+                    
+                    $column_2_return[] = $item[$column_key];
+                    
+                } else if(
+                    !is_null($index_key) 
+                    && 
+                    ( 
+                        ( is_array($item) && array_key_exists($index_key, $item) )
+                        ||
+                        ( $item instanceof \ArrayAccess && isset($item[$index_key]) )
+                    )
+                ) {
+                    if(
+                        !is_string($item[$index_key])
+                        && !is_int($item[$index_key])
+                    ){
+                        $function = __FUNCTION__;
+                        $class = get_class($this);
+                        $item_type = gettype($item[$index_key]);
+
+                        $msg = "Error [{$class}::{$function}(...)]:"
+                        . " \$collection['{$coll_key}']['{$index_key}'] of type `$item_type`"
+                        . " has a non-string and non-int value of `". var_to_string($item[$index_key])."`"
+                        . " which cannot be used as a key in the collection to be returned by this method." .PHP_EOL
+                        . " Collection Items: ". var_to_string($this->versatile_collections_items).PHP_EOL .PHP_EOL;
+                        throw new \RuntimeException($msg);
+                    }
+                    
+                    $column_2_return[$item[$index_key]] = $item[$column_key];
+                    
+                } else {
+                    
+                    $function = __FUNCTION__;
+                    $class = get_class($this);
+                    $item_type = ($item instanceof \ArrayAccess)
+                                    ? get_class($item) : gettype($item);
+                    
+                    $msg = "Error [{$class}::{$function}(...)]:"
+                    . " Error occured while accessing an item of type `$item_type` with the specified index key `$index_key`"
+                    . " and specified column key `$column_key` with this key `$coll_key` in the collection." . PHP_EOL
+                    . " Collection Items: ". var_to_string($this->versatile_collections_items).PHP_EOL .PHP_EOL;
+                    throw new \RuntimeException($msg); 
+                }
+
+            } else if( is_object($item) ) {
+                
+                if( 
+                    !is_null($index_key) 
+                    && object_has_property($item, $column_key)
+                    && object_has_property($item, $index_key)   
+                ) {
+                    $index_key_value = get_object_property_value($item, $index_key);
+                    $column_key_value = get_object_property_value($item, $column_key);
+                    
+                    if( 
+                        !is_int($index_key_value) 
+                        && !is_string($index_key_value) 
+                    ) {
+                        $function = __FUNCTION__;
+                        $class = get_class($this);
+                        $item_type = gettype($index_key_value);
+                        $msg = "Error [{$class}::{$function}(...)]:"
+                        . " \$collection['{$coll_key}']->{'{$index_key}'} of type `$item_type`"
+                        . " has a non-string and non-int value of `". var_to_string($index_key_value)."`"
+                        . " which cannot be used as a key in the collection to be returned by this method." .PHP_EOL
+                        . " Collection Items: ". var_to_string($this->versatile_collections_items).PHP_EOL .PHP_EOL;
+                        throw new \RuntimeException($msg); 
+                    }            
+                    
+                    $column_2_return[$index_key_value] = $column_key_value;
+                    
+                } else if(
+                    is_null($index_key) 
+                    && object_has_property($item, $column_key)
+                ) {
+                    $column_2_return[] = get_object_property_value($item, $column_key);
+                    
+                } else {
+                    
+                    $function = __FUNCTION__;
+                    $class = get_class($this);
+                    $item_type = get_class($item);
+                    $msg = "Error [{$class}::{$function}(...)]:"
+                    . " Error occured while accessing an item of type `$item_type` with the specified index key `$index_key`"
+                    . " and specified column key `$column_key` with this key `$coll_key` in the collection." . PHP_EOL
+                    . " Either the index key `$index_key` is not an accessible property of the item"
+                    . " or the specified column key `$column_key` is not an accessible property of the item"
+                    . " or some other error occurred" .PHP_EOL
+                    . " Collection Items: ". var_to_string($this->versatile_collections_items).PHP_EOL .PHP_EOL;
+                    throw new \RuntimeException($msg); 
+                }
+            } // else if(is_object($item))
+        } // foreach ( $this->versatile_collections_items as $coll_key => $item )
         
         return $column_2_return;
     }

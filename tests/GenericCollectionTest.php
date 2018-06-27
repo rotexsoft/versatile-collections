@@ -1,6 +1,6 @@
 <?php
 
-class BaseCollectionTest extends \PHPUnit_Framework_TestCase {
+class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
     
     
     protected function setUp() { 
@@ -822,6 +822,541 @@ class BaseCollectionTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($collection->getIfExists(0), ['name'=>'Joe', 'age'=>'10',]);
         $this->assertEquals($collection->getIfExists(1), ['name'=>'Jane', 'age'=>'20',]);
         $this->assertEquals($collection->getIfExists(2), null);
+    }
+    
+    public function testThatColumnWorksAsExpected() {
+
+        $data = [];
+        $collection = new \VersatileCollections\GenericCollection(...$data);
+        
+        $this->assertTrue($collection->column('some_key')->isEmpty());
+
+        // collection of ArrayAccess objects
+        $data = [];
+        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 17, 777 => 67, 'edition' => 2, 'title'=>"Boo"]);
+        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 27, 777 => 86, 'edition' => 1, 'title'=>"Coo"]);
+        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 37, 777 => 85, 'edition' => 6, 'title'=>"Doo"]);
+        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 47, 777 => 98, 'edition' => 2, 'title'=>"Foo"]);
+        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 57, 777 => 86, 'edition' => 6, 'title'=>"Goo"]);
+        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 67, 777 => 67, 'edition' => 7, 'title'=>"Hoo"]);
+        $collection = new \VersatileCollections\GenericCollection(...$data);
+        
+        $this->assertSame(
+            $collection->column(777)->toArray(), 
+            [ 0=>67, 1=>86, 2=>85, 3=>98, 4=>86, 5=>67 ]
+        ); // int, null
+        
+        $this->assertSame(
+            $collection->column('title')->toArray(), 
+            [ 0=>'Boo', 1=>'Coo', 2=>'Doo', 3=>'Foo', 4=>'Goo', 5=>'Hoo' ]
+        ); // string, null
+        
+        $this->assertSame(
+            $collection->column('title', 'id')->toArray(), 
+            [ 17=>'Boo', 27=>'Coo', 37=>'Doo', 47=>'Foo', 57=>'Goo', 67=>'Hoo' ]
+        ); // string, string
+        $this->assertSame(
+            $collection->column('title', 777)->toArray(), 
+            [ 67=>'Hoo', 86=>'Goo', 85=>'Doo', 98=>'Foo' ]
+        ); // string, int
+        $this->assertSame(
+            $collection->column(777, 'title')->toArray(), 
+            [ 'Boo'=>67, 'Coo'=>86, 'Doo'=>85, 'Foo'=>98, 'Goo'=>86, 'Hoo'=>67 ]
+        ); // int, string
+        $this->assertSame(
+            $collection->column(777, 777)->toArray(), 
+            [ 67=>67, 86=>86, 85=>85, 98=>98 ]
+        ); // int, int
+        
+        // collection of Arrays
+        $data = [];
+        $data[] = ['id' => 17, 777 => 67, 'edition' => 2, 'title'=>"Boo"];
+        $data[] = ['id' => 27, 777 => 86, 'edition' => 1, 'title'=>"Coo"];
+        $data[] = ['id' => 37, 777 => 85, 'edition' => 6, 'title'=>"Doo"];
+        $data[] = ['id' => 47, 777 => 98, 'edition' => 2, 'title'=>"Foo"];
+        $data[] = ['id' => 57, 777 => 86, 'edition' => 6, 'title'=>"Goo"];
+        $data[] = ['id' => 67, 777 => 67, 'edition' => 7, 'title'=>"Hoo"];
+        $collection = new \VersatileCollections\GenericCollection(...$data);
+        
+        $this->assertSame(
+            $collection->column(777)->toArray(), 
+            [ 0=>67, 1=>86, 2=>85, 3=>98, 4=>86, 5=>67 ]
+        ); // int, null
+        
+        $this->assertSame(
+            $collection->column('title')->toArray(), 
+            [ 0=>'Boo', 1=>'Coo', 2=>'Doo', 3=>'Foo', 4=>'Goo', 5=>'Hoo' ]
+        ); // string, null
+        
+        $this->assertSame(
+            $collection->column('title', 'id')->toArray(), 
+            [ 17=>'Boo', 27=>'Coo', 37=>'Doo', 47=>'Foo', 57=>'Goo', 67=>'Hoo' ]
+        ); // string, string
+        $this->assertSame(
+            $collection->column('title', 777)->toArray(), 
+            [ 67=>'Hoo', 86=>'Goo', 85=>'Doo', 98=>'Foo' ]
+        ); // string, int
+        $this->assertSame(
+            $collection->column(777, 'title')->toArray(), 
+            [ 'Boo'=>67, 'Coo'=>86, 'Doo'=>85, 'Foo'=>98, 'Goo'=>86, 'Hoo'=>67 ]
+        ); // int, string
+        $this->assertSame(
+            $collection->column(777, 777)->toArray(), 
+            [ 67=>67, 86=>86, 85=>85, 98=>98 ]
+        ); // int, int
+        
+        // collection of objects with __get, __isset & __set
+        $data = [];
+        $data[] = (new TestValueObject())->setData(['id' => 17, 777 => 67, 'edition' => 2, 'title'=>"Boo"]);
+        $data[] = (new TestValueObject())->setData(['id' => 27, 777 => 86, 'edition' => 1, 'title'=>"Coo"]);
+        $data[] = (new TestValueObject())->setData(['id' => 37, 777 => 85, 'edition' => 6, 'title'=>"Doo"]);
+        $data[] = (new TestValueObject())->setData(['id' => 47, 777 => 98, 'edition' => 2, 'title'=>"Foo"]);
+        $data[] = (new TestValueObject())->setData(['id' => 57, 777 => 86, 'edition' => 6, 'title'=>"Goo"]);
+        $data[] = (new TestValueObject())->setData(['id' => 67, 777 => 67, 'edition' => 7, 'title'=>"Hoo"]);   
+        $collection = new \VersatileCollections\GenericCollection(...$data);
+        
+        $this->assertSame(
+            $collection->column(777)->toArray(), 
+            [ 0=>67, 1=>86, 2=>85, 3=>98, 4=>86, 5=>67 ]
+        ); // int, null
+        
+        $this->assertSame(
+            $collection->column('title')->toArray(), 
+            [ 0=>'Boo', 1=>'Coo', 2=>'Doo', 3=>'Foo', 4=>'Goo', 5=>'Hoo' ]
+        ); // string, null
+        
+        $this->assertSame(
+            $collection->column('title', 'id')->toArray(), 
+            [ 17=>'Boo', 27=>'Coo', 37=>'Doo', 47=>'Foo', 57=>'Goo', 67=>'Hoo' ]
+        ); // string, string
+        $this->assertSame(
+            $collection->column('title', 777)->toArray(), 
+            [ 67=>'Hoo', 86=>'Goo', 85=>'Doo', 98=>'Foo' ]
+        ); // string, int
+        $this->assertSame(
+            $collection->column(777, 'title')->toArray(), 
+            [ 'Boo'=>67, 'Coo'=>86, 'Doo'=>85, 'Foo'=>98, 'Goo'=>86, 'Hoo'=>67 ]
+        ); // int, string
+        $this->assertSame(
+            $collection->column(777, 777)->toArray(), 
+            [ 67=>67, 86=>86, 85=>85, 98=>98 ]
+        ); // int, int
+        
+        // collection of objects without __get, __isset & __set
+        $data = [];
+        $data[] = (object)['id' => 17, 777 => 67, 'edition' => 2, 'title'=>"Boo"];
+        $data[] = (object)['id' => 27, 777 => 86, 'edition' => 1, 'title'=>"Coo"];
+        $data[] = (object)['id' => 37, 777 => 85, 'edition' => 6, 'title'=>"Doo"];
+        $data[] = (object)['id' => 47, 777 => 98, 'edition' => 2, 'title'=>"Foo"];
+        $data[] = (object)['id' => 57, 777 => 86, 'edition' => 6, 'title'=>"Goo"];
+        $data[] = (object)['id' => 67, 777 => 67, 'edition' => 7, 'title'=>"Hoo"];
+        $collection = new \VersatileCollections\GenericCollection(...$data);
+        
+        $this->assertSame(
+            $collection->column(777)->toArray(), 
+            [ 0=>67, 1=>86, 2=>85, 3=>98, 4=>86, 5=>67 ]
+        ); // int, null
+        
+        $this->assertSame(
+            $collection->column('title')->toArray(), 
+            [ 0=>'Boo', 1=>'Coo', 2=>'Doo', 3=>'Foo', 4=>'Goo', 5=>'Hoo' ]
+        ); // string, null
+        
+        $this->assertSame(
+            $collection->column('title', 'id')->toArray(), 
+            [ 17=>'Boo', 27=>'Coo', 37=>'Doo', 47=>'Foo', 57=>'Goo', 67=>'Hoo' ]
+        ); // string, string
+        $this->assertSame(
+            $collection->column('title', 777)->toArray(), 
+            [ 67=>'Hoo', 86=>'Goo', 85=>'Doo', 98=>'Foo' ]
+        ); // string, int
+        $this->assertSame(
+            $collection->column(777, 'title')->toArray(), 
+            [ 'Boo'=>67, 'Coo'=>86, 'Doo'=>85, 'Foo'=>98, 'Goo'=>86, 'Hoo'=>67 ]
+        ); // int, string
+        $this->assertSame(
+            $collection->column(777, 777)->toArray(), 
+            [ 67=>67, 86=>86, 85=>85, 98=>98 ]
+        ); // int, int
+    }
+    
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testThatColumnWithNonStringAndNonIntColumnKeyWorksAsExpected() {
+
+        $data = [];
+        $collection = new \VersatileCollections\GenericCollection(...$data);
+        $collection->column([]);
+    }
+    
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testThatColumnWithNonStringAndNonIntIndexKeyWorksAsExpected() {
+
+        $data = [];
+        $collection = new \VersatileCollections\GenericCollection(...$data);
+        $collection->column('some_key',[]);
+    }
+    
+    /**
+     * @expectedException \RuntimeException
+     */
+    public function testThatColumnOnCollectionWithOneOrMoreNonArrayAndNonObjectItemsWorksAsExpected() {
+
+        $data = [];
+        $data[] = ['id' => 17, 'volume' => 67, 'edition' => 2, 'title'=>"Boo"];
+        $data[] = ['id' => 27, 'volume' => 86, 'edition' => 1, 'title'=>"Coo"];
+        $data[] = ['id' => 37, 'volume' => 85, 'edition' => 6, 'title'=>"Doo"];
+        $data[] = 1.55;
+        $data[] = ['id' => 47, 'volume' => 98, 'edition' => 2, 'title'=>"Foo"];
+        $data[] = ['id' => 57, 'volume' => 86, 'edition' => 6, 'title'=>"Goo"];
+        $data[] = true;
+        $data[] = ['id' => 67, 'volume' => 67, 'edition' => 7, 'title'=>"Hoo"];
+        
+        $collection = new \VersatileCollections\GenericCollection(...$data);
+        $collection->column('title');
+    }
+    
+    /**
+     * @expectedException \RuntimeException
+     */
+    public function testThatColumnOnCollectionOfArraysWithOneOrMoretItemsWithoutStringColumnKeyWorksAsExpected() {
+
+        $data = [];
+        $data[] = ['id' => 17, 'volume' => 67, 'edition' => 2, 'title'=>"Boo"];
+        $data[] = ['id' => 27, 'volume' => 86, 'edition' => 1, 'title'=>"Coo"];
+        $data[] = ['id' => 37, 'volume' => 85, 'edition' => 6, 'title'=>"Doo"];
+        $data[] = ['id' => 47, 'volume' => 98, 'edition' => 2, 'title'=>"Foo"];
+        $data[] = ['id' => 57, 'volume' => 86, 'edition' => 6, 'title'=>"Goo"];
+        $data[] = ['id' => 67, 'volume' => 67, 'edition' => 7, 'title'=>"Hoo"];
+        
+        $collection = new \VersatileCollections\GenericCollection(...$data);
+        $collection->column('title2');
+    }
+    
+    /**
+     * @expectedException \RuntimeException
+     */
+    public function testThatColumnOnCollectionOfArrayAccessObjectsWithOneOrMoretItemsWithoutStringColumnKeyWorksAsExpected() {
+
+        $data = [];
+        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 17, 'volume' => 67, 'edition' => 2, 'title'=>"Boo"]);
+        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 27, 'volume' => 86, 'edition' => 1, 'title'=>"Coo"]);
+        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 37, 'volume' => 85, 'edition' => 6, 'title'=>"Doo"]);
+        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 47, 'volume' => 98, 'edition' => 2, 'title'=>"Foo"]);
+        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 57, 'volume' => 86, 'edition' => 6, 'title'=>"Goo"]);
+        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 67, 'volume' => 67, 'edition' => 7, 'title'=>"Hoo"]);
+        
+        $collection = new \VersatileCollections\GenericCollection(...$data);
+        $collection->column('title2');
+    }
+    
+    /**
+     * @expectedException \RuntimeException
+     */
+    public function testThatColumnOnCollectionOfArraysWithOneOrMoretItemsWithoutIntColumnKeyWorksAsExpected() {
+
+        $data = [];
+        $data[] = ['id' => 17, 'volume' => 67, 'edition' => 2, 'title'=>"Boo", 55=>17];
+        $data[] = ['id' => 27, 'volume' => 86, 'edition' => 1, 'title'=>"Coo", 55=>27];
+        $data[] = ['id' => 37, 'volume' => 85, 'edition' => 6, 'title'=>"Doo", 55=>37];
+        $data[] = ['id' => 47, 'volume' => 98, 'edition' => 2, 'title'=>"Foo", 55=>47];
+        $data[] = ['id' => 57, 'volume' => 86, 'edition' => 6, 'title'=>"Goo", 55=>57];
+        $data[] = ['id' => 67, 'volume' => 67, 'edition' => 7, 'title'=>"Hoo", 55=>67];
+        
+        $collection = new \VersatileCollections\GenericCollection(...$data);
+        $collection->column(99);
+    }
+    
+    /**
+     * @expectedException \RuntimeException
+     */
+    public function testThatColumnOnCollectionOfArrayAccessObjectsWithOneOrMoretItemsWithoutIntColumnKeyWorksAsExpected() {
+
+        $data = [];
+        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 17, 'volume' => 67, 'edition' => 2, 'title'=>"Boo"]);
+        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 27, 'volume' => 86, 'edition' => 1, 'title'=>"Coo"]);
+        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 37, 'volume' => 85, 'edition' => 6, 'title'=>"Doo"]);
+        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 47, 'volume' => 98, 'edition' => 2, 'title'=>"Foo"]);
+        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 57, 'volume' => 86, 'edition' => 6, 'title'=>"Goo"]);
+        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 67, 'volume' => 67, 'edition' => 7, 'title'=>"Hoo"]);
+        
+        $collection = new \VersatileCollections\GenericCollection(...$data);
+        $collection->column(99);
+    }
+    
+    /**
+     * @expectedException \RuntimeException
+     */
+    public function testThatColumnOnCollectionOfArraysWithOneOrMoretItemsWithoutNonNullStringIndexKeyWorksAsExpected() {
+
+        $data = [];
+        $data[] = ['id' => 17, 'volume' => 67, 'edition' => 2, 'title'=>"Boo"];
+        $data[] = ['id' => 27, 'volume' => 86, 'edition' => 1, 'title'=>"Coo"];
+        $data[] = ['id' => 37, 'volume' => 85, 'edition' => 6, 'title'=>"Doo"];
+        $data[] = ['id' => 47, 'volume' => 98, 'edition' => 2, 'title'=>"Foo"];
+        $data[] = ['id' => 57, 'volume' => 86, 'edition' => 6, 'title'=>"Goo"];
+        $data[] = ['id' => 67, 'volume' => 67, 'edition' => 7, 'title'=>"Hoo"];
+        
+        $collection = new \VersatileCollections\GenericCollection(...$data);
+        $collection->column('title', 'id2');
+    }
+    
+    /**
+     * @expectedException \RuntimeException
+     */
+    public function testThatColumnOnCollectionOfArrayAccessObjectsWithOneOrMoretItemsWithoutNonNullStringIndexKeyWorksAsExpected() {
+
+        $data = [];
+        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 17, 'volume' => 67, 'edition' => 2, 'title'=>"Boo"]);
+        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 27, 'volume' => 86, 'edition' => 1, 'title'=>"Coo"]);
+        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 37, 'volume' => 85, 'edition' => 6, 'title'=>"Doo"]);
+        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 47, 'volume' => 98, 'edition' => 2, 'title'=>"Foo"]);
+        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 57, 'volume' => 86, 'edition' => 6, 'title'=>"Goo"]);
+        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 67, 'volume' => 67, 'edition' => 7, 'title'=>"Hoo"]);
+        
+        $collection = new \VersatileCollections\GenericCollection(...$data);
+        $collection->column('title', 'id2');
+    }
+    
+    /**
+     * @expectedException \RuntimeException
+     */
+    public function testThatColumnOnCollectionOfArraysWithOneOrMoretItemsWithoutNonNullIntIndexKeyWorksAsExpected() {
+
+        $data = [];
+        $data[] = ['id' => 17, 'volume' => 67, 'edition' => 2, 'title'=>"Boo"];
+        $data[] = ['id' => 27, 'volume' => 86, 'edition' => 1, 'title'=>"Coo"];
+        $data[] = ['id' => 37, 'volume' => 85, 'edition' => 6, 'title'=>"Doo"];
+        $data[] = ['id' => 47, 'volume' => 98, 'edition' => 2, 'title'=>"Foo"];
+        $data[] = ['id' => 57, 'volume' => 86, 'edition' => 6, 'title'=>"Goo"];
+        $data[] = ['id' => 67, 'volume' => 67, 'edition' => 7, 'title'=>"Hoo"];
+        
+        $collection = new \VersatileCollections\GenericCollection(...$data);
+        $collection->column('title', 99);
+    }
+    
+    /**
+     * @expectedException \RuntimeException
+     */
+    public function testThatColumnOnCollectionOfArrayAccessObjectsWithOneOrMoretItemsWithoutNonNullIntIndexKeyWorksAsExpected() {
+
+        $data = [];
+        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 17, 'volume' => 67, 'edition' => 2, 'title'=>"Boo"]);
+        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 27, 'volume' => 86, 'edition' => 1, 'title'=>"Coo"]);
+        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 37, 'volume' => 85, 'edition' => 6, 'title'=>"Doo"]);
+        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 47, 'volume' => 98, 'edition' => 2, 'title'=>"Foo"]);
+        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 57, 'volume' => 86, 'edition' => 6, 'title'=>"Goo"]);
+        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 67, 'volume' => 67, 'edition' => 7, 'title'=>"Hoo"]);
+        
+        $collection = new \VersatileCollections\GenericCollection(...$data);
+        $collection->column('title', 99);
+    }
+    
+    /**
+     * @expectedException \RuntimeException
+     */
+    public function testThatColumnOnCollectionOfArraysWithOneOrMoretItemsWithNonStringAndNonIntValueForANonNullIndexKeyWorksAsExpected() {
+
+        $data = [];
+        $data[] = ['id' => [], 'volume' => 67, 'edition' => 2, 'title'=>"Boo"];
+        $data[] = ['id' => 27, 'volume' => 86, 'edition' => 1, 'title'=>"Coo"];
+        $data[] = ['id' => 37, 'volume' => 85, 'edition' => 6, 'title'=>"Doo"];
+        $data[] = ['id' => 47, 'volume' => 98, 'edition' => 2, 'title'=>"Foo"];
+        $data[] = ['id' => 57, 'volume' => 86, 'edition' => 6, 'title'=>"Goo"];
+        $data[] = ['id' => 67, 'volume' => 67, 'edition' => 7, 'title'=>"Hoo"];
+        
+        $collection = new \VersatileCollections\GenericCollection(...$data);
+        $collection->column('title', 'id');
+    }
+    
+    /**
+     * @expectedException \RuntimeException
+     */
+    public function testThatColumnOnCollectionOfArrayAccessObjectsWithOneOrMoretItemsWithNonStringAndNonIntValueForANonNullIndexKeyWorksAsExpected() {
+
+        $data = [];
+        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => [], 'volume' => 67, 'edition' => 2, 'title'=>"Boo"]);
+        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 27, 'volume' => 86, 'edition' => 1, 'title'=>"Coo"]);
+        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 37, 'volume' => 85, 'edition' => 6, 'title'=>"Doo"]);
+        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 47, 'volume' => 98, 'edition' => 2, 'title'=>"Foo"]);
+        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 57, 'volume' => 86, 'edition' => 6, 'title'=>"Goo"]);
+        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 67, 'volume' => 67, 'edition' => 7, 'title'=>"Hoo"]);
+        
+        $collection = new \VersatileCollections\GenericCollection(...$data);
+        $collection->column('title', 'id');
+    }
+    
+    /**
+     * @expectedException \RuntimeException
+     */
+    public function testThatColumnOnCollectionOfMagicMethodObjectsWithOneOrMoretItemsWithNonStringAndNonIntValueForANonNullStringIndexKeyWorksAsExpected() {
+
+        $data = [];
+        $data[] = (new TestValueObject())->setData(['id' => [], 'volume' => 67, 'edition' => 2, 'title'=>"Boo"]);
+        $data[] = (new TestValueObject())->setData(['id' => 27, 'volume' => 86, 'edition' => 1, 'title'=>"Coo"]);
+        $data[] = (new TestValueObject())->setData(['id' => 37, 'volume' => 85, 'edition' => 6, 'title'=>"Doo"]);
+        $data[] = (new TestValueObject())->setData(['id' => 47, 'volume' => 98, 'edition' => 2, 'title'=>"Foo"]);
+        $data[] = (new TestValueObject())->setData(['id' => 57, 'volume' => 86, 'edition' => 6, 'title'=>"Goo"]);
+        $data[] = (new TestValueObject())->setData(['id' => 67, 'volume' => 67, 'edition' => 7, 'title'=>"Hoo"]);
+        
+        $collection = new \VersatileCollections\GenericCollection(...$data);
+        $collection->column('title', 'id');
+    }
+    
+    /**
+     * @expectedException \RuntimeException
+     */
+    public function testThatColumnOnCollectionOfNonMagicMethodObjectsWithOneOrMoretItemsWithNonStringAndNonIntValueForANonNullStringIndexKeyWorksAsExpected() {
+
+        $data = [];
+        $data[] = (object)['id' => [], 'volume' => 67, 'edition' => 2, 'title'=>"Boo"];
+        $data[] = (object)['id' => 27, 'volume' => 86, 'edition' => 1, 'title'=>"Coo"];
+        $data[] = (object)['id' => 37, 'volume' => 85, 'edition' => 6, 'title'=>"Doo"];
+        $data[] = (object)['id' => 47, 'volume' => 98, 'edition' => 2, 'title'=>"Foo"];
+        $data[] = (object)['id' => 57, 'volume' => 86, 'edition' => 6, 'title'=>"Goo"];
+        $data[] = (object)['id' => 67, 'volume' => 67, 'edition' => 7, 'title'=>"Hoo"];
+        
+        $collection = new \VersatileCollections\GenericCollection(...$data);
+        $collection->column('title', 'id');
+    }
+    
+    /**
+     * @expectedException \RuntimeException
+     */
+    public function testThatColumnOnCollectionOfMagicMethodObjectsWithOneOrMoretItemsWithNonStringAndNonIntValueForANonNullIntIndexKeyWorksAsExpected() {
+
+        $data = [];
+        $data[] = (new TestValueObject())->setData(['id' => 17, 777 => [], 'edition' => 2, 'title'=>"Boo"]);
+        $data[] = (new TestValueObject())->setData(['id' => 27, 777 => 86, 'edition' => 1, 'title'=>"Coo"]);
+        $data[] = (new TestValueObject())->setData(['id' => 37, 777 => 85, 'edition' => 6, 'title'=>"Doo"]);
+        $data[] = (new TestValueObject())->setData(['id' => 47, 777 => 98, 'edition' => 2, 'title'=>"Foo"]);
+        $data[] = (new TestValueObject())->setData(['id' => 57, 777 => 86, 'edition' => 6, 'title'=>"Goo"]);
+        $data[] = (new TestValueObject())->setData(['id' => 67, 777 => 67, 'edition' => 7, 'title'=>"Hoo"]);
+        
+        $collection = new \VersatileCollections\GenericCollection(...$data);
+        $collection->column('title', 777);
+    }
+    
+    /**
+     * @expectedException \RuntimeException
+     */
+    public function testThatColumnOnCollectionOfNonMagicMethodObjectsWithOneOrMoretItemsWithNonStringAndNonIntValueForANonNullIntIndexKeyWorksAsExpected() {
+
+        $data = [];
+        $data[] = (object)['id' => 17, 777 => [], 'edition' => 2, 'title'=>"Boo"];
+        $data[] = (object)['id' => 27, 777 => 86, 'edition' => 1, 'title'=>"Coo"];
+        $data[] = (object)['id' => 37, 777 => 85, 'edition' => 6, 'title'=>"Doo"];
+        $data[] = (object)['id' => 47, 777 => 98, 'edition' => 2, 'title'=>"Foo"];
+        $data[] = (object)['id' => 57, 777 => 86, 'edition' => 6, 'title'=>"Goo"];
+        $data[] = (object)['id' => 67, 777 => 67, 'edition' => 7, 'title'=>"Hoo"];
+        
+        $collection = new \VersatileCollections\GenericCollection(...$data);
+        $collection->column('title', 777);
+    }
+    
+    /**
+     * @expectedException \RuntimeException
+     */
+    public function testThatColumnOnCollectionOfMagicMethodObjectsWithNonExistentNonNullIndexKeyWorksAsExpected() {
+
+        $data = [];
+        $data[] = (new TestValueObject())->setData(['id' => 17, 777 => [], 'edition' => 2, 'title'=>"Boo"]);
+        $data[] = (new TestValueObject())->setData(['id' => 27, 777 => 86, 'edition' => 1, 'title'=>"Coo"]);
+        $data[] = (new TestValueObject())->setData(['id' => 37, 777 => 85, 'edition' => 6, 'title'=>"Doo"]);
+        $data[] = (new TestValueObject())->setData(['id' => 47, 777 => 98, 'edition' => 2, 'title'=>"Foo"]);
+        $data[] = (new TestValueObject())->setData(['id' => 57, 777 => 86, 'edition' => 6, 'title'=>"Goo"]);
+        $data[] = (new TestValueObject())->setData(['id' => 67, 777 => 67, 'edition' => 7, 'title'=>"Hoo"]);
+        
+        $collection = new \VersatileCollections\GenericCollection(...$data);
+        $collection->column('title', 'id2');
+    }
+    
+    /**
+     * @expectedException \RuntimeException
+     */
+    public function testThatColumnOnCollectionOfNonMagicMethodObjectsWithNonExistentNonNullIndexKeyWorksAsExpected() {
+
+        $data = [];
+        $data[] = (object)['id' => 17, 777 => [], 'edition' => 2, 'title'=>"Boo"];
+        $data[] = (object)['id' => 27, 777 => 86, 'edition' => 1, 'title'=>"Coo"];
+        $data[] = (object)['id' => 37, 777 => 85, 'edition' => 6, 'title'=>"Doo"];
+        $data[] = (object)['id' => 47, 777 => 98, 'edition' => 2, 'title'=>"Foo"];
+        $data[] = (object)['id' => 57, 777 => 86, 'edition' => 6, 'title'=>"Goo"];
+        $data[] = (object)['id' => 67, 777 => 67, 'edition' => 7, 'title'=>"Hoo"];
+        
+        $collection = new \VersatileCollections\GenericCollection(...$data);
+        $collection->column('title', 'id2');
+    }
+    
+    /**
+     * @expectedException \RuntimeException
+     */
+    public function testThatColumnOnCollectionOfMagicMethodObjectsWithNonExistentColumnKeyWorksAsExpected() {
+
+        $data = [];
+        $data[] = (new TestValueObject())->setData(['id' => 17, 777 => [], 'edition' => 2, 'title'=>"Boo"]);
+        $data[] = (new TestValueObject())->setData(['id' => 27, 777 => 86, 'edition' => 1, 'title'=>"Coo"]);
+        $data[] = (new TestValueObject())->setData(['id' => 37, 777 => 85, 'edition' => 6, 'title'=>"Doo"]);
+        $data[] = (new TestValueObject())->setData(['id' => 47, 777 => 98, 'edition' => 2, 'title'=>"Foo"]);
+        $data[] = (new TestValueObject())->setData(['id' => 57, 777 => 86, 'edition' => 6, 'title'=>"Goo"]);
+        $data[] = (new TestValueObject())->setData(['id' => 67, 777 => 67, 'edition' => 7, 'title'=>"Hoo"]);
+        
+        $collection = new \VersatileCollections\GenericCollection(...$data);
+        $collection->column('title2', 'id');
+    }
+    
+    /**
+     * @expectedException \RuntimeException
+     */
+    public function testThatColumnOnCollectionOfNonMagicMethodObjectsWithNonExistentColumnKeyWorksAsExpected() {
+
+        $data = [];
+        $data[] = (object)['id' => 17, 777 => [], 'edition' => 2, 'title'=>"Boo"];
+        $data[] = (object)['id' => 27, 777 => 86, 'edition' => 1, 'title'=>"Coo"];
+        $data[] = (object)['id' => 37, 777 => 85, 'edition' => 6, 'title'=>"Doo"];
+        $data[] = (object)['id' => 47, 777 => 98, 'edition' => 2, 'title'=>"Foo"];
+        $data[] = (object)['id' => 57, 777 => 86, 'edition' => 6, 'title'=>"Goo"];
+        $data[] = (object)['id' => 67, 777 => 67, 'edition' => 7, 'title'=>"Hoo"];
+        
+        $collection = new \VersatileCollections\GenericCollection(...$data);
+        $collection->column('title2', 'id');
+    }
+    
+    /**
+     * @expectedException \RuntimeException
+     */
+    public function testThatColumnOnCollectionOfMagicMethodObjectsWithNonExistentColumnKeyAndNonNullIndexKeyWorksAsExpected() {
+
+        $data = [];
+        $data[] = (new TestValueObject())->setData(['id' => 17, 777 => [], 'edition' => 2, 'title'=>"Boo"]);
+        $data[] = (new TestValueObject())->setData(['id' => 27, 777 => 86, 'edition' => 1, 'title'=>"Coo"]);
+        $data[] = (new TestValueObject())->setData(['id' => 37, 777 => 85, 'edition' => 6, 'title'=>"Doo"]);
+        $data[] = (new TestValueObject())->setData(['id' => 47, 777 => 98, 'edition' => 2, 'title'=>"Foo"]);
+        $data[] = (new TestValueObject())->setData(['id' => 57, 777 => 86, 'edition' => 6, 'title'=>"Goo"]);
+        $data[] = (new TestValueObject())->setData(['id' => 67, 777 => 67, 'edition' => 7, 'title'=>"Hoo"]);
+        
+        $collection = new \VersatileCollections\GenericCollection(...$data);
+        $collection->column('title2', 'id2');
+    }
+    
+    /**
+     * @expectedException \RuntimeException
+     */
+    public function testThatColumnOnCollectionOfNonMagicMethodObjectsWithNonExistentColumnKeyAndNonNullIndexKeyWorksAsExpected() {
+
+        $data = [];
+        $data[] = (object)['id' => 17, 777 => [], 'edition' => 2, 'title'=>"Boo"];
+        $data[] = (object)['id' => 27, 777 => 86, 'edition' => 1, 'title'=>"Coo"];
+        $data[] = (object)['id' => 37, 777 => 85, 'edition' => 6, 'title'=>"Doo"];
+        $data[] = (object)['id' => 47, 777 => 98, 'edition' => 2, 'title'=>"Foo"];
+        $data[] = (object)['id' => 57, 777 => 86, 'edition' => 6, 'title'=>"Goo"];
+        $data[] = (object)['id' => 67, 777 => 67, 'edition' => 7, 'title'=>"Hoo"];
+        
+        $collection = new \VersatileCollections\GenericCollection(...$data);
+        $collection->column('title2', 'id2');
     }
     
     public function testThatContainsItemWorksAsExpected() {

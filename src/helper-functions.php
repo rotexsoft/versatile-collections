@@ -28,8 +28,8 @@ function random_array_key(array $array) {
     if( count($array) <= 0 ) {
 
         $function = __FUNCTION__;
-        $class = __NAMESPACE__;
-        $msg = "Error [{$class}::{$function}(...)]: You cannot request a random key from an empty array.";
+        $ns = __NAMESPACE__;
+        $msg = "Error [{$ns}::{$function}(...)]: You cannot request a random key from an empty array.";
         throw new \LengthException($msg);
     }
     
@@ -97,17 +97,17 @@ function random_array_keys(array $array, $number_of_random_keys = 1) {
     if( count($array) <= 0 ) {
 
         $function = __FUNCTION__;
-        $class = __NAMESPACE__;
-        $msg = "Error [{$class}::{$function}(...)]: You cannot request random keys from an empty array.";
+        $ns = __NAMESPACE__;
+        $msg = "Error [{$ns}::{$function}(...)]: You cannot request random keys from an empty array.";
         throw new \LengthException($msg);
     }
 
     if( !is_int($number_of_random_keys) ) {
 
         $function = __FUNCTION__;
-        $class = __NAMESPACE__;
+        $ns = __NAMESPACE__;
         $type = gettype($number_of_random_keys);
-        $msg = "Error [{$class}::{$function}(...)]:"
+        $msg = "Error [{$ns}::{$function}(...)]:"
         . " You must specify a valid integer as the number of random keys."
         . " You supplied a(n) `{$type}` with a value of: ". var_to_string($number_of_random_keys);
         throw new \InvalidArgumentException($msg); 
@@ -118,9 +118,9 @@ function random_array_keys(array $array, $number_of_random_keys = 1) {
         && ( $number_of_random_keys > count($array) )
     ) {
         $function = __FUNCTION__;
-        $class = __NAMESPACE__;
+        $ns = __NAMESPACE__;
         $num_items = count($array);
-        $msg = "Error [{$class}::{$function}(...)]:"
+        $msg = "Error [{$ns}::{$function}(...)]:"
         . " You requested {$number_of_random_keys} key(s), but there are only {$num_items} keys available.";
         throw new \InvalidArgumentException($msg); 
     }
@@ -141,4 +141,113 @@ function random_array_keys(array $array, $number_of_random_keys = 1) {
     }
     
     return $random_keys; 
+}
+
+/**
+ * 
+ * A robust way of retrieving the value of a a specified property in 
+ * an instance of a class. 
+ * 
+ * Works with \stdClass objects created from arrays with numeric key(s) 
+ * (the value of the propertie(s) with numeric key(s) in such \stdClass 
+ * objects will be retrieved by this function).
+ *  
+ * 
+ * @param mixed $obj
+ * @param string|int $property
+ * @param mixed $default_val
+ * 
+ * @return mixed
+ * 
+ * @throws \InvalidArgumentException
+ */
+function get_object_property_value($obj, $property, $default_val=null) {
+    
+    if( !is_object($obj) ) {
+        
+        $function = __FUNCTION__;
+        $ns = __NAMESPACE__;
+        $obj_type = gettype($obj);
+        $msg = "Error [{$ns}::{$function}(...)]:"
+        . " Object expected as first argument, `$obj_type` given.";
+        throw new \InvalidArgumentException($msg); 
+    }
+    
+    if( !is_string($property) && !is_int($property) ) {
+        
+        $function = __FUNCTION__;
+        $ns = __NAMESPACE__;
+        $property_type = gettype($property);
+        $msg = "Error [{$ns}::{$function}(...)]:"
+        . " String or Int expected as second argument, `$property_type` given.";
+        throw new \InvalidArgumentException($msg); 
+    }
+    
+    $return_val = $default_val;
+    
+    if( object_has_property($obj, $property) ) {
+        
+        if( $obj instanceof \stdClass ) {
+            
+            $obj_as_array = ((array)$obj);
+            $return_val = $obj_as_array[$property];
+            
+        } else {
+            
+            $return_val = $obj->{$property};
+        }
+    }
+    
+    return $return_val;
+}
+
+/**
+ * 
+ * A more robust way than property_exists of checking if an instance of a class
+ * has a specified property.
+ * 
+ * @param mixed $obj
+ * @param string|int $property
+ * 
+ * @return bool
+ * 
+ * @throws \InvalidArgumentException
+ */
+function object_has_property($obj, $property) {
+    
+    if( !is_object($obj) ) {
+        
+        $function = __FUNCTION__;
+        $ns = __NAMESPACE__;
+        $obj_type = gettype($obj);
+        $msg = "Error [{$ns}::{$function}(...)]:"
+        . " Object expected as first argument, `$obj_type` given.";
+        throw new \InvalidArgumentException($msg); 
+    }
+    
+    if( !is_string($property) && !is_int($property) ) {
+        
+        $function = __FUNCTION__;
+        $ns = __NAMESPACE__;
+        $property_type = gettype($property);
+        $msg = "Error [{$ns}::{$function}(...)]:"
+        . " String or Int expected as second argument, `$property_type` given.";
+        throw new \InvalidArgumentException($msg); 
+    }
+    
+    return (
+                property_exists($obj, $property)
+                ||
+                (
+                    method_exists($obj, '__isset')
+                    && method_exists($obj, '__get')
+                    && isset($obj->{$property})    
+                )
+                ||
+                (
+                    $obj instanceof \stdClass
+                    && array_key_exists( $property, ((array)$obj) )
+                ) // hack for arrays with numeric keys that were
+                  // cast into an object. E.g $item === ((object)[777=>'boo'])  
+           );
 }
