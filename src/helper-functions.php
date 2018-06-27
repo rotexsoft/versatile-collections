@@ -1,6 +1,15 @@
 <?php
 namespace VersatileCollections;
 
+/**
+ * 
+ * Generate a (screen / user)-friendly string representation of a variable. 
+ * 
+ * @param mix $var
+ * 
+ * @return string a (screen / user)-friendly string representation of a variable
+ * 
+ */
 function var_to_string($var) {
     
     return (new \SebastianBergmann\Exporter\Exporter())->export($var);
@@ -160,6 +169,7 @@ function random_array_keys(array $array, $number_of_random_keys = 1) {
  * @return mixed
  * 
  * @throws \InvalidArgumentException
+ * 
  */
 function get_object_property_value($obj, $property, $default_val=null) {
     
@@ -212,6 +222,7 @@ function get_object_property_value($obj, $property, $default_val=null) {
  * @return bool
  * 
  * @throws \InvalidArgumentException
+ * 
  */
 function object_has_property($obj, $property) {
     
