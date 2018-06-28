@@ -154,7 +154,7 @@ function random_array_keys(array $array, $number_of_random_keys = 1) {
 
 /**
  * 
- * A robust way of retrieving the value of a a specified property in 
+ * A robust way of retrieving the value of a specified property in 
  * an instance of a class. 
  * 
  * Works with \stdClass objects created from arrays with numeric key(s) 
