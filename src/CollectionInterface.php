@@ -337,11 +337,17 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
     
     /**
      * 
-     * Convert all keys in the collection to consecutive integer keys starting from zero 
+     * Convert all keys in the collection to consecutive integer keys starting from $starting_key 
+     * 
+     * @param int $starting_key a positive integer value that will be the value of the first key. 
+     *                          A negative integer value should be forced to zero.
      * 
      * @return $this
+     * 
+     * @throws \InvalidArgumentException if $starting_key is not an integer
+     * 
      */
-    public function makeAllKeysNumeric();
+    public function makeAllKeysNumeric($starting_key=0);
     
     /**
      * 

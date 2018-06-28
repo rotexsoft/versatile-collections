@@ -859,9 +859,37 @@ trait CollectionInterfaceImplementationTrait {
      * {@inheritDoc}
      * 
      */
-    public function makeAllKeysNumeric() {
+    public function makeAllKeysNumeric($starting_key=0) {
         
-        $this->versatile_collections_items = array_values($this->versatile_collections_items);
+        if( !is_int($starting_key) ) {
+            
+            $function = __FUNCTION__;
+            $class = get_class($this);
+            $starting_key_type = gettype($starting_key);
+            $msg = "Error [{$class}::{$function}(...)]:"
+            . " You must specify an integer or string as the \$starting_key parameter."
+            . " You supplied a(n) `{$starting_key_type}` with a value of: ". var_to_string($starting_key);
+            throw new \InvalidArgumentException($msg); 
+        }
+        
+        if( $starting_key < 0 ) {
+            
+            $starting_key = 0;
+        }
+        
+        if( $starting_key === 0 ) {
+        
+            $this->versatile_collections_items = 
+                array_values($this->versatile_collections_items);
+            
+        } else {
+            
+            $this->versatile_collections_items = 
+                array_combine(
+                    range($starting_key, ( ($starting_key + $this->count()) - 1) ), 
+                    array_values($this->versatile_collections_items)
+                );
+        }
         
         return $this;
     }

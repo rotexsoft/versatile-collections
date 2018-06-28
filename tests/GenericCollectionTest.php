@@ -1563,7 +1563,10 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals( [3=>4], array_shift($collections)->toArray() );
         $this->assertEquals( [4=>5], array_shift($collections)->toArray() );
     }
-
+    
+    /**
+     * @expectedException \InvalidArgumentException
+     */
     public function testThatMakeAllKeysNumericWorksAsExpected() {
 
         $collection = new \BaseCollectionTestImplementation( );
@@ -1579,6 +1582,7 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
         $this->assertTrue($collection->containsKey('item2'));
         $this->assertTrue($collection->containsKey('item3'));
         
+        // no args
         $collection->makeAllKeysNumeric();
         
         $this->assertTrue($collection->containsKey(0));
@@ -1592,6 +1596,29 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($collection[0], $item1);
         $this->assertEquals($collection[1], $item2);
         $this->assertEquals($collection[2], $item3);
+        
+        // negative number should work like zero or no args
+        $collection->makeAllKeysNumeric(-777);
+        $this->assertTrue($collection->containsKey(0));
+        $this->assertTrue($collection->containsKey(1));
+        $this->assertTrue($collection->containsKey(2));
+        
+        $this->assertEquals($collection[0], $item1);
+        $this->assertEquals($collection[1], $item2);
+        $this->assertEquals($collection[2], $item3);
+        
+        // positive number
+        $collection->makeAllKeysNumeric(777);
+        $this->assertTrue($collection->containsKey(777));
+        $this->assertTrue($collection->containsKey(778));
+        $this->assertTrue($collection->containsKey(779));
+        
+        $this->assertEquals($collection[777], $item1);
+        $this->assertEquals($collection[778], $item2);
+        $this->assertEquals($collection[779], $item3);
+        
+        // throw exception for non-int arg
+        $collection->makeAllKeysNumeric([]);
     }
     
     public function testThatValidateMethodNameWorksAsExpected() {
