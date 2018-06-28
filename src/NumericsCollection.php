@@ -1,5 +1,4 @@
 <?php
-
 namespace VersatileCollections;
 
 /**
@@ -8,12 +7,24 @@ namespace VersatileCollections;
  * @author rotimi
  */
 class NumericsCollection extends ScalarCollection {
-
+    
     /**
+     * 
+     * @return int|float|null average all of the values in the collection or null if collection is empty
+     * 
+     */
+    public function average() {
+        
+        return ($this->count() > 0) ? ($this->sum() / $this->count()) : null;
+    }
+    
+    /**
+     * 
      * This method should be overridden in sub-classes of this class
      * 
      * @param mixed $item
      * @return bool
+     * 
      */
     protected function checkType($item) {
         
@@ -21,9 +32,11 @@ class NumericsCollection extends ScalarCollection {
     }
 
     /**
+     * 
      * This method should be overridden in sub-classes of this class
      * 
      * @return string
+     * 
      */
     protected function getType() {
         
@@ -34,21 +47,10 @@ class NumericsCollection extends ScalarCollection {
      * 
      * This method should be overridden in sub-classes of this class 
      * 
-     * @param mixed $item an item in this collection
-     * 
-     * @return string representation of an item in this collection
-     */
-    protected function itemToString($item) {
-        
-        return $item.'';
-    }
-    
-    /**
-     * This method should be overridden in sub-classes of this class 
-     * 
      * @param string $str a string representation of an item in this collection
      * 
      * @return mixed an item in this collection that was just created from its string representation
+     * 
      */
     protected function itemFromString($str) {
         
@@ -59,30 +61,25 @@ class NumericsCollection extends ScalarCollection {
         
         return ( (int) ($str.'') );
     }
-
-        /**
-     * 
-     * Sum of all the values in this collection
-     * 
-     * @return float|int sum of all the values in this collection or zero if the collection is empty
-     */
-    public function sum() {
-        
-        return array_sum($this->versatile_collections_items);
-    }
     
     /**
      * 
-     * @return int|float|null average all of the values in the collection or null if collection is empty
+     * This method should be overridden in sub-classes of this class 
+     * 
+     * @param mixed $item an item in this collection
+     * 
+     * @return string representation of an item in this collection
+     * 
      */
-    public function average() {
+    protected function itemToString($item) {
         
-        return ($this->count() > 0) ? ($this->sum() / $this->count()) : null;
+        return $item.'';
     }
     
     /**
      * 
      * @return int|float|null maximum of the values in the collection or null if collection is empty
+     * 
      */
     public function max() {
         
@@ -91,16 +88,8 @@ class NumericsCollection extends ScalarCollection {
     
     /**
      * 
-     * @return int|float|null minimum of the values in the collection or null if collection is empty
-     */
-    public function min() {
-        
-        return ($this->count() > 0) ? min($this->versatile_collections_items) : null;
-    }
-    
-    /**
-     * 
      * @return int|float|null median of the values in the collection or null if collection is empty
+     * 
      */
     public function median()
     {
@@ -114,7 +103,6 @@ class NumericsCollection extends ScalarCollection {
         $values = $this->versatile_collections_items;
         
         sort($values, SORT_NUMERIC);
-
         $middle = (int) ($count / 2);
 
         if ( $count % 2 === 1) {
@@ -127,6 +115,16 @@ class NumericsCollection extends ScalarCollection {
     
     /**
      * 
+     * @return int|float|null minimum of the values in the collection or null if collection is empty
+     * 
+     */
+    public function min() {
+        
+        return ($this->count() > 0) ? min($this->versatile_collections_items) : null;
+    }
+    
+    /**
+     * 
      * @return array|null an array of modal values in the collection. 
      *                    Returned array will have modal items in the same
      *                    order as in the collection.
@@ -135,14 +133,14 @@ class NumericsCollection extends ScalarCollection {
      *                    Modal Items in the the collection that are floats like
      *                    `5.0`, `7.0` (i.e point zero) will be returned without
      *                    `.0`, in essence they are returned in integer format.
+     * 
      */
-    public function mode()
-    {
+    public function mode() {
+        
+        $counts = [];
         $count = $this->count();
 
         if ($count === 0) { return null; }
-
-        $counts = [];
 
         foreach ( $this->versatile_collections_items as $item ) {
             
@@ -153,8 +151,7 @@ class NumericsCollection extends ScalarCollection {
                 $item = $this->itemToString($item);
             }
             
-            $counts[$item] = 
-                array_key_exists($item, $counts) ? ++$counts[$item] : 1;
+            $counts[$item] = array_key_exists($item, $counts) ? ++$counts[$item] : 1;
         }
 
         $highest_count = max($counts);
@@ -176,5 +173,17 @@ class NumericsCollection extends ScalarCollection {
         }
 
         return $modal_values;
+    }
+    
+    /**
+     * 
+     * Sum of all the values in this collection
+     * 
+     * @return float|int sum of all the values in this collection or zero if the collection is empty
+     * 
+     */
+    public function sum() {
+        
+        return array_sum($this->versatile_collections_items);
     }
 }

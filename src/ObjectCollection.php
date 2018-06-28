@@ -7,16 +7,6 @@ namespace VersatileCollections;
  * @author aadegbam
  */
 class ObjectCollection extends StrictlyTypedCollection {
-
-    protected function checkType($item) {
-        
-        return is_object($item);
-    }
-    
-    protected function getType() {
-        
-        return 'object';
-    }
     
     /**
      * 
@@ -34,7 +24,6 @@ class ObjectCollection extends StrictlyTypedCollection {
     public function __call($method_name, $arguments) {
 
         try {
-            
             $result = parent::__call($method_name, $arguments);
             
             return $result;
@@ -71,5 +60,15 @@ class ObjectCollection extends StrictlyTypedCollection {
 
             return $results;
         }
+    }
+    
+    protected function checkType($item) {
+        
+        return is_object($item);
+    }
+    
+    protected function getType() {
+        
+        return 'object';
     }
 }

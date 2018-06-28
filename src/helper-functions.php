@@ -3,16 +3,113 @@ namespace VersatileCollections;
 
 /**
  * 
- * Generate a (screen / user)-friendly string representation of a variable. 
+ * A robust way of retrieving the value of a specified property in 
+ * an instance of a class. 
  * 
- * @param mix $var
+ * Works with \stdClass objects created from arrays with numeric key(s) 
+ * (the value of the propertie(s) with numeric key(s) in such \stdClass 
+ * objects will be retrieved by this function).
+ *  
  * 
- * @return string a (screen / user)-friendly string representation of a variable
+ * @param mixed $obj
+ * @param string|int $property
+ * @param mixed $default_val
+ * 
+ * @return mixed
+ * 
+ * @throws \InvalidArgumentException
  * 
  */
-function var_to_string($var) {
+function get_object_property_value($obj, $property, $default_val=null) {
     
-    return (new \SebastianBergmann\Exporter\Exporter())->export($var);
+    if( !is_object($obj) ) {
+        
+        $function = __FUNCTION__;
+        $ns = __NAMESPACE__;
+        $obj_type = gettype($obj);
+        $msg = "Error [{$ns}::{$function}(...)]:"
+        . " Object expected as first argument, `$obj_type` given.";
+        throw new \InvalidArgumentException($msg); 
+    }
+    
+    if( !is_string($property) && !is_int($property) ) {
+        
+        $function = __FUNCTION__;
+        $ns = __NAMESPACE__;
+        $property_type = gettype($property);
+        $msg = "Error [{$ns}::{$function}(...)]:"
+        . " String or Int expected as second argument, `$property_type` given.";
+        throw new \InvalidArgumentException($msg); 
+    }
+    
+    $return_val = $default_val;
+    
+    if( object_has_property($obj, $property) ) {
+        
+        if( $obj instanceof \stdClass ) {
+            
+            $obj_as_array = ((array)$obj);
+            $return_val = $obj_as_array[$property];
+            
+        } else {
+            
+            $return_val = $obj->{$property};
+        }
+    }
+    
+    return $return_val;
+}
+
+/**
+ * 
+ * A more robust way than property_exists of checking if an instance of a class
+ * has a specified property.
+ * 
+ * @param mixed $obj
+ * @param string|int $property
+ * 
+ * @return bool
+ * 
+ * @throws \InvalidArgumentException
+ * 
+ */
+function object_has_property($obj, $property) {
+    
+    if( !is_object($obj) ) {
+        
+        $function = __FUNCTION__;
+        $ns = __NAMESPACE__;
+        $obj_type = gettype($obj);
+        $msg = "Error [{$ns}::{$function}(...)]:"
+        . " Object expected as first argument, `$obj_type` given.";
+        throw new \InvalidArgumentException($msg); 
+    }
+    
+    if( !is_string($property) && !is_int($property) ) {
+        
+        $function = __FUNCTION__;
+        $ns = __NAMESPACE__;
+        $property_type = gettype($property);
+        $msg = "Error [{$ns}::{$function}(...)]:"
+        . " String or Int expected as second argument, `$property_type` given.";
+        throw new \InvalidArgumentException($msg); 
+    }
+    
+    return (
+                property_exists($obj, $property)
+                ||
+                (
+                    method_exists($obj, '__isset')
+                    && method_exists($obj, '__get')
+                    && isset($obj->{$property})    
+                )
+                ||
+                (
+                    $obj instanceof \stdClass
+                    && array_key_exists( $property, ((array)$obj) )
+                ) // hack for arrays with numeric keys that were
+                  // cast into an object. E.g $item === ((object)[777=>'boo'])  
+           );
 }
 
 /**
@@ -154,111 +251,14 @@ function random_array_keys(array $array, $number_of_random_keys = 1) {
 
 /**
  * 
- * A robust way of retrieving the value of a specified property in 
- * an instance of a class. 
+ * Generate a (screen/user)-friendly string representation of a variable. 
  * 
- * Works with \stdClass objects created from arrays with numeric key(s) 
- * (the value of the propertie(s) with numeric key(s) in such \stdClass 
- * objects will be retrieved by this function).
- *  
+ * @param mix $var
  * 
- * @param mixed $obj
- * @param string|int $property
- * @param mixed $default_val
- * 
- * @return mixed
- * 
- * @throws \InvalidArgumentException
+ * @return string a (screen / user)-friendly string representation of a variable
  * 
  */
-function get_object_property_value($obj, $property, $default_val=null) {
+function var_to_string($var) {
     
-    if( !is_object($obj) ) {
-        
-        $function = __FUNCTION__;
-        $ns = __NAMESPACE__;
-        $obj_type = gettype($obj);
-        $msg = "Error [{$ns}::{$function}(...)]:"
-        . " Object expected as first argument, `$obj_type` given.";
-        throw new \InvalidArgumentException($msg); 
-    }
-    
-    if( !is_string($property) && !is_int($property) ) {
-        
-        $function = __FUNCTION__;
-        $ns = __NAMESPACE__;
-        $property_type = gettype($property);
-        $msg = "Error [{$ns}::{$function}(...)]:"
-        . " String or Int expected as second argument, `$property_type` given.";
-        throw new \InvalidArgumentException($msg); 
-    }
-    
-    $return_val = $default_val;
-    
-    if( object_has_property($obj, $property) ) {
-        
-        if( $obj instanceof \stdClass ) {
-            
-            $obj_as_array = ((array)$obj);
-            $return_val = $obj_as_array[$property];
-            
-        } else {
-            
-            $return_val = $obj->{$property};
-        }
-    }
-    
-    return $return_val;
-}
-
-/**
- * 
- * A more robust way than property_exists of checking if an instance of a class
- * has a specified property.
- * 
- * @param mixed $obj
- * @param string|int $property
- * 
- * @return bool
- * 
- * @throws \InvalidArgumentException
- * 
- */
-function object_has_property($obj, $property) {
-    
-    if( !is_object($obj) ) {
-        
-        $function = __FUNCTION__;
-        $ns = __NAMESPACE__;
-        $obj_type = gettype($obj);
-        $msg = "Error [{$ns}::{$function}(...)]:"
-        . " Object expected as first argument, `$obj_type` given.";
-        throw new \InvalidArgumentException($msg); 
-    }
-    
-    if( !is_string($property) && !is_int($property) ) {
-        
-        $function = __FUNCTION__;
-        $ns = __NAMESPACE__;
-        $property_type = gettype($property);
-        $msg = "Error [{$ns}::{$function}(...)]:"
-        . " String or Int expected as second argument, `$property_type` given.";
-        throw new \InvalidArgumentException($msg); 
-    }
-    
-    return (
-                property_exists($obj, $property)
-                ||
-                (
-                    method_exists($obj, '__isset')
-                    && method_exists($obj, '__get')
-                    && isset($obj->{$property})    
-                )
-                ||
-                (
-                    $obj instanceof \stdClass
-                    && array_key_exists( $property, ((array)$obj) )
-                ) // hack for arrays with numeric keys that were
-                  // cast into an object. E.g $item === ((object)[777=>'boo'])  
-           );
+    return (new \SebastianBergmann\Exporter\Exporter())->export($var);
 }

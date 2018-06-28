@@ -2,6 +2,7 @@
 namespace VersatileCollections;
 
 /**
+ * 
  * Description of ResourceCollection
  *
  * @author aadegbam

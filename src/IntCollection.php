@@ -27,5 +27,4 @@ class IntCollection extends NumericsCollection {
         
         return $item.'';
     }
-
 }
