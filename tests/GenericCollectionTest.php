@@ -1813,9 +1813,11 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
         $has_return_val = true;
         $bind_to_this=true;
         
-        $collection->addMethod(
+        $add_method_return_val = $collection->addMethod(
             $method_name, $method, $has_return_val, $bind_to_this
         );
+        
+        $this->assertSame($add_method_return_val, $collection);
         
         $array_of_static_methods = 
             $collection->getArrayOfMethodsForThisInstance();

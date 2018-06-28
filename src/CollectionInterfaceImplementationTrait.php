@@ -147,6 +147,8 @@ trait CollectionInterfaceImplementationTrait {
      * @param bool $has_return_val true means $callable returns a value, else false if $callable returns no value
      * @param bool $bind_to_this true means $callable will be bound to $this, else false if $callable should not be explicitly bound to $this
      * 
+     * @return $this
+     * 
      */
     public function addMethod(
         $name, 
@@ -179,6 +181,8 @@ trait CollectionInterfaceImplementationTrait {
                 'has_return_val' => ((bool)$has_return_val)
             ];
         }
+        
+        return $this;
     }
     
     protected static function getKeyForDynamicMethod($name, array &$methods_array) {
@@ -1142,6 +1146,16 @@ trait CollectionInterfaceImplementationTrait {
      * 
      * {@inheritDoc}
      * 
+     */  
+    public function getAndRemoveFirstItem() {
+        
+        return array_shift($this->versatile_collections_items);
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
      */
     public function getAndRemoveLastItem()
     {
@@ -1400,16 +1414,6 @@ trait CollectionInterfaceImplementationTrait {
         $this->each($searcher, 9999, $bind_callback_to_this);
         
         return count($results) > 0 ? $results : false;
-    }
-    
-    /**
-     * 
-     * {@inheritDoc}
-     * 
-     */  
-    public function getAndRemoveFirstItem() {
-        
-        return array_shift($this->versatile_collections_items);
     }
     
     /**
