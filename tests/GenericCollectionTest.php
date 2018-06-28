@@ -8,122 +8,122 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
         parent::setUp();
     }
     
-    public function testThatMakeNewCollectionWorksAsExpected() {
+    public function testThatMakeNewWorksAsExpected() {
         
-        $collection = \BaseCollectionTestImplementation::makeNewCollection();
+        $collection = \BaseCollectionTestImplementation::makeNew();
         
         $this->assertEquals($collection->count(), 0);
         $this->assertInstanceOf(\BaseCollectionTestImplementation::class, $collection);
         
-        $collection = \BaseCollectionTestImplementation::makeNewCollection([1, 2, 3]);
+        $collection = \BaseCollectionTestImplementation::makeNew([1, 2, 3]);
         
         $this->assertEquals($collection->count(), 3);
         $this->assertInstanceOf(\BaseCollectionTestImplementation::class, $collection);
         
         ///////////////////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////////////
-        $collection = \VersatileCollections\CallablesCollection::makeNewCollection();
+        $collection = \VersatileCollections\CallablesCollection::makeNew();
         
         $this->assertEquals($collection->count(), 0);
         $this->assertInstanceOf(\VersatileCollections\CallablesCollection::class, $collection);
         
-        $collection = \VersatileCollections\CallablesCollection::makeNewCollection(['strtolower', 'strtoupper', function(){ return 'boo'; }]);
+        $collection = \VersatileCollections\CallablesCollection::makeNew(['strtolower', 'strtoupper', function(){ return 'boo'; }]);
         
         $this->assertEquals($collection->count(), 3);
         $this->assertInstanceOf(\VersatileCollections\CallablesCollection::class, $collection);
         
         ///////////////////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////////////
-        $collection = \VersatileCollections\FloatCollection::makeNewCollection();
+        $collection = \VersatileCollections\FloatCollection::makeNew();
         
         $this->assertEquals($collection->count(), 0);
         $this->assertInstanceOf(\VersatileCollections\FloatCollection::class, $collection);
         
-        $collection = \VersatileCollections\FloatCollection::makeNewCollection([1.1, 2.2, 3.3]);
+        $collection = \VersatileCollections\FloatCollection::makeNew([1.1, 2.2, 3.3]);
         
         $this->assertEquals($collection->count(), 3);
         $this->assertInstanceOf(\VersatileCollections\FloatCollection::class, $collection);
         
         ///////////////////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////////////
-        $collection = \VersatileCollections\GenericCollection::makeNewCollection();
+        $collection = \VersatileCollections\GenericCollection::makeNew();
         
         $this->assertEquals($collection->count(), 0);
         $this->assertInstanceOf(\VersatileCollections\GenericCollection::class, $collection);
         
-        $collection = \VersatileCollections\GenericCollection::makeNewCollection([1.1, 2.2, 3.3]);
+        $collection = \VersatileCollections\GenericCollection::makeNew([1.1, 2.2, 3.3]);
         
         $this->assertEquals($collection->count(), 3);
         $this->assertInstanceOf(\VersatileCollections\GenericCollection::class, $collection);
         
         ///////////////////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////////////
-        $collection = \VersatileCollections\IntCollection::makeNewCollection();
+        $collection = \VersatileCollections\IntCollection::makeNew();
         
         $this->assertEquals($collection->count(), 0);
         $this->assertInstanceOf(\VersatileCollections\IntCollection::class, $collection);
         
-        $collection = \VersatileCollections\IntCollection::makeNewCollection([1, 2, 3]);
+        $collection = \VersatileCollections\IntCollection::makeNew([1, 2, 3]);
         
         $this->assertEquals($collection->count(), 3);
         $this->assertInstanceOf(\VersatileCollections\IntCollection::class, $collection);
         
         ///////////////////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////////////
-        $collection = \VersatileCollections\NumericsCollection::makeNewCollection();
+        $collection = \VersatileCollections\NumericsCollection::makeNew();
         
         $this->assertEquals($collection->count(), 0);
         $this->assertInstanceOf(\VersatileCollections\NumericsCollection::class, $collection);
         
-        $collection = \VersatileCollections\NumericsCollection::makeNewCollection([1, 2, 3]);
+        $collection = \VersatileCollections\NumericsCollection::makeNew([1, 2, 3]);
         
         $this->assertEquals($collection->count(), 3);
         $this->assertInstanceOf(\VersatileCollections\NumericsCollection::class, $collection);
         
         ///////////////////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////////////
-        $collection = \VersatileCollections\ObjectCollection::makeNewCollection();
+        $collection = \VersatileCollections\ObjectCollection::makeNew();
         
         $this->assertEquals($collection->count(), 0);
         $this->assertInstanceOf(\VersatileCollections\ObjectCollection::class, $collection);
         
-        $collection = \VersatileCollections\ObjectCollection::makeNewCollection([new stdClass(), new ArrayObject(), new DateTime('2000-04-04')]);
+        $collection = \VersatileCollections\ObjectCollection::makeNew([new stdClass(), new ArrayObject(), new DateTime('2000-04-04')]);
         
         $this->assertEquals($collection->count(), 3);
         $this->assertInstanceOf(\VersatileCollections\ObjectCollection::class, $collection);
         
         ///////////////////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////////////
-        $collection = \VersatileCollections\ResourceCollection::makeNewCollection();
+        $collection = \VersatileCollections\ResourceCollection::makeNew();
         
         $this->assertEquals($collection->count(), 0);
         $this->assertInstanceOf(\VersatileCollections\ResourceCollection::class, $collection);
         
-        $collection = \VersatileCollections\ResourceCollection::makeNewCollection([tmpfile(), tmpfile(), tmpfile()]);
+        $collection = \VersatileCollections\ResourceCollection::makeNew([tmpfile(), tmpfile(), tmpfile()]);
         
         $this->assertEquals($collection->count(), 3);
         $this->assertInstanceOf(\VersatileCollections\ResourceCollection::class, $collection);
         
         ///////////////////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////////////
-        $collection = \VersatileCollections\ScalarCollection::makeNewCollection();
+        $collection = \VersatileCollections\ScalarCollection::makeNew();
         
         $this->assertEquals($collection->count(), 0);
         $this->assertInstanceOf(\VersatileCollections\ScalarCollection::class, $collection);
         
-        $collection = \VersatileCollections\ScalarCollection::makeNewCollection([1, 2, 3]);
+        $collection = \VersatileCollections\ScalarCollection::makeNew([1, 2, 3]);
         
         $this->assertEquals($collection->count(), 3);
         $this->assertInstanceOf(\VersatileCollections\ScalarCollection::class, $collection);
         
         ///////////////////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////////////
-        $collection = \VersatileCollections\StringCollection::makeNewCollection();
+        $collection = \VersatileCollections\StringCollection::makeNew();
         
         $this->assertEquals($collection->count(), 0);
         $this->assertInstanceOf(\VersatileCollections\StringCollection::class, $collection);
         
-        $collection = \VersatileCollections\StringCollection::makeNewCollection(['1', '2', '3']);
+        $collection = \VersatileCollections\StringCollection::makeNew(['1', '2', '3']);
         
         $this->assertEquals($collection->count(), 3);
         $this->assertInstanceOf(\VersatileCollections\StringCollection::class, $collection);
@@ -131,7 +131,7 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
         ////////////////////////////////////////////////////////////////////////
         // Test with array with string keys and preserve keys
         ////////////////////////////////////////////////////////////////////////
-        $collection = \BaseCollectionTestImplementation::makeNewCollection(['a'=>'taylor', 'b'=>'abigail', null]);
+        $collection = \BaseCollectionTestImplementation::makeNew(['a'=>'taylor', 'b'=>'abigail', null]);
         
         $this->assertTrue($collection->containsKey('a'));
         $this->assertTrue($collection->containsKey('b'));
@@ -146,7 +146,7 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
         ////////////////////////////////////////////////////////////////////////
         // Test with array with numeric keys, don't preserve keys
         ////////////////////////////////////////////////////////////////////////
-        $collection = \BaseCollectionTestImplementation::makeNewCollection([5=>'taylor', 10=>'abigail', 9=>null], false);
+        $collection = \BaseCollectionTestImplementation::makeNew([5=>'taylor', 10=>'abigail', 9=>null], false);
 
         $this->assertTrue($collection->containsKey(0));
         $this->assertTrue($collection->containsKey(1));
@@ -707,9 +707,9 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
     public function testThatSetValForEachItemWorksAsExpected() {
 
         $collection_of_collections = new \BaseCollectionTestImplementation( );
-        $collection_of_collections->item1 = \BaseCollectionTestImplementation::makeNewCollection( ['name'=>'Joe', 'age'=>'10'] );
-        $collection_of_collections->item2 = \BaseCollectionTestImplementation::makeNewCollection( ['name'=>'Jane', 'age'=>'20'] );
-        $collection_of_collections->item3 = \BaseCollectionTestImplementation::makeNewCollection( ['name'=>'Janice', 'age'=>'30'] );
+        $collection_of_collections->item1 = \BaseCollectionTestImplementation::makeNew( ['name'=>'Joe', 'age'=>'10'] );
+        $collection_of_collections->item2 = \BaseCollectionTestImplementation::makeNew( ['name'=>'Jane', 'age'=>'20'] );
+        $collection_of_collections->item3 = \BaseCollectionTestImplementation::makeNew( ['name'=>'Janice', 'age'=>'30'] );
         
         $collection_of_collections->setValForEachItem('age', '50');
         
@@ -847,12 +847,12 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
 
         // collection of ArrayAccess objects
         $data = [];
-        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 17, 777 => 67, 'edition' => 2, 'title'=>"Boo"]);
-        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 27, 777 => 86, 'edition' => 1, 'title'=>"Coo"]);
-        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 37, 777 => 85, 'edition' => 6, 'title'=>"Doo"]);
-        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 47, 777 => 98, 'edition' => 2, 'title'=>"Foo"]);
-        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 57, 777 => 86, 'edition' => 6, 'title'=>"Goo"]);
-        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 67, 777 => 67, 'edition' => 7, 'title'=>"Hoo"]);
+        $data[] = \VersatileCollections\GenericCollection::makeNew(['id' => 17, 777 => 67, 'edition' => 2, 'title'=>"Boo"]);
+        $data[] = \VersatileCollections\GenericCollection::makeNew(['id' => 27, 777 => 86, 'edition' => 1, 'title'=>"Coo"]);
+        $data[] = \VersatileCollections\GenericCollection::makeNew(['id' => 37, 777 => 85, 'edition' => 6, 'title'=>"Doo"]);
+        $data[] = \VersatileCollections\GenericCollection::makeNew(['id' => 47, 777 => 98, 'edition' => 2, 'title'=>"Foo"]);
+        $data[] = \VersatileCollections\GenericCollection::makeNew(['id' => 57, 777 => 86, 'edition' => 6, 'title'=>"Goo"]);
+        $data[] = \VersatileCollections\GenericCollection::makeNew(['id' => 67, 777 => 67, 'edition' => 7, 'title'=>"Hoo"]);
         $collection = new \VersatileCollections\GenericCollection(...$data);
         
         $this->assertSame(
@@ -1056,12 +1056,12 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
     public function testThatColumnOnCollectionOfArrayAccessObjectsWithOneOrMoretItemsWithoutStringColumnKeyWorksAsExpected() {
 
         $data = [];
-        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 17, 'volume' => 67, 'edition' => 2, 'title'=>"Boo"]);
-        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 27, 'volume' => 86, 'edition' => 1, 'title'=>"Coo"]);
-        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 37, 'volume' => 85, 'edition' => 6, 'title'=>"Doo"]);
-        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 47, 'volume' => 98, 'edition' => 2, 'title'=>"Foo"]);
-        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 57, 'volume' => 86, 'edition' => 6, 'title'=>"Goo"]);
-        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 67, 'volume' => 67, 'edition' => 7, 'title'=>"Hoo"]);
+        $data[] = \VersatileCollections\GenericCollection::makeNew(['id' => 17, 'volume' => 67, 'edition' => 2, 'title'=>"Boo"]);
+        $data[] = \VersatileCollections\GenericCollection::makeNew(['id' => 27, 'volume' => 86, 'edition' => 1, 'title'=>"Coo"]);
+        $data[] = \VersatileCollections\GenericCollection::makeNew(['id' => 37, 'volume' => 85, 'edition' => 6, 'title'=>"Doo"]);
+        $data[] = \VersatileCollections\GenericCollection::makeNew(['id' => 47, 'volume' => 98, 'edition' => 2, 'title'=>"Foo"]);
+        $data[] = \VersatileCollections\GenericCollection::makeNew(['id' => 57, 'volume' => 86, 'edition' => 6, 'title'=>"Goo"]);
+        $data[] = \VersatileCollections\GenericCollection::makeNew(['id' => 67, 'volume' => 67, 'edition' => 7, 'title'=>"Hoo"]);
         
         $collection = new \VersatileCollections\GenericCollection(...$data);
         $collection->column('title2');
@@ -1090,12 +1090,12 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
     public function testThatColumnOnCollectionOfArrayAccessObjectsWithOneOrMoretItemsWithoutIntColumnKeyWorksAsExpected() {
 
         $data = [];
-        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 17, 'volume' => 67, 'edition' => 2, 'title'=>"Boo"]);
-        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 27, 'volume' => 86, 'edition' => 1, 'title'=>"Coo"]);
-        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 37, 'volume' => 85, 'edition' => 6, 'title'=>"Doo"]);
-        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 47, 'volume' => 98, 'edition' => 2, 'title'=>"Foo"]);
-        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 57, 'volume' => 86, 'edition' => 6, 'title'=>"Goo"]);
-        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 67, 'volume' => 67, 'edition' => 7, 'title'=>"Hoo"]);
+        $data[] = \VersatileCollections\GenericCollection::makeNew(['id' => 17, 'volume' => 67, 'edition' => 2, 'title'=>"Boo"]);
+        $data[] = \VersatileCollections\GenericCollection::makeNew(['id' => 27, 'volume' => 86, 'edition' => 1, 'title'=>"Coo"]);
+        $data[] = \VersatileCollections\GenericCollection::makeNew(['id' => 37, 'volume' => 85, 'edition' => 6, 'title'=>"Doo"]);
+        $data[] = \VersatileCollections\GenericCollection::makeNew(['id' => 47, 'volume' => 98, 'edition' => 2, 'title'=>"Foo"]);
+        $data[] = \VersatileCollections\GenericCollection::makeNew(['id' => 57, 'volume' => 86, 'edition' => 6, 'title'=>"Goo"]);
+        $data[] = \VersatileCollections\GenericCollection::makeNew(['id' => 67, 'volume' => 67, 'edition' => 7, 'title'=>"Hoo"]);
         
         $collection = new \VersatileCollections\GenericCollection(...$data);
         $collection->column(99);
@@ -1124,12 +1124,12 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
     public function testThatColumnOnCollectionOfArrayAccessObjectsWithOneOrMoretItemsWithoutNonNullStringIndexKeyWorksAsExpected() {
 
         $data = [];
-        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 17, 'volume' => 67, 'edition' => 2, 'title'=>"Boo"]);
-        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 27, 'volume' => 86, 'edition' => 1, 'title'=>"Coo"]);
-        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 37, 'volume' => 85, 'edition' => 6, 'title'=>"Doo"]);
-        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 47, 'volume' => 98, 'edition' => 2, 'title'=>"Foo"]);
-        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 57, 'volume' => 86, 'edition' => 6, 'title'=>"Goo"]);
-        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 67, 'volume' => 67, 'edition' => 7, 'title'=>"Hoo"]);
+        $data[] = \VersatileCollections\GenericCollection::makeNew(['id' => 17, 'volume' => 67, 'edition' => 2, 'title'=>"Boo"]);
+        $data[] = \VersatileCollections\GenericCollection::makeNew(['id' => 27, 'volume' => 86, 'edition' => 1, 'title'=>"Coo"]);
+        $data[] = \VersatileCollections\GenericCollection::makeNew(['id' => 37, 'volume' => 85, 'edition' => 6, 'title'=>"Doo"]);
+        $data[] = \VersatileCollections\GenericCollection::makeNew(['id' => 47, 'volume' => 98, 'edition' => 2, 'title'=>"Foo"]);
+        $data[] = \VersatileCollections\GenericCollection::makeNew(['id' => 57, 'volume' => 86, 'edition' => 6, 'title'=>"Goo"]);
+        $data[] = \VersatileCollections\GenericCollection::makeNew(['id' => 67, 'volume' => 67, 'edition' => 7, 'title'=>"Hoo"]);
         
         $collection = new \VersatileCollections\GenericCollection(...$data);
         $collection->column('title', 'id2');
@@ -1158,12 +1158,12 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
     public function testThatColumnOnCollectionOfArrayAccessObjectsWithOneOrMoretItemsWithoutNonNullIntIndexKeyWorksAsExpected() {
 
         $data = [];
-        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 17, 'volume' => 67, 'edition' => 2, 'title'=>"Boo"]);
-        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 27, 'volume' => 86, 'edition' => 1, 'title'=>"Coo"]);
-        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 37, 'volume' => 85, 'edition' => 6, 'title'=>"Doo"]);
-        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 47, 'volume' => 98, 'edition' => 2, 'title'=>"Foo"]);
-        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 57, 'volume' => 86, 'edition' => 6, 'title'=>"Goo"]);
-        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 67, 'volume' => 67, 'edition' => 7, 'title'=>"Hoo"]);
+        $data[] = \VersatileCollections\GenericCollection::makeNew(['id' => 17, 'volume' => 67, 'edition' => 2, 'title'=>"Boo"]);
+        $data[] = \VersatileCollections\GenericCollection::makeNew(['id' => 27, 'volume' => 86, 'edition' => 1, 'title'=>"Coo"]);
+        $data[] = \VersatileCollections\GenericCollection::makeNew(['id' => 37, 'volume' => 85, 'edition' => 6, 'title'=>"Doo"]);
+        $data[] = \VersatileCollections\GenericCollection::makeNew(['id' => 47, 'volume' => 98, 'edition' => 2, 'title'=>"Foo"]);
+        $data[] = \VersatileCollections\GenericCollection::makeNew(['id' => 57, 'volume' => 86, 'edition' => 6, 'title'=>"Goo"]);
+        $data[] = \VersatileCollections\GenericCollection::makeNew(['id' => 67, 'volume' => 67, 'edition' => 7, 'title'=>"Hoo"]);
         
         $collection = new \VersatileCollections\GenericCollection(...$data);
         $collection->column('title', 99);
@@ -1192,12 +1192,12 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
     public function testThatColumnOnCollectionOfArrayAccessObjectsWithOneOrMoretItemsWithNonStringAndNonIntValueForANonNullIndexKeyWorksAsExpected() {
 
         $data = [];
-        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => [], 'volume' => 67, 'edition' => 2, 'title'=>"Boo"]);
-        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 27, 'volume' => 86, 'edition' => 1, 'title'=>"Coo"]);
-        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 37, 'volume' => 85, 'edition' => 6, 'title'=>"Doo"]);
-        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 47, 'volume' => 98, 'edition' => 2, 'title'=>"Foo"]);
-        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 57, 'volume' => 86, 'edition' => 6, 'title'=>"Goo"]);
-        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 67, 'volume' => 67, 'edition' => 7, 'title'=>"Hoo"]);
+        $data[] = \VersatileCollections\GenericCollection::makeNew(['id' => [], 'volume' => 67, 'edition' => 2, 'title'=>"Boo"]);
+        $data[] = \VersatileCollections\GenericCollection::makeNew(['id' => 27, 'volume' => 86, 'edition' => 1, 'title'=>"Coo"]);
+        $data[] = \VersatileCollections\GenericCollection::makeNew(['id' => 37, 'volume' => 85, 'edition' => 6, 'title'=>"Doo"]);
+        $data[] = \VersatileCollections\GenericCollection::makeNew(['id' => 47, 'volume' => 98, 'edition' => 2, 'title'=>"Foo"]);
+        $data[] = \VersatileCollections\GenericCollection::makeNew(['id' => 57, 'volume' => 86, 'edition' => 6, 'title'=>"Goo"]);
+        $data[] = \VersatileCollections\GenericCollection::makeNew(['id' => 67, 'volume' => 67, 'edition' => 7, 'title'=>"Hoo"]);
         
         $collection = new \VersatileCollections\GenericCollection(...$data);
         $collection->column('title', 'id');
@@ -1727,7 +1727,7 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
         // This should trigger an Exception because we are
         // trying to validate the name of a static method 
         // that exists in the collection class.
-        $collection->validateMethodNamePublic('makeNewCollection', __FUNCTION__);
+        $collection->validateMethodNamePublic('makeNew', __FUNCTION__);
     }
     
     public function testThatAddStaticMethodWorksAsExpected() {
@@ -2038,7 +2038,7 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
 
         // Should throw a \LengthException. 
         // Can't get a random key from an empty collection.
-        \BaseCollectionTestImplementation::makeNewCollection()->randomKey();
+        \BaseCollectionTestImplementation::makeNew()->randomKey();
     }
     
     /**
@@ -2081,7 +2081,7 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
 
         // Should throw a \LengthException. 
         // Can't get a random keys from an empty collection.
-        \BaseCollectionTestImplementation::makeNewCollection()->randomKeys();
+        \BaseCollectionTestImplementation::makeNew()->randomKeys();
     }
     
     /**
@@ -2089,7 +2089,7 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
      */
     public function testThatRandomKeysWorksAsExpected2() {
         
-        \BaseCollectionTestImplementation::makeNewCollection([1, 2])
+        \BaseCollectionTestImplementation::makeNew([1, 2])
                                 ->randomKeys("Invalid Length Data Type");
     }
     
@@ -2099,7 +2099,7 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
     public function testThatRandomKeysWorksAsExpected3() {
         
         // requesting more random keys than collection size
-        \BaseCollectionTestImplementation::makeNewCollection([1, 2])->randomKeys(5);
+        \BaseCollectionTestImplementation::makeNew([1, 2])->randomKeys(5);
     }
     
     /**
@@ -2108,7 +2108,7 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
     public function testThatRandomKeysWorksAsExpected4() {
         
         // requesting random keys from an empty collection
-        \BaseCollectionTestImplementation::makeNewCollection()->randomKeys(5);
+        \BaseCollectionTestImplementation::makeNew()->randomKeys(5);
     }
     
     /**
@@ -2148,7 +2148,7 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
 
         // Should throw a \LengthException. 
         // Can't get a random item from an empty collection.
-        \BaseCollectionTestImplementation::makeNewCollection()->randomItem();
+        \BaseCollectionTestImplementation::makeNew()->randomItem();
     }
     
     /**
@@ -2160,7 +2160,7 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
             'blue', 'red', 'green', 'red', 1, 'blue', '2'
         );
         
-        $collection2 = \BaseCollectionTestImplementation::makeNewCollection(
+        $collection2 = \BaseCollectionTestImplementation::makeNew(
             [ 
                 'a'=>'blue', 'b'=>'red', 'c'=>'green', 
                 'd'=>'red', 'e'=>1, 'f'=>'blue', 'g'=>'2' 
@@ -2205,7 +2205,7 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
         
         // Should throw a \LengthException. 
         // Can't get a random key from an empty collection.
-        \BaseCollectionTestImplementation::makeNewCollection()->randomItems();
+        \BaseCollectionTestImplementation::makeNew()->randomItems();
     }
     
     /**
@@ -2213,7 +2213,7 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
      */
     public function testThatRandomItemsWorksAsExpected2() {
         
-        \BaseCollectionTestImplementation::makeNewCollection([1, 2])
+        \BaseCollectionTestImplementation::makeNew([1, 2])
                                 ->randomItems("Invalid Length Data Type");
     }
     
@@ -2223,7 +2223,7 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
     public function testThatRandomItemsWorksAsExpected3() {
         
         // requesting more random keys than collection size
-        \BaseCollectionTestImplementation::makeNewCollection([1, 2])->randomItems(5);
+        \BaseCollectionTestImplementation::makeNew([1, 2])->randomItems(5);
     }
     
     /**
@@ -2232,17 +2232,17 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
     public function testThatRandomItemsWorksAsExpected4() {
         
         // requesting random keys from an empty collection
-        \BaseCollectionTestImplementation::makeNewCollection()->randomItems(5);
+        \BaseCollectionTestImplementation::makeNew()->randomItems(5);
     }
     
     public function testReverse() {
         
-        $data = \BaseCollectionTestImplementation::makeNewCollection(['zaeed', 'alan']);
+        $data = \BaseCollectionTestImplementation::makeNew(['zaeed', 'alan']);
         $reversed = $data->reverse();
 
         $this->assertSame([1 => 'alan', 0 => 'zaeed'], $reversed->toArray());
 
-        $data = \BaseCollectionTestImplementation::makeNewCollection(['name' => 'taylor', 'framework' => 'laravel']);
+        $data = \BaseCollectionTestImplementation::makeNew(['name' => 'taylor', 'framework' => 'laravel']);
         $reversed = $data->reverse();
 
         $this->assertSame(['framework' => 'laravel', 'name' => 'taylor'], $reversed->toArray());
@@ -2250,12 +2250,12 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
 
     public function testReverseMe() {
         
-        $data = \BaseCollectionTestImplementation::makeNewCollection(['zaeed', 'alan']);
+        $data = \BaseCollectionTestImplementation::makeNew(['zaeed', 'alan']);
         $reversed = $data->reverseMe();
         $this->assertSame([1 => 'alan', 0 => 'zaeed'], $reversed->toArray());
         $this->assertSame($reversed, $data);
 
-        $data = \BaseCollectionTestImplementation::makeNewCollection(['name' => 'taylor', 'framework' => 'laravel']);
+        $data = \BaseCollectionTestImplementation::makeNew(['name' => 'taylor', 'framework' => 'laravel']);
         $reversed = $data->reverseMe();
         $this->assertSame(['framework' => 'laravel', 'name' => 'taylor'], $reversed->toArray());
         $this->assertSame($reversed, $data);
@@ -2353,9 +2353,9 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
     public function testThatShuffleWorksAsExpected4() {
         
         $empty_collection = 
-            \BaseCollectionTestImplementation::makeNewCollection();
+            \BaseCollectionTestImplementation::makeNew();
         
-        $collection = \BaseCollectionTestImplementation::makeNewCollection(
+        $collection = \BaseCollectionTestImplementation::makeNew(
             [ 
                 'a'=>'blue', 'b'=>'red', 'c'=>'green', 
                 'd'=>'red', 'e'=>1, 'f'=>'blue', 'g'=>'2' 
@@ -2406,7 +2406,7 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
      */
     public function testSliceExceptionOffset()
     {
-        $collection = \VersatileCollections\GenericCollection::makeNewCollection([1, 2, 3, 4, 5, 6, 7, 8]);
+        $collection = \VersatileCollections\GenericCollection::makeNew([1, 2, 3, 4, 5, 6, 7, 8]);
         $collection->slice([]); // exception should be generated
     }
     
@@ -2415,7 +2415,7 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
      */
     public function testSliceExceptionLength()
     {
-        $collection = \VersatileCollections\GenericCollection::makeNewCollection([1, 2, 3, 4, 5, 6, 7, 8]);
+        $collection = \VersatileCollections\GenericCollection::makeNew([1, 2, 3, 4, 5, 6, 7, 8]);
         $collection->slice(-3,[]); // exception should be generated
     }
     
@@ -2424,67 +2424,67 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
      */
     public function testSliceExceptionOffsetAndLength()
     {
-        $collection = \VersatileCollections\GenericCollection::makeNewCollection([1, 2, 3, 4, 5, 6, 7, 8]);
+        $collection = \VersatileCollections\GenericCollection::makeNew([1, 2, 3, 4, 5, 6, 7, 8]);
         $collection->slice([],[]); // exception should be generated
     }
     
     public function testSliceNegativeOffset()
     {
-        $collection = \VersatileCollections\GenericCollection::makeNewCollection([1, 2, 3, 4, 5, 6, 7, 8]);
+        $collection = \VersatileCollections\GenericCollection::makeNew([1, 2, 3, 4, 5, 6, 7, 8]);
         $this->assertEquals([6, 7, 8], $collection->slice(-3)->makeAllKeysNumeric()->toArray());
     }
 	
     public function testSliceNegativeOffsetAndLength()
     {
-        $collection = \VersatileCollections\GenericCollection::makeNewCollection([1, 2, 3, 4, 5, 6, 7, 8]);
+        $collection = \VersatileCollections\GenericCollection::makeNew([1, 2, 3, 4, 5, 6, 7, 8]);
         $this->assertEquals([4, 5, 6], $collection->slice(-5, 3)->makeAllKeysNumeric()->toArray());
     }
 	
     public function testSliceNegativeOffsetAndNegativeLength()
     {
-        $collection = \VersatileCollections\GenericCollection::makeNewCollection([1, 2, 3, 4, 5, 6, 7, 8]);
+        $collection = \VersatileCollections\GenericCollection::makeNew([1, 2, 3, 4, 5, 6, 7, 8]);
         $this->assertEquals([3, 4, 5, 6], $collection->slice(-6, -2)->makeAllKeysNumeric()->toArray());
     }
     
     public function testSliceOffset()
     {
-        $collection = \VersatileCollections\GenericCollection::makeNewCollection([1, 2, 3, 4, 5, 6, 7, 8]);
+        $collection = \VersatileCollections\GenericCollection::makeNew([1, 2, 3, 4, 5, 6, 7, 8]);
         $this->assertEquals([4, 5, 6, 7, 8], $collection->slice(3)->makeAllKeysNumeric()->toArray());
     }
     
     public function testSliceKeysPreserved()
     {
-        $collection = \VersatileCollections\GenericCollection::makeNewCollection([1, 2, 3, 4, 5, 6, 7, 8]);
+        $collection = \VersatileCollections\GenericCollection::makeNew([1, 2, 3, 4, 5, 6, 7, 8]);
         $this->assertEquals([3=>4, 4=>5, 5=>6, 6=>7, 7=>8], $collection->slice(3)->toArray());
     }
 
     public function testSliceOffsetAndLength()
     {
-        $collection = \VersatileCollections\GenericCollection::makeNewCollection([1, 2, 3, 4, 5, 6, 7, 8]);
+        $collection = \VersatileCollections\GenericCollection::makeNew([1, 2, 3, 4, 5, 6, 7, 8]);
         $this->assertEquals([4, 5, 6], $collection->slice(3, 3)->makeAllKeysNumeric()->toArray());
     }
 
     public function testSliceOffsetAndNegativeLength()
     {
-        $collection = \VersatileCollections\GenericCollection::makeNewCollection([1, 2, 3, 4, 5, 6, 7, 8]);
+        $collection = \VersatileCollections\GenericCollection::makeNew([1, 2, 3, 4, 5, 6, 7, 8]);
         $this->assertEquals([4, 5, 6, 7], $collection->slice(3, -1)->makeAllKeysNumeric()->toArray());
     }
     
     public function testSplice()
     {
-        $data = \VersatileCollections\GenericCollection::makeNewCollection(['foo', 'baz']);
+        $data = \VersatileCollections\GenericCollection::makeNew(['foo', 'baz']);
         $data->splice(1);
         $this->assertEquals(['foo'], $data->toArray());
 
-        $data = \VersatileCollections\GenericCollection::makeNewCollection(['foo', 'baz']);
+        $data = \VersatileCollections\GenericCollection::makeNew(['foo', 'baz']);
         $data->splice(1, 0, ['bar']);
         $this->assertEquals(['foo', 'bar', 'baz'], $data->toArray());
 
-        $data = \VersatileCollections\GenericCollection::makeNewCollection(['foo', 'baz']);
+        $data = \VersatileCollections\GenericCollection::makeNew(['foo', 'baz']);
         $data->splice(1, 1);
         $this->assertEquals(['foo'], $data->toArray());
 
-        $data = \VersatileCollections\GenericCollection::makeNewCollection(['foo', 'baz']);
+        $data = \VersatileCollections\GenericCollection::makeNew(['foo', 'baz']);
         $cut = $data->splice(1, 1, ['bar']);
         $this->assertEquals(['foo', 'bar'], $data->toArray());
         $this->assertEquals(['baz'], $cut->toArray());
@@ -2495,7 +2495,7 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
      */
     public function testSpliceExceptionOffset()
     {
-        $collection = \VersatileCollections\GenericCollection::makeNewCollection([1, 2, 3, 4, 5, 6, 7, 8]);
+        $collection = \VersatileCollections\GenericCollection::makeNew([1, 2, 3, 4, 5, 6, 7, 8]);
         $collection->splice([]); // exception should be generated
     }
     
@@ -2504,7 +2504,7 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
      */
     public function testSpliceExceptionLength()
     {
-        $collection = \VersatileCollections\GenericCollection::makeNewCollection([1, 2, 3, 4, 5, 6, 7, 8]);
+        $collection = \VersatileCollections\GenericCollection::makeNew([1, 2, 3, 4, 5, 6, 7, 8]);
         $collection->splice(-3,[]); // exception should be generated
     }
     
@@ -2513,7 +2513,7 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
      */
     public function testSpliceExceptionOffsetAndLength()
     {
-        $collection = \VersatileCollections\GenericCollection::makeNewCollection([1, 2, 3, 4, 5, 6, 7, 8]);
+        $collection = \VersatileCollections\GenericCollection::makeNew([1, 2, 3, 4, 5, 6, 7, 8]);
         $collection->splice([],[]); // exception should be generated
     }
     
@@ -2617,19 +2617,19 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
     
     public function testThatSortByKeyWorksAsExpected() {
         
-        $collection = \BaseCollectionTestImplementation::makeNewCollection(
+        $collection = \BaseCollectionTestImplementation::makeNew(
             ["d"=>"lemon", "a"=>"orange", "b"=>"banana", "c"=>"apple"]
         );
         $sorted_collection = $collection->sortByKey();
         $this->assertEquals( [ "a"=>"orange", "b"=>"banana", "c"=>"apple", "d"=>"lemon" ], $sorted_collection->toArray() );
         
-        $collection = \BaseCollectionTestImplementation::makeNewCollection(
+        $collection = \BaseCollectionTestImplementation::makeNew(
             ["3"=>"lemon", "0"=>"orange", "1"=>"banana", "2"=>"apple"]
         );
         $sorted_collection = $collection->sortByKey();
         $this->assertEquals( [ "0"=>"orange", "1"=>"banana", "2"=>"apple", "3"=>"lemon" ], $sorted_collection->toArray() );
         
-        $collection = \BaseCollectionTestImplementation::makeNewCollection(
+        $collection = \BaseCollectionTestImplementation::makeNew(
             [ 3=>"lemon", 0=>"orange", 1=>"banana", 2=>"apple", "d"=>"lemon", "a"=>"orange", "b"=>"banana", "c"=>"apple"]
         );
         $sorted_collection = $collection->sortByKey(null, new \VersatileCollections\SortType(SORT_STRING));
@@ -2664,7 +2664,7 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
     
     public function testThatSortDescByKeyWorksAsExpected() {
         
-        $collection = \BaseCollectionTestImplementation::makeNewCollection(
+        $collection = \BaseCollectionTestImplementation::makeNew(
             ["d"=>"lemon", "a"=>"orange", "b"=>"banana", "c"=>"apple"]
         );
         $sorted_collection = $collection->sortDescByKey();
@@ -2673,7 +2673,7 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
             $sorted_collection->toArray() 
         );
         
-        $collection = \BaseCollectionTestImplementation::makeNewCollection(
+        $collection = \BaseCollectionTestImplementation::makeNew(
             ["3"=>"lemon", "0"=>"orange", "1"=>"banana", "2"=>"apple"]
         );
         $sorted_collection = $collection->sortDescByKey();
@@ -2682,7 +2682,7 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
             $sorted_collection->toArray() 
         );
         
-        $collection = \BaseCollectionTestImplementation::makeNewCollection(
+        $collection = \BaseCollectionTestImplementation::makeNew(
             [ 
                 3=>"lemon", 0=>"orange", 1=>"banana", 2=>"apple", "d"=>"lemon", 
                 "a"=>"orange", "b"=>"banana", "c"=>"apple"
@@ -2911,7 +2911,7 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
     
     public function testThatSortMeByKeyWorksAsExpected() {
         
-        $collection = \BaseCollectionTestImplementation::makeNewCollection(
+        $collection = \BaseCollectionTestImplementation::makeNew(
             ["d"=>"lemon", "a"=>"orange", "b"=>"banana", "c"=>"apple"]
         );
         $sorted_collection = $collection->sortMeByKey();
@@ -2919,7 +2919,7 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
         // test that $this was returned
         $this->assertTrue($sorted_collection === $collection);
         
-        $collection = \BaseCollectionTestImplementation::makeNewCollection(
+        $collection = \BaseCollectionTestImplementation::makeNew(
             ["3"=>"lemon", "0"=>"orange", "1"=>"banana", "2"=>"apple"]
         );
         $sorted_collection = $collection->sortMeByKey();
@@ -2927,7 +2927,7 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
         // test that $this was returned
         $this->assertTrue($sorted_collection === $collection);
         
-        $collection = \BaseCollectionTestImplementation::makeNewCollection(
+        $collection = \BaseCollectionTestImplementation::makeNew(
             [ 3=>"lemon", 0=>"orange", 1=>"banana", 2=>"apple", "d"=>"lemon", "a"=>"orange", "b"=>"banana", "c"=>"apple"]
         );
         $sorted_collection = $collection->sortMeByKey(null, new \VersatileCollections\SortType(SORT_STRING));
@@ -2966,7 +2966,7 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
     
     public function testThatSortMeDescByKeyWorksAsExpected() {
         
-        $collection = \BaseCollectionTestImplementation::makeNewCollection(
+        $collection = \BaseCollectionTestImplementation::makeNew(
             ["d"=>"lemon", "a"=>"orange", "b"=>"banana", "c"=>"apple"]
         );
         $sorted_collection = $collection->sortMeDescByKey();
@@ -2977,7 +2977,7 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
         // test that $this was returned
         $this->assertTrue($sorted_collection === $collection);
         
-        $collection = \BaseCollectionTestImplementation::makeNewCollection(
+        $collection = \BaseCollectionTestImplementation::makeNew(
             ["3"=>"lemon", "0"=>"orange", "1"=>"banana", "2"=>"apple"]
         );
         $sorted_collection = $collection->sortMeDescByKey();
@@ -2988,7 +2988,7 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
         // test that $this was returned
         $this->assertTrue($sorted_collection === $collection);
         
-        $collection = \BaseCollectionTestImplementation::makeNewCollection(
+        $collection = \BaseCollectionTestImplementation::makeNew(
             [ 
                 3=>"lemon", 0=>"orange", 1=>"banana", 2=>"apple", "d"=>"lemon", 
                 "a"=>"orange", "b"=>"banana", "c"=>"apple"
@@ -3177,7 +3177,7 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
         $data = [ 1, 2, 3, 4, 5, 6, 7 ];
         $collection = new \VersatileCollections\GenericCollection(...$data);
         
-        $this->assertTrue(\VersatileCollections\GenericCollection::makeNewCollection()->split(0)->isEmpty());
+        $this->assertTrue(\VersatileCollections\GenericCollection::makeNew()->split(0)->isEmpty());
         $this->assertTrue($collection->split(0)->isEmpty());
  
         ///////////////////////////////////////////////////////////////////////
@@ -3341,7 +3341,7 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
     
     public function testUnion() {
         
-        $c = \VersatileCollections\GenericCollection::makeNewCollection(['name' => 'Hello']);
+        $c = \VersatileCollections\GenericCollection::makeNew(['name' => 'Hello']);
         $this->assertEquals(['name' => 'Hello'], $c->union([])->toArray());
         $this->assertEquals(['name' => 'Hello', 'id' => 1], $c->union(['id' => 1])->toArray());
     }
@@ -3372,13 +3372,13 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
         $collection->item823 = $object;
         $collection->item923 = $object2;
         
-        $this->assertSame(\BaseCollectionTestImplementation::makeNewCollection()->unique()->toArray(), []);
+        $this->assertSame(\BaseCollectionTestImplementation::makeNew()->unique()->toArray(), []);
         $this->assertEquals($collection->unique()->toArray(), ['4', 5.0, 7, true, false, 4, '5.0', '7','true', 'false', $object, $object2]);
     }
     
     public function testValues() {
         
-        $c = \BaseCollectionTestImplementation::makeNewCollection(
+        $c = \BaseCollectionTestImplementation::makeNew(
             [
                 'a' => ['id' => 1, 'name' => 'Hello'], 
                 'b' => ['id' => 2, 'name' => 'World']

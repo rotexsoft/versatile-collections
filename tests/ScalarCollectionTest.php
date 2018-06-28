@@ -57,7 +57,7 @@ class ScalarCollectionTest extends \PHPUnit_Framework_TestCase {
         $collection->item423 = 'true';
         $collection->item523 = 'false';
         
-        $this->assertSame(\VersatileCollections\ScalarCollection::makeNewCollection()->uniqueNonStrict()->toArray(), []);
+        $this->assertSame(\VersatileCollections\ScalarCollection::makeNew()->uniqueNonStrict()->toArray(), []);
         $this->assertEquals($collection->uniqueNonStrict()->toArray(), ['4', 5.0, 7, false, 'true', 'false']);
     }
 }

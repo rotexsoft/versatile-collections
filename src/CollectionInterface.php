@@ -14,7 +14,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * The purpose is to act as a shortcut to __construct(...$items)
      * Calling this method eliminates the need to unpack the items .e.g
      * new \VersatileCollections\NumericsCollection(...[1,2,3])
-     * vs \VersatileCollections\NumericsCollection::makeNewCollection([1,2,3])
+     * vs \VersatileCollections\NumericsCollection::makeNew([1,2,3])
      * 
      * @param array $items an array of items for the new collection to be created. Keys will be preserved in the created collection.
      * @param array $preserve_keys true if keys in $items will be preserved in the created collection.
@@ -22,7 +22,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @return \VersatileCollections\CollectionInterface newly created collection
      * 
      */
-    public static function makeNewCollection(array $items=[], $preserve_keys=true);
+    public static function makeNew(array $items=[], $preserve_keys=true);
     
     /**
      * 

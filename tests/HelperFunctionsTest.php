@@ -149,7 +149,7 @@ class HelperFunctionsTest extends \PHPUnit_Framework_TestCase {
         
         // Object implementing ArrayAccess
         $obj_arr_access = 
-            \VersatileCollections\GenericCollection::makeNewCollection(
+            \VersatileCollections\GenericCollection::makeNew(
                 ['id' => 17, 777 => 67, 'edition' => 2, 'title'=>"Boo"]
             );
         
@@ -213,7 +213,7 @@ class HelperFunctionsTest extends \PHPUnit_Framework_TestCase {
         
         // Object implementing ArrayAccess
         $obj_arr_access = 
-            \VersatileCollections\GenericCollection::makeNewCollection(
+            \VersatileCollections\GenericCollection::makeNew(
                 ['id' => 17, 777 => 67, 'edition' => 2, 'title'=>"Boo"]
             );
         

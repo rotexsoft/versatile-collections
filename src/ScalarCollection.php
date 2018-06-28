@@ -31,7 +31,7 @@ class ScalarCollection extends StrictlyTypedCollection {
     
     public function uniqueNonStrict() {
         
-        return static::makeNewCollection(
+        return static::makeNew(
             $this->reduce(
                 
                 function($carry, $item) {

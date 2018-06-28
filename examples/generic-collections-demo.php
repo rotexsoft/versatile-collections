@@ -33,7 +33,7 @@ class Boo {
 //
 //echo \VersatileCollections\var_to_string($array) . PHP_EOL;
 
-//$collection2 = \BaseCollectionTestImplementation::makeNewCollection(
+//$collection2 = \BaseCollectionTestImplementation::makeNew(
 //    [ 
 //        'a'=>'blue', 'b'=>'red', 'c'=>'green', 
 //        'd'=>'red', 'e'=>1, 'f'=>'blue', 'g'=>'2' 
@@ -84,19 +84,19 @@ $data = [];
 //$data[] = ['id' => 57, 'volume' => 86, 'edition' => 6, 'title'=>"Goo"];
 //$data[] = ['id' => [], 'volume' => 67, 'edition' => 7, 'title'=>"Hoo"];
 
-//$data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 17, 'volume' => 67, 'edition' => 2, 'title'=>"Boo"]);
-//$data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 27, 'volume' => 86, 'edition' => 1, 'title'=>"Coo"]);
-//$data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 37, 'volume' => 85, 'edition' => 6, 'title'=>"Doo"]);
-//$data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => [], 'volume' => 98, 'edition' => 2, 'title'=>"Foo"]);
-//$data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 57, 'volume' => 86, 'edition' => 6, 'title'=>"Goo"]);
-//$data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => [], 'volume' => 67, 'edition' => 7, 'title'=>"Hoo"]);
+//$data[] = \VersatileCollections\GenericCollection::makeNew(['id' => 17, 'volume' => 67, 'edition' => 2, 'title'=>"Boo"]);
+//$data[] = \VersatileCollections\GenericCollection::makeNew(['id' => 27, 'volume' => 86, 'edition' => 1, 'title'=>"Coo"]);
+//$data[] = \VersatileCollections\GenericCollection::makeNew(['id' => 37, 'volume' => 85, 'edition' => 6, 'title'=>"Doo"]);
+//$data[] = \VersatileCollections\GenericCollection::makeNew(['id' => [], 'volume' => 98, 'edition' => 2, 'title'=>"Foo"]);
+//$data[] = \VersatileCollections\GenericCollection::makeNew(['id' => 57, 'volume' => 86, 'edition' => 6, 'title'=>"Goo"]);
+//$data[] = \VersatileCollections\GenericCollection::makeNew(['id' => [], 'volume' => 67, 'edition' => 7, 'title'=>"Hoo"]);
 
-//$data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 17, 'volume' => 67, 'edition' => 2, 'title'=>"Boo"]);
-//$data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 27, 'volume' => 86, 'edition' => 1, 'title'=>"Coo"]);
-//$data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 37, 'volume' => 85, 'edition' => 6, 'title'=>"Doo"]);
-//$data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 47, 'volume' => 98, 'edition' => 2, 'title'=>"Foo"]);
-//$data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 57, 'volume' => 86, 'edition' => 6, 'title'=>"Goo"]);
-//$data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 67, 'volume' => 67, 'edition' => 7, 'title'=>"Hoo"]);
+//$data[] = \VersatileCollections\GenericCollection::makeNew(['id' => 17, 'volume' => 67, 'edition' => 2, 'title'=>"Boo"]);
+//$data[] = \VersatileCollections\GenericCollection::makeNew(['id' => 27, 'volume' => 86, 'edition' => 1, 'title'=>"Coo"]);
+//$data[] = \VersatileCollections\GenericCollection::makeNew(['id' => 37, 'volume' => 85, 'edition' => 6, 'title'=>"Doo"]);
+//$data[] = \VersatileCollections\GenericCollection::makeNew(['id' => 47, 'volume' => 98, 'edition' => 2, 'title'=>"Foo"]);
+//$data[] = \VersatileCollections\GenericCollection::makeNew(['id' => 57, 'volume' => 86, 'edition' => 6, 'title'=>"Goo"]);
+//$data[] = \VersatileCollections\GenericCollection::makeNew(['id' => 67, 'volume' => 67, 'edition' => 7, 'title'=>"Hoo"]);
 //$data[] = true;
 
 $collection = new \VersatileCollections\GenericCollection(...$data);
@@ -106,17 +106,17 @@ $collection = new \VersatileCollections\GenericCollection(...$data);
 //echo VersatileCollections\var_to_string($sorted_collection->toArray()) . PHP_EOL;
 //echo VersatileCollections\var_to_string($collection->column('name2', 'id')->toArray()) . PHP_EOL;
         $data = [];
-        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 17, 777 => 67, 'edition' => 2, 'title'=>"Boo"]);
-        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 27, 777 => 86, 'edition' => 1, 'title'=>"Coo"]);
-        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 37, 777 => 85, 'edition' => 6, 'title'=>"Doo"]);
-        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 47, 777 => 98, 'edition' => 2, 'title'=>"Foo"]);
-        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 57, 777 => 86, 'edition' => 6, 'title'=>"Goo"]);
-        $data[] = \VersatileCollections\GenericCollection::makeNewCollection(['id' => 67, 777 => 67, 'edition' => 7, 'title'=>"Hoo"]);
+        $data[] = \VersatileCollections\GenericCollection::makeNew(['id' => 17, 777 => 67, 'edition' => 2, 'title'=>"Boo"]);
+        $data[] = \VersatileCollections\GenericCollection::makeNew(['id' => 27, 777 => 86, 'edition' => 1, 'title'=>"Coo"]);
+        $data[] = \VersatileCollections\GenericCollection::makeNew(['id' => 37, 777 => 85, 'edition' => 6, 'title'=>"Doo"]);
+        $data[] = \VersatileCollections\GenericCollection::makeNew(['id' => 47, 777 => 98, 'edition' => 2, 'title'=>"Foo"]);
+        $data[] = \VersatileCollections\GenericCollection::makeNew(['id' => 57, 777 => 86, 'edition' => 6, 'title'=>"Goo"]);
+        $data[] = \VersatileCollections\GenericCollection::makeNew(['id' => 67, 777 => 67, 'edition' => 7, 'title'=>"Hoo"]);
         $collection = new \VersatileCollections\GenericCollection(...$data);
 
 
 echo \VersatileCollections\var_to_string(
-        \VersatileCollections\GenericCollection::makeNewCollection(
+        \VersatileCollections\GenericCollection::makeNew(
             [
                 ['brand' => 'Tesla',  'color' => 'red'],
                 ['brand' => 'Pagani', 'color' => 'white'],
@@ -128,7 +128,7 @@ echo \VersatileCollections\var_to_string(
     );
 
 echo \VersatileCollections\var_to_string(
-        \VersatileCollections\GenericCollection::makeNewCollection(
+        \VersatileCollections\GenericCollection::makeNew(
             [
                 ['brand' => 'Tesla',  'color' => 'red'],
                 ['brand' => 'Pagani', 'color' => 'white'],
@@ -140,7 +140,7 @@ echo \VersatileCollections\var_to_string(
         ->toArray()
     );
 
-$c = \VersatileCollections\GenericCollection::makeNewCollection(['name' => 'Hello']);
+$c = \VersatileCollections\GenericCollection::makeNew(['name' => 'Hello']);
 
 echo \VersatileCollections\var_to_string(
         $c->union(['id' => 1])->toArray()

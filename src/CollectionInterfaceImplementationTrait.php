@@ -34,9 +34,7 @@ trait CollectionInterfaceImplementationTrait {
     protected static function validateMethodName($name, $method_name_was_passed_to, $class_in_which_method_was_called=null) {
         
         $regex_4_valid_method_name = '/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/';
-        $class_name_for_instantiation = static::class;
-        $is_class_name_abstract = (new \ReflectionClass($class_name_for_instantiation))->isAbstract();
-
+        
         if( !is_string($name)) {
             
             $class = 
@@ -68,18 +66,8 @@ trait CollectionInterfaceImplementationTrait {
             
             throw new \InvalidArgumentException($msg);
             
-        } else if(
-            is_string($name) 
-            && 
-            (
-                (
-                    $is_class_name_abstract === false
-                    && method_exists((new $class_name_for_instantiation()), $name)
-                )
-                || 
-                method_exists(static::class, $name) 
-            )
-        ) {
+        } else if( is_string($name) && method_exists(static::class, $name) ) {
+            
             // valid method name was supplied but conflicts with an
             // already defined real class method
             $class = 
@@ -310,7 +298,7 @@ trait CollectionInterfaceImplementationTrait {
      * {@inheritDoc}
      * 
      */
-    public static function makeNewCollection(array $items=[], $preserve_keys=true) {
+    public static function makeNew(array $items=[], $preserve_keys=true) {
 
         if ($preserve_keys === true) {
        
@@ -671,7 +659,7 @@ trait CollectionInterfaceImplementationTrait {
      */
     public function reverse() {
         
-        return static::makeNewCollection(
+        return static::makeNew(
             array_reverse($this->versatile_collections_items, true)
         );
     }
@@ -718,7 +706,7 @@ trait CollectionInterfaceImplementationTrait {
             throw new \InvalidArgumentException($msg); 
         }
         
-        return static::makeNewCollection(
+        return static::makeNew(
             array_slice($this->versatile_collections_items, $offset, $length, true)
         );
     }
@@ -1441,7 +1429,7 @@ trait CollectionInterfaceImplementationTrait {
             uasort($items_to_sort, $callable);
         }
         
-        return static::makeNewCollection($items_to_sort);
+        return static::makeNew($items_to_sort);
     }
     
     /**
@@ -1469,7 +1457,7 @@ trait CollectionInterfaceImplementationTrait {
             uasort($items_to_sort, $callable);
         }
         
-        return static::makeNewCollection($items_to_sort);
+        return static::makeNew($items_to_sort);
     }
     
     /**
@@ -1497,7 +1485,7 @@ trait CollectionInterfaceImplementationTrait {
             uksort($items_to_sort, $callable);
         }
         
-        return static::makeNewCollection($items_to_sort);
+        return static::makeNew($items_to_sort);
     }
     
     /**
@@ -1525,7 +1513,7 @@ trait CollectionInterfaceImplementationTrait {
             uksort($items_to_sort, $callable);
         }
         
-        return static::makeNewCollection($items_to_sort);
+        return static::makeNew($items_to_sort);
     }
     
     /**
@@ -1614,7 +1602,7 @@ trait CollectionInterfaceImplementationTrait {
         //take out da trash
         unset($sorted_array_with_unpreserved_keys);
         
-        return static::makeNewCollection($sorted_array_with_preserved_keys);
+        return static::makeNew($sorted_array_with_preserved_keys);
     }
     
     /**
@@ -1845,7 +1833,7 @@ trait CollectionInterfaceImplementationTrait {
             $length = $this->count();
         }
 
-        return static::makeNewCollection(array_splice($this->versatile_collections_items, $offset, $length, $replacement));
+        return static::makeNew(array_splice($this->versatile_collections_items, $offset, $length, $replacement));
     }
     
     /**
@@ -1933,7 +1921,7 @@ trait CollectionInterfaceImplementationTrait {
      */
     public function unique() {
         
-        return static::makeNewCollection(
+        return static::makeNew(
             $this->reduce(
                 
                 function($carry, $item) {
@@ -1957,7 +1945,7 @@ trait CollectionInterfaceImplementationTrait {
      */
     public function union(array $items) {
         
-        return static::makeNewCollection($this->versatile_collections_items + $items);
+        return static::makeNew($this->versatile_collections_items + $items);
     }
     
     /**
