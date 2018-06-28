@@ -115,16 +115,33 @@ $collection = new \VersatileCollections\GenericCollection(...$data);
         $collection = new \VersatileCollections\GenericCollection(...$data);
 
 
-//echo VersatileCollections\var_to_string($collection->column(777, 'title')->toArray()) . PHP_EOL;
-        
-//$obj = (object)['id' => 17, 777 => 67, 'edition' => 2, 'title'=>"Boo"];
-$obj = (new Boo());
+echo \VersatileCollections\var_to_string(
+        \VersatileCollections\GenericCollection::makeNewCollection(
+            [
+                ['brand' => 'Tesla',  'color' => 'red'],
+                ['brand' => 'Pagani', 'color' => 'white'],
+                ['brand' => 'Tesla',  'color' => 'black'],
+                ['brand' => 'Pagani', 'color' => 'orange'],
+            ]
+        )
+        ->toArray()
+    );
 
-$property = 7777;
-$obj->{$property} = 'booo';
-echo VersatileCollections\var_to_string($obj) . PHP_EOL;
-//echo VersatileCollections\var_to_string(property_exists($obj, 777)) . PHP_EOL;
-//echo VersatileCollections\var_to_string(get_object_vars($obj)) . PHP_EOL;
-//echo VersatileCollections\var_to_string( ((array)$obj)[$property] ) . PHP_EOL;
+echo \VersatileCollections\var_to_string(
+        \VersatileCollections\GenericCollection::makeNewCollection(
+            [
+                ['brand' => 'Tesla',  'color' => 'red'],
+                ['brand' => 'Pagani', 'color' => 'white'],
+                ['brand' => 'Tesla',  'color' => 'black'],
+                ['brand' => 'Pagani', 'color' => 'orange'],
+            ]
+        )
+        ->makeAllKeysNumeric(777)
+        ->toArray()
+    );
 
+$c = \VersatileCollections\GenericCollection::makeNewCollection(['name' => 'Hello']);
 
+echo \VersatileCollections\var_to_string(
+        $c->union(['id' => 1])->toArray()
+    );

@@ -99,7 +99,41 @@ class CustomStrictlyTypedCollectionTest extends \PHPUnit_Framework_TestCase {
             10
         );
         $this->assertEquals($sum_of_ages_plus_ten, 181);
+    }
+
+    public function testThatReduceWithKeyAccessWorksAsExpected() {
         
+        $collection = new \TestValueObjectCollection(
+            new TestValueObject('Johnny Cash', 50),
+            new TestValueObject('Suzzy Something', 23),
+            new TestValueObject('Jack Bauer', 43),
+            new TestValueObject('Jane Fonda', 55)
+        );
+
+        $sum_of_ages = $collection->reduceWithKeyAccess(
+            function($carry, $item, $key) {
+            
+                return $carry + $item->getAge();
+            }
+        );
+        $this->assertEquals($sum_of_ages, 171);
+
+        $sum_of_ages_minus_keys = $collection->reduceWithKeyAccess(
+            function($carry, $item, $key) {
+            
+                return $carry + $item->getAge() - ((int)$key);
+            }
+        );
+        $this->assertEquals($sum_of_ages_minus_keys, 165);
+
+        $sum_of_ages_and_keys_plus_ten = $collection->reduceWithKeyAccess(
+            function($carry, $item, $key) {
+            
+                return $carry + $item->getAge() + ((int)$key);
+            },
+            10
+        );
+        $this->assertEquals($sum_of_ages_and_keys_plus_ten, 187);
     }
     
     /**

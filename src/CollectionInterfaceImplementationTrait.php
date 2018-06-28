@@ -522,9 +522,9 @@ trait CollectionInterfaceImplementationTrait {
      * {@inheritDoc}
      * 
      */
-    public function filterAll(callable $filterer, $copy_keys=false, $bind_callback_to_this=true) {
+    public function filterAll(callable $filterer, $copy_keys=false, $bind_callback_to_this=true, $remove_filtered_items=false) {
                 
-        return $this->filterFirstN($filterer, $this->count(), $copy_keys, $bind_callback_to_this);
+        return $this->filterFirstN($filterer, $this->count(), $copy_keys, $bind_callback_to_this, $remove_filtered_items);
     }
     
     /**
@@ -532,7 +532,7 @@ trait CollectionInterfaceImplementationTrait {
      * {@inheritDoc}
      * 
      */
-    public function filterFirstN(callable $filterer, $max_number_of_filtered_items_to_return =null, $copy_keys=false, $bind_callback_to_this=true) {
+    public function filterFirstN(callable $filterer, $max_number_of_filtered_items_to_return =null, $copy_keys=false, $bind_callback_to_this=true, $remove_filtered_items=false) {
         
         if( $bind_callback_to_this === true ) {
             
@@ -583,6 +583,11 @@ trait CollectionInterfaceImplementationTrait {
                 } else {
                     
                     $filtered_items[] = $item;
+                }
+                
+                if( ((bool)$remove_filtered_items) ) {
+                    
+                    unset($this->versatile_collections_items[$key]);
                 }
             }
             
@@ -643,6 +648,82 @@ trait CollectionInterfaceImplementationTrait {
      * {@inheritDoc}
      * 
      */
+    public function reduceWithKeyAccess(callable $reducer, $initial_value=NULL) {
+        
+        $reduced_result = $initial_value;
+        
+        foreach ($this->versatile_collections_items as $key=>$item) {
+            
+            $reduced_result = $reducer($reduced_result, $item, $key);
+        }
+        
+        return $reduced_result;
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
+    public function reverse() {
+        
+        return static::makeNewCollection(
+            array_reverse($this->versatile_collections_items, true)
+        );
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
+    public function reverseMe() {
+        
+        $this->versatile_collections_items = 
+            array_reverse($this->versatile_collections_items, true);
+        
+        return $this;
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
+    public function slice($offset, $length = null) {
+        
+        if( !is_int($offset) ) {
+            
+            $function = __FUNCTION__;
+            $class = get_class($this);
+            $offset_type = gettype($offset);
+            $msg = "Error [{$class}::{$function}(...)]:"
+            . " You must specify a valid integer as the offset."
+            . " You supplied a(n) `{$offset_type}` with a value of: ". var_to_string($offset);
+            throw new \InvalidArgumentException($msg); 
+        }
+        
+        if( !is_null($length) && !is_int($length) ) {
+            
+            $function = __FUNCTION__;
+            $class = get_class($this);
+            $length_type = gettype($length);
+            $msg = "Error [{$class}::{$function}(...)]:"
+            . " You must specify a valid integer as the length."
+            . " You supplied a(n) `{$length_type}` with a value of: ". var_to_string($length);
+            throw new \InvalidArgumentException($msg); 
+        }
+        
+        return static::makeNewCollection(
+            array_slice($this->versatile_collections_items, $offset, $length, true)
+        );
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
     public function isEmpty() {
         
         return ($this->count() <= 0);
@@ -676,7 +757,40 @@ trait CollectionInterfaceImplementationTrait {
      */
     public function containsKey($key) {
         
+        if( !is_int($key) && !is_string($key) ) {
+            
+            $function = __FUNCTION__;
+            $class = get_class($this);
+            $key_type = gettype($key);
+            $msg = "Error [{$class}::{$function}(...)]:"
+            . " You must specify an integer or string as the \$key parameter."
+            . " You supplied a(n) `{$key_type}` with a value of: ". var_to_string($key);
+            throw new \InvalidArgumentException($msg); 
+        }
+        
         return array_key_exists($key, $this->versatile_collections_items);
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
+    public function containsItemWithKey($key, $item) {
+        
+        if( !is_int($key) && !is_string($key) ) {
+            
+            $function = __FUNCTION__;
+            $class = get_class($this);
+            $key_type = gettype($key);
+            $msg = "Error [{$class}::{$function}(...)]:"
+            . " You must specify an integer or string as the \$key parameter."
+            . " You supplied a(n) `{$key_type}` with a value of: ". var_to_string($key);
+            throw new \InvalidArgumentException($msg); 
+        }
+        
+        return $this->containsKey($key) 
+                && $item === $this->versatile_collections_items[$key];
     }
     
     /**
@@ -984,7 +1098,7 @@ trait CollectionInterfaceImplementationTrait {
      * {@inheritDoc}
      * 
      */
-    public function nth($n, $position_of_first_nth_item = 0) {
+    public function everyNth($n, $position_of_first_nth_item = 0) {
         
         $new = new static();
         $iteration_counter = 0;
@@ -1698,6 +1812,43 @@ trait CollectionInterfaceImplementationTrait {
      * {@inheritDoc}
      * 
      */
+    public function splice($offset, $length=null, array $replacement=[]) {
+        
+        if( !is_int($offset) ) {
+            
+            $function = __FUNCTION__;
+            $class = get_class($this);
+            $offset_type = gettype($offset);
+            $msg = "Error [{$class}::{$function}(...)]:"
+            . " You must specify a valid integer as the offset."
+            . " You supplied a(n) `{$offset_type}` with a value of: ". var_to_string($offset);
+            throw new \InvalidArgumentException($msg); 
+        }
+        
+        if( !is_null($length) && !is_int($length) ) {
+            
+            $function = __FUNCTION__;
+            $class = get_class($this);
+            $length_type = gettype($length);
+            $msg = "Error [{$class}::{$function}(...)]:"
+            . " You must specify a valid integer as the length."
+            . " You supplied a(n) `{$length_type}` with a value of: ". var_to_string($length);
+            throw new \InvalidArgumentException($msg); 
+        }
+        
+        if( is_null($length) ) {
+            
+            $length = $this->count();
+        }
+
+        return static::makeNewCollection(array_splice($this->versatile_collections_items, $offset, $length, $replacement));
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
     public function split($numberOfGroups) {
         
         if( !is_int($numberOfGroups) ) {
@@ -1751,6 +1902,31 @@ trait CollectionInterfaceImplementationTrait {
      * {@inheritDoc}
      * 
      */
+    public function take($limit) {
+        
+        if( !is_int($limit) ) {
+            
+            $function = __FUNCTION__;
+            $class = get_class($this);
+            $limit_type = gettype($limit);
+            $msg = "Error [{$class}::{$function}(...)]:"
+            . " You must specify a valid integer as the limit."
+            . " You supplied a(n) `{$limit_type}` with a value of: ". var_to_string($limit);
+            throw new \InvalidArgumentException($msg); 
+        }
+        
+        if ($limit < 0) {
+            return $this->slice($limit, abs($limit));
+        }
+
+        return $this->slice(0, $limit);
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
     public function unique() {
         
         return static::makeNewCollection(
@@ -1768,6 +1944,16 @@ trait CollectionInterfaceImplementationTrait {
                 []
             )
         );
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
+    public function union(array $items) {
+        
+        return static::makeNewCollection($this->versatile_collections_items + $items);
     }
     
     /**
@@ -1950,5 +2136,46 @@ trait CollectionInterfaceImplementationTrait {
         } // foreach ( $this->versatile_collections_items as $coll_key => $item )
         
         return $column_2_return;
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
+    public function values() {
+        
+        return new static(...array_values($this->versatile_collections_items));
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
+    public function whenTrue( 
+        $truthy_value, callable $callback, callable $default=null
+    ) {
+        if ( $truthy_value ) {
+            
+            return $callback($this, $truthy_value);
+            
+        } elseif ( !is_null($default) ) {
+            
+            return $default($this, $truthy_value);
+        }
+
+        return $this;
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
+    public function whenFalse( 
+        $falsy_value, callable $callback, callable $default=null
+    ) {
+        return $this->whenTrue( (!$falsy_value) , $callback, $default);
     }
 }

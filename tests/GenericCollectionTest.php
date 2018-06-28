@@ -443,11 +443,18 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
             
                 return ($item % 2) === 0;
             },
+            true,
+            true,
             true
         );
         
         $this->assertEquals(
             $collection_of_even_ints->toArray(), [1=>2, 3=>4, 5=>6, 7=>8, 9=>10]
+        );
+        
+        // verify that filtered items were removed
+        $this->assertEquals(
+            $collection_of_ints->toArray(), [0=>1, 2=>3, 4=>5, 6=>7, 8=>9]
         );
     }
     
@@ -521,11 +528,18 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
                      && $item !== $this->firstItem();
             },
             null,
-            false
+            false,
+            true,
+            true
         );
         
         $this->assertEquals(
             $collection_of_ints_except_first_and_last_items->toArray(), [2, 3, 4, 5, 6, 7, 8, 9]
+        );
+        
+        // verify that filtered items were removed
+        $this->assertEquals(
+            $collection_of_ints->toArray(), [ 0=>1,  9=>10]
         );
     }
     
@@ -1388,6 +1402,9 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
         $this->assertFalse($collection->containsItem('7'));
     }
     
+    /**
+     * @expectedException \InvalidArgumentException
+     */
     public function testThatContainsKeyWorksAsExpected() {
 
         $item1 = "4";
@@ -1407,6 +1424,36 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
         $this->assertTrue($collection->containsKey('item1'));
         $this->assertTrue($collection->containsKey('item2'));
         $this->assertFalse($collection->containsKey('not in collection'));
+        
+        // exception no-int and non-string key
+        $collection->containsKey([]);
+    }
+    
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testThatContainsItemWithKeyWorksAsExpected() {
+
+        $item1 = "4";
+        $item2 = 5.0;
+        $item3 = 7;
+        
+        $collection = 
+            new \BaseCollectionTestImplementation($item1, $item2, $item3);
+        
+        $collection->item1 = ['name'=>'Joe', 'age'=>'10',];
+        $collection->item2 = ['name'=>'Jane', 'age'=>'20',];
+        
+        $this->assertTrue($collection->containsItemWithKey(0, $item1));
+        $this->assertTrue($collection->containsItemWithKey('0', $item1));
+        $this->assertTrue($collection->containsItemWithKey(1, $item2));
+        $this->assertTrue($collection->containsItemWithKey(2, $item3));
+        $this->assertTrue($collection->containsItemWithKey('item1', ['name'=>'Joe', 'age'=>'10',]));
+        $this->assertTrue($collection->containsItemWithKey('item2', ['name'=>'Jane', 'age'=>'20',]));
+        $this->assertFalse($collection->containsItemWithKey('not in collection', 'not in collection'));
+        
+        // exception no-int and non-string key
+        $collection->containsItemWithKey([], $item1);
     }
     
     public function testThatContainsKeysWorksAsExpected() {
@@ -1815,24 +1862,24 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
         );
     }
     
-    public function testThatNthWorksAsExpected() {
+    public function testThatEveryNthWorksAsExpected() {
         
         $collection = new \BaseCollectionTestImplementation(
             'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'
         );
                 
-        $every_4th_starting_at_0 = $collection->nth(4);
+        $every_4th_starting_at_0 = $collection->everyNth(4);
         $this->assertEquals(
             $every_4th_starting_at_0->toArray(), ['a',  'e']
         );
         
-        $every_4th_starting_at_3 = $collection->nth(4, 3);
+        $every_4th_starting_at_3 = $collection->everyNth(4, 3);
         $this->assertEquals(
             $every_4th_starting_at_3->toArray(), ['d',  'h']
         );
         
         $empty_collection = new \BaseCollectionTestImplementation();
-        $this->assertSame($empty_collection->nth(4)->count(), 0);
+        $this->assertSame($empty_collection->everyNth(4)->count(), 0);
     }
     
     public function testThatPipeAndReturnCallbackResultWorksAsExpected() {
@@ -2186,6 +2233,32 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
         \BaseCollectionTestImplementation::makeNewCollection()->randomItems(5);
     }
     
+    public function testReverse() {
+        
+        $data = \BaseCollectionTestImplementation::makeNewCollection(['zaeed', 'alan']);
+        $reversed = $data->reverse();
+
+        $this->assertSame([1 => 'alan', 0 => 'zaeed'], $reversed->toArray());
+
+        $data = \BaseCollectionTestImplementation::makeNewCollection(['name' => 'taylor', 'framework' => 'laravel']);
+        $reversed = $data->reverse();
+
+        $this->assertSame(['framework' => 'laravel', 'name' => 'taylor'], $reversed->toArray());
+    }
+
+    public function testReverseMe() {
+        
+        $data = \BaseCollectionTestImplementation::makeNewCollection(['zaeed', 'alan']);
+        $reversed = $data->reverseMe();
+        $this->assertSame([1 => 'alan', 0 => 'zaeed'], $reversed->toArray());
+        $this->assertSame($reversed, $data);
+
+        $data = \BaseCollectionTestImplementation::makeNewCollection(['name' => 'taylor', 'framework' => 'laravel']);
+        $reversed = $data->reverseMe();
+        $this->assertSame(['framework' => 'laravel', 'name' => 'taylor'], $reversed->toArray());
+        $this->assertSame($reversed, $data);
+    }
+    
     public function testThatSearchByValWorksAsExpected() {
         
         $collection = new \BaseCollectionTestImplementation(
@@ -2325,6 +2398,125 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
             $collection->containsKeys($shuffled_collection->getKeys())
         );
     }
+    
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testSliceExceptionOffset()
+    {
+        $collection = \VersatileCollections\GenericCollection::makeNewCollection([1, 2, 3, 4, 5, 6, 7, 8]);
+        $collection->slice([]); // exception should be generated
+    }
+    
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testSliceExceptionLength()
+    {
+        $collection = \VersatileCollections\GenericCollection::makeNewCollection([1, 2, 3, 4, 5, 6, 7, 8]);
+        $collection->slice(-3,[]); // exception should be generated
+    }
+    
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testSliceExceptionOffsetAndLength()
+    {
+        $collection = \VersatileCollections\GenericCollection::makeNewCollection([1, 2, 3, 4, 5, 6, 7, 8]);
+        $collection->slice([],[]); // exception should be generated
+    }
+    
+    public function testSliceNegativeOffset()
+    {
+        $collection = \VersatileCollections\GenericCollection::makeNewCollection([1, 2, 3, 4, 5, 6, 7, 8]);
+        $this->assertEquals([6, 7, 8], $collection->slice(-3)->makeAllKeysNumeric()->toArray());
+    }
+	
+    public function testSliceNegativeOffsetAndLength()
+    {
+        $collection = \VersatileCollections\GenericCollection::makeNewCollection([1, 2, 3, 4, 5, 6, 7, 8]);
+        $this->assertEquals([4, 5, 6], $collection->slice(-5, 3)->makeAllKeysNumeric()->toArray());
+    }
+	
+    public function testSliceNegativeOffsetAndNegativeLength()
+    {
+        $collection = \VersatileCollections\GenericCollection::makeNewCollection([1, 2, 3, 4, 5, 6, 7, 8]);
+        $this->assertEquals([3, 4, 5, 6], $collection->slice(-6, -2)->makeAllKeysNumeric()->toArray());
+    }
+    
+    public function testSliceOffset()
+    {
+        $collection = \VersatileCollections\GenericCollection::makeNewCollection([1, 2, 3, 4, 5, 6, 7, 8]);
+        $this->assertEquals([4, 5, 6, 7, 8], $collection->slice(3)->makeAllKeysNumeric()->toArray());
+    }
+    
+    public function testSliceKeysPreserved()
+    {
+        $collection = \VersatileCollections\GenericCollection::makeNewCollection([1, 2, 3, 4, 5, 6, 7, 8]);
+        $this->assertEquals([3=>4, 4=>5, 5=>6, 6=>7, 7=>8], $collection->slice(3)->toArray());
+    }
+
+    public function testSliceOffsetAndLength()
+    {
+        $collection = \VersatileCollections\GenericCollection::makeNewCollection([1, 2, 3, 4, 5, 6, 7, 8]);
+        $this->assertEquals([4, 5, 6], $collection->slice(3, 3)->makeAllKeysNumeric()->toArray());
+    }
+
+    public function testSliceOffsetAndNegativeLength()
+    {
+        $collection = \VersatileCollections\GenericCollection::makeNewCollection([1, 2, 3, 4, 5, 6, 7, 8]);
+        $this->assertEquals([4, 5, 6, 7], $collection->slice(3, -1)->makeAllKeysNumeric()->toArray());
+    }
+    
+    public function testSplice()
+    {
+        $data = \VersatileCollections\GenericCollection::makeNewCollection(['foo', 'baz']);
+        $data->splice(1);
+        $this->assertEquals(['foo'], $data->toArray());
+
+        $data = \VersatileCollections\GenericCollection::makeNewCollection(['foo', 'baz']);
+        $data->splice(1, 0, ['bar']);
+        $this->assertEquals(['foo', 'bar', 'baz'], $data->toArray());
+
+        $data = \VersatileCollections\GenericCollection::makeNewCollection(['foo', 'baz']);
+        $data->splice(1, 1);
+        $this->assertEquals(['foo'], $data->toArray());
+
+        $data = \VersatileCollections\GenericCollection::makeNewCollection(['foo', 'baz']);
+        $cut = $data->splice(1, 1, ['bar']);
+        $this->assertEquals(['foo', 'bar'], $data->toArray());
+        $this->assertEquals(['baz'], $cut->toArray());
+    }
+    
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testSpliceExceptionOffset()
+    {
+        $collection = \VersatileCollections\GenericCollection::makeNewCollection([1, 2, 3, 4, 5, 6, 7, 8]);
+        $collection->splice([]); // exception should be generated
+    }
+    
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testSpliceExceptionLength()
+    {
+        $collection = \VersatileCollections\GenericCollection::makeNewCollection([1, 2, 3, 4, 5, 6, 7, 8]);
+        $collection->splice(-3,[]); // exception should be generated
+    }
+    
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testSpliceExceptionOffsetAndLength()
+    {
+        $collection = \VersatileCollections\GenericCollection::makeNewCollection([1, 2, 3, 4, 5, 6, 7, 8]);
+        $collection->splice([],[]); // exception should be generated
+    }
+    
+    ///////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////
     
     public function testThatSortWorksAsExpected() {
         
@@ -3124,6 +3316,34 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
         $collection->split(-7);
     }
     
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testTake() {
+        
+        $data = new \VersatileCollections\GenericCollection(...['taylor', 'dayle', 'shawn']);
+        $data = $data->take(2);
+        $this->assertEquals(['taylor', 'dayle'], $data->toArray());
+        
+        $this->assertTrue($data->take(0)->isEmpty());
+        
+        $data->take([]); // should throw exception
+    }
+    
+    public function testTakeLast() {
+        
+        $data = new \VersatileCollections\GenericCollection(...['taylor', 'dayle', 'shawn']);
+        $data = $data->take(-2);
+        $this->assertEquals([1 => 'dayle', 2 => 'shawn'], $data->toArray());
+    }
+    
+    public function testUnion() {
+        
+        $c = \VersatileCollections\GenericCollection::makeNewCollection(['name' => 'Hello']);
+        $this->assertEquals(['name' => 'Hello'], $c->union([])->toArray());
+        $this->assertEquals(['name' => 'Hello', 'id' => 1], $c->union(['id' => 1])->toArray());
+    }
+    
     public function testThatUniqueWorksAsExpected() {
         
         $object = new ArrayObject();
@@ -3152,6 +3372,113 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
         
         $this->assertSame(\BaseCollectionTestImplementation::makeNewCollection()->unique()->toArray(), []);
         $this->assertEquals($collection->unique()->toArray(), ['4', 5.0, 7, true, false, 4, '5.0', '7','true', 'false', $object, $object2]);
+    }
+    
+    public function testValues() {
+        
+        $c = \BaseCollectionTestImplementation::makeNewCollection(
+            [
+                'a' => ['id' => 1, 'name' => 'Hello'], 
+                'b' => ['id' => 2, 'name' => 'World']
+            ]
+        );
+        
+        $values = $c->values();
+        
+        $this->assertTrue(
+            $values instanceof \VersatileCollections\CollectionInterface
+        );
+        $this->assertSame(
+            [
+                ['id' => 1, 'name' => 'Hello'], 
+                ['id' => 2, 'name' => 'World']
+            ],
+            $values->toArray()
+        );
+    }
+
+    public function testWhenTrue() {
+        
+        $collection = new \BaseCollectionTestImplementation(...['michael', 'tom']);
+
+        $collection->whenTrue('adam', function ($collection, $newName) {
+            return $collection->push($newName);
+        });
+
+        $this->assertSame(['michael', 'tom', 'adam'], $collection->toArray());
+
+        $collection = new \BaseCollectionTestImplementation(...['michael', 'tom']);
+
+        // Test return this
+        $this->assertSame(
+            $collection, 
+            $collection->whenTrue(false, function ($collection) {
+                return $collection->push('adam');
+            })
+        );
+        
+        $this->assertSame(['michael', 'tom'], $collection->toArray());
+    }
+
+    public function testWhenTrueDefault() {
+        
+        $collection = new \BaseCollectionTestImplementation(...['michael', 'tom']);
+
+        $collection->whenTrue(
+            false, 
+            function ($collection) {
+
+                return $collection->push('adam');
+            }, 
+            function ($collection) {
+
+                return $collection->push('taylor');
+            }
+        );
+
+        $this->assertSame(['michael', 'tom', 'taylor'], $collection->toArray());
+    }
+
+    public function testWhenFalse() {
+        
+        $collection = new \BaseCollectionTestImplementation(...['michael', 'tom']);
+
+        $collection->whenFalse(false, function ($collection, $newName) {
+            return $collection->push('adam');
+        });
+
+        $this->assertSame(['michael', 'tom', 'adam'], $collection->toArray());
+
+        $collection = new \BaseCollectionTestImplementation(...['michael', 'tom']);
+
+        // Test return this
+        $this->assertSame(
+            $collection, 
+            $collection->whenFalse(true, function ($collection) {
+                return $collection->push('adam');
+            })
+        );
+        
+        $this->assertSame(['michael', 'tom'], $collection->toArray());
+    }
+
+    public function testWhenFalseDefault() {
+        
+        $collection = new \BaseCollectionTestImplementation(...['michael', 'tom']);
+
+        $collection->whenFalse(
+            true, 
+            function ($collection) {
+
+                return $collection->push('adam');
+            }, 
+            function ($collection) {
+
+                return $collection->push('taylor');
+            }
+        );
+
+        $this->assertSame(['michael', 'tom', 'taylor'], $collection->toArray());
     }
     
     /**

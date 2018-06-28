@@ -20,6 +20,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @param array $preserve_keys true if keys in $items will be preserved in the created collection.
      * 
      * @return \VersatileCollections\CollectionInterface newly created collection
+     * 
      */
     public static function makeNewCollection(array $items=[], $preserve_keys=true);
     
@@ -72,18 +73,21 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
     /**
      * 
      * @return array an array containing all items in the collection object
+     * 
      */
     public function toArray();
     
     /**
      * 
      * @return \Iterator an iterator
+     * 
      */
     public function getIterator();
     
     /**
      * 
      * @return int number of items in collection
+     * 
      */
     public function count();
     
@@ -113,6 +117,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
     /**
      * 
      * @return array keys to this collection
+     * 
      */
     public function getKeys();
     
@@ -123,6 +128,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @param bool $add_field_if_not_present
      * 
      * @return $this
+     * 
      */
     public function setValForEachItem($field_name, $field_val, $add_field_if_not_present=false);
     
@@ -142,9 +148,16 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      *                                    you want the variable $this to be undefined 
      *                                    inside the supplied $filterer.
      * 
+     * @param bool $remove_filtered_items true if the filtered items should be removed from
+     *                                    the collection this method is being invoked on, 
+     *                                    else false if the filtered items should not be 
+     *                                    removed from the collection this method is 
+     *                                    being invoked on.
+     * 
      * @return \VersatileCollections\CollectionInterface a collection of filtered items or an empty collection
+     * 
      */
-    public function filterAll(callable $filterer, $copy_keys=false, $bind_callback_to_this=true);
+    public function filterAll(callable $filterer, $copy_keys=false, $bind_callback_to_this=true, $remove_filtered_items=false);
     
     /**
      * 
@@ -164,9 +177,16 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      *                                    you want the variable $this to be undefined 
      *                                    inside the supplied $filterer.
      * 
+     * @param bool $remove_filtered_items true if the filtered items should be removed from
+     *                                    the collection this method is being invoked on, 
+     *                                    else false if the filtered items should not be 
+     *                                    removed from the collection this method is 
+     *                                    being invoked on.
+     * 
      * @return \VersatileCollections\CollectionInterface a collection of filtered items or an empty collection
+     * 
      */
-    public function filterFirstN(callable $filterer, $max_number_of_filtered_items_to_return=null, $copy_keys=false, $bind_callback_to_this=true);
+    public function filterFirstN(callable $filterer, $max_number_of_filtered_items_to_return=null, $copy_keys=false, $bind_callback_to_this=true, $remove_filtered_items=false);
     
     /**
      * 
@@ -182,6 +202,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      *                                    inside the supplied $transformer.
      * 
      * @return $this
+     * 
      */
     public function transform(callable $transformer, $bind_callback_to_this=true);
     
@@ -197,15 +218,52 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * 
      * @param mixed $initial_value If the optional initial is available, it will be used at the beginning of the process, or as a final result in case the collection is empty.
      * 
-     * @return mixed a value that all items in the collection have been reduced to by applying the $reducer callback on each item. 
+     * @return mixed a value that all items in the collection have been reduced to by applying the $reducer callback on each item.
+     *  
      */
     public function reduce(callable $reducer, $initial_value=NULL);
+    
+    /**
+     * 
+     * Iteratively reduce the collection items to a single value using a callback function.
+     * The callback function will have access to the key for each item.
+     *  
+     * @param callable $reducer function(mixed $carry , mixed $item, string|int $key): mixed
+     *                          $carry: Holds the return value of the previous iteration; in the case of the first iteration it instead holds the value of initial.
+     *                           $item: Holds the value of the current iteration.
+     *                            $key: Holds the coresponding key of the current iteration.
+     * 
+     * @param mixed $initial_value If the optional initial is available, it will be used at the beginning of the process, or as a final result in case the collection is empty.
+     * 
+     * @return mixed a value that all items in the collection have been reduced to by applying the $reducer callback on each item.
+     *  
+     */
+    public function reduceWithKeyAccess(callable $reducer, $initial_value=NULL);
+    
+    /**
+     * 
+     * Reverse order of items in the collection and return the reversed items in a new collection.
+     * 
+     * @return \VersatileCollections\CollectionInterface a collection of reversed items
+     * 
+     */
+    public function reverse();
+    
+    /**
+     * 
+     * Reverse order of items in the collection. Original collection will be modified.
+     * 
+     * @return $this
+     * 
+     */
+    public function reverseMe();
     
     /**
      * 
      * Return true if there are one or more items in the collection or false otherwise
      * 
      * @return bool
+     * 
      */
     public function isEmpty();
     
@@ -217,18 +275,34 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @param mixed $default_value
      * 
      * @return mixed
+     * 
      */
     public function getIfExists($key, $default_value=null);
     
     /**
      * 
-     * Check if a collection contains an item
+     * Check if a collection contains an item using strict comparison.
      * 
      * @param mixed $item item whose existence in the collection is to be checked
      * 
      * @return bool true if collection contains item, false otherwise
+     * 
      */
     public function containsItem($item);
+    
+    /**
+     * 
+     * Check if a collection contains an item with the specified key using strict comparison for the item.
+     * 
+     * @param string|int $key key whose existence in the collection is to be checked
+     * @param mixed $item item whose existence in the collection is to be checked
+     * 
+     * @return bool true if collection contains item with the specified key, false otherwise
+     * 
+     * @throws \InvalidArgumentException if $key is non-int and non-string
+     * 
+     */
+    public function containsItemWithKey($key, $item);
     
     /**
      * 
@@ -237,6 +311,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @param array $items specified items whose existence is to be checked in the collection 
      * 
      * @return bool true if all specified items exist in collection, false otherwise
+     * 
      */
     public function containsItems(array $items);
     
@@ -247,6 +322,9 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @param mixed $key key whose existence in the collection is to be checked
      * 
      * @return bool true if key exists in collection, false otherwise
+     * 
+     * @throws \InvalidArgumentException if $key is non-int and non-string
+     * 
      */
     public function containsKey($key);
     
@@ -257,6 +335,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @param array $keys specified keys whose existence is to be checked in the collection 
      * 
      * @return bool true if all specified keys exist in collection, false otherwise
+     * 
      */
     public function containsKeys(array $keys);
     
@@ -267,6 +346,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @param \VersatileCollections\CollectionInterface $other
      * 
      * @return $this
+     * 
      */
     public function appendCollection(CollectionInterface $other);
     
@@ -277,6 +357,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @param mixed $item
      * 
      * @return $this
+     * 
      */
     public function appendItem($item);
     
@@ -287,6 +368,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @param \VersatileCollections\CollectionInterface $other
      * 
      * @return $this
+     * 
      */
     public function prependCollection(CollectionInterface $other);
     
@@ -298,6 +380,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @param string|int $key
      * 
      * @return $this
+     * 
      */
     public function prependItem($item, $key=null);
     
@@ -308,6 +391,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @param \VersatileCollections\CollectionInterface $other
      * 
      * @return $this
+     * 
      */
     public function merge(CollectionInterface $other);
     
@@ -351,6 +435,16 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
     
     /**
      * 
+     * Create a new collection with all the items in the original collection.
+     * All the keys in the new collection will be consecutive integer keys 
+     * starting from zero.
+     *
+     * @return \VersatileCollections\CollectionInterface new collection with all the items in the original collection
+     */
+    public function values();
+    
+    /**
+     * 
      * Iterate through a collection and execute a callback over each item during the iteration.
      * 
      * @param callable $callback a callback with the following signature
@@ -371,6 +465,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      *                                    inside the supplied $callback.
      * 
      * @return $this
+     * 
      */
     public function each(callable $callback, $termination_value=false, $bind_callback_to_this=true);
     
@@ -414,8 +509,9 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      *                                          the first item in the collection.
      * 
      * @return \VersatileCollections\CollectionInterface (a new collection consisting of every n-th element)
+     * 
      */
-    public function nth($n, $position_of_first_nth_item = 0);
+    public function everyNth($n, $position_of_first_nth_item = 0);
     
     /**
      * 
@@ -430,6 +526,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      *                            method is being invoked on.
      * 
      * @return mixed whatever is returned by $callback
+     * 
      */
     public function pipeAndReturnCallbackResult(callable $callback);
     
@@ -444,6 +541,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      *                            method is being invoked on.
      * 
      * @return $this
+     * 
      */
     public function pipeAndReturnSelf(callable $callback);
     
@@ -452,6 +550,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * Get and remove the last item from the collection.
      *
      * @return mixed
+     * 
      */
     public function getAndRemoveLastItem();
     
@@ -462,6 +561,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @param  mixed  $key
      * @param  mixed  $default
      * @return mixed
+     * 
      */
     public function pull($key, $default = null);
     
@@ -471,6 +571,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      *
      * @param  mixed  $item
      * @return $this
+     * 
      */
     public function push($item);
     
@@ -483,6 +584,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @param  mixed  $value
      * 
      * @return $this
+     * 
      */
     public function put($key, $value);
     
@@ -570,6 +672,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * 
      * @return mixed the first key in the collection whose item matches $value 
      *               or false if $value is not found in the collection
+     * 
      */
     public function searchByVal( $value, $strict = false );
 
@@ -585,6 +688,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * 
      * @return mixed an array of all key(s) in the collection whose item(s) match $value 
      *               or false if $value is not found in the collection
+     * 
      */
     public function searchAllByVal( $value, $strict = false );
 
@@ -609,6 +713,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @return mixed an array of all key(s) in the collection for which the callback 
      *               returned true or false if the callback did not return true for 
      *               any iteration over the collection
+     * 
      */
     public function searchByCallback($callback, $bind_callback_to_this=true);
     
@@ -618,8 +723,38 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * Get and remove the first item from the collection.
      *
      * @return mixed
+     * 
      */
     public function getAndRemoveFirstItem ();
+    
+    /**
+     * 
+     * Extract a slice of the collection.
+     * 
+     * The collection itself should not be modified (i.e. sliced items will 
+     * still remain in the collection this method is being called with).
+     * 
+     * @see array_slice http://php.net/manual/en/function.array-slice.php
+     * 
+     * @param int $offset If offset is non-negative, the sequence will start at 
+     *                    that offset in the array. If offset is negative, the 
+     *                    sequence will start that far from the end of the array.
+     * 
+     * @param int $length If length is given and is positive, then the sequence 
+     *                    will have up to that many elements in it. If the array 
+     *                    is shorter than the length, then only the available 
+     *                    array elements will be present. If length is given and 
+     *                    is negative then the sequence will stop that many 
+     *                    elements from the end of the array. If it is omitted, 
+     *                    then the sequence will have everything from offset up 
+     *                    until the end of the array.
+     * 
+     * @return \VersatileCollections\CollectionInterface A new collection containing the sliced items
+     * 
+     * @throws \InvalidArgumentException if $offset is non-int and / or if $length is non-null and non-int
+     * 
+     */
+    public function slice($offset, $length = null);
     
     /**
      * 
@@ -881,6 +1016,44 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * 
      */
     public function sortMeByMultipleFields(\VersatileCollections\MultiSortParameters ...$param);
+
+    /**
+     * 
+     * Remove a portion of the collection and optionally replace with items in $replacement.
+     * This method modifies the original collection.
+     * 
+     * @see array_splice http://php.net/manual/en/function.array-splice.php
+     *
+     * @param  int $offset If offset is positive then the start of removed portion 
+     *                     is at that offset from the beginning of the collection. 
+     *                     If offset is negative then it starts that far from the 
+     *                     end of the collection.
+     * 
+     * @param  int|null $length If length is omitted, removes everything from offset 
+     *                          to the end of the collection. If length is specified  
+     *                          & is positive, then that many elements will be removed. 
+     *                          If length is specified and is negative then the end 
+     *                          of the removed portion will be that many elements from 
+     *                          the end of the collection. If length is specified and 
+     *                          is zero, no elements will be removed. Tip: to remove 
+     *                          everything from offset to the end of the collection 
+     *                          when replacement is also specified, use $this->count() 
+     *                          for length.
+     * 
+     * @param  array $replacement If replacement array is specified, then the removed items 
+     *                            are replaced with items from this array.
+     * 
+     *                            If offset and length are such that nothing is removed, 
+     *                            then the items from the replacement array are inserted 
+     *                            in the place specified by the offset. Note that keys in 
+     *                            replacement array are not preserved.
+     *                            
+     * @return \VersatileCollections\CollectionInterface A new collection containing the removed items.
+     * 
+     * @throws \InvalidArgumentException if $offset is non-int and / or if $length is non-null and non-int
+     * 
+     */
+    public function splice($offset, $length=null, array $replacement=[]);
     
     /**
      * 
@@ -900,6 +1073,34 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      */
     public function split($numberOfGroups);
     
+
+    /**
+     * 
+     * Take the first or last {$limit} items and return them in a new collection.
+     * The items will not be removed from the original collection.
+     *
+     * @param  int  $limit If positive, then first {$limit} items will be returned.
+     *                     If negative, then last {$limit} items will be returned.
+     *                     If zero, then empty collection will be returned.
+     * 
+     * @return \VersatileCollections\CollectionInterface A new collection containing first or last {$limit} items.
+     * 
+     * @throws \InvalidArgumentException
+     * 
+     */
+    public function take($limit);
+
+    /**
+     * 
+     * Union the collection with the given items.
+     *
+     * @param  array $items
+     * 
+     * @return \VersatileCollections\CollectionInterface A new collection containing items in the original collection unioned with $items.
+     * 
+     */
+    public function union(array $items);
+    
     /**
      * 
      * Get a collection of unique items from an existing collection. The keys
@@ -917,6 +1118,56 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * 
      */
     public function unique();
+    
+    /**
+     * 
+     * Execute $callback on $this and return its return value if $truthy_value is truthy
+     * or execute $default on $this and return its return value if $default is not null
+     * or return $this as a last resort.
+     * 
+     * @param bool $truthy_value
+     * 
+     * @param callable $callback a callback with the following signature
+     *                           function(\VersatileCollections\CollectionInterface $collection, $truthy_value)
+     *                           It will be invoked on the collection object from which this method
+     *                           is being called.
+     * 
+     * @param callable|null $default a callback with the following signature
+     *                               function(\VersatileCollections\CollectionInterface $collection, $truthy_value)
+     *                               It will be invoked on the collection object from which this method
+     *                               is being called. 
+     *                               If $default is null and $truthy_value is not truthy, $this will
+     *                               be returned by this method.
+     * 
+     * @return mixed
+     * 
+     */
+    public function whenTrue( $truthy_value, callable $callback, callable $default=null);
+    
+    /**
+     * 
+     * Execute $callback on $this and return its return value if $falsy_value is falsy
+     * or execute $default on $this and return its return value if $default is not null
+     * or return $this as a last resort.
+     * 
+     * @param bool $falsy_value
+     * 
+     * @param callable $callback a callback with the following signature
+     *                           function(\VersatileCollections\CollectionInterface $collection, $falsy_value)
+     *                           It will be invoked on the collection object from which this method
+     *                           is being called.
+     * 
+     * @param callable|null $default a callback with the following signature
+     *                               function(\VersatileCollections\CollectionInterface $collection, $falsy_value)
+     *                               It will be invoked on the collection object from which this method
+     *                               is being called. 
+     *                               If $default is null and $falsy_value is not falsy, $this will
+     *                               be returned by this method.
+     * 
+     * @return mixed
+     * 
+     */
+    public function whenFalse( $falsy_value, callable $callback, callable $default=null);
     
     /**
      * 
