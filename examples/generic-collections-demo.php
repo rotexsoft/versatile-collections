@@ -114,6 +114,8 @@ $collection = new \VersatileCollections\GenericCollection(...$data);
         $data[] = \VersatileCollections\GenericCollection::makeNew(['id' => 67, 777 => 67, 'edition' => 7, 'title'=>"Hoo"]);
         $collection = new \VersatileCollections\GenericCollection(...$data);
 
+echo 'array_product($array) '.\VersatileCollections\var_to_string(array_product([100, 2.5])). PHP_EOL;
+        
 
 echo \VersatileCollections\var_to_string(
         \VersatileCollections\GenericCollection::makeNew(
@@ -143,5 +145,5 @@ echo \VersatileCollections\var_to_string(
 $c = \VersatileCollections\GenericCollection::makeNew(['name' => 'Hello']);
 
 echo \VersatileCollections\var_to_string(
-        $c->union(['id' => 1])->toArray()
+        $c->unionWith(['id' => 1])->toArray()
     );

@@ -175,7 +175,12 @@ class NumericsCollection extends ScalarCollection {
         return $modal_values;
     }
     
-    /**
+    public function product() {
+        
+        return array_product($this->versatile_collections_items);
+    }
+
+        /**
      * 
      * Sum of all the values in this collection
      * 

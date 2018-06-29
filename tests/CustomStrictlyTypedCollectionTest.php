@@ -302,7 +302,7 @@ class CustomStrictlyTypedCollectionTest extends \PHPUnit_Framework_TestCase {
     }
     
     /**
-     * @expectedException \VersatileCollections\Exceptions\InvalidCollectionOperationException
+     * @expectedException \VersatileCollections\Exceptions\InvalidItemException
      */
     public function testThatMergeCollectionWorksAsExpected() {
                 
@@ -322,12 +322,14 @@ class CustomStrictlyTypedCollectionTest extends \PHPUnit_Framework_TestCase {
         $other_item7 = new \ArrayObject();
         $other_item8 = function(){ return 'Hello World!'; };
         
-        $other_collection = new \BaseCollectionTestImplementation(
+        $other_collection = [
             $other_item1, $other_item2, $other_item3, $other_item4, 
             $other_item5, $other_item6, $other_item7, $other_item8
-        );
+        ];
         
-        $collection->merge($other_collection);
+        // should generate exception since one or more item(s) 
+        // not of type `TestValueObject` are present in $other_collection
+        $collection->mergeWith($other_collection);
     }
     
     public function testThatMergeCollectionWorksAsExpected2() {
@@ -346,29 +348,47 @@ class CustomStrictlyTypedCollectionTest extends \PHPUnit_Framework_TestCase {
         $other_item3 = new TestValueObject('Jack Bauer2', 423);
         $other_item4 = new TestValueObject('Jane Fonda2', 525);
         
-        $other_collection = new \TestValueObjectCollection(
+        $other_collection = [
             $other_item1, $other_item2, $other_item3, $other_item4
-        );
+        ];
         
         // $other_collection will completely overwrite the items in $collection
         // since they have the same number of items and keys
         
-        $collection->merge($other_collection);
+        $merged_collection = $collection->mergeWith($other_collection);
         
-        $this->assertTrue($collection->containsItem($other_item1));
-        $this->assertTrue($collection->containsItem($other_item2));
-        $this->assertTrue($collection->containsItem($other_item3));
-        $this->assertTrue($collection->containsItem($other_item4));
-        $this->assertFalse($collection->containsItem($item1));
-        $this->assertFalse($collection->containsItem($item2));
-        $this->assertFalse($collection->containsItem($item3));
-        $this->assertFalse($collection->containsItem($item4));
-        $this->assertSame($collection->firstItem() , $other_item1);
-        $this->assertSame($collection->lastItem() , $other_item4);
+        $this->assertTrue($merged_collection->containsItem($other_item1));
+        $this->assertTrue($merged_collection->containsItem($other_item2));
+        $this->assertTrue($merged_collection->containsItem($other_item3));
+        $this->assertTrue($merged_collection->containsItem($other_item4));
+        $this->assertFalse($merged_collection->containsItem($item1));
+        $this->assertFalse($merged_collection->containsItem($item2));
+        $this->assertFalse($merged_collection->containsItem($item3));
+        $this->assertFalse($merged_collection->containsItem($item4));
+        $this->assertSame($merged_collection->firstItem() , $other_item1);
+        $this->assertSame($merged_collection->lastItem() , $other_item4);
         $this->assertEquals(
-            $collection->toArray() ,
+            $merged_collection->toArray() ,
             [ $other_item1, $other_item2, $other_item3, $other_item4, ]
         );
+        
+        // test original collection after the merge
+        $this->assertFalse($collection->containsItem($other_item1));
+        $this->assertFalse($collection->containsItem($other_item2));
+        $this->assertFalse($collection->containsItem($other_item3));
+        $this->assertFalse($collection->containsItem($other_item4));
+        $this->assertTrue($collection->containsItem($item1));
+        $this->assertTrue($collection->containsItem($item2));
+        $this->assertTrue($collection->containsItem($item3));
+        $this->assertTrue($collection->containsItem($item4));
+        $this->assertSame($collection->firstItem() , $item1);
+        $this->assertSame($collection->lastItem() , $item4);
+        $this->assertEquals(
+            $collection->toArray() ,
+            [ $item1, $item2, $item3, $item4, ]
+        );
+        
+        $this->assertNotSame($collection, $merged_collection);
     }
     
     public function testThatMergeCollectionWorksAsExpected3() {
@@ -389,11 +409,146 @@ class CustomStrictlyTypedCollectionTest extends \PHPUnit_Framework_TestCase {
         $other_item3 = new TestValueObject('Jack Bauer2', 423);
         $other_item4 = new TestValueObject('Jane Fonda2', 525);
         
-        $other_collection = new \TestValueObjectCollection(
+        $other_collection = [
             $other_item1, $other_item2, $other_item3, $other_item4
+        ];
+        
+        $merged_collection = $collection->mergeWith($other_collection);
+        
+        $this->assertTrue($merged_collection->containsItem($other_item1));
+        $this->assertTrue($merged_collection->containsItem($other_item2));
+        $this->assertTrue($merged_collection->containsItem($other_item3));
+        $this->assertTrue($merged_collection->containsItem($other_item4));
+        $this->assertTrue($merged_collection->containsItem($item5));
+        $this->assertTrue($merged_collection->containsItem($item6));
+        $this->assertFalse($merged_collection->containsItem($item1));
+        $this->assertFalse($merged_collection->containsItem($item2));
+        $this->assertFalse($merged_collection->containsItem($item3));
+        $this->assertFalse($merged_collection->containsItem($item4));
+        $this->assertSame($merged_collection->firstItem() , $other_item1);
+        $this->assertSame($merged_collection->lastItem() , $item6);
+        $this->assertEquals(
+            $merged_collection->toArray() ,
+            [ $other_item1, $other_item2, $other_item3, $other_item4, $item5, $item6 ]
         );
         
-        $collection->merge($other_collection);
+        // test original collection after the merge
+        $this->assertFalse($collection->containsItem($other_item1));
+        $this->assertFalse($collection->containsItem($other_item2));
+        $this->assertFalse($collection->containsItem($other_item3));
+        $this->assertFalse($collection->containsItem($other_item4));
+
+        $this->assertTrue($collection->containsItem($item1));
+        $this->assertTrue($collection->containsItem($item2));
+        $this->assertTrue($collection->containsItem($item3));
+        $this->assertTrue($collection->containsItem($item4));
+        $this->assertTrue($collection->containsItem($item5));
+        $this->assertTrue($collection->containsItem($item6));
+        $this->assertSame($collection->firstItem() , $item1);
+        $this->assertSame($collection->lastItem() , $item6);
+        $this->assertEquals(
+            $collection->toArray() ,
+            [ $item1, $item2, $item3, $item4, $item5, $item6 ]
+        );
+        
+        $this->assertNotSame($collection, $merged_collection);
+    }
+    
+    /**
+     * @expectedException \VersatileCollections\Exceptions\InvalidItemException
+     */
+    public function testThatMergeMeWithCollectionWorksAsExpected() {
+                
+        $collection = new \TestValueObjectCollection(
+            new TestValueObject('Johnny Cash', 50),
+            new TestValueObject('Suzzy Something', 23),
+            new TestValueObject('Jack Bauer', 43),
+            new TestValueObject('Jane Fonda', 55)
+        );
+                
+        $other_item1 = "4";
+        $other_item2 = 5.0;
+        $other_item3 = 7;
+        $other_item4 = true;
+        $other_item5 = false;
+        $other_item6 = tmpfile();
+        $other_item7 = new \ArrayObject();
+        $other_item8 = function(){ return 'Hello World!'; };
+        
+        $other_collection = [
+            $other_item1, $other_item2, $other_item3, $other_item4, 
+            $other_item5, $other_item6, $other_item7, $other_item8
+        ];
+        
+        // should generate exception since one or more item(s) 
+        // not of type `TestValueObject` are present in $other_collection
+        $collection->mergeMeWith($other_collection);
+    }
+    
+    public function testThatMergeMeWithCollectionWorksAsExpected2() {
+        
+        $item1 = new TestValueObject('Johnny Cash', 50);
+        $item2 = new TestValueObject('Suzzy Something', 23);
+        $item3 = new TestValueObject('Jack Bauer', 43);
+        $item4 = new TestValueObject('Jane Fonda', 55);
+        
+        $collection = new \TestValueObjectCollection(
+            $item1, $item2, $item3, $item4
+        );
+                
+        $other_item1 = new TestValueObject('Johnny Cash2', 502);
+        $other_item2 = new TestValueObject('Suzzy Something2', 223);
+        $other_item3 = new TestValueObject('Jack Bauer2', 423);
+        $other_item4 = new TestValueObject('Jane Fonda2', 525);
+        
+        $other_collection = [
+            $other_item1, $other_item2, $other_item3, $other_item4
+        ];
+        
+        // $other_collection will completely overwrite the items in $collection
+        // since they have the same number of items and keys
+        
+        $collection->mergeMeWith($other_collection);
+        
+        $this->assertTrue($collection->containsItem($other_item1));
+        $this->assertTrue($collection->containsItem($other_item2));
+        $this->assertTrue($collection->containsItem($other_item3));
+        $this->assertTrue($collection->containsItem($other_item4));
+        $this->assertFalse($collection->containsItem($item1));
+        $this->assertFalse($collection->containsItem($item2));
+        $this->assertFalse($collection->containsItem($item3));
+        $this->assertFalse($collection->containsItem($item4));
+        $this->assertSame($collection->firstItem() , $other_item1);
+        $this->assertSame($collection->lastItem() , $other_item4);
+        $this->assertEquals(
+            $collection->toArray() ,
+            [ $other_item1, $other_item2, $other_item3, $other_item4, ]
+        );
+    }
+    
+    public function testThatMergeMeWithCollectionWorksAsExpected3() {
+        
+        $item1 = new TestValueObject('Johnny Cash', 50);
+        $item2 = new TestValueObject('Suzzy Something', 23);
+        $item3 = new TestValueObject('Jack Bauer', 43);
+        $item4 = new TestValueObject('Jane Fonda', 55);
+        $item5 = new TestValueObject('Jane Fonda22', 1212);
+        $item6 = new TestValueObject('Jane Fonda22', 21);
+        
+        $collection = new \TestValueObjectCollection(
+            $item1, $item2, $item3, $item4, $item5, $item6
+        );
+                
+        $other_item1 = new TestValueObject('Johnny Cash2', 502);
+        $other_item2 = new TestValueObject('Suzzy Something2', 223);
+        $other_item3 = new TestValueObject('Jack Bauer2', 423);
+        $other_item4 = new TestValueObject('Jane Fonda2', 525);
+        
+        $other_collection = [
+            $other_item1, $other_item2, $other_item3, $other_item4
+        ];
+        
+        $collection->mergeMeWith($other_collection);
         
         $this->assertTrue($collection->containsItem($other_item1));
         $this->assertTrue($collection->containsItem($other_item2));
@@ -579,5 +734,46 @@ class CustomStrictlyTypedCollectionTest extends \PHPUnit_Framework_TestCase {
             $collection->toArray() ,
             [  $other_item5, $other_item4, 'custom_key'=>$other_item3, $other_item2, $other_item1, $item1, $item2, $item3, $item4, ]
         );
+    }
+    
+    /**
+     * @expectedException \VersatileCollections\Exceptions\InvalidItemException
+     */
+    public function testUnionWithMe() {
+        
+        $item1 = new TestValueObject('Johnny Cash', 50);
+        $item2 = new TestValueObject('Suzzy Something', 23);
+        $item3 = new TestValueObject('Jack Bauer', 43);
+        $item4 = new TestValueObject('Jane Fonda', 55);
+        
+        $item5 = new TestValueObject('John Doe', 25);
+        $item6 = new TestValueObject('Sandra Green', 35);
+                
+        $initial_items = [ 
+            'item1'=>$item1, 'item2'=>$item2, 'item3'=>$item3, 'item4'=>$item4,
+        ];
+        $other_items = [ 
+            'item5'=>$item5, 'item6'=>$item6,
+        ];
+        
+        $collection = \TestValueObjectCollection::makeNew($initial_items);
+        
+        $this->assertEquals($initial_items, $collection->unionMeWith([])->toArray());
+        
+        $unioned_1 = $collection->unionMeWith($other_items);
+        
+        $this->assertEquals(
+            [
+                'item1'=>$item1, 'item2'=>$item2, 'item3'=>$item3, 
+                'item4'=>$item4, 'item5'=>$item5, 'item6'=>$item6,
+            ], 
+            $unioned_1->toArray()
+        );
+        
+        // test return $this
+        $this->assertSame($unioned_1, $collection);
+        
+        // Exception will occur when unioning with one or more items of the wrong type
+        $collection->unionMeWith( ['item of wrong type', $item2, []] );
     }
 }

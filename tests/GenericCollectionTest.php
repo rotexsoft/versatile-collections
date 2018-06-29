@@ -3342,8 +3342,8 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
     public function testUnion() {
         
         $c = \VersatileCollections\GenericCollection::makeNew(['name' => 'Hello']);
-        $this->assertEquals(['name' => 'Hello'], $c->union([])->toArray());
-        $this->assertEquals(['name' => 'Hello', 'id' => 1], $c->union(['id' => 1])->toArray());
+        $this->assertEquals(['name' => 'Hello'], $c->unionWith([])->toArray());
+        $this->assertEquals(['name' => 'Hello', 'id' => 1], $c->unionWith(['id' => 1])->toArray());
     }
     
     public function testThatUniqueWorksAsExpected() {
@@ -3481,6 +3481,395 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
         );
 
         $this->assertSame(['michael', 'tom', 'taylor'], $collection->toArray());
+    }
+
+    public function testGetAsNewType() {
+        
+        $generic_ints_collection = 
+            \VersatileCollections\GenericCollection::makeNew([1, 2, 3, 4, 5]);
+        
+        $generic_floats_collection = 
+            \VersatileCollections\GenericCollection::makeNew([1.5, 2.5, 3.5, 4.5, 5.5]);
+        
+        $generic_ints_and_floats_collection = 
+            \VersatileCollections\GenericCollection::makeNew([1, 2.5, 3, 4.5, 5]);
+        
+        $generic_strings_collection = 
+            \VersatileCollections\GenericCollection::makeNew(['1', '2.5', '3', '4.5', '5']);
+        
+        $ints_collection = 
+            \VersatileCollections\IntCollection::makeNew([1, 2, 3, 4, 5]);
+        
+        $floats_collection = 
+            \VersatileCollections\FloatCollection::makeNew([1.5, 2.5, 3.5, 4.5, 5.5]);
+        
+        $numerics_collection = 
+            \VersatileCollections\NumericsCollection::makeNew([1, 2.5, 3, 4.5, 5]);
+        
+        $strings_collection = 
+            \VersatileCollections\GenericCollection::makeNew(['1', '2.5', '3', '4.5', '5']);
+        
+        ////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////
+        $new = $generic_ints_collection->getAsNewType(); // no args
+        $this->assertInstanceOf(
+            \VersatileCollections\GenericCollection::class, 
+            $new
+        );
+        $this->assertSame(
+            [1, 2, 3, 4, 5], 
+            $new->toArray()
+        );
+        $this->assertSame(
+            5, 
+            $new->count()
+        );
+        
+        ////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////
+        $new = $generic_ints_collection->getAsNewType(
+            \VersatileCollections\IntCollection::class  // string
+        );
+        $this->assertInstanceOf(
+            \VersatileCollections\IntCollection::class, 
+            $new
+        );
+        $this->assertSame(
+            [1, 2, 3, 4, 5], 
+            $new->toArray()
+        );
+        $this->assertSame(
+            5, 
+            $new->count()
+        );
+        
+        ////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////
+        $new = $generic_ints_collection->getAsNewType(
+            \VersatileCollections\IntCollection::makeNew() // object instance 
+        );
+        $this->assertInstanceOf(
+            \VersatileCollections\IntCollection::class, 
+            $new
+        );
+        $this->assertSame(
+            [1, 2, 3, 4, 5], 
+            $new->toArray()
+        );
+        $this->assertSame(
+            5, 
+            $new->count()
+        );
+        
+        ////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////
+        $new = $generic_floats_collection->getAsNewType(
+            \VersatileCollections\FloatCollection::class  // string
+        );
+        $this->assertInstanceOf(
+            \VersatileCollections\FloatCollection::class, 
+            $new
+        );
+        $this->assertSame(
+            [1.5, 2.5, 3.5, 4.5, 5.5], 
+            $new->toArray()
+        );
+        $this->assertSame(
+            5, 
+            $new->count()
+        );
+        
+        ////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////
+        $new = $generic_ints_and_floats_collection->getAsNewType(
+            \VersatileCollections\NumericsCollection::class  // string
+        );
+        $this->assertInstanceOf(
+            \VersatileCollections\NumericsCollection::class, 
+            $new
+        );
+        $this->assertSame(
+            $generic_ints_and_floats_collection->toArray(), 
+            $new->toArray()
+        );
+        $this->assertSame(
+            5, 
+            $new->count()
+        );
+        
+        ////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////
+        $new = $generic_strings_collection->getAsNewType(
+            \VersatileCollections\StringCollection::class  // string
+        );
+        $this->assertInstanceOf(
+            \VersatileCollections\StringCollection::class, 
+            $new
+        );
+        $this->assertSame(
+            $generic_strings_collection->toArray(), 
+            $new->toArray()
+        );
+        $this->assertSame(
+            5, 
+            $new->count()
+        );
+        
+        ////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////
+        $new = $ints_collection->getAsNewType(
+            \VersatileCollections\NumericsCollection::class  // string
+        );
+        $this->assertInstanceOf(
+            \VersatileCollections\NumericsCollection::class, 
+            $new
+        );
+        $this->assertSame(
+            $ints_collection->toArray(), 
+            $new->toArray()
+        );
+        $this->assertSame(
+            5, 
+            $new->count()
+        );
+        
+        ////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////
+        $new = $ints_collection->getAsNewType(
+            \VersatileCollections\ScalarCollection::class  // string
+        );
+        $this->assertInstanceOf(
+            \VersatileCollections\ScalarCollection::class, 
+            $new
+        );
+        $this->assertSame(
+            $ints_collection->toArray(), 
+            $new->toArray()
+        );
+        $this->assertSame(
+            5, 
+            $new->count()
+        );
+        
+        ////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////
+        $new = $floats_collection->getAsNewType(
+            \VersatileCollections\NumericsCollection::class  // string
+        );
+        $this->assertInstanceOf(
+            \VersatileCollections\NumericsCollection::class, 
+            $new
+        );
+        $this->assertSame(
+            $floats_collection->toArray(), 
+            $new->toArray()
+        );
+        $this->assertSame(
+            5, 
+            $new->count()
+        );
+        
+        ////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////
+        $new = $floats_collection->getAsNewType(
+            \VersatileCollections\ScalarCollection::class  // string
+        );
+        $this->assertInstanceOf(
+            \VersatileCollections\ScalarCollection::class, 
+            $new
+        );
+        $this->assertSame(
+            $floats_collection->toArray(), 
+            $new->toArray()
+        );
+        $this->assertSame(
+            5, 
+            $new->count()
+        );
+        
+        ////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////
+        $new = $numerics_collection->getAsNewType(
+            \VersatileCollections\ScalarCollection::class  // string
+        );
+        $this->assertInstanceOf(
+            \VersatileCollections\ScalarCollection::class, 
+            $new
+        );
+        $this->assertSame(
+            $numerics_collection->toArray(), 
+            $new->toArray()
+        );
+        $this->assertSame(
+            5, 
+            $new->count()
+        );
+        
+        ////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////
+        $new = $strings_collection->getAsNewType(
+            \VersatileCollections\ScalarCollection::class  // string
+        );
+        $this->assertInstanceOf(
+            \VersatileCollections\ScalarCollection::class, 
+            $new
+        );
+        $this->assertSame(
+            $strings_collection->toArray(), 
+            $new->toArray()
+        );
+        $this->assertSame(
+            5, 
+            $new->count()
+        );
+    }
+    
+    /**
+     * @expectedException \VersatileCollections\Exceptions\InvalidItemException
+     */
+    public function testGetAsNewTypeGenericCollectionOfNonArraysToArrayCollection() {
+        
+        \VersatileCollections\GenericCollection::makeNew([1, 2, 3, 4, 5])
+                ->getAsNewType(\VersatileCollections\ArrayCollection::class);
+    }
+    
+    /**
+     * @expectedException \VersatileCollections\Exceptions\InvalidItemException
+     */
+    public function testGetAsNewTypeGenericCollectionOfNonCallablesToCallablesCollection() {
+        
+        \VersatileCollections\GenericCollection::makeNew([1, 2, 3, 4, 5])
+                ->getAsNewType(\VersatileCollections\CallablesCollection::class);
+    }
+    
+    /**
+     * @expectedException \VersatileCollections\Exceptions\InvalidItemException
+     */
+    public function testGetAsNewTypeGenericCollectionOfNonFloatsToFloatCollection() {
+        
+        \VersatileCollections\GenericCollection::makeNew([1, 2, 3, 4, 5])
+                ->getAsNewType(\VersatileCollections\FloatCollection::class);
+    }
+    
+    /**
+     * @expectedException \VersatileCollections\Exceptions\InvalidItemException
+     */
+    public function testGetAsNewTypeGenericCollectionOfNonObjectsToObjectCollection() {
+        
+        \VersatileCollections\GenericCollection::makeNew([1, 2, 3, 4, 5])
+                ->getAsNewType(\VersatileCollections\ObjectCollection::class);
+    }
+    
+    /**
+     * @expectedException \VersatileCollections\Exceptions\InvalidItemException
+     */
+    public function testGetAsNewTypeGenericCollectionOfNonResourcesToResourceCollection() {
+        
+        \VersatileCollections\GenericCollection::makeNew([1, 2, 3, 4, 5])
+                ->getAsNewType(\VersatileCollections\ResourceCollection::class);
+    }
+    
+    /**
+     * @expectedException \VersatileCollections\Exceptions\InvalidItemException
+     */
+    public function testGetAsNewTypeGenericCollectionOfNonStringsToStringCollection() {
+        
+        \VersatileCollections\GenericCollection::makeNew([1, 2, 3, 4, 5])
+                ->getAsNewType(\VersatileCollections\StringCollection::class);
+    }
+    
+    /**
+     * @expectedException \VersatileCollections\Exceptions\InvalidItemException
+     */
+    public function testGetAsNewTypeIntCollectionToArrayCollection() {
+        
+        \VersatileCollections\IntCollection::makeNew([1, 2, 3, 4, 5])
+                ->getAsNewType(\VersatileCollections\ArrayCollection::class);
+    }
+    
+    /**
+     * @expectedException \VersatileCollections\Exceptions\InvalidItemException
+     */
+    public function testGetAsNewTypeIntCollectionToCallablesCollection() {
+        
+        \VersatileCollections\IntCollection::makeNew([1, 2, 3, 4, 5])
+                ->getAsNewType(\VersatileCollections\CallablesCollection::class);
+    }
+    
+    /**
+     * @expectedException \VersatileCollections\Exceptions\InvalidItemException
+     */
+    public function testGetAsNewTypeIntCollectionToFloatCollection() {
+        
+        \VersatileCollections\IntCollection::makeNew([1, 2, 3, 4, 5])
+                ->getAsNewType(\VersatileCollections\FloatCollection::class);
+    }
+    
+    /**
+     * @expectedException \VersatileCollections\Exceptions\InvalidItemException
+     */
+    public function testGetAsNewTypeIntCollectionToObjectCollection() {
+        
+        \VersatileCollections\IntCollection::makeNew([1, 2, 3, 4, 5])
+                ->getAsNewType(\VersatileCollections\ObjectCollection::class);
+    }
+    
+    /**
+     * @expectedException \VersatileCollections\Exceptions\InvalidItemException
+     */
+    public function testGetAsNewTypeIntCollectionToResourceCollection() {
+        
+        \VersatileCollections\IntCollection::makeNew([1, 2, 3, 4, 5])
+                ->getAsNewType(\VersatileCollections\ResourceCollection::class);
+    }
+    
+    /**
+     * @expectedException \VersatileCollections\Exceptions\InvalidItemException
+     */
+    public function testGetAsNewTypeIntCollectionToStringCollection() {
+        
+        \VersatileCollections\IntCollection::makeNew([1, 2, 3, 4, 5])
+                ->getAsNewType(\VersatileCollections\StringCollection::class);
+    }
+    
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testGetAsNewTypeWithNonStringAndNonObjectArg() {
+        
+        \VersatileCollections\IntCollection::makeNew([1, 2, 3, 4, 5])
+                ->getAsNewType([]);
+    }
+    
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testGetAsNewTypeWithStringNonCollectionInterfaceSubClassArg() {
+        
+        \VersatileCollections\IntCollection::makeNew([1, 2, 3, 4, 5])
+                ->getAsNewType('Yay');
+    }
+    
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testGetAsNewTypeWithObjectNonCollectionInterfaceSubClassArg() {
+        
+        \VersatileCollections\IntCollection::makeNew([1, 2, 3, 4, 5])
+                ->getAsNewType(new stdClass());
+    }
+    
+    public function testRemoveAll() {
+        
+        $c = \VersatileCollections\GenericCollection::makeNew([1, 2, 3, 4, 5]);
+        
+        $this->assertCount(5, $c);
+        
+        $result = $c->removeAll();
+        
+        $this->assertCount(0, $c);
+        $this->assertCount(0, $result);
+        $this->assertSame($c, $result);
     }
     
     /**

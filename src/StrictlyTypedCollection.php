@@ -85,30 +85,6 @@ abstract class StrictlyTypedCollection extends GenericCollection {
      * {@inheritDoc}
      * 
      */
-    public function merge(CollectionInterface $other) {
-        
-        if( 
-            get_class($this) !== get_class($other)
-            && !is_subclass_of($other, get_class($this))
-        ) {    
-            $class = get_class($this);
-            $other_class = get_class($other);
-            $calling_functions_name = __FUNCTION__;
-            $msg = "Error ({$class}::{$calling_functions_name}):"
-            . " Trying to merge a collection of type `" .$other_class 
-            . "` to a strictly typed collection of type `{$class}`". PHP_EOL;
-            
-            throw new Exceptions\InvalidCollectionOperationException($msg);
-        }
-        
-        return parent::merge($other);
-    }
-    
-    /**
-     * 
-     * {@inheritDoc}
-     * 
-     */
     public function offsetSet($key, $val) {
         
         $this->isRightTypeOrThrowInvalidTypeException($val, __FUNCTION__);
@@ -150,5 +126,20 @@ abstract class StrictlyTypedCollection extends GenericCollection {
         $this->isRightTypeOrThrowInvalidTypeException($item, __FUNCTION__);
         
         return parent::prependItem($item, $key);
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
+    public function unionMeWith(array $items) {
+        
+        foreach ($items as $item) {
+            
+            $this->isRightTypeOrThrowInvalidTypeException($item, __FUNCTION__);
+        }
+        
+        return parent::unionMeWith($items);
     }
 }

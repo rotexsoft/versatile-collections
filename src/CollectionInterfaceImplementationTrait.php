@@ -10,24 +10,28 @@ trait CollectionInterfaceImplementationTrait {
     /**
      *
      * @var array
+     * 
      */
     protected $versatile_collections_items = [];
     
     /**
      *
      * @var array
+     * 
      */
     protected static $versatile_collections_methods_for_all_instances = [];
 
     /**
      *
      * @var array
+     * 
      */
     protected $versatile_collections_methods_for_this_instance = [];
 
     /**
      *
      * @var array
+     * 
      */
     protected static $versatile_collections_static_methods = [];
     
@@ -864,12 +868,34 @@ trait CollectionInterfaceImplementationTrait {
      * {@inheritDoc}
      * 
      */
-    public function merge(CollectionInterface $other) {
+    public function mergeWith(array $items) {
         
-        if( ! $other->isEmpty() ) {
+        $copy = $this->versatile_collections_items;
+        $merged_items = static::makeNew($copy);
+        
+        if( count($items) > 0 ) {
+            
+            // not using array_merge , want to trigger $merged_items->offsetSet() logic
+            foreach ( $items as $key => $item ) {
+                
+                $merged_items[$key] = $item;
+            }
+        }
+        
+        return $merged_items;
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
+    public function mergeMeWith(array $items) {
+        
+        if( count($items) > 0 ) {
             
             // not using array_merge , want to trigger $this->offsetSet() logic
-            foreach ( $other->toArray() as $key => $item ) {
+            foreach ( $items as $key => $item ) {
                 
                 $this[$key] = $item;
             }
@@ -1403,16 +1429,14 @@ trait CollectionInterfaceImplementationTrait {
         
         return count($results) > 0 ? $results : false;
     }
-    
-    /**
-     * 
-     * {@inheritDoc}
-     * 
-     */
-    public function sort(callable $callable=null, \VersatileCollections\SortType $type=null) {
-        
-        $items_to_sort = $this->versatile_collections_items;
-        
+
+    protected function performSort(
+        array &$items_to_sort, 
+        callable $callable=null, 
+        \VersatileCollections\SortType $type=null, 
+        $sort_function_name_not_requiring_callback='asort',
+        $sort_function_name_requiring_callback='uasort'
+    ) {    
         if( is_null($callable) ) {
             
             $sort_type = SORT_REGULAR;
@@ -1422,120 +1446,19 @@ trait CollectionInterfaceImplementationTrait {
                 $sort_type = $type->getSortType();
             }
             
-            asort($items_to_sort, $sort_type);
+            $sort_function_name_not_requiring_callback($items_to_sort, $sort_type);
             
         } else {
             
-            uasort($items_to_sort, $callable);
+            $sort_function_name_requiring_callback($items_to_sort, $callable);
         }
-        
-        return static::makeNew($items_to_sort);
     }
-    
-    /**
-     * 
-     * {@inheritDoc}
-     * 
-     */
-    public function sortDesc($callable=null, \VersatileCollections\SortType $type=null) {
-        
-        $items_to_sort = $this->versatile_collections_items;
-        
-        if( is_null($callable) ) {
-            
-            $sort_type = SORT_REGULAR;
-            
-            if( !is_null($type) ) {
-                
-                $sort_type = $type->getSortType();
-            }
-            
-            arsort($items_to_sort, $sort_type);
-            
-        } else {
-            
-            uasort($items_to_sort, $callable);
-        }
-        
-        return static::makeNew($items_to_sort);
-    }
-    
-    /**
-     * 
-     * {@inheritDoc}
-     * 
-     */
-    public function sortByKey($callable=null, \VersatileCollections\SortType $type=null) {
-        
-        $items_to_sort = $this->versatile_collections_items;
-        
-        if( is_null($callable) ) {
-            
-            $sort_type = SORT_REGULAR;
-            
-            if( !is_null($type) ) {
-                
-                $sort_type = $type->getSortType();
-            }
-            
-            ksort($items_to_sort, $sort_type);
-            
-        } else {
-            
-            uksort($items_to_sort, $callable);
-        }
-        
-        return static::makeNew($items_to_sort);
-    }
-    
-    /**
-     * 
-     * {@inheritDoc}
-     * 
-     */
-    public function sortDescByKey($callable=null, \VersatileCollections\SortType $type=null) {
-        
-        $items_to_sort = $this->versatile_collections_items;
-        
-        if( is_null($callable) ) {
-            
-            $sort_type = SORT_REGULAR;
-            
-            if( !is_null($type) ) {
-                
-                $sort_type = $type->getSortType();
-            }
-            
-            krsort($items_to_sort, $sort_type);
-            
-        } else {
-            
-            uksort($items_to_sort, $callable);
-        }
-        
-        return static::makeNew($items_to_sort);
-    }
-    
-    /**
-     * 
-     * {@inheritDoc}
-     * 
-     */
-    public function sortByMultipleFields(\VersatileCollections\MultiSortParameters ...$param) {
-        
-        if( count($param) <= 0 ) {
-            
-            $function = __FUNCTION__;
-            $class = get_class($this);
-            $msg = "Error [{$class}::{$function}(...)]:"
-            . " {$class}::{$function}(...) expects at least one parameter of type `". \VersatileCollections\MultiSortParameters::class ."`";
-            throw new \InvalidArgumentException($msg);
-        }
+
+    protected function performMultiSort(array $array_to_be_sorted, \VersatileCollections\MultiSortParameters ...$param) {
         
         $multi_sort_args = [];
         $columns_to_sort_by = [];
-        // copy items
-        $array_to_be_sorted = $this->versatile_collections_items;
+        
         $original_key_tracker = 'http://versatile-collections.com/original_key_b4_sort';
         
         foreach( $array_to_be_sorted as $key => $item) {
@@ -1602,7 +1525,114 @@ trait CollectionInterfaceImplementationTrait {
         //take out da trash
         unset($sorted_array_with_unpreserved_keys);
         
-        return static::makeNew($sorted_array_with_preserved_keys);
+        return $sorted_array_with_preserved_keys;
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
+    public function sort(callable $callable=null, \VersatileCollections\SortType $type=null) {
+        
+        // sort a copy
+        $items_to_sort = $this->versatile_collections_items;
+        
+        $this->performSort(
+            $items_to_sort, 
+            $callable, 
+            $type, 
+            'asort',
+            'uasort'
+        );
+        
+        return static::makeNew($items_to_sort);
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
+    public function sortDesc(callable $callable=null, \VersatileCollections\SortType $type=null) {
+        
+        // sort a copy
+        $items_to_sort = $this->versatile_collections_items;
+        
+        $this->performSort(
+            $items_to_sort, 
+            $callable, 
+            $type, 
+            'arsort',
+            'uasort'
+        );
+        
+        return static::makeNew($items_to_sort);
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
+    public function sortByKey(callable $callable=null, \VersatileCollections\SortType $type=null) {
+        
+        // sort a copy
+        $items_to_sort = $this->versatile_collections_items;
+        
+        $this->performSort(
+            $items_to_sort, 
+            $callable, 
+            $type, 
+            'ksort',
+            'uksort'
+        );
+        
+        return static::makeNew($items_to_sort);
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
+    public function sortDescByKey(callable $callable=null, \VersatileCollections\SortType $type=null) {
+        
+        // sort a copy
+        $items_to_sort = $this->versatile_collections_items;
+        
+        $this->performSort(
+            $items_to_sort, 
+            $callable, 
+            $type, 
+            'krsort',
+            'uksort'
+        );
+        
+        return static::makeNew($items_to_sort);
+    }
+
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
+    public function sortByMultipleFields(\VersatileCollections\MultiSortParameters ...$param) {
+        
+        if( count($param) <= 0 ) {
+            
+            $function = __FUNCTION__;
+            $class = get_class($this);
+            $msg = "Error [{$class}::{$function}(...)]:"
+            . " {$class}::{$function}(...) expects at least one parameter of type `". \VersatileCollections\MultiSortParameters::class ."`";
+            throw new \InvalidArgumentException($msg);
+        }
+     
+        // sort a copy
+        $array_to_be_sorted = $this->versatile_collections_items;
+        
+        return static::makeNew($this->performMultiSort($array_to_be_sorted, ...$param));
     }
     
     /**
@@ -1611,22 +1641,14 @@ trait CollectionInterfaceImplementationTrait {
      * 
      */
     public function sortMe(callable $callable=null, \VersatileCollections\SortType $type=null) {
-                
-        if( is_null($callable) ) {
-            
-            $sort_type = SORT_REGULAR;
-            
-            if( !is_null($type) ) {
-                
-                $sort_type = $type->getSortType();
-            }
-            
-            asort($this->versatile_collections_items, $sort_type);
-            
-        } else {
-            
-            uasort($this->versatile_collections_items, $callable);
-        }
+          
+        $this->performSort(
+            $this->versatile_collections_items, 
+            $callable, 
+            $type, 
+            'asort',
+            'uasort'
+        );
         
         return $this;
     }
@@ -1636,23 +1658,15 @@ trait CollectionInterfaceImplementationTrait {
      * {@inheritDoc}
      * 
      */
-    public function sortMeDesc($callable=null, \VersatileCollections\SortType $type=null) {
+    public function sortMeDesc(callable $callable=null, \VersatileCollections\SortType $type=null) {
                 
-        if( is_null($callable) ) {
-            
-            $sort_type = SORT_REGULAR;
-            
-            if( !is_null($type) ) {
-                
-                $sort_type = $type->getSortType();
-            }
-            
-            arsort($this->versatile_collections_items, $sort_type);
-            
-        } else {
-            
-            uasort($this->versatile_collections_items, $callable);
-        }
+        $this->performSort(
+            $this->versatile_collections_items, 
+            $callable, 
+            $type, 
+            'arsort',
+            'uasort'
+        );
         
         return $this;
     }
@@ -1662,23 +1676,15 @@ trait CollectionInterfaceImplementationTrait {
      * {@inheritDoc}
      * 
      */
-    public function sortMeByKey($callable=null, \VersatileCollections\SortType $type=null) {
+    public function sortMeByKey(callable $callable=null, \VersatileCollections\SortType $type=null) {
         
-        if( is_null($callable) ) {
-            
-            $sort_type = SORT_REGULAR;
-            
-            if( !is_null($type) ) {
-                
-                $sort_type = $type->getSortType();
-            }
-            
-            ksort($this->versatile_collections_items, $sort_type);
-            
-        } else {
-            
-            uksort($this->versatile_collections_items, $callable);
-        }
+        $this->performSort(
+            $this->versatile_collections_items, 
+            $callable, 
+            $type, 
+            'ksort',
+            'uksort'
+        );
         
         return $this;
     }
@@ -1688,23 +1694,15 @@ trait CollectionInterfaceImplementationTrait {
      * {@inheritDoc}
      * 
      */
-    public function sortMeDescByKey($callable=null, \VersatileCollections\SortType $type=null) {
+    public function sortMeDescByKey(callable $callable=null, \VersatileCollections\SortType $type=null) {
         
-        if( is_null($callable) ) {
-            
-            $sort_type = SORT_REGULAR;
-            
-            if( !is_null($type) ) {
-                
-                $sort_type = $type->getSortType();
-            }
-            
-            krsort($this->versatile_collections_items, $sort_type);
-            
-        } else {
-            
-            uksort($this->versatile_collections_items, $callable);
-        }
+        $this->performSort(
+            $this->versatile_collections_items, 
+            $callable, 
+            $type, 
+            'krsort',
+            'uksort'
+        );
         
         return $this;
     }
@@ -1724,77 +1722,11 @@ trait CollectionInterfaceImplementationTrait {
             . " {$class}::{$function}(...) expects at least one parameter of type `". \VersatileCollections\MultiSortParameters::class ."`";
             throw new \InvalidArgumentException($msg);
         }
-        
-        $multi_sort_args = [];
-        $columns_to_sort_by = [];
-
-        $original_key_tracker = 'http://versatile-collections.com/original_key_b4_sort';
-        
-        foreach( $this->versatile_collections_items as $key => $item) {
-            
-            if( is_array($item) || $item instanceof \ArrayAccess ) {
-                
-                $this->versatile_collections_items[$key][$original_key_tracker] = $key;
-                
-                foreach($param as $current_param) {
-                    
-                    if( !array_key_exists($current_param->getFieldName() , $columns_to_sort_by) ) {
-                        
-                        $columns_to_sort_by[$current_param->getFieldName()] = [];
-                    }
-                    
-                    $columns_to_sort_by[$current_param->getFieldName()][$key] 
-                                        = $item[$current_param->getFieldName()];
-                }
-                
-            } else {
-                
-                $function = __FUNCTION__;
-                $class = get_class($this);
-                $msg = "Error [{$class}::{$function}(...)]:"
-                . " {$class}::{$function}(...) does not work with collections containing items that are"
-                . " not associative arrays or instances of ArrayAccess.";
-                throw new \RuntimeException($msg);
-            }
-        }
-        
-        foreach($param as $current_param) {
-            
-            // set column
-            $multi_sort_args[] = $columns_to_sort_by[$current_param->getFieldName()];
-            
-            // set sort direction
-            $multi_sort_args[] = $current_param->getSortDirection();
-            
-            // set sort type
-            $multi_sort_args[] = $current_param->getSortType();
-        }
-        
-        // last parameter is the array to be sorted
-        $multi_sort_args[] = &$this->versatile_collections_items;
-        
-        call_user_func_array("array_multisort", $multi_sort_args);
-        
-        $sorted_array_with_unpreserved_keys = array_pop($multi_sort_args);
-        
-        // Restore original key associations
-        $sorted_array_with_preserved_keys = [];
-
-        foreach( $sorted_array_with_unpreserved_keys as $array_key => $current_array_data ) {
-
-            $original_key = $sorted_array_with_unpreserved_keys[$array_key][$original_key_tracker];
-            
-            // Remove the key we added in this method 
-            // to keep track of the original key of each array item
-            unset($sorted_array_with_unpreserved_keys[$array_key][$original_key_tracker]); 
-
-            $sorted_array_with_preserved_keys[$original_key] = $sorted_array_with_unpreserved_keys[$array_key];
-        }
-
-        //take out da trash
-        unset($sorted_array_with_unpreserved_keys);
-        
-        $this->versatile_collections_items = $sorted_array_with_preserved_keys;
+               
+        $this->versatile_collections_items = 
+            $this->performMultiSort(
+                $this->versatile_collections_items, ...$param
+            );
         
         return $this;
     }
@@ -1943,7 +1875,7 @@ trait CollectionInterfaceImplementationTrait {
      * {@inheritDoc}
      * 
      */
-    public function union(array $items) {
+    public function unionWith(array $items) {
         
         return static::makeNew($this->versatile_collections_items + $items);
     }
@@ -1953,9 +1885,24 @@ trait CollectionInterfaceImplementationTrait {
      * {@inheritDoc}
      * 
      */
+    public function unionMeWith(array $items) {
+        
+        $this->versatile_collections_items =
+            $this->versatile_collections_items + $items;
+        
+        return $this;
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
     public function column($column_key, $index_key=null) {
-
-        $column_2_return = new static();
+        
+        // use GenericCollection because the values 
+        // in the column may be of varying types
+        $column_2_return = new GenericCollection();
         
         if( !is_int($column_key) && !is_string($column_key) ) {
             
@@ -2169,5 +2116,60 @@ trait CollectionInterfaceImplementationTrait {
         $falsy_value, callable $callback, callable $default=null
     ) {
         return $this->whenTrue( (!$falsy_value) , $callback, $default);
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
+    public function getAsNewType($new_collection_class=GenericCollection::class) {
+        
+        if( 
+            !is_string($new_collection_class) 
+            && !is_object($new_collection_class) 
+        ) {
+            $function = __FUNCTION__;
+            $class = get_class($this);
+            $new_collection_class_type = gettype($new_collection_class);
+            $msg = "Error [{$class}::{$function}(...)]:"
+            . " You must specify an object or string as the \$new_collection_class parameter."
+            . " You supplied a(n) `{$new_collection_class_type}` with a value of: ". var_to_string($new_collection_class);
+            throw new \InvalidArgumentException($msg); 
+        }
+        
+        if( 
+            !is_subclass_of($new_collection_class, CollectionInterface::class)
+        ) {
+            $function = __FUNCTION__;
+            $class = get_class($this);
+            $new_collection_class_type = gettype($new_collection_class);
+            $msg = "Error [{$class}::{$function}(...)]:"
+            . " You must specify an object or string that is a sub-class of "
+            . CollectionInterface::class . " as the \$new_collection_class parameter."
+            . " You supplied a(n) `{$new_collection_class_type}` with a value of: ". var_to_string($new_collection_class);
+            throw new \InvalidArgumentException($msg); 
+        }
+        
+        if( 
+            is_object($new_collection_class)
+            && $new_collection_class instanceof CollectionInterface
+        ) {
+            $new_collection_class = get_class($new_collection_class);
+        }
+
+        return $new_collection_class::makeNew($this->versatile_collections_items);
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
+    public function removeAll() {
+        
+        $this->versatile_collections_items = [];
+        
+        return $this;
     }
 }

@@ -159,6 +159,24 @@ class NumericsCollectionTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame($collection->mode(), [10.5, 3] );
     }
     
+    public function testThatProductWorksAsExpected() {
+        
+        $collection = new \VersatileCollections\NumericsCollection();
+        
+        $this->assertSame($collection->product(), 1);
+        
+        $collection = new \VersatileCollections\NumericsCollection(100, 2.5);
+        $this->assertSame($collection->product(), 250.0);
+        
+        $collection = new \VersatileCollections\NumericsCollection(3.5, 2.5);
+        $this->assertSame($collection->product(), 8.75);
+        
+        $collection = new \VersatileCollections\NumericsCollection(3, 2);
+        $this->assertSame($collection->product(), 6);
+        
+
+    }
+    
     public function testThatSumWorksAsExpected() {
         
         $collection = new \VersatileCollections\NumericsCollection();
@@ -293,24 +311,26 @@ class NumericsCollectionTest extends \PHPUnit_Framework_TestCase {
             1.0, 2.0, 3, 4, 5, 6
         );
         
-        $int_collection = new \VersatileCollections\IntCollection(
+        $int_collection = [
             8, 9, 10, 11
-        );
+        ];
         
         // append a sub-class collection
-        $numeric_collection->merge($int_collection);
+        $numeric_collection = 
+            $numeric_collection->mergeWith($int_collection);
 
         $this->assertEquals(
             $numeric_collection->toArray() ,
             [ 8, 9, 10, 11, 5, 6, ]
         );
         
-        $float_collection = new \VersatileCollections\FloatCollection(
+        $float_collection = [
             8.5, 9.7, 10.8, 11.9
-        );
+        ];
         
         // append another sub-class collection
-        $numeric_collection->merge($float_collection);
+        $numeric_collection =
+            $numeric_collection->mergeWith($float_collection);
 
         $this->assertEquals(
             $numeric_collection->toArray() ,

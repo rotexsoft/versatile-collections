@@ -98,7 +98,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
     
     /**
      * 
-     * Retrieves and returns the first record in this collection.
+     * Retrieves and returns the first item in this collection.
      * 
      * @return mixed The first item in this collection or null if collection is empty.
      * 
@@ -107,7 +107,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
     
     /**
      * 
-     * Retrieves and returns the last record in this collection.
+     * Retrieves and returns the last item in this collection.
      * 
      * @return mixed The last item in this collection or null if collection is empty.
      * 
@@ -386,14 +386,42 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
     
     /**
      * 
-     * Adds all items from $other collection to $this collection. Items in $other with existing keys in $this will overwrite the existing items in $this.
+     * Adds all items from $items to $this collection and returns a new collection
+     * containing the result. The original collection will not be modified.
+     * Items in $items with existing keys in $this will overwrite the existing items in $this.
      * 
-     * @param \VersatileCollections\CollectionInterface $other
+     * Use union() and unionMeWith() if you want items from $this to be used
+     * when same keys exist in both $items and $this.
+     * 
+     * @see \VersatileCollections\CollectionInterface::union($items)
+     * @see \VersatileCollections\CollectionInterface::unionMeWith($items)
+     * 
+     * @param array $items
+     * 
+     * @return \VersatileCollections\CollectionInterface a new collection containing 
+     *                                                   the result of merging all 
+     *                                                   items from $items with 
+     *                                                   $this collection
+     */
+    public function mergeWith(array $items);
+    
+    /**
+     * 
+     * Adds all items from $items to $this collection. 
+     * Items in $items with existing keys in $this will overwrite the existing items in $this.
+     * 
+     * Use union() and unionMeWith() if you want items from $this to be used
+     * when same keys exist in both $items and $this.
+     * 
+     * @see \VersatileCollections\CollectionInterface::union($items)
+     * @see \VersatileCollections\CollectionInterface::unionMeWith($items)
+     * 
+     * @param array $items
      * 
      * @return $this
      * 
      */
-    public function merge(CollectionInterface $other);
+    public function mergeMeWith(array $items);
     
     /**
      * 
@@ -621,7 +649,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      *
      * @param int $number number of random keys to be returned
      * 
-     * @return \VersatileCollections\CollectionInterface (a new collection containing the random keys)
+     * @return \VersatileCollections\GenericCollection (a new collection containing the random keys)
      *
      * @throws \InvalidArgumentException
      * @throws \LengthException
@@ -802,7 +830,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @return \VersatileCollections\CollectionInterface A new collection containing the sorted items
      * 
      */
-    public function sortDesc($callable=null, \VersatileCollections\SortType $type=null);
+    public function sortDesc(callable $callable=null, \VersatileCollections\SortType $type=null);
     
     /**
      * 
@@ -826,7 +854,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @return \VersatileCollections\CollectionInterface A new collection containing the sorted items
      * 
      */
-    public function sortByKey($callable=null, \VersatileCollections\SortType $type=null);
+    public function sortByKey(callable $callable=null, \VersatileCollections\SortType $type=null);
     
     /**
      * 
@@ -850,7 +878,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @return \VersatileCollections\CollectionInterface A new collection containing the sorted items
      * 
      */
-    public function sortDescByKey($callable=null, \VersatileCollections\SortType $type=null);
+    public function sortDescByKey(callable $callable=null, \VersatileCollections\SortType $type=null);
     
     /**
      * 
@@ -933,7 +961,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @return $this
      * 
      */
-    public function sortMeDesc($callable=null, \VersatileCollections\SortType $type=null);
+    public function sortMeDesc(callable $callable=null, \VersatileCollections\SortType $type=null);
     
     /**
      * 
@@ -956,7 +984,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @return $this
      * 
      */
-    public function sortMeByKey($callable=null, \VersatileCollections\SortType $type=null);
+    public function sortMeByKey(callable $callable=null, \VersatileCollections\SortType $type=null);
     
     /**
      * 
@@ -979,7 +1007,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @return $this
      * 
      */
-    public function sortMeDescByKey($callable=null, \VersatileCollections\SortType $type=null);
+    public function sortMeDescByKey(callable $callable=null, \VersatileCollections\SortType $type=null);
     
     /**
      * 
@@ -1092,14 +1120,69 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
 
     /**
      * 
-     * Union the collection with the given items.
+     * Union the collection with the given items by trying to append all items 
+     * from $items to $this collection and return the result in a new collection.
+     * 
+     * For keys that exist in both $items and $this, the items from $this 
+     * will be used, and the matching items from $items will be ignored.
+     * 
+     * For example:
+     *  $a = \VersatileCollections\GenericCollection::makeNew( 
+     *          [ "a"=>"apple", "b"=>"banana" ]
+     *      );
+     * $b = [ "a"=>"pear", "b"=>"strawberry", "c"=>"cherry" ];
+     * 
+     * // result
+     * $a->union($b)->toArray() === [ "a"=>"apple", "b"=>"banana", "c"=>"cherry" ]
+     *  
+     * 
+     * Use merge() and mergeMeWith() if you want items from $items to be used
+     * when same keys exist in both $items and $this.
      *
+     * @see \VersatileCollections\CollectionInterface::merge($items)
+     * @see \VersatileCollections\CollectionInterface::mergeMeWith($items)
+     * 
+     * This method does not modify the original collection.
+     * 
      * @param  array $items
      * 
      * @return \VersatileCollections\CollectionInterface A new collection containing items in the original collection unioned with $items.
      * 
      */
-    public function union(array $items);
+    public function unionWith(array $items);
+
+    /**
+     * 
+     * Union the collection with the given items by trying to append all items 
+     * from $items to $this collection.
+     * 
+     * For keys that exist in both $items and $this, the items from $this 
+     * will be used, and the matching items from $items will be ignored.
+     * 
+     * For example:
+     *  $a = \VersatileCollections\GenericCollection::makeNew( 
+     *          [ "a"=>"apple", "b"=>"banana" ]
+     *      );
+     * $b = [ "a"=>"pear", "b"=>"strawberry", "c"=>"cherry" ];
+     * 
+     * // result
+     * $a->union($b)->toArray() === [ "a"=>"apple", "b"=>"banana", "c"=>"cherry" ]
+     *  
+     * 
+     * Use merge() and mergeMeWith() if you want items from $items to be used
+     * when same keys exist in both $items and $this.
+     * 
+     * @see \VersatileCollections\CollectionInterface::merge($items)
+     * @see \VersatileCollections\CollectionInterface::mergeMeWith($items)
+     * 
+     * This method modifies the original collection.
+     *
+     * @param  array $items
+     * 
+     * @return $this
+     * 
+     */
+    public function unionMeWith(array $items);
     
     /**
      * 
@@ -1212,11 +1295,44 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      *                              item in the collection has a non-string and non-integer value for the field 
      *                              specified in $index_key.
      * 
-     * @return \VersatileCollections\CollectionInterface A new collection containing the values from a single column in this collection
+     * @return \VersatileCollections\GenericCollection A new collection containing the values from a single column in this collection
      *
      * @throws \InvalidArgumentException
      * @throws \RuntimeException
      * 
      */
     public function column($column_key, $index_key=null);
+    
+    /**
+     * 
+     * Create a new collection of the specified type with the keys and items in this collection.
+     * Original collection should not be modified.
+     * 
+     * @param string|\VersatileCollections\CollectionInterface $new_collection_class name of a collection class that implements
+     *                                                                               \VersatileCollections\CollectionInterface or an 
+     *                                                                               instance of \VersatileCollections\CollectionInterface
+     * 
+     * @return \VersatileCollections\CollectionInterface a new collection of the specified type 
+     *                                                   containing the exact same keys and items 
+     *                                                   as the original collection.
+     * 
+     * @throws \VersatileCollections\Exceptions\InvalidItemException if one or more items in the original collection does not satisfy
+     *                                                               the specified new type. For example you cannot get a collection 
+     *                                                               of Objects as a collection of Floats.
+     * 
+     * @throws \InvalidArgumentException if $new_collection_class is not a string and is not an object
+     *                                   of if $new_collection_class is not an instanceof \VersatileCollections\CollectionInterface
+     * 
+     */
+    public function getAsNewType($new_collection_class=GenericCollection::class);
+    
+    /**
+     * 
+     * Remove all items from the collection and return $this. 
+     * The internal array should be set to an empty array.
+     * 
+     * @return $this
+     * 
+     */
+    public function removeAll();
 }
