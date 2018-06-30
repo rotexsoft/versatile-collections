@@ -455,7 +455,7 @@ trait CollectionInterfaceImplementationTrait {
      */
     public function getKeys()
     {
-        return array_keys($this->versatile_collections_items);
+        return new GenericCollection( ...array_keys($this->versatile_collections_items) );
     }
     
     /**
@@ -1160,6 +1160,18 @@ trait CollectionInterfaceImplementationTrait {
      * 
      * {@inheritDoc}
      * 
+     */
+    public function tap(callable $callback) {
+        
+        $callback(new static(...$this->versatile_collections_items));
+
+        return $this;
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
      */  
     public function getAndRemoveFirstItem() {
         
@@ -1410,7 +1422,7 @@ trait CollectionInterfaceImplementationTrait {
      * {@inheritDoc}
      * 
      */  
-    public function searchByCallback($callback, $bind_callback_to_this=true) {
+    public function searchByCallback(callable $callback, $bind_callback_to_this=true) {
         
         $results = [];
         
@@ -2082,7 +2094,7 @@ trait CollectionInterfaceImplementationTrait {
      * {@inheritDoc}
      * 
      */
-    public function values() {
+    public function getValues() {
         
         return new static(...array_values($this->versatile_collections_items));
     }
@@ -2166,10 +2178,115 @@ trait CollectionInterfaceImplementationTrait {
      * {@inheritDoc}
      * 
      */
-    public function removeAll() {
+    public function removeAll(array $keys=[]) {
         
-        $this->versatile_collections_items = [];
+        if( count($keys) > 0 ) {
+            
+            foreach($keys as $key) {
+                
+                if( $this->containsKey($key) ) {
+                    
+                    $this->offsetUnset($key);
+                }
+            }
+            
+        } else {
+            
+            // shortcut
+            $this->versatile_collections_items = [];
+        }
         
         return $this;
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
+    public function getAllWhereKeysIn(array $keys) {
+        
+        $result = new static();
+        
+        foreach ( $this->versatile_collections_items as $key => $item ) {
+            
+            if( in_array($key, $keys, true) ) {
+                
+                $result[$key] = $item;
+            }
+        }
+        
+        return $result;
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
+    public function getAllWhereKeysNotIn(array $keys) {
+        
+        $result = new static();
+        
+        foreach ( $this->versatile_collections_items as $key => $item ) {
+            
+            if( !in_array($key, $keys, true) ) {
+                
+                $result[$key] = $item;
+            }
+        }
+        
+        return $result;
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
+    public function paginate($page_number, $num_items_per_page) {
+        
+        if( !is_int($page_number) ) {
+            
+            $function = __FUNCTION__;
+            $class = get_class($this);
+            $page_number_type = gettype($page_number);
+            $msg = "Error [{$class}::{$function}(...)]:"
+            . " You must specify a valid integer as the \$page_number."
+            . " You supplied a(n) `{$page_number_type}` with a value of: ". var_to_string($page_number);
+            throw new \InvalidArgumentException($msg); 
+        }
+        
+        if( !is_int($num_items_per_page) ) {
+            
+            $function = __FUNCTION__;
+            $class = get_class($this);
+            $num_items_per_page_type = gettype($num_items_per_page);
+            $msg = "Error [{$class}::{$function}(...)]:"
+            . " You must specify a valid integer as the length."
+            . " You supplied a(n) `{$num_items_per_page_type}` with a value of: ". var_to_string($num_items_per_page);
+            throw new \InvalidArgumentException($msg); 
+        }
+        
+        if( $page_number < 1 ) {
+            
+            $page_number = 1;
+        }
+        
+        if( $num_items_per_page < 1 ) {
+            
+            $num_items_per_page = 1;
+        }
+        
+        if( $num_items_per_page > $this->count() ) {
+            
+            $offset = $page_number - 1;
+            
+        } else {
+
+            $offset = (($page_number * $num_items_per_page) - $num_items_per_page);
+        }
+
+        return $this->slice($offset, $num_items_per_page);
     }
 }

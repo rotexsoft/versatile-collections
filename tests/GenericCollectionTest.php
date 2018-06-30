@@ -236,9 +236,9 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
         $collection->item2 = new stdClass();
         $collection->item3 = new stdClass();
         
-        //var_dump($collection->getKeys());
+        //var_dump($collection->getKeys()->toArray());
         $this->assertEquals($collection->count(), 3);
-        $this->assertEquals($collection->getKeys(), ['item1', 'item2', 'item3']);
+        $this->assertEquals($collection->getKeys()->toArray(), ['item1', 'item2', 'item3']);
     }
     
     public function testThatOffsetSetWorksAsExpected() {
@@ -249,16 +249,16 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
         $collection["item3"] = new stdClass();
         
         $this->assertEquals($collection->count(), 3);
-        $this->assertEquals($collection->getKeys(), ['item1', 'item2', 'item3']);
+        $this->assertEquals($collection->getKeys()->toArray(), ['item1', 'item2', 'item3']);
         
         // use the keyless syntax after keyed syntax
         $collection[] = new stdClass();
         $collection[] = new stdClass();
         $collection[] = new stdClass();
         
-        //var_dump($collection->getKeys());
+        //var_dump($collection->getKeys()->toArray());
         $this->assertEquals($collection->count(), 6);
-        $this->assertEquals($collection->getKeys(), ['item1', 'item2', 'item3', 0, 1, 2]);
+        $this->assertEquals($collection->getKeys()->toArray(), ['item1', 'item2', 'item3', 0, 1, 2]);
         
         //keyless syntax starting with an empty collection
         $collection2 = new \BaseCollectionTestImplementation();
@@ -267,7 +267,7 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
         $collection2[] = new stdClass();
         
         $this->assertEquals($collection2->count(), 3);
-        $this->assertEquals($collection2->getKeys(), [ 0, 1, 2]);
+        $this->assertEquals($collection2->getKeys()->toArray(), [ 0, 1, 2]);
     }
     
     public function testThat__IssetWorksAsExpected() {
@@ -277,7 +277,7 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
         $collection->item2 = new stdClass();
         $collection->item3 = new stdClass();
         
-        //var_dump($collection->getKeys());
+        //var_dump($collection->getKeys()->toArray());
         $this->assertEquals($collection->__isset('item1'), true);
         $this->assertEquals($collection->__isset('item2'), true);
         $this->assertEquals($collection->__isset('item3'), true);
@@ -294,7 +294,7 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
         $collection->item2 = new stdClass();
         $collection->item3 = new stdClass();
         
-        //var_dump($collection->getKeys());
+        //var_dump($collection->getKeys()->toArray());
         $this->assertEquals($collection->offsetExists('item1'), true);
         $this->assertEquals($collection->offsetExists('item2'), true);
         $this->assertEquals($collection->offsetExists('item3'), true);
@@ -811,7 +811,7 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
         
         $collection = new \BaseCollectionTestImplementation();
         
-        //var_dump($collection->getKeys());
+        //var_dump($collection->getKeys()->toArray());
         $this->assertTrue($collection->isEmpty());
         
         $collection[] = 'some item';
@@ -824,7 +824,7 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
         $collection->item1 = ['name'=>'Joe', 'age'=>'10',];
         $collection->item2 = ['name'=>'Jane', 'age'=>'20',];
         
-        //var_dump($collection->getKeys());
+        //var_dump($collection->getKeys()->toArray());
         $this->assertEquals($collection->getIfExists('item1'), ['name'=>'Joe', 'age'=>'10',]);
         $this->assertEquals($collection->getIfExists('item2'), ['name'=>'Jane', 'age'=>'20',]);
         $this->assertEquals($collection->getIfExists('item3'), null);
@@ -2378,12 +2378,12 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
             
             // keys are not in same order
             $this->assertTrue(
-                $collection->getKeys() !== $shuffled_collection->getKeys()
+                $collection->getKeys()->toArray() !== $shuffled_collection->getKeys()->toArray()
             );
             
             // same keys exist in both collection
             $this->assertTrue(
-                $collection->containsKeys($shuffled_collection->getKeys())
+                $collection->containsKeys($shuffled_collection->getKeys()->toArray())
             );
         }
         
@@ -2397,7 +2397,7 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
 
         // same keys do not exist in both collection
         $this->assertFalse(
-            $collection->containsKeys($shuffled_collection->getKeys())
+            $collection->containsKeys($shuffled_collection->getKeys()->toArray())
         );
     }
     
@@ -3339,6 +3339,20 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals([1 => 'dayle', 2 => 'shawn'], $data->toArray());
     }
     
+    public function testTap() {
+        
+        $collection = new \VersatileCollections\GenericCollection(...[1, 2, 3]);
+
+        $fromTap = [];
+        $collection = $collection->tap(function ($collection) use (&$fromTap) {
+            $fromTap = $collection->slice(0, 1)->toArray();
+            $collection->removeAll(); // empty copy
+        });
+
+        $this->assertSame([1], $fromTap);
+        $this->assertSame([1, 2, 3], $collection->toArray());
+    }
+    
     public function testUnion() {
         
         $c = \VersatileCollections\GenericCollection::makeNew(['name' => 'Hello']);
@@ -3385,7 +3399,7 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
             ]
         );
         
-        $values = $c->values();
+        $values = $c->getValues();
         
         $this->assertTrue(
             $values instanceof \VersatileCollections\CollectionInterface
@@ -3870,6 +3884,139 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
         $this->assertCount(0, $c);
         $this->assertCount(0, $result);
         $this->assertSame($c, $result);
+        
+        // test removing with specified keys
+        $c = \VersatileCollections\GenericCollection::makeNew([1, 2, 3, 4, 5]);
+        
+        $result = $c->removeAll([0,2,4]);
+        
+        $this->assertCount(2, $c);
+        $this->assertCount(2, $result);
+        $this->assertSame($c, $result);
+        $this->assertTrue($c->containsItem(2));
+        $this->assertTrue($c->containsItem(4));
+        $this->assertTrue($result->containsItem(4));
+        $this->assertTrue($result->containsItem(4));
+        
+    }
+    
+    public function testThatGetAllWhereKeysInWorksAsExpected() {
+
+        $collection = new \BaseCollectionTestImplementation( );
+        $collection->item1 = ['name'=>'Joe', 'age'=>'10',];
+        $collection->item2 = ['name'=>'Jane', 'age'=>'20',];
+        $collection->item3 = ['name'=>'Janice', 'age'=>'30',];
+        
+        $item1 = $collection->item1;
+        $item2 = $collection->item2;
+        $item3 = $collection->item3;
+        
+        $new_collection = $collection->getAllWhereKeysIn(['item1', 'item3']);
+        
+        $this->assertSame($new_collection->count(), 2);
+        $this->assertSame(get_class($new_collection), get_class($collection));
+        $this->assertTrue($new_collection->containsItemWithKey('item1', $item1));
+        $this->assertFalse($new_collection->containsItemWithKey('item2', $item2));
+        $this->assertTrue($new_collection->containsItemWithKey('item3', $item3));
+        
+        
+        // test empty collection returned
+        $this->assertTrue(
+            $collection->getAllWhereKeysIn(['non existens key 1', 'non existens key 2'])
+                       ->isEmpty()
+        );
+    }
+    
+    public function testThatGetAllWhereKeysNotInWorksAsExpected() {
+
+        $collection = new \BaseCollectionTestImplementation( );
+        $collection->item1 = ['name'=>'Joe', 'age'=>'10',];
+        $collection->item2 = ['name'=>'Jane', 'age'=>'20',];
+        $collection->item3 = ['name'=>'Janice', 'age'=>'30',];
+        
+        $item1 = $collection->item1;
+        $item2 = $collection->item2;
+        $item3 = $collection->item3;
+        
+        $new_collection = $collection->getAllWhereKeysNotIn(['item1', 'item3']);
+        
+        $this->assertSame($new_collection->count(), 1);
+        $this->assertSame(get_class($new_collection), get_class($collection));
+        $this->assertFalse($new_collection->containsItemWithKey('item1', $item1));
+        $this->assertTrue($new_collection->containsItemWithKey('item2', $item2));
+        $this->assertFalse($new_collection->containsItemWithKey('item3', $item3));
+        
+        // test empty collection returned
+        $this->assertTrue(
+            $collection->getAllWhereKeysNotIn(['item1', 'item2', 'item3'])
+                       ->isEmpty()
+        );
+    }
+    
+    public function testPaginate() {
+        
+        $empty_c = new \BaseCollectionTestImplementation();
+        $c = new \BaseCollectionTestImplementation(
+                ...[ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h' ]
+            );
+
+        $this->assertSame([], $empty_c->paginate(1, 2)->toArray());
+        $this->assertEquals(['a', 'b'], $c->paginate(0, 2)->toArray());
+        $this->assertEquals(['a'], $c->paginate(0, -2)->toArray());
+        $this->assertEquals(['a', 'b'], $c->paginate(-777, 2)->toArray());
+        $this->assertEquals(['a', 'b'], $c->paginate(1, 2)->toArray());
+        $this->assertEquals([2 => 'c', 3 => 'd'], $c->paginate(2, 2)->toArray());
+        $this->assertEquals(
+            [ 3 => 'd', 4 =>'e', 5=>'f' ], 
+            $c->paginate(2, 3)->toArray()
+        );
+        
+        // number of items in page > $c->count()
+        $this->assertEquals(
+            [ 1 => 'b', 2 => 'c', 3 => 'd', 4 =>'e', 5=>'f', 6=>'g', 7=>'h'], 
+            $c->paginate(2, 777)->toArray()
+        );
+        
+        // only 4 pages of two items per page available in 
+        //  [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h' ]
+        // requesting a 5th page should return an empty collection
+        $this->assertEquals([], $c->paginate(5, 2)->toArray()); 
+    }
+    
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testPaginateNonIntPageNumberException() {
+        
+        $c = new \BaseCollectionTestImplementation(
+                ...[ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h' ]
+            );
+        
+        $c->paginate([], 2)->toArray();
+    }
+    
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testPaginateNonIntNumberOfItemsPerPageException() {
+        
+        $c = new \BaseCollectionTestImplementation(
+                ...[ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h' ]
+            );
+        
+        $c->paginate(1, [])->toArray();
+    }
+    
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testPaginateNonIntPageNumberAndNonIntNumberOfItemsPerPageException() {
+        
+        $c = new \BaseCollectionTestImplementation(
+                ...[ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h' ]
+            );
+        
+        $c->paginate([], [])->toArray();
     }
     
     /**

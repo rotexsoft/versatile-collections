@@ -116,7 +116,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
     
     /**
      * 
-     * @return array keys to this collection
+     * @return \VersatileCollections\GenericCollection keys to this collection
      * 
      */
     public function getKeys();
@@ -293,6 +293,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
     /**
      * 
      * Check if a collection contains an item with the specified key using strict comparison for the item.
+     * Strict comparison is used for checking each item.
      * 
      * @param string|int $key key whose existence in the collection is to be checked
      * @param mixed $item item whose existence in the collection is to be checked
@@ -306,7 +307,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
     
     /**
      * 
-     * Check if all the specified items exist in a collection
+     * Check if all the specified items exist in a collection. 
+     * Strict comparison is used for checking each item.
      * 
      * @param array $items specified items whose existence is to be checked in the collection 
      * 
@@ -469,7 +471,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      *
      * @return \VersatileCollections\CollectionInterface new collection with all the items in the original collection
      */
-    public function values();
+    public function getValues();
     
     /**
      * 
@@ -710,6 +712,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * corresponding key(s) in the collection whose item(s) match the value, 
      * if successful.
      * 
+     * 
      * @param mixed $value the value to be searched for
      * @param bool $strict true if strict comparison should be used when searching, 
      *                          else false for loose comparison
@@ -743,7 +746,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      *               any iteration over the collection
      * 
      */
-    public function searchByCallback($callback, $bind_callback_to_this=true);
+    public function searchByCallback(callable $callback, $bind_callback_to_this=true);
     
 
     /**
@@ -1118,6 +1121,15 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      */
     public function take($limit);
 
+
+    /**
+     * Pass a copy of collection to the given callback and then return $this.
+     *
+     * @param  callable  $callback
+     * @return $this
+     */
+    public function tap(callable $callback);
+    
     /**
      * 
      * Union the collection with the given items by trying to append all items 
@@ -1306,7 +1318,12 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
     /**
      * 
      * Create a new collection of the specified type with the keys and items in this collection.
+     * Only keys and items will be copied into the new collection, other properties
+     * of the original collection like methods added via addMethod(), 
+     * addMethodForAllInstances() and addStaticMethod() will not be 
+     * copied.
      * Original collection should not be modified.
+     * 
      * 
      * @param string|\VersatileCollections\CollectionInterface $new_collection_class name of a collection class that implements
      *                                                                               \VersatileCollections\CollectionInterface or an 
@@ -1328,11 +1345,93 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
     
     /**
      * 
-     * Remove all items from the collection and return $this. 
-     * The internal array should be set to an empty array.
+     * Remove items from the collection (whose keys are present in $keys) or (all items if $keys is empty)  and return $this.
      * 
      * @return $this
      * 
      */
-    public function removeAll();
+    public function removeAll(array $keys=[]);
+    
+    /**
+     * 
+     * Return a collection of items whose keys are present in $keys.
+     * Keys are preserved in the new collection.
+     * 
+     * Key presence is determined via strict comparison (i.e. ===)
+     * 
+     * @param array $keys
+     * 
+     * @return \VersatileCollections\CollectionInterface a new collection of items whose keys are present in $keys
+     * 
+     */
+    public function getAllWhereKeysIn(array $keys);
+    
+    /**
+     * 
+     * Return a collection of items whose keys are not present in $keys.
+     * Keys are preserved in the new collection.
+     * 
+     * Key presence is determined via strict comparison (i.e. ===)
+     * 
+     * 
+     * @param array $keys
+     * 
+     * @return \VersatileCollections\CollectionInterface a new collection of items whose keys are not present in $keys
+     * 
+     */
+    public function getAllWhereKeysNotIn(array $keys);
+    
+    /**
+     * 
+     * This method assumes positions in the collection are 1-indexed rather
+     * than zero-indexed. For example item 'a' in this array (['a', 'b', 'c'])
+     * is at the first position as far as the documentation of this method is 
+     * concerned as opposed to the zeroeth position (which is how you would
+     * actually reference it php code).
+     * 
+     * Get a collection of at most $num_items_per_page items starting from the
+     * (($page_number * $num_items_per_page) - $num_items_per_page + 1)th position
+     * in the collection.
+     * 
+     * For example given a collection containing:
+     * 
+     *          [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h' ]
+     *             ^    ^    ^    ^    ^    ^    ^    ^
+     * position    1    2    3    4    5    6    7    8
+     * 
+     * calling paginate(2, 3) on that collection means you want to get a collection 
+     * of at most 3 items starting from the (((2 * 3) - 3 + 1) == 4th) position 
+     * in that collection which should return a collection containing:
+     * 
+     *          [ 'd', 'e', 'f' ]
+     * 
+     * @param int $page_number Page number.
+     *                         It must be a positive integer starting from 1.
+     * 
+     *                         If a value less than 1 is supplied, it should 
+     *                         be bumped up to 1.
+     * 
+     *                         If it has a value larger than the total number of 
+     *                         available pages (i.e. ($this->count() / $num_items_per_page)  
+     *                         assuming  1 <= $num_items_per_page <= $this->count()),
+     *                         an empty collection will be returned.
+     * 
+     * @param int $num_items_per_page The number of items in the collection to be returned.
+     * 
+     *                                It must be a positive integer starting from 1.
+     * 
+     *                                If a value less than 1 is supplied, it should 
+     *                                be bumped up to 1.
+     * 
+     *                                If it has a value larger than $this->count(),
+     *                                all items from position $page_number in the
+     *                                collection till the end of the collection 
+     *                                will be returned.
+     *                                
+     * @return \VersatileCollections\CollectionInterface a new collection of items whose keys are present in $keys
+     * 
+     * @throws \InvalidArgumentException if $page_number or $num_items_per_page is not an integer
+     * 
+     */
+    public function paginate($page_number, $num_items_per_page);
 }
