@@ -453,9 +453,9 @@ trait CollectionInterfaceImplementationTrait {
      * {@inheritDoc}
      * 
      */
-    public function getKeys()
-    {
-        return new GenericCollection( ...array_keys($this->versatile_collections_items) );
+    public function getKeys() {
+        
+        return new \VersatileCollections\GenericCollection( ...array_keys($this->versatile_collections_items) );
     }
     
     /**
@@ -1299,7 +1299,7 @@ trait CollectionInterfaceImplementationTrait {
 
         // keys could be strings or ints or a mix
         // GenericCollection will allow both types
-        return new GenericCollection(...$keys); 
+        return new \VersatileCollections\GenericCollection(...$keys); 
     }
     
     /**
@@ -1914,7 +1914,7 @@ trait CollectionInterfaceImplementationTrait {
         
         // use GenericCollection because the values 
         // in the column may be of varying types
-        $column_2_return = new GenericCollection();
+        $column_2_return = new \VersatileCollections\GenericCollection();
         
         if( !is_int($column_key) && !is_string($column_key) ) {
             
@@ -2135,7 +2135,7 @@ trait CollectionInterfaceImplementationTrait {
      * {@inheritDoc}
      * 
      */
-    public function getAsNewType($new_collection_class=GenericCollection::class) {
+    public function getAsNewType($new_collection_class=\VersatileCollections\GenericCollection::class) {
         
         if( 
             !is_string($new_collection_class) 

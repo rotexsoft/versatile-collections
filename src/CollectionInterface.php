@@ -1341,7 +1341,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      *                                   of if $new_collection_class is not an instanceof \VersatileCollections\CollectionInterface
      * 
      */
-    public function getAsNewType($new_collection_class=GenericCollection::class);
+    public function getAsNewType($new_collection_class=\VersatileCollections\GenericCollection::class);
     
     /**
      * 

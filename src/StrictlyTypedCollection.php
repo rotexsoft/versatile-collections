@@ -8,7 +8,7 @@ namespace VersatileCollections;
  * @author aadegbam
  * 
  */
-abstract class StrictlyTypedCollection extends GenericCollection {
+abstract class StrictlyTypedCollection extends \VersatileCollections\GenericCollection {
     
     public function __construct(...$arr_objs) {
         
