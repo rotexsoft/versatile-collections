@@ -1161,7 +1161,7 @@ trait CollectionInterfaceImplementationTrait {
      */
     public function tap(callable $callback) {
         
-        $callback(new static(...$this->versatile_collections_items));
+        $callback(static::makeNew($this->versatile_collections_items));
 
         return $this;
     }
