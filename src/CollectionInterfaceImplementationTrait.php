@@ -316,14 +316,12 @@ trait CollectionInterfaceImplementationTrait {
             return $collection;
         }
         
-        // don't preserve keys 
-        // (WARNING: $items should only contain numeric (non-string) keys, else 
-        // a fatal php error will be generated when trying to unpack args from
-        // an array with one or more string keys)
-        
-        return new static(...$items); // This should be faster than loop above
-                                      // since looping triggers offsetSet()
-                                      // for each item
+        // I use array_values to ensure that all keys 
+        // are numeric. Argument unpacking does not
+        // work on arrays with one or more string keys.
+        return new static(...array_values($items)); // This should be faster than loop above
+                                                    // since looping triggers offsetSet()
+                                                    // for each item
     }
     
     /**
