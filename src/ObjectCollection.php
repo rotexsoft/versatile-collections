@@ -6,7 +6,12 @@ namespace VersatileCollections;
  *
  * @author aadegbam
  */
-class ObjectCollection extends StrictlyTypedCollection {
+class ObjectCollection implements \VersatileCollections\StrictlyTypedCollectionInterface {
+    
+    use StrictlyTypedCollectionInterfaceImplementationTrait {
+        
+        StrictlyTypedCollectionInterfaceImplementationTrait::__call as parent__call;
+    }
     
     /**
      * 
@@ -24,7 +29,7 @@ class ObjectCollection extends StrictlyTypedCollection {
     public function __call($method_name, $arguments) {
 
         try {
-            $result = parent::__call($method_name, $arguments);
+            $result = static::parent__call($method_name, $arguments);
             
             return $result;
             
@@ -62,12 +67,12 @@ class ObjectCollection extends StrictlyTypedCollection {
         }
     }
     
-    protected function checkType($item) {
+    public function checkType($item) {
         
         return is_object($item);
     }
     
-    protected function getType() {
+    public function getType() {
         
         return 'object';
     }

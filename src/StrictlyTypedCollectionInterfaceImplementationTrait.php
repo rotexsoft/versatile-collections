@@ -2,13 +2,18 @@
 namespace VersatileCollections;
 
 /**
- * 
- * Description of StrictlyTypedCollection
  *
  * @author aadegbam
- * 
  */
-abstract class StrictlyTypedCollection extends \VersatileCollections\GenericCollection {
+trait StrictlyTypedCollectionInterfaceImplementationTrait {
+    
+    use CollectionInterfaceImplementationTrait {
+        CollectionInterfaceImplementationTrait::appendCollection as parentAppendCollection;
+        CollectionInterfaceImplementationTrait::offsetSet as parentOffsetSet;
+        CollectionInterfaceImplementationTrait::prependCollection as parentPrependCollection;
+        CollectionInterfaceImplementationTrait::prependItem as parentPrependItem;
+        CollectionInterfaceImplementationTrait::unionMeWith as parentUnionMeWith;
+    }
     
     public function __construct(...$arr_objs) {
         
@@ -43,22 +48,8 @@ abstract class StrictlyTypedCollection extends \VersatileCollections\GenericColl
             throw new Exceptions\InvalidCollectionOperationException($msg);
         }
         
-        return parent::appendCollection($other);
+        return static::parentAppendCollection($other);
     }
-    
-    /**
-     * 
-     * @return bool true if $item is of the expected type, else false
-     * 
-     */
-    abstract protected function checkType($item);
-    
-    /**
-     * 
-     * @return string|array a string or array of strings of type name(s) for items acceptable in a collection
-     * 
-     */
-    abstract protected function getType();
     
     protected function isRightTypeOrThrowInvalidTypeException($item, $calling_functions_name) {
         
@@ -89,7 +80,7 @@ abstract class StrictlyTypedCollection extends \VersatileCollections\GenericColl
         
         $this->isRightTypeOrThrowInvalidTypeException($val, __FUNCTION__);
         
-        parent::offsetSet($key, $val);
+        static::parentOffsetSet($key, $val);
     }
     
     /**
@@ -113,7 +104,7 @@ abstract class StrictlyTypedCollection extends \VersatileCollections\GenericColl
             throw new Exceptions\InvalidCollectionOperationException($msg);
         }
         
-        return parent::prependCollection($other);
+        return static::parentPrependCollection($other);
     }
     
     /**
@@ -125,7 +116,7 @@ abstract class StrictlyTypedCollection extends \VersatileCollections\GenericColl
         
         $this->isRightTypeOrThrowInvalidTypeException($item, __FUNCTION__);
         
-        return parent::prependItem($item, $key);
+        return static::parentPrependItem($item, $key);
     }
     
     /**
@@ -140,6 +131,6 @@ abstract class StrictlyTypedCollection extends \VersatileCollections\GenericColl
             $this->isRightTypeOrThrowInvalidTypeException($item, __FUNCTION__);
         }
         
-        return parent::unionMeWith($items);
+        return static::parentUnionMeWith($items);
     }
 }

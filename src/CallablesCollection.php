@@ -6,14 +6,16 @@ namespace VersatileCollections;
  *
  * @author aadegbam
  */
-class CallablesCollection extends StrictlyTypedCollection {
+class CallablesCollection implements \VersatileCollections\StrictlyTypedCollectionInterface {
+    
+    use StrictlyTypedCollectionInterfaceImplementationTrait;
 
-    protected function checkType($item) {
+    public function checkType($item) {
         
         return is_callable($item);
     }
 
-    protected function getType() {
+    public function getType() {
         
         return 'callable';
     }

@@ -8,12 +8,12 @@ namespace VersatileCollections;
  */
 class StringCollection  extends ScalarCollection {
 
-    protected function checkType($item) {
+    public function checkType($item) {
         
         return is_string($item);
     }
 
-    protected function getType() {
+    public function getType() {
         
         return 'string';
     }

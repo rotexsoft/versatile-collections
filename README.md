@@ -55,12 +55,12 @@ class PdoCollection extends \VersatileCollections\StrictlyTypedCollection {
     // or the  $this[] = .......
     // or $this->key_name = .....
     // syntax
-    protected function checkType($item) {
+    public function checkType($item) {
         
         return ($item instanceof \PDO);
     }
     
-    protected function getType() {
+    public function getType() {
         
         return \PDO::class;
     }

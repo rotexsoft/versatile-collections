@@ -8,12 +8,12 @@ namespace VersatileCollections;
  */
 class FloatCollection extends NumericsCollection {
 
-    protected function checkType($item) {
+    public function checkType($item) {
         
         return is_float($item);
     }
 
-    protected function getType() {
+    public function getType() {
         
         return 'float';
     }

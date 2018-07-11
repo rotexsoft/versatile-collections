@@ -1,6 +1,6 @@
 <?php
 /**
- * Description of CallablesCollectionTest
+ * Description of ArrayCollectionTest
  *
  * @author aadegbam
  */

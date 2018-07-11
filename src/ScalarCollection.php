@@ -6,7 +6,9 @@ namespace VersatileCollections;
  *
  * @author aadegbam
  */
-class ScalarCollection extends StrictlyTypedCollection {
+class ScalarCollection implements \VersatileCollections\StrictlyTypedCollectionInterface {
+    
+    use StrictlyTypedCollectionInterfaceImplementationTrait;
 
     /**
      * 
@@ -17,7 +19,7 @@ class ScalarCollection extends StrictlyTypedCollection {
      * @return bool
      * 
      */
-    protected function checkType($item) {
+    public function checkType($item) {
         
         return is_scalar($item);
     }
@@ -28,7 +30,7 @@ class ScalarCollection extends StrictlyTypedCollection {
      * @return string
      * 
      */
-    protected function getType() {
+    public function getType() {
         
         return 'scalar';
     }

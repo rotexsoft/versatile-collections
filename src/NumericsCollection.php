@@ -26,7 +26,7 @@ class NumericsCollection extends ScalarCollection {
      * @return bool
      * 
      */
-    protected function checkType($item) {
+    public function checkType($item) {
         
         return is_float($item) || is_int($item);
     }
@@ -38,7 +38,7 @@ class NumericsCollection extends ScalarCollection {
      * @return string
      * 
      */
-    protected function getType() {
+    public function getType() {
         
         return 'numeric';
     }

@@ -7,14 +7,16 @@ namespace VersatileCollections;
  *
  * @author aadegbam
  */
-class ResourceCollection extends StrictlyTypedCollection {
+class ResourceCollection implements \VersatileCollections\StrictlyTypedCollectionInterface {
+    
+    use StrictlyTypedCollectionInterfaceImplementationTrait;
 
-    protected function checkType($item) {
+    public function checkType($item) {
         
         return is_resource($item);
     }
     
-    protected function getType() {
+    public function getType() {
         
         return 'resource';
     }

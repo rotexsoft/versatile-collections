@@ -5,7 +5,7 @@ that enforces strict typing on its descendants.
 
 If you want to implement a collection of only a specific type of items (e.g. only 
 instances of a specific class, or only arrays, etc.), then you must extend 
-`\VersatileCollections\StrictlyTypedCollection` and implement two protected 
+`\VersatileCollections\StrictlyTypedCollection` and implement two public 
 methods:
 * **`checkType($item)`:** which performs a test on the type of **$item** and returns true if **$item** is of the expected type or false otherwise
 * **`getType()`:** returns a string representing the name of the expected type. For example, if you are implementing a PdoCollection class, getType should return **\PDO::class**

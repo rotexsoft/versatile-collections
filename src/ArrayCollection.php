@@ -6,14 +6,16 @@ namespace VersatileCollections;
  *
  * @author aadegbam
  */
-class ArrayCollection extends StrictlyTypedCollection {
+class ArrayCollection implements \VersatileCollections\StrictlyTypedCollectionInterface {
+    
+    use StrictlyTypedCollectionInterfaceImplementationTrait;
 
-    protected function checkType($item) {
+    public function checkType($item) {
         
         return is_array($item);
     }
 
-    protected function getType() {
+    public function getType() {
         
         return 'array';
     }
