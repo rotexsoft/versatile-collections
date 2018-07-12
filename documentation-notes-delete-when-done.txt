@@ -142,6 +142,10 @@ Other Operations on a Collection Object
 
 Strictly Typed Collections Documentation
 ================================================
+Explain how to create custom Strictly Typed collection classes i.e. by implementing the 
+appropriate interface and using the provided trait and option implementing
+a variadic type hinted constructor.
+
 - ArrayCollection
 
 - CallablesCollection
