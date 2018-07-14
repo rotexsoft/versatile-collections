@@ -108,6 +108,10 @@ $collection->put('eight_item', $item8)  // same effect as:
 
 ```
 
+You can also make any class in your application behave exactly like **\VersatileCollections\GenericCollection** 
+by implementing **\VersatileCollections\CollectionInterface** and using 
+**\VersatileCollections\CollectionInterfaceImplementationTrait**.
+
 If you want to enforce strict-typing, the following Collection classes are provided
 in this package:
 
@@ -186,7 +190,7 @@ being enforced at construct time and item addition time.
 
 * [Quick Start Guide](docs/QUICKSTART.md)
 * [Generic Collections](docs/GenericCollections.md)
-* [Strictly Typed Collections](docs/StrictlyTypedCollections.md)
+* Strictly Typed Collections
     * Array Collections
     * [Callables Collections](docs/CallablesCollections.md): a collection that can only contain [callables](http://php.net/manual/en/language.types.callable.php)
     * [Object Collections](docs/ObjectsCollections.md): a collection that can only contain [objects](http://php.net/manual/en/language.types.object.php) (any kind of object)
