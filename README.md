@@ -110,7 +110,7 @@ $collection->put('eight_item', $item8)  // same effect as:
 
 You can also make any class in your application behave exactly like **\VersatileCollections\GenericCollection** 
 by implementing **\VersatileCollections\CollectionInterface** and using 
-**\VersatileCollections\CollectionInterfaceImplementationTrait**.
+**\VersatileCollections\CollectionInterfaceImplementationTrait** in such classes.
 
 If you want to enforce strict-typing, the following Collection classes are provided
 in this package:
