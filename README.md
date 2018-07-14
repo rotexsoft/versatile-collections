@@ -132,7 +132,7 @@ the following requirements:
     * **public function getType()** : it must return a string or an array of strings representing the name(s) of the expected type
 
 
-* You can optionally override **StrictlyTypedCollectionInterfaceImplementationTrait::__construct(...$arr_objs)** with a constrauctor
+* You can optionally override **StrictlyTypedCollectionInterfaceImplementationTrait::__construct(...$arr_objs)** with a constructor
 with the same signature but with the specific type. For example, **__construct(\PDO ...$arr_objs)** ensures that only instances of
 **\PDO** can be injected into the constructor via argument unpacking. 
 
