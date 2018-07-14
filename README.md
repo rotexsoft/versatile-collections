@@ -62,6 +62,9 @@ $collection = \VersatileCollections\GenericCollection::makeNew(
 //              prependItem($item, $key=null), push($item) or put($key, $value)
 //              methods
 $collection = new \VersatileCollections\GenericCollection(); // empty collection
+// OR
+$collection = \VersatileCollections\GenericCollection::makeNew(); // empty collection
+
 $collection[] = $item1; // array assignment syntax without key
                         // the item is automatically assigned
                         // the next available integer key. In
