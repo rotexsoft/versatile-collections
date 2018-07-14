@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Description of TestIntCollection
+ * Description of TestIntsCollection
  *
  * @author aadegbam
  */
-class TestIntCollection extends \VersatileCollections\IntCollection {
+class TestIntsCollection extends \VersatileCollections\IntsCollection {
 
     public function getItemFromString($str) {
         

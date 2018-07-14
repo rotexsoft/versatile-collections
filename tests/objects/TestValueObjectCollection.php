@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Description of TestValueObjectCollection
+ * Description of TestValueObjectsCollection
  *
  * @author aadegbam
  */
-class TestValueObjectCollection extends \VersatileCollections\ObjectCollection {
+class TestValueObjectsCollection extends \VersatileCollections\ObjectsCollection {
 
     public function __construct(\TestValueObject ...$arr_objs) {
                 

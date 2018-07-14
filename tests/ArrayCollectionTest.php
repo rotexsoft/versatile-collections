@@ -1,10 +1,10 @@
 <?php
 /**
- * Description of ArrayCollectionTest
+ * Description of ArraysCollectionTest
  *
  * @author aadegbam
  */
-class ArrayCollectionTest extends \PHPUnit_Framework_TestCase {
+class ArraysCollectionTest extends \PHPUnit_Framework_TestCase {
     
     protected function setUp() { 
         
@@ -16,7 +16,7 @@ class ArrayCollectionTest extends \PHPUnit_Framework_TestCase {
      */
     public function testThatOnlyArraysCanBeInjectedIntoCollection() {
         
-        $collection = new \VersatileCollections\ArrayCollection();
+        $collection = new \VersatileCollections\ArraysCollection();
         
         $this->assertEquals($collection->count(), 0);
         
@@ -26,7 +26,7 @@ class ArrayCollectionTest extends \PHPUnit_Framework_TestCase {
         $collection->item3 = ['a'=>\DateTime::class, 'b'=>'getLastErrors'];
         $collection->item4 = [\DateTime::class, 'createFromFormat'];
         
-        $collection = new \VersatileCollections\ArrayCollection(
+        $collection = new \VersatileCollections\ArraysCollection(
             ['boo'],
             ['strtolower'],
             ['a'=>\DateTime::class, 'b'=>'getLastErrors'],

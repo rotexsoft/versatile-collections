@@ -2,11 +2,11 @@
 namespace VersatileCollections;
 
 /**
- * Description of StringCollection
+ * Description of StringsCollection
  *
  * @author rotimi
  */
-class StringCollection  extends ScalarCollection {
+class StringsCollection extends ScalarsCollection {
 
     public function checkType($item) {
         

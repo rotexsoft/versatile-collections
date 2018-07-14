@@ -173,7 +173,7 @@ To check if a key exists in the collection, you can call `isset` like so:
             1.0, 2.0, 3, 4, 5, 6
         );
         
-        $int_collection = new \VersatileCollections\IntCollection(
+        $int_collection = new \VersatileCollections\IntsCollection(
             8, 9, 10, 11
         );
         
@@ -214,7 +214,7 @@ To check if a key exists in the collection, you can call `isset` like so:
 * **`filterAll(callable $filterer, $copy_keys=false)`:** Filter out items in the collection via a callback function and return filtered items in a new collection. Note that the filtered items are not removed from the original collection. `$filterer` is a callback with the following signature `function($key, $item)` that returns true if an item should be filtered out, or false if not
     ```php
         $collection_of_ints = 
-            new \VersatileCollections\IntCollection(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+            new \VersatileCollections\IntsCollection(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
         
         // don't preserve keys
         $collection_of_even_ints = $collection_of_ints->filter(
@@ -244,7 +244,7 @@ To check if a key exists in the collection, you can call `isset` like so:
 * **`filterFirstN(callable $filterer, $max_number_of_filtered_items_to_return =null, $copy_keys=false)`:** Filter out the first N items in the collection via a callback function and return filtered items in a new collection. Note that the filtered items are not removed from the original collection. `$filterer` is a callback with the following signature `function($key, $item)` that returns true if an item should be filtered out, or false if not
     ```php
         $collection_of_ints = 
-            new \VersatileCollections\IntCollection(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+            new \VersatileCollections\IntsCollection(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
         
         // don't preserve keys
         $collection_of_all_even_ints = $collection_of_ints->filterFirstN(
@@ -301,7 +301,7 @@ To check if a key exists in the collection, you can call `isset` like so:
 * **`firstItem()`:** Returns the first item in a collection object
 * **`getCollectionsOfSizeN($max_size_of_each_collection=1)`:** Returns a generator that yields collections each having a maximum of `$max_size_of_each_collection`. Original keys are preserved in each returned collection.
     ```php
-        $int_collection = new \VersatileCollections\IntCollection(
+        $int_collection = new \VersatileCollections\IntsCollection(
             1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15
         );
         
@@ -361,7 +361,7 @@ To check if a key exists in the collection, you can call `isset` like so:
     ```
     You can use the `iterator_to_array()` function to convert the generator to an array of collections like so:
     ```php
-        $int_collection = new \VersatileCollections\IntCollection(
+        $int_collection = new \VersatileCollections\IntsCollection(
             1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15
         );
         
@@ -373,7 +373,7 @@ To check if a key exists in the collection, you can call `isset` like so:
     ```
         array(5) {
           [0] =>
-          class VersatileCollections\IntCollection#6 (1) {
+          class VersatileCollections\IntsCollection#6 (1) {
             protected $collection_items =>
             array(3) {
               [0] =>
@@ -385,7 +385,7 @@ To check if a key exists in the collection, you can call `isset` like so:
             }
           }
           [1] =>
-          class VersatileCollections\IntCollection#7 (1) {
+          class VersatileCollections\IntsCollection#7 (1) {
             protected $collection_items =>
             array(3) {
               [3] =>
@@ -397,7 +397,7 @@ To check if a key exists in the collection, you can call `isset` like so:
             }
           }
           [2] =>
-          class VersatileCollections\IntCollection#8 (1) {
+          class VersatileCollections\IntsCollection#8 (1) {
             protected $collection_items =>
             array(3) {
               [6] =>
@@ -409,7 +409,7 @@ To check if a key exists in the collection, you can call `isset` like so:
             }
           }
           [3] =>
-          class VersatileCollections\IntCollection#9 (1) {
+          class VersatileCollections\IntsCollection#9 (1) {
             protected $collection_items =>
             array(3) {
               [9] =>
@@ -421,7 +421,7 @@ To check if a key exists in the collection, you can call `isset` like so:
             }
           }
           [4] =>
-          class VersatileCollections\IntCollection#10 (1) {
+          class VersatileCollections\IntsCollection#10 (1) {
             protected $collection_items =>
             array(3) {
               [12] =>
@@ -525,7 +525,7 @@ To check if a key exists in the collection, you can call `isset` like so:
             1.0, 2.0, 3, 4, 5, 6
         ); // underlying array contains [ 0=>1.0, 1=>2.0, 2=>3, 3=>4, 4=>5, 5=>6 ]
         
-        $int_collection = new \VersatileCollections\IntCollection(
+        $int_collection = new \VersatileCollections\IntsCollection(
             8, 9, 10, 11
         ); // underlying array contains [ 0=>8, 1=>9, 2=>10, 3=>11 ]
 
@@ -557,7 +557,7 @@ To check if a key exists in the collection, you can call `isset` like so:
             1.0, 2.0, 3, 4, 5, 6
         );
 
-        $int_collection = new \VersatileCollections\IntCollection(
+        $int_collection = new \VersatileCollections\IntsCollection(
             8, 9, 10, 11
         );
 
@@ -799,12 +799,12 @@ More details about the collection objects in this package are contained in the l
 * [Generic Collections](GenericCollections.md)
 * [Strictly Typed Collections](StrictlyTypedCollections.md)
     * [Callables Collections](CallablesCollections.md): a collection that can only contain [callables](http://php.net/manual/en/language.types.callable.php)
-    * [Object Collections](ObjectCollections.md): a collection that can only contain [objects](http://php.net/manual/en/language.types.object.php) (any kind of object)
-    * [Resource Collections](ResourceCollections.md): a collection that can only contain [resources](http://php.net/manual/en/language.types.resource.php)
-    * [Scalar Collections](ScalarCollections.md): a collection that can only scalar values. I.e. any of [booleans](http://php.net/manual/en/language.types.boolean.php), [floats](http://php.net/manual/en/language.types.float.php), [integers](http://php.net/manual/en/language.types.integer.php) or [strings](http://php.net/manual/en/language.types.string.php). It accepts any mix of scalars, e.g. ints, booleans, floats and strings can all be present in an instance of this type of collection.
+    * [Object Collections](ObjectsCollections.md): a collection that can only contain [objects](http://php.net/manual/en/language.types.object.php) (any kind of object)
+    * [Resource Collections](ResourcesCollections.md): a collection that can only contain [resources](http://php.net/manual/en/language.types.resource.php)
+    * [Scalar Collections](ScalarsCollections.md): a collection that can only scalar values. I.e. any of [booleans](http://php.net/manual/en/language.types.boolean.php), [floats](http://php.net/manual/en/language.types.float.php), [integers](http://php.net/manual/en/language.types.integer.php) or [strings](http://php.net/manual/en/language.types.string.php). It accepts any mix of scalars, e.g. ints, booleans, floats and strings can all be present in an instance of this type of collection.
         * [Numeric Collections](NumericCollections.md): a collection that can only contain [floats](http://php.net/manual/en/language.types.float.php) and/or [integers](http://php.net/manual/en/language.types.integer.php)
-            * [Float Collections](FloatCollections.md): a collection that can only contain [floats](http://php.net/manual/en/language.types.float.php)
-            * [Int Collections](IntCollections.md): a collection that can only contain [integers](http://php.net/manual/en/language.types.integer.php)
-        * [String Collections](StringCollections.md): a collection that can only contain [strings](http://php.net/manual/en/language.types.string.php)
+            * [Float Collections](FloatsCollections.md): a collection that can only contain [floats](http://php.net/manual/en/language.types.float.php)
+            * [Int Collections](IntsCollections.md): a collection that can only contain [integers](http://php.net/manual/en/language.types.integer.php)
+        * [String Collections](StringsCollections.md): a collection that can only contain [strings](http://php.net/manual/en/language.types.string.php)
 
 

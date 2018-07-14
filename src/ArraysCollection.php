@@ -2,11 +2,11 @@
 namespace VersatileCollections;
 
 /**
- * Description of ArrayCollection
+ * Description of ArraysCollection 
  *
  * @author aadegbam
  */
-class ArrayCollection implements \VersatileCollections\StrictlyTypedCollectionInterface {
+class ArraysCollection implements \VersatileCollections\StrictlyTypedCollectionInterface {
     
     use StrictlyTypedCollectionInterfaceImplementationTrait;
 

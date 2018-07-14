@@ -1,19 +1,19 @@
 # Int Collection
 
-`\VersatileCollections\IntCollection` is a Collection class that only accepts
+`\VersatileCollections\IntsCollection` is a Collection class that only accepts
 items that are integers.
 
 Example Usage:
 
 ```php
     
-    $collection = new \VersatileCollections\IntCollection(
+    $collection = new \VersatileCollections\IntsCollection(
         1, 2, 3, 4, 5, 6, 7
     );
 
     // OR
 
-    $collection = new \VersatileCollections\IntCollection();
+    $collection = new \VersatileCollections\IntsCollection();
     $collection[] = 4;
     $collection[] = 5;
     $collection[] = 7;

@@ -6,7 +6,7 @@ namespace VersatileCollections;
  *
  * @author rotimi
  */
-class NumericsCollection extends ScalarCollection {
+class NumericsCollection extends ScalarsCollection {
     
     /**
      * 

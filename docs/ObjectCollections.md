@@ -1,13 +1,13 @@
 # Object Collection
 
-`\VersatileCollections\ObjectCollection` is a Collection class that only accepts
+`\VersatileCollections\ObjectsCollection` is a Collection class that only accepts
 items that are objects (i.e. that are instances of any valid PHP class).
 
 Example Usage:
 
 ```php
     
-    $collection = new \VersatileCollections\ObjectCollection(
+    $collection = new \VersatileCollections\ObjectsCollection(
         new stdClass(), 
         new \DateTime('2000-01-01'), 
         new \PDO('sqlite::memory:'), 
@@ -16,7 +16,7 @@ Example Usage:
 
     // OR
 
-    $collection = new \VersatileCollections\ObjectCollection();
+    $collection = new \VersatileCollections\ObjectsCollection();
     $collection[] = new stdClass();
     $collection[] = new \DateTime('2000-01-01');
     $collection[] = new \PDO('sqlite::memory:');
@@ -46,7 +46,7 @@ an exception is thrown.
 Example Usage:
 
 ```php
-    $collection = new \VersatileCollections\ObjectCollection(
+    $collection = new \VersatileCollections\ObjectsCollection(
         new \DateTime('2000-01-01'),  
         new \DateTime('2005-01-01'), 
         new \DateTime('2010-01-01'),  
@@ -57,7 +57,7 @@ Example Usage:
 ```
 
 ```
-object(VersatileCollections\ObjectCollection)#3 (1) {
+object(VersatileCollections\ObjectsCollection)#3 (1) {
   ["collection_items":protected]=>
   array(4) {
     [0]=>

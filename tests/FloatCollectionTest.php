@@ -1,10 +1,10 @@
 <?php
 /**
- * Description of FloatCollectionTest
+ * Description of FloatsCollectionTest
  *
  * @author aadegbam
  */
-class FloatCollectionTest extends \PHPUnit_Framework_TestCase {
+class FloatsCollectionTest extends \PHPUnit_Framework_TestCase {
     
     protected function setUp() { 
         
@@ -16,7 +16,7 @@ class FloatCollectionTest extends \PHPUnit_Framework_TestCase {
      */
     public function testThatOnlyFloatsCanBeInjectedIntoCollection() {
         
-        $collection = new \VersatileCollections\FloatCollection();
+        $collection = new \VersatileCollections\FloatsCollection();
         
         $this->assertEquals($collection->count(), 0);
         
@@ -26,7 +26,7 @@ class FloatCollectionTest extends \PHPUnit_Framework_TestCase {
         $collection->item3 = 7.7;
         $collection->item4 = 9.9;
         
-        $collection = new \VersatileCollections\FloatCollection(
+        $collection = new \VersatileCollections\FloatsCollection(
             1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0
         );
         
@@ -39,7 +39,7 @@ class FloatCollectionTest extends \PHPUnit_Framework_TestCase {
     
     public function testThatItemFromStringWorksAsExpected() {
         
-        $collection = new \TestFloatCollection();
+        $collection = new \TestFloatsCollection();
         
         $this->assertSame($collection->getItemFromString('4.0'), 4.0);
         $this->assertSame($collection->getItemFromString('7.777'), 7.777);
@@ -48,7 +48,7 @@ class FloatCollectionTest extends \PHPUnit_Framework_TestCase {
     
     public function testThatItemToStringWorksAsExpected() {
         
-        $collection = new \TestFloatCollection();
+        $collection = new \TestFloatsCollection();
         
         $this->assertSame($collection->getItemAsString(4.0), '4');
         $this->assertSame($collection->getItemAsString(7.777), '7.777');

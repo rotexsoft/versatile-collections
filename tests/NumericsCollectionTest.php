@@ -249,7 +249,7 @@ class NumericsCollectionTest extends \PHPUnit_Framework_TestCase {
             1.0, 2.0, 3, 4, 5, 6
         );
         
-        $int_collection = new \VersatileCollections\IntCollection(
+        $int_collection = new \VersatileCollections\IntsCollection(
             8, 9, 10, 11
         );
         
@@ -261,7 +261,7 @@ class NumericsCollectionTest extends \PHPUnit_Framework_TestCase {
             [1.0, 2.0, 3, 4, 5, 6, 8, 9, 10, 11 ]
         );
         
-        $float_collection = new \VersatileCollections\FloatCollection(
+        $float_collection = new \VersatileCollections\FloatsCollection(
             8.5, 9.7, 10.8, 11.9
         );
         
@@ -280,7 +280,7 @@ class NumericsCollectionTest extends \PHPUnit_Framework_TestCase {
             1.0, 2.0, 3, 4, 5, 6
         );
         
-        $int_collection = new \VersatileCollections\IntCollection(
+        $int_collection = new \VersatileCollections\IntsCollection(
             8, 9, 10, 11
         );
         
@@ -292,7 +292,7 @@ class NumericsCollectionTest extends \PHPUnit_Framework_TestCase {
             [ 8, 9, 10, 11, 1.0, 2.0, 3, 4, 5, 6 ]
         );
         
-        $float_collection = new \VersatileCollections\FloatCollection(
+        $float_collection = new \VersatileCollections\FloatsCollection(
             8.5, 9.7, 10.8, 11.9
         );
         

@@ -1,6 +1,6 @@
 # Scalar Collection
 
-`\VersatileCollections\ScalarCollection` is a Collection class that only accepts
+`\VersatileCollections\ScalarsCollection` is a Collection class that only accepts
 items that are scalars (i.e. [booleans](http://php.net/manual/en/language.types.boolean.php), 
 [floats](http://php.net/manual/en/language.types.float.php), 
 [integers](http://php.net/manual/en/language.types.integer.php) 
@@ -12,7 +12,7 @@ Example Usage:
 
 ```php
     
-    $collection = new \VersatileCollections\ScalarCollection(
+    $collection = new \VersatileCollections\ScalarsCollection(
         1, // integer
         2.5, // float
         true, // boolean
@@ -22,7 +22,7 @@ Example Usage:
 
     // OR
 
-    $collection = new \VersatileCollections\ScalarCollection();
+    $collection = new \VersatileCollections\ScalarsCollection();
     $collection[] = 1;
     $collection[] = 2.5;
     $collection[] = true;

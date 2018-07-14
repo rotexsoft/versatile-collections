@@ -16,7 +16,7 @@ class CustomStrictlyTypedCollectionTest extends \PHPUnit_Framework_TestCase {
      */
     public function testThatOnlyTestValueObjectsCanBeInjectedIntoCollection() {
         
-        $collection = new \TestValueObjectCollection(
+        $collection = new \TestValueObjectsCollection(
             new TestValueObject('Johnny Cash', 50),
             new TestValueObject('Suzzy Something', 23),
             new TestValueObject('Jack Bauer', 43),
@@ -47,7 +47,7 @@ class CustomStrictlyTypedCollectionTest extends \PHPUnit_Framework_TestCase {
      */
     public function testThatOnlyTestValueObjectsCanBeInjectedIntoCollection2() {
         
-        $collection = new \TestValueObjectCollection(
+        $collection = new \TestValueObjectsCollection(
             new TestValueObject('Johnny Cash', 50),
             new TestValueObject('Suzzy Something', 23),
             new TestValueObject('Jack Bauer', 43),
@@ -63,7 +63,7 @@ class CustomStrictlyTypedCollectionTest extends \PHPUnit_Framework_TestCase {
      */
     public function testThatOnlyTestValueObjectsCanBeInjectedIntoCollection3() {
         
-        $collection = new \TestValueObjectCollection(
+        $collection = new \TestValueObjectsCollection(
             new TestValueObject('Johnny Cash', 50),
             new TestValueObject('Suzzy Something', 23),
             new TestValueObject('Jack Bauer', 43),
@@ -76,7 +76,7 @@ class CustomStrictlyTypedCollectionTest extends \PHPUnit_Framework_TestCase {
 
     public function testThatReduceWorksAsExpected() {
         
-        $collection = new \TestValueObjectCollection(
+        $collection = new \TestValueObjectsCollection(
             new TestValueObject('Johnny Cash', 50),
             new TestValueObject('Suzzy Something', 23),
             new TestValueObject('Jack Bauer', 43),
@@ -103,7 +103,7 @@ class CustomStrictlyTypedCollectionTest extends \PHPUnit_Framework_TestCase {
 
     public function testThatReduceWithKeyAccessWorksAsExpected() {
         
-        $collection = new \TestValueObjectCollection(
+        $collection = new \TestValueObjectsCollection(
             new TestValueObject('Johnny Cash', 50),
             new TestValueObject('Suzzy Something', 23),
             new TestValueObject('Jack Bauer', 43),
@@ -141,7 +141,7 @@ class CustomStrictlyTypedCollectionTest extends \PHPUnit_Framework_TestCase {
      */
     public function testThatTransformWorksAsExpected() {
         
-        $collection = new \TestValueObjectCollection(
+        $collection = new \TestValueObjectsCollection(
             new TestValueObject('Johnny Cash', 50),
             new TestValueObject('Suzzy Something', 23),
             new TestValueObject('Jack Bauer', 43),
@@ -174,7 +174,7 @@ class CustomStrictlyTypedCollectionTest extends \PHPUnit_Framework_TestCase {
      */
     public function testThatAppendCollectionWorksAsExpected() {
                 
-        $collection = new \TestValueObjectCollection(
+        $collection = new \TestValueObjectsCollection(
             new TestValueObject('Johnny Cash', 50),
             new TestValueObject('Suzzy Something', 23),
             new TestValueObject('Jack Bauer', 43),
@@ -205,7 +205,7 @@ class CustomStrictlyTypedCollectionTest extends \PHPUnit_Framework_TestCase {
         $item3 = new TestValueObject('Jack Bauer', 43);
         $item4 = new TestValueObject('Jane Fonda', 55);
         
-        $collection = new \TestValueObjectCollection(
+        $collection = new \TestValueObjectsCollection(
             $item1, $item2, $item3, $item4
         );
                 
@@ -214,7 +214,7 @@ class CustomStrictlyTypedCollectionTest extends \PHPUnit_Framework_TestCase {
         $other_item3 = new TestValueObject('Jack Bauer2', 423);
         $other_item4 = new TestValueObject('Jane Fonda2', 525);
         
-        $other_collection = new \TestValueObjectCollection(
+        $other_collection = new \TestValueObjectsCollection(
             $other_item1, $other_item2, $other_item3, $other_item4
         );
         
@@ -240,7 +240,7 @@ class CustomStrictlyTypedCollectionTest extends \PHPUnit_Framework_TestCase {
      */
     public function testThatPrependCollectionWorksAsExpected() {
                 
-        $collection = new \TestValueObjectCollection(
+        $collection = new \TestValueObjectsCollection(
             new TestValueObject('Johnny Cash', 50),
             new TestValueObject('Suzzy Something', 23),
             new TestValueObject('Jack Bauer', 43),
@@ -271,7 +271,7 @@ class CustomStrictlyTypedCollectionTest extends \PHPUnit_Framework_TestCase {
         $item3 = new TestValueObject('Jack Bauer', 43);
         $item4 = new TestValueObject('Jane Fonda', 55);
         
-        $collection = new \TestValueObjectCollection(
+        $collection = new \TestValueObjectsCollection(
             $item1, $item2, $item3, $item4
         );
                 
@@ -280,7 +280,7 @@ class CustomStrictlyTypedCollectionTest extends \PHPUnit_Framework_TestCase {
         $other_item3 = new TestValueObject('Jack Bauer2', 423);
         $other_item4 = new TestValueObject('Jane Fonda2', 525);
         
-        $other_collection = new \TestValueObjectCollection(
+        $other_collection = new \TestValueObjectsCollection(
             $other_item1, $other_item2, $other_item3, $other_item4
         );
         
@@ -306,7 +306,7 @@ class CustomStrictlyTypedCollectionTest extends \PHPUnit_Framework_TestCase {
      */
     public function testThatMergeCollectionWorksAsExpected() {
                 
-        $collection = new \TestValueObjectCollection(
+        $collection = new \TestValueObjectsCollection(
             new TestValueObject('Johnny Cash', 50),
             new TestValueObject('Suzzy Something', 23),
             new TestValueObject('Jack Bauer', 43),
@@ -339,7 +339,7 @@ class CustomStrictlyTypedCollectionTest extends \PHPUnit_Framework_TestCase {
         $item3 = new TestValueObject('Jack Bauer', 43);
         $item4 = new TestValueObject('Jane Fonda', 55);
         
-        $collection = new \TestValueObjectCollection(
+        $collection = new \TestValueObjectsCollection(
             $item1, $item2, $item3, $item4
         );
                 
@@ -400,7 +400,7 @@ class CustomStrictlyTypedCollectionTest extends \PHPUnit_Framework_TestCase {
         $item5 = new TestValueObject('Jane Fonda22', 1212);
         $item6 = new TestValueObject('Jane Fonda22', 21);
         
-        $collection = new \TestValueObjectCollection(
+        $collection = new \TestValueObjectsCollection(
             $item1, $item2, $item3, $item4, $item5, $item6
         );
                 
@@ -459,7 +459,7 @@ class CustomStrictlyTypedCollectionTest extends \PHPUnit_Framework_TestCase {
      */
     public function testThatMergeMeWithCollectionWorksAsExpected() {
                 
-        $collection = new \TestValueObjectCollection(
+        $collection = new \TestValueObjectsCollection(
             new TestValueObject('Johnny Cash', 50),
             new TestValueObject('Suzzy Something', 23),
             new TestValueObject('Jack Bauer', 43),
@@ -492,7 +492,7 @@ class CustomStrictlyTypedCollectionTest extends \PHPUnit_Framework_TestCase {
         $item3 = new TestValueObject('Jack Bauer', 43);
         $item4 = new TestValueObject('Jane Fonda', 55);
         
-        $collection = new \TestValueObjectCollection(
+        $collection = new \TestValueObjectsCollection(
             $item1, $item2, $item3, $item4
         );
                 
@@ -535,7 +535,7 @@ class CustomStrictlyTypedCollectionTest extends \PHPUnit_Framework_TestCase {
         $item5 = new TestValueObject('Jane Fonda22', 1212);
         $item6 = new TestValueObject('Jane Fonda22', 21);
         
-        $collection = new \TestValueObjectCollection(
+        $collection = new \TestValueObjectsCollection(
             $item1, $item2, $item3, $item4, $item5, $item6
         );
                 
@@ -573,7 +573,7 @@ class CustomStrictlyTypedCollectionTest extends \PHPUnit_Framework_TestCase {
      */
     public function testThatAppendItemWorksAsExpected() {
                 
-        $collection = new \TestValueObjectCollection(
+        $collection = new \TestValueObjectsCollection(
             new TestValueObject('Johnny Cash', 50),
             new TestValueObject('Suzzy Something', 23),
             new TestValueObject('Jack Bauer', 43),
@@ -591,7 +591,7 @@ class CustomStrictlyTypedCollectionTest extends \PHPUnit_Framework_TestCase {
         $item3 = new TestValueObject('Jack Bauer', 43);
         $item4 = new TestValueObject('Jane Fonda', 55);
         
-        $collection = new \TestValueObjectCollection(
+        $collection = new \TestValueObjectsCollection(
             $item1, $item2, $item3, $item4
         );
                 
@@ -631,7 +631,7 @@ class CustomStrictlyTypedCollectionTest extends \PHPUnit_Framework_TestCase {
         $item3 = new TestValueObject('Jack Bauer', 43);
         $item4 = new TestValueObject('Jane Fonda', 55);
         
-        $collection = new \TestValueObjectCollection(
+        $collection = new \TestValueObjectsCollection(
             $item1, $item2, $item3, $item4
         );
                 
@@ -669,7 +669,7 @@ class CustomStrictlyTypedCollectionTest extends \PHPUnit_Framework_TestCase {
      */
     public function testThatPrependItemWorksAsExpected() {
                 
-        $collection = new \TestValueObjectCollection(
+        $collection = new \TestValueObjectsCollection(
             new TestValueObject('Johnny Cash', 50),
             new TestValueObject('Suzzy Something', 23),
             new TestValueObject('Jack Bauer', 43),
@@ -685,7 +685,7 @@ class CustomStrictlyTypedCollectionTest extends \PHPUnit_Framework_TestCase {
      */
     public function testThatPrependItemWorksAsExpected2() {
                 
-        $collection = new \TestValueObjectCollection(
+        $collection = new \TestValueObjectsCollection(
             new TestValueObject('Johnny Cash', 50),
             new TestValueObject('Suzzy Something', 23),
             new TestValueObject('Jack Bauer', 43),
@@ -703,7 +703,7 @@ class CustomStrictlyTypedCollectionTest extends \PHPUnit_Framework_TestCase {
         $item3 = new TestValueObject('Jack Bauer', 43);
         $item4 = new TestValueObject('Jane Fonda', 55);
         
-        $collection = new \TestValueObjectCollection(
+        $collection = new \TestValueObjectsCollection(
             $item1, $item2, $item3, $item4
         );
                 
@@ -756,7 +756,7 @@ class CustomStrictlyTypedCollectionTest extends \PHPUnit_Framework_TestCase {
             'item5'=>$item5, 'item6'=>$item6,
         ];
         
-        $collection = \TestValueObjectCollection::makeNew($initial_items);
+        $collection = \TestValueObjectsCollection::makeNew($initial_items);
         
         $this->assertEquals($initial_items, $collection->unionMeWith([])->toArray());
         

@@ -1,10 +1,10 @@
 <?php
 /**
- * Description of IntCollectionTest
+ * Description of IntsCollectionTest
  *
  * @author aadegbam
  */
-class IntCollectionTest extends \PHPUnit_Framework_TestCase {
+class IntsCollectionTest extends \PHPUnit_Framework_TestCase {
     
     protected function setUp() { 
         
@@ -16,7 +16,7 @@ class IntCollectionTest extends \PHPUnit_Framework_TestCase {
      */
     public function testThatOnlyIntsCanBeInjectedIntoCollection() {
         
-        $collection = new \VersatileCollections\IntCollection();
+        $collection = new \VersatileCollections\IntsCollection();
         
         $this->assertEquals($collection->count(), 0);
         
@@ -26,7 +26,7 @@ class IntCollectionTest extends \PHPUnit_Framework_TestCase {
         $collection->item3 = 7;
         $collection->item4 = 9;
         
-        $collection = new \VersatileCollections\IntCollection(
+        $collection = new \VersatileCollections\IntsCollection(
             1, 2, 3, 4, 5, 6, 7
         );
         
@@ -39,7 +39,7 @@ class IntCollectionTest extends \PHPUnit_Framework_TestCase {
     
     public function testThatItemFromStringWorksAsExpected() {
         
-        $collection = new \TestIntCollection();
+        $collection = new \TestIntsCollection();
         
         $this->assertSame($collection->getItemFromString('4'), 4);
         $this->assertSame($collection->getItemFromString('7'), 7);
@@ -48,7 +48,7 @@ class IntCollectionTest extends \PHPUnit_Framework_TestCase {
     
     public function testThatItemToStringWorksAsExpected() {
         
-        $collection = new \TestIntCollection();
+        $collection = new \TestIntsCollection();
         
         $this->assertSame($collection->getItemAsString(4), '4');
         $this->assertSame($collection->getItemAsString(7), '7');

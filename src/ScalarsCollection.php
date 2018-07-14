@@ -2,11 +2,11 @@
 namespace VersatileCollections;
 
 /**
- * Description of ScalarCollection
+ * Description of ScalarsCollection
  *
  * @author aadegbam
  */
-class ScalarCollection implements \VersatileCollections\StrictlyTypedCollectionInterface {
+class ScalarsCollection implements \VersatileCollections\StrictlyTypedCollectionInterface {
     
     use StrictlyTypedCollectionInterfaceImplementationTrait;
 

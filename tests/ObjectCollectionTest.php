@@ -1,10 +1,10 @@
 <?php
 /**
- * Description of ObjectCollectionTest
+ * Description of ObjectsCollectionTest
  *
  * @author aadegbam
  */
-class ObjectCollectionTest extends \PHPUnit_Framework_TestCase {
+class ObjectsCollectionTest extends \PHPUnit_Framework_TestCase {
     
     protected function setUp() { 
         
@@ -16,7 +16,7 @@ class ObjectCollectionTest extends \PHPUnit_Framework_TestCase {
      */
     public function testThatOnlyObjectsCanBeInjectedIntoCollection() {
         
-        $collection = new \VersatileCollections\ObjectCollection();
+        $collection = new \VersatileCollections\ObjectsCollection();
         
         $this->assertEquals($collection->count(), 0);
         
@@ -33,7 +33,7 @@ class ObjectCollectionTest extends \PHPUnit_Framework_TestCase {
                             );
         $collection->item4 = new ArrayObject();
         
-        $collection = new \VersatileCollections\ObjectCollection(
+        $collection = new \VersatileCollections\ObjectsCollection(
             $collection->item1, $collection->item2, $collection->item3, $collection->item4
         );
         
@@ -49,7 +49,7 @@ class ObjectCollectionTest extends \PHPUnit_Framework_TestCase {
      */
     public function testThat__CallWorksAsExpected() {
         
-        $collection = new \VersatileCollections\ObjectCollection();
+        $collection = new \VersatileCollections\ObjectsCollection();
         
         $this->assertEquals($collection->count(), 0);
         

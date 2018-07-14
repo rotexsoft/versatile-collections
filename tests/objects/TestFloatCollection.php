@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Description of TestFloatCollection
+ * Description of TestFloatsCollection
  *
  * @author aadegbam
  */
-class TestFloatCollection extends \VersatileCollections\FloatCollection {
+class TestFloatsCollection extends \VersatileCollections\FloatsCollection {
 
     public function getItemFromString($str) {
         

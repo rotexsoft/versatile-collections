@@ -21,45 +21,153 @@ This package provides optional strict-typing of collection items and strives for
     composer require rotexsoft/versatile-collections
 
 
-## Usage 
+## Basics 
 
-Use or extend the `GenericCollection` class to create collections that can contain items of differing types.
-
-Extend the `StrictlyTypedCollection` class or directly use any of its sub-classes to create collections 
-that will only contain items of the same type (e.g. objects, ints, floats, strings, callables, resources etc).
-
-To create a custom strictly typed collection of objects belonging to a specific class, follow the pattern below 
-(we are creating a collection of PDO objects below):
+If you are simply looking to store items of the same or differing types in a collection you can use simply use the `GenericCollection` class like so:
 
 ```php
 <?php 
 
-class PdoCollection extends \VersatileCollections\StrictlyTypedCollection {
+// items to be stored in your collection
+$item1 = ['yabadoo'];                        // an array
+$item2 = function(){ echo 'Hello World!'; }; // a callable
+$item3 = 777.888;                            // a float
+$item4 = 777;                                // an int
+$item5 = new \stdClass();                    // an object
+$item6 = new \ArrayObject([]);               // another object
+$item7 = tmpfile();                          // a resource
+$item8 = true;                               // a boolean
+$item9 = "true";                             // a string
 
-    // Completely override __construct of
-    // \VersatileCollections\StrictlyTypedCollection.
-    //
-    // The type-hint in the constructor's signature
-    // will guarantee that only instances of \PDO
-    // will be successfully injected into this class
-    // at construct time
+// Technique 1: pass the items to the constructor of the collection class
+$collection = new \VersatileCollections\GenericCollection(
+    $item1, $item2, $item3, $item4, $item5, $item6, $item7, $item8, $item9
+);
+
+// Technique 2: pass the items in an array using argument unpacking
+//              to the constructor of the collection class
+$collection = new \VersatileCollections\GenericCollection(
+    ...[$item1, $item2, $item3, $item4, $item5, $item6, $item7, $item8, $item9]
+);
+
+// Technique 3: pass the items in an array to the static makeNew helper method
+//              available in all collection classes
+$collection = \VersatileCollections\GenericCollection::makeNew(
+    [$item1, $item2, $item3, $item4, $item5, $item6, $item7, $item8, $item9]
+);
+
+// Technique 4: create an empty collection object and subsequently add each
+//              item to the collection via array assignment syntax or object
+//              property assignment syntax or using the appendItem($item), 
+//              prependItem($item, $key=null), push($item) or put($key, $value)
+//              methods
+$collection = new \VersatileCollections\GenericCollection(); // empty collection
+$collection[] = $item1; // array assignment syntax without key
+                        // the item is automatically assigned
+                        // the next available integer key. In
+                        // this case 0
+
+$collection[] = $item2; // array assignment syntax without key
+                        // the next available integer key in this
+                        // case is 1
+
+$collection['some_key'] = $item3; // array assignment syntax with specified key `some_key`
+
+$collection->some_key = $item4; // object property assignment syntax with specified property
+                                // `some_key`. This will update $collection['some_key']
+                                // changing its value from $item3 to $item4
+
+$collection->appendItem($item3)  // same effect as:
+           ->appendItem($item5); //     $collection[] = $item3;
+                                 //     $collection[] = $item5;
+                                 // Adds an item to the end of the collection    
+                                 // You can chain the method calls
+
+$collection->prependItem($item6, 'new_key'); // adds an item with the optional
+                                             // specified key to the front of
+                                             // collection.
+                                             // You can chain the method calls
+
+$collection->push($item7);  // same effect as:
+                            //     $collection[] = $item7;
+                            // Adds an item to the end of the collection    
+                            // You can chain the method calls
+
+$collection->put('eight_item', $item8)  // same effect as:
+           ->put('ninth_item', $item9); //     $collection['eight_item'] = $item8;
+                                        //     $collection['ninth_item'] = $item9;
+                                        // Adds an item with the specified key to 
+                                        // the collection. If the specified key
+                                        // already exists in the collection the
+                                        // item previously associated with the 
+                                        // key is overwritten with the new item.    
+                                        // You can chain the method calls
+
+```
+
+If you want to enforce strict-typing, the following Collection classes are provided
+in this package:
+
+* **ArraysCollection :** a collection that only stores items that are arrays (i.e. items for which is_array is true)
+* **CallablesCollection :** a collection that only stores items that are callables (i.e. items for which is_callable is true)
+* **FloatsCollection :** a collection that only stores items that are floats (i.e. items for which is_float is true)
+* **IntsCollection :** a collection that only stores items that are integers (i.e. items for which is_int is true)
+* **NumericsCollection :** a collection that only stores items that are either floats or integers (i.e. items for which is_int or is_float is true)
+* **ObjectsCollection :** a collection that only stores items that are objects (i.e. items for which is_object is true)
+* **ResourcesCollection :** a collection that only stores items that are resources (i.e. items for which is_resource is true)
+* **ScalarsCollection :** a collection that only stores items that are scalars (i.e. items for which is_scalar is true)
+* **StringsCollection :** a collection that only stores items that are strings (i.e. items for which is_string is true)
+
+To implement a custom collection that only contains objects that are instances of
+a specific class (for example `\PDO`), your custom collection class must adhere to
+the following requirements:
+
+* Your custom collection class must implement `\VersatileCollections\StrictlyTypedCollectionInterface`
+
+* It must use `\VersatileCollections\StrictlyTypedCollectionInterfaceImplementationTrait`
+
+* It must implement the two methods below:
+
+    * **public function checkType($item)** : it must return true if `$item` is of the expected type or false otherwise
+    * **public function getType()** : it must return a string or an array of strings representing the name(s) of the expected type
+
+
+* You can optionally override **StrictlyTypedCollectionInterfaceImplementationTrait::__construct(...$arr_objs)** with a constrauctor
+with the same signature but with the specific type. For example, **__construct(\PDO ...$arr_objs)** ensures that only instances of
+**\PDO** can be injected into the constructor via argument unpacking. 
+
+The code example below shows how a custom collection class called **PdoCollection**, 
+that only stores items that are instances of **\PDO**, can be implemented:
+
+```php
+<?php 
+
+class PdoCollection implements \VersatileCollections\StrictlyTypedCollectionInterface {
+    
+    use \VersatileCollections\StrictlyTypedCollectionInterfaceImplementationTrait;
+    
     public function __construct(\PDO ...$arr_objs) {
                 
-        $this->collection_items = $arr_objs;
+        $this->versatile_collections_items = $arr_objs;
     }
 
-    // $this->checkType($item) will be used in 
-    // \VersatileCollections\StrictlyTypedCollection::offsetSet($key, $val)
-    // when items are added to this collection via
-    // the $this['key_name'] = ....
-    // or the  $this[] = .......
-    // or $this->key_name = .....
-    // syntax
+    /**
+     * 
+     * @return bool true if $item is of the expected type, else false
+     * 
+     */
     public function checkType($item) {
         
         return ($item instanceof \PDO);
     }
     
+    /**
+     * 
+     * @return string|array a string or array of strings of type name(s) 
+     *                      for items acceptable in instances of this 
+     *                      collection class
+     * 
+     */
     public function getType() {
         
         return \PDO::class;
@@ -71,20 +179,20 @@ You can declare your custom typed collection classes as `final` so that users of
 classes will not be able to extend them and thereby circumvent the type-checking 
 being enforced at construct time and item addition time.
 
-
 ## Documentation
 
 * [Quick Start Guide](docs/QUICKSTART.md)
 * [Generic Collections](docs/GenericCollections.md)
 * [Strictly Typed Collections](docs/StrictlyTypedCollections.md)
+    * Array Collections
     * [Callables Collections](docs/CallablesCollections.md): a collection that can only contain [callables](http://php.net/manual/en/language.types.callable.php)
-    * [Object Collections](docs/ObjectCollections.md): a collection that can only contain [objects](http://php.net/manual/en/language.types.object.php) (any kind of object)
-    * [Resource Collections](docs/ResourceCollections.md): a collection that can only contain [resources](http://php.net/manual/en/language.types.resource.php)
-    * [Scalar Collections](docs/ScalarCollections.md): a collection that can only scalar values. I.e. any of [booleans](http://php.net/manual/en/language.types.boolean.php), [floats](http://php.net/manual/en/language.types.float.php), [integers](http://php.net/manual/en/language.types.integer.php) or [strings](http://php.net/manual/en/language.types.string.php). It accepts any mix of scalars, e.g. ints, booleans, floats and strings can all be present in an instance of this type of collection.
+    * [Object Collections](docs/ObjectsCollections.md): a collection that can only contain [objects](http://php.net/manual/en/language.types.object.php) (any kind of object)
+    * [Resource Collections](docs/ResourcesCollections.md): a collection that can only contain [resources](http://php.net/manual/en/language.types.resource.php)
+    * [Scalar Collections](docs/ScalarsCollections.md): a collection that can only scalar values. I.e. any of [booleans](http://php.net/manual/en/language.types.boolean.php), [floats](http://php.net/manual/en/language.types.float.php), [integers](http://php.net/manual/en/language.types.integer.php) or [strings](http://php.net/manual/en/language.types.string.php). It accepts any mix of scalars, e.g. ints, booleans, floats and strings can all be present in an instance of this type of collection.
         * [Numeric Collections](docs/NumericCollections.md): a collection that can only contain [floats](http://php.net/manual/en/language.types.float.php) and/or [integers](http://php.net/manual/en/language.types.integer.php)
-            * [Float Collections](docs/FloatCollections.md): a collection that can only contain [floats](http://php.net/manual/en/language.types.float.php)
-            * [Int Collections](docs/IntCollections.md): a collection that can only contain [integers](http://php.net/manual/en/language.types.integer.php)
-        * [String Collections](docs/StringCollections.md): a collection that can only contain [strings](http://php.net/manual/en/language.types.string.php)
+            * [Float Collections](docs/FloatsCollections.md): a collection that can only contain [floats](http://php.net/manual/en/language.types.float.php)
+            * [Int Collections](docs/IntsCollections.md): a collection that can only contain [integers](http://php.net/manual/en/language.types.integer.php)
+        * [String Collections](docs/StringsCollections.md): a collection that can only contain [strings](http://php.net/manual/en/language.types.string.php)
 
 * Please submit an issue or a pull request if you find any issues with the documentation.
 

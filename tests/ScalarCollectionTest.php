@@ -1,10 +1,10 @@
 <?php
 /**
- * Description of ScalarCollectionTest
+ * Description of ScalarsCollectionTest
  *
  * @author aadegbam
  */
-class ScalarCollectionTest extends \PHPUnit_Framework_TestCase {
+class ScalarsCollectionTest extends \PHPUnit_Framework_TestCase {
     
     protected function setUp() { 
         
@@ -16,7 +16,7 @@ class ScalarCollectionTest extends \PHPUnit_Framework_TestCase {
      */
     public function testThatOnlyScalarsCanBeInjectedIntoCollection() {
         
-        $collection = new \VersatileCollections\ScalarCollection();
+        $collection = new \VersatileCollections\ScalarsCollection();
         
         $this->assertEquals($collection->count(), 0);
         
@@ -27,7 +27,7 @@ class ScalarCollectionTest extends \PHPUnit_Framework_TestCase {
         $collection->item4 = true;
         $collection->item5 = false;
         
-        $collection = new \VersatileCollections\ScalarCollection(
+        $collection = new \VersatileCollections\ScalarsCollection(
             "4", 5.0, 7, true, false, '6', '7'
         );
         
@@ -40,7 +40,7 @@ class ScalarCollectionTest extends \PHPUnit_Framework_TestCase {
     
     public function testThatUniqueNonStrictWorksAsExpected() {
         
-        $collection = new \VersatileCollections\ScalarCollection();
+        $collection = new \VersatileCollections\ScalarsCollection();
         $collection->item1 = "4";
         $collection->item2 = 5.0;
         $collection->item3 = 7;
@@ -57,7 +57,7 @@ class ScalarCollectionTest extends \PHPUnit_Framework_TestCase {
         $collection->item423 = 'true';
         $collection->item523 = 'false';
         
-        $this->assertSame(\VersatileCollections\ScalarCollection::makeNew()->uniqueNonStrict()->toArray(), []);
+        $this->assertSame(\VersatileCollections\ScalarsCollection::makeNew()->uniqueNonStrict()->toArray(), []);
         $this->assertEquals($collection->uniqueNonStrict()->toArray(), ['4', 5.0, 7, false, 'true', 'false']);
     }
 }

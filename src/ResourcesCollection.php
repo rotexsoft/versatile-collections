@@ -3,11 +3,11 @@ namespace VersatileCollections;
 
 /**
  * 
- * Description of ResourceCollection
+ * Description of ResourcesCollection
  *
  * @author aadegbam
  */
-class ResourceCollection implements \VersatileCollections\StrictlyTypedCollectionInterface {
+class ResourcesCollection implements \VersatileCollections\StrictlyTypedCollectionInterface {
     
     use StrictlyTypedCollectionInterfaceImplementationTrait;
 

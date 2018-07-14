@@ -1,13 +1,13 @@
 # Resource Collection
 
-`\VersatileCollections\ResourceCollection` is a Collection class that only accepts
+`\VersatileCollections\ResourcesCollection` is a Collection class that only accepts
 items that are [resources](http://php.net/manual/en/language.types.resource.php).
 
 Example Usage:
 
 ```php
     
-    $collection = new \VersatileCollections\ResourceCollection(
+    $collection = new \VersatileCollections\ResourcesCollection(
         tmpfile(), 
         tmpfile(), 
         tmpfile(), 
@@ -16,7 +16,7 @@ Example Usage:
 
     // OR
 
-    $collection = new \VersatileCollections\ResourceCollection();
+    $collection = new \VersatileCollections\ResourcesCollection();
     $collection[] = tmpfile();
     $collection[] = tmpfile();
     $collection[] = tmpfile();

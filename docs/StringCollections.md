@@ -1,19 +1,19 @@
 # String Collection
 
-`\VersatileCollections\StringCollection` is a Collection class that only accepts
+`\VersatileCollections\StringsCollection` is a Collection class that only accepts
 items that are strings.
 
 Example Usage:
 
 ```php
     
-    $collection = new \VersatileCollections\StringCollection(
+    $collection = new \VersatileCollections\StringsCollection(
         '1', '2', '3', '4', '5', '6', '7'
     );
 
     // OR
 
-    $collection = new \VersatileCollections\StringCollection();
+    $collection = new \VersatileCollections\StringsCollection();
     $collection[] = '4';
     $collection[] = '5';
     $collection[] = '7';

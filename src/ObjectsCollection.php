@@ -2,11 +2,11 @@
 namespace VersatileCollections;
 
 /**
- * Description of ObjectCollection
+ * Description of ObjectsCollection
  *
  * @author aadegbam
  */
-class ObjectCollection implements \VersatileCollections\StrictlyTypedCollectionInterface {
+class ObjectsCollection implements \VersatileCollections\StrictlyTypedCollectionInterface {
     
     use StrictlyTypedCollectionInterfaceImplementationTrait {
         

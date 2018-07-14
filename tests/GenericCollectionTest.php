@@ -34,15 +34,15 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
         
         ///////////////////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////////////
-        $collection = \VersatileCollections\FloatCollection::makeNew();
+        $collection = \VersatileCollections\FloatsCollection::makeNew();
         
         $this->assertEquals($collection->count(), 0);
-        $this->assertInstanceOf(\VersatileCollections\FloatCollection::class, $collection);
+        $this->assertInstanceOf(\VersatileCollections\FloatsCollection::class, $collection);
         
-        $collection = \VersatileCollections\FloatCollection::makeNew([1.1, 2.2, 3.3]);
+        $collection = \VersatileCollections\FloatsCollection::makeNew([1.1, 2.2, 3.3]);
         
         $this->assertEquals($collection->count(), 3);
-        $this->assertInstanceOf(\VersatileCollections\FloatCollection::class, $collection);
+        $this->assertInstanceOf(\VersatileCollections\FloatsCollection::class, $collection);
         
         ///////////////////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////////////
@@ -58,15 +58,15 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
         
         ///////////////////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////////////
-        $collection = \VersatileCollections\IntCollection::makeNew();
+        $collection = \VersatileCollections\IntsCollection::makeNew();
         
         $this->assertEquals($collection->count(), 0);
-        $this->assertInstanceOf(\VersatileCollections\IntCollection::class, $collection);
+        $this->assertInstanceOf(\VersatileCollections\IntsCollection::class, $collection);
         
-        $collection = \VersatileCollections\IntCollection::makeNew([1, 2, 3]);
+        $collection = \VersatileCollections\IntsCollection::makeNew([1, 2, 3]);
         
         $this->assertEquals($collection->count(), 3);
-        $this->assertInstanceOf(\VersatileCollections\IntCollection::class, $collection);
+        $this->assertInstanceOf(\VersatileCollections\IntsCollection::class, $collection);
         
         ///////////////////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////////////
@@ -82,51 +82,51 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
         
         ///////////////////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////////////
-        $collection = \VersatileCollections\ObjectCollection::makeNew();
+        $collection = \VersatileCollections\ObjectsCollection::makeNew();
         
         $this->assertEquals($collection->count(), 0);
-        $this->assertInstanceOf(\VersatileCollections\ObjectCollection::class, $collection);
+        $this->assertInstanceOf(\VersatileCollections\ObjectsCollection::class, $collection);
         
-        $collection = \VersatileCollections\ObjectCollection::makeNew([new stdClass(), new ArrayObject(), new DateTime('2000-04-04')]);
+        $collection = \VersatileCollections\ObjectsCollection::makeNew([new stdClass(), new ArrayObject(), new DateTime('2000-04-04')]);
         
         $this->assertEquals($collection->count(), 3);
-        $this->assertInstanceOf(\VersatileCollections\ObjectCollection::class, $collection);
+        $this->assertInstanceOf(\VersatileCollections\ObjectsCollection::class, $collection);
         
         ///////////////////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////////////
-        $collection = \VersatileCollections\ResourceCollection::makeNew();
+        $collection = \VersatileCollections\ResourcesCollection::makeNew();
         
         $this->assertEquals($collection->count(), 0);
-        $this->assertInstanceOf(\VersatileCollections\ResourceCollection::class, $collection);
+        $this->assertInstanceOf(\VersatileCollections\ResourcesCollection::class, $collection);
         
-        $collection = \VersatileCollections\ResourceCollection::makeNew([tmpfile(), tmpfile(), tmpfile()]);
+        $collection = \VersatileCollections\ResourcesCollection::makeNew([tmpfile(), tmpfile(), tmpfile()]);
         
         $this->assertEquals($collection->count(), 3);
-        $this->assertInstanceOf(\VersatileCollections\ResourceCollection::class, $collection);
+        $this->assertInstanceOf(\VersatileCollections\ResourcesCollection::class, $collection);
         
         ///////////////////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////////////
-        $collection = \VersatileCollections\ScalarCollection::makeNew();
+        $collection = \VersatileCollections\ScalarsCollection::makeNew();
         
         $this->assertEquals($collection->count(), 0);
-        $this->assertInstanceOf(\VersatileCollections\ScalarCollection::class, $collection);
+        $this->assertInstanceOf(\VersatileCollections\ScalarsCollection::class, $collection);
         
-        $collection = \VersatileCollections\ScalarCollection::makeNew([1, 2, 3]);
+        $collection = \VersatileCollections\ScalarsCollection::makeNew([1, 2, 3]);
         
         $this->assertEquals($collection->count(), 3);
-        $this->assertInstanceOf(\VersatileCollections\ScalarCollection::class, $collection);
+        $this->assertInstanceOf(\VersatileCollections\ScalarsCollection::class, $collection);
         
         ///////////////////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////////////
-        $collection = \VersatileCollections\StringCollection::makeNew();
+        $collection = \VersatileCollections\StringsCollection::makeNew();
         
         $this->assertEquals($collection->count(), 0);
-        $this->assertInstanceOf(\VersatileCollections\StringCollection::class, $collection);
+        $this->assertInstanceOf(\VersatileCollections\StringsCollection::class, $collection);
         
-        $collection = \VersatileCollections\StringCollection::makeNew(['1', '2', '3']);
+        $collection = \VersatileCollections\StringsCollection::makeNew(['1', '2', '3']);
         
         $this->assertEquals($collection->count(), 3);
-        $this->assertInstanceOf(\VersatileCollections\StringCollection::class, $collection);
+        $this->assertInstanceOf(\VersatileCollections\StringsCollection::class, $collection);
         
         ////////////////////////////////////////////////////////////////////////
         // Test with array with string keys and preserve keys
@@ -628,7 +628,7 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
     
     public function testThatMapWorksAsExpected() {
         
-        $int_collection = new \VersatileCollections\IntCollection(1, 2, 3, 4, 5);
+        $int_collection = new \VersatileCollections\IntsCollection(1, 2, 3, 4, 5);
 
         $multiplied = $int_collection->map(
             function ($key, $item) {
@@ -649,7 +649,7 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($multiplied->toArray(), [5, 10, 15, 20, 25]);
         
         // test preserve keys
-        $int_collection = new \VersatileCollections\IntCollection();
+        $int_collection = new \VersatileCollections\IntsCollection();
         $int_collection[5] = 1;
         $int_collection[6] = 2;
         $int_collection[7] = 3;
@@ -2536,7 +2536,7 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
                 ->sort(null, new \VersatileCollections\SortType((SORT_NATURAL | SORT_FLAG_CASE)));
         $this->assertEquals( ["Orange1", "orange2", "Orange3", "orange20"], array_values($sorted_collection->toArray()) );
         
-        $collection = new \TestValueObjectCollection(
+        $collection = new \TestValueObjectsCollection(
             new TestValueObject('Johnny Cash', 50),
             new TestValueObject('Suzzy Something', 23),
             new TestValueObject('Jack Bauer', 43),
@@ -2585,7 +2585,7 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
             array_values($sorted_collection->toArray()) 
         );
         
-        $collection = new \TestValueObjectCollection(
+        $collection = new \TestValueObjectsCollection(
             new TestValueObject('Johnny Cash', 50),
             new TestValueObject('Suzzy Something', 23),
             new TestValueObject('Jack Bauer', 43),
@@ -2824,7 +2824,7 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
                 ->sortMe(null, new \VersatileCollections\SortType((SORT_NATURAL | SORT_FLAG_CASE)));
         $this->assertEquals( ["Orange1", "orange2", "Orange3", "orange20"], array_values($sorted_collection->toArray()) );
         
-        $collection = new \TestValueObjectCollection(
+        $collection = new \TestValueObjectsCollection(
             new TestValueObject('Johnny Cash', 50),
             new TestValueObject('Suzzy Something', 23),
             new TestValueObject('Jack Bauer', 43),
@@ -2876,7 +2876,7 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
             array_values($sorted_collection->toArray()) 
         );
         
-        $collection = new \TestValueObjectCollection(
+        $collection = new \TestValueObjectsCollection(
             new TestValueObject('Johnny Cash', 50),
             new TestValueObject('Suzzy Something', 23),
             new TestValueObject('Jack Bauer', 43),
@@ -3512,10 +3512,10 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
             \VersatileCollections\GenericCollection::makeNew(['1', '2.5', '3', '4.5', '5']);
         
         $ints_collection = 
-            \VersatileCollections\IntCollection::makeNew([1, 2, 3, 4, 5]);
+            \VersatileCollections\IntsCollection::makeNew([1, 2, 3, 4, 5]);
         
         $floats_collection = 
-            \VersatileCollections\FloatCollection::makeNew([1.5, 2.5, 3.5, 4.5, 5.5]);
+            \VersatileCollections\FloatsCollection::makeNew([1.5, 2.5, 3.5, 4.5, 5.5]);
         
         $numerics_collection = 
             \VersatileCollections\NumericsCollection::makeNew([1, 2.5, 3, 4.5, 5]);
@@ -3542,10 +3542,10 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
         ////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////////////
         $new = $generic_ints_collection->getAsNewType(
-            \VersatileCollections\IntCollection::class  // string
+            \VersatileCollections\IntsCollection::class  // string
         );
         $this->assertInstanceOf(
-            \VersatileCollections\IntCollection::class, 
+            \VersatileCollections\IntsCollection::class, 
             $new
         );
         $this->assertSame(
@@ -3560,10 +3560,10 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
         ////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////////////
         $new = $generic_ints_collection->getAsNewType(
-            \VersatileCollections\IntCollection::makeNew() // object instance 
+            \VersatileCollections\IntsCollection::makeNew() // object instance 
         );
         $this->assertInstanceOf(
-            \VersatileCollections\IntCollection::class, 
+            \VersatileCollections\IntsCollection::class, 
             $new
         );
         $this->assertSame(
@@ -3578,10 +3578,10 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
         ////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////////////
         $new = $generic_floats_collection->getAsNewType(
-            \VersatileCollections\FloatCollection::class  // string
+            \VersatileCollections\FloatsCollection::class  // string
         );
         $this->assertInstanceOf(
-            \VersatileCollections\FloatCollection::class, 
+            \VersatileCollections\FloatsCollection::class, 
             $new
         );
         $this->assertSame(
@@ -3614,10 +3614,10 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
         ////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////////////
         $new = $generic_strings_collection->getAsNewType(
-            \VersatileCollections\StringCollection::class  // string
+            \VersatileCollections\StringsCollection::class  // string
         );
         $this->assertInstanceOf(
-            \VersatileCollections\StringCollection::class, 
+            \VersatileCollections\StringsCollection::class, 
             $new
         );
         $this->assertSame(
@@ -3650,10 +3650,10 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
         ////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////////////
         $new = $ints_collection->getAsNewType(
-            \VersatileCollections\ScalarCollection::class  // string
+            \VersatileCollections\ScalarsCollection::class  // string
         );
         $this->assertInstanceOf(
-            \VersatileCollections\ScalarCollection::class, 
+            \VersatileCollections\ScalarsCollection::class, 
             $new
         );
         $this->assertSame(
@@ -3686,10 +3686,10 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
         ////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////////////
         $new = $floats_collection->getAsNewType(
-            \VersatileCollections\ScalarCollection::class  // string
+            \VersatileCollections\ScalarsCollection::class  // string
         );
         $this->assertInstanceOf(
-            \VersatileCollections\ScalarCollection::class, 
+            \VersatileCollections\ScalarsCollection::class, 
             $new
         );
         $this->assertSame(
@@ -3704,10 +3704,10 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
         ////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////////////
         $new = $numerics_collection->getAsNewType(
-            \VersatileCollections\ScalarCollection::class  // string
+            \VersatileCollections\ScalarsCollection::class  // string
         );
         $this->assertInstanceOf(
-            \VersatileCollections\ScalarCollection::class, 
+            \VersatileCollections\ScalarsCollection::class, 
             $new
         );
         $this->assertSame(
@@ -3722,10 +3722,10 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
         ////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////////////
         $new = $strings_collection->getAsNewType(
-            \VersatileCollections\ScalarCollection::class  // string
+            \VersatileCollections\ScalarsCollection::class  // string
         );
         $this->assertInstanceOf(
-            \VersatileCollections\ScalarCollection::class, 
+            \VersatileCollections\ScalarsCollection::class, 
             $new
         );
         $this->assertSame(
@@ -3741,10 +3741,10 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
     /**
      * @expectedException \VersatileCollections\Exceptions\InvalidItemException
      */
-    public function testGetAsNewTypeGenericCollectionOfNonArraysToArrayCollection() {
+    public function testGetAsNewTypeGenericCollectionOfNonArraysToArraysCollection() {
         
         \VersatileCollections\GenericCollection::makeNew([1, 2, 3, 4, 5])
-                ->getAsNewType(\VersatileCollections\ArrayCollection::class);
+                ->getAsNewType(\VersatileCollections\ArraysCollection::class);
     }
     
     /**
@@ -3759,91 +3759,91 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
     /**
      * @expectedException \VersatileCollections\Exceptions\InvalidItemException
      */
-    public function testGetAsNewTypeGenericCollectionOfNonFloatsToFloatCollection() {
+    public function testGetAsNewTypeGenericCollectionOfNonFloatsToFloatsCollection() {
         
         \VersatileCollections\GenericCollection::makeNew([1, 2, 3, 4, 5])
-                ->getAsNewType(\VersatileCollections\FloatCollection::class);
+                ->getAsNewType(\VersatileCollections\FloatsCollection::class);
     }
     
     /**
      * @expectedException \VersatileCollections\Exceptions\InvalidItemException
      */
-    public function testGetAsNewTypeGenericCollectionOfNonObjectsToObjectCollection() {
+    public function testGetAsNewTypeGenericCollectionOfNonObjectsToObjectsCollection() {
         
         \VersatileCollections\GenericCollection::makeNew([1, 2, 3, 4, 5])
-                ->getAsNewType(\VersatileCollections\ObjectCollection::class);
+                ->getAsNewType(\VersatileCollections\ObjectsCollection::class);
     }
     
     /**
      * @expectedException \VersatileCollections\Exceptions\InvalidItemException
      */
-    public function testGetAsNewTypeGenericCollectionOfNonResourcesToResourceCollection() {
+    public function testGetAsNewTypeGenericCollectionOfNonResourcesToResourcesCollection() {
         
         \VersatileCollections\GenericCollection::makeNew([1, 2, 3, 4, 5])
-                ->getAsNewType(\VersatileCollections\ResourceCollection::class);
+                ->getAsNewType(\VersatileCollections\ResourcesCollection::class);
     }
     
     /**
      * @expectedException \VersatileCollections\Exceptions\InvalidItemException
      */
-    public function testGetAsNewTypeGenericCollectionOfNonStringsToStringCollection() {
+    public function testGetAsNewTypeGenericCollectionOfNonStringsToStringsCollection() {
         
         \VersatileCollections\GenericCollection::makeNew([1, 2, 3, 4, 5])
-                ->getAsNewType(\VersatileCollections\StringCollection::class);
+                ->getAsNewType(\VersatileCollections\StringsCollection::class);
     }
     
     /**
      * @expectedException \VersatileCollections\Exceptions\InvalidItemException
      */
-    public function testGetAsNewTypeIntCollectionToArrayCollection() {
+    public function testGetAsNewTypeIntsCollectionToArraysCollection() {
         
-        \VersatileCollections\IntCollection::makeNew([1, 2, 3, 4, 5])
-                ->getAsNewType(\VersatileCollections\ArrayCollection::class);
+        \VersatileCollections\IntsCollection::makeNew([1, 2, 3, 4, 5])
+                ->getAsNewType(\VersatileCollections\ArraysCollection::class);
     }
     
     /**
      * @expectedException \VersatileCollections\Exceptions\InvalidItemException
      */
-    public function testGetAsNewTypeIntCollectionToCallablesCollection() {
+    public function testGetAsNewTypeIntsCollectionToCallablesCollection() {
         
-        \VersatileCollections\IntCollection::makeNew([1, 2, 3, 4, 5])
+        \VersatileCollections\IntsCollection::makeNew([1, 2, 3, 4, 5])
                 ->getAsNewType(\VersatileCollections\CallablesCollection::class);
     }
     
     /**
      * @expectedException \VersatileCollections\Exceptions\InvalidItemException
      */
-    public function testGetAsNewTypeIntCollectionToFloatCollection() {
+    public function testGetAsNewTypeIntsCollectionToFloatsCollection() {
         
-        \VersatileCollections\IntCollection::makeNew([1, 2, 3, 4, 5])
-                ->getAsNewType(\VersatileCollections\FloatCollection::class);
+        \VersatileCollections\IntsCollection::makeNew([1, 2, 3, 4, 5])
+                ->getAsNewType(\VersatileCollections\FloatsCollection::class);
     }
     
     /**
      * @expectedException \VersatileCollections\Exceptions\InvalidItemException
      */
-    public function testGetAsNewTypeIntCollectionToObjectCollection() {
+    public function testGetAsNewTypeIntsCollectionToObjectsCollection() {
         
-        \VersatileCollections\IntCollection::makeNew([1, 2, 3, 4, 5])
-                ->getAsNewType(\VersatileCollections\ObjectCollection::class);
+        \VersatileCollections\IntsCollection::makeNew([1, 2, 3, 4, 5])
+                ->getAsNewType(\VersatileCollections\ObjectsCollection::class);
     }
     
     /**
      * @expectedException \VersatileCollections\Exceptions\InvalidItemException
      */
-    public function testGetAsNewTypeIntCollectionToResourceCollection() {
+    public function testGetAsNewTypeIntsCollectionToResourcesCollection() {
         
-        \VersatileCollections\IntCollection::makeNew([1, 2, 3, 4, 5])
-                ->getAsNewType(\VersatileCollections\ResourceCollection::class);
+        \VersatileCollections\IntsCollection::makeNew([1, 2, 3, 4, 5])
+                ->getAsNewType(\VersatileCollections\ResourcesCollection::class);
     }
     
     /**
      * @expectedException \VersatileCollections\Exceptions\InvalidItemException
      */
-    public function testGetAsNewTypeIntCollectionToStringCollection() {
+    public function testGetAsNewTypeIntsCollectionToStringsCollection() {
         
-        \VersatileCollections\IntCollection::makeNew([1, 2, 3, 4, 5])
-                ->getAsNewType(\VersatileCollections\StringCollection::class);
+        \VersatileCollections\IntsCollection::makeNew([1, 2, 3, 4, 5])
+                ->getAsNewType(\VersatileCollections\StringsCollection::class);
     }
     
     /**
@@ -3851,7 +3851,7 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
      */
     public function testGetAsNewTypeWithNonStringAndNonObjectArg() {
         
-        \VersatileCollections\IntCollection::makeNew([1, 2, 3, 4, 5])
+        \VersatileCollections\IntsCollection::makeNew([1, 2, 3, 4, 5])
                 ->getAsNewType([]);
     }
     
@@ -3860,7 +3860,7 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
      */
     public function testGetAsNewTypeWithStringNonCollectionInterfaceSubClassArg() {
         
-        \VersatileCollections\IntCollection::makeNew([1, 2, 3, 4, 5])
+        \VersatileCollections\IntsCollection::makeNew([1, 2, 3, 4, 5])
                 ->getAsNewType('Yay');
     }
     
@@ -3869,7 +3869,7 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
      */
     public function testGetAsNewTypeWithObjectNonCollectionInterfaceSubClassArg() {
         
-        \VersatileCollections\IntCollection::makeNew([1, 2, 3, 4, 5])
+        \VersatileCollections\IntsCollection::makeNew([1, 2, 3, 4, 5])
                 ->getAsNewType(new stdClass());
     }
     

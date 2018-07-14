@@ -1,10 +1,10 @@
 <?php
 /**
- * Description of ResourceCollectionTest
+ * Description of ResourcesCollectionTest
  *
  * @author aadegbam
  */
-class ResourceCollectionTest extends \PHPUnit_Framework_TestCase {
+class ResourcesCollectionTest extends \PHPUnit_Framework_TestCase {
     
     protected function setUp() { 
         
@@ -16,7 +16,7 @@ class ResourceCollectionTest extends \PHPUnit_Framework_TestCase {
      */
     public function testThatOnlyResourcesCanBeInjectedIntoCollection() {
         
-        $collection = new \VersatileCollections\ResourceCollection();
+        $collection = new \VersatileCollections\ResourcesCollection();
         
         $this->assertEquals($collection->count(), 0);
         
@@ -26,7 +26,7 @@ class ResourceCollectionTest extends \PHPUnit_Framework_TestCase {
         $collection->item3 = tmpfile();
         $collection->item4 = tmpfile();
         
-        $collection = new \VersatileCollections\ResourceCollection(
+        $collection = new \VersatileCollections\ResourcesCollection(
             $collection->item1, $collection->item2, $collection->item3, $collection->item4
         );
         

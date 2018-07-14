@@ -1,19 +1,19 @@
 # Float Collection
 
-`\VersatileCollections\FloatCollection` is a Collection class that only accepts
+`\VersatileCollections\FloatsCollection` is a Collection class that only accepts
 items that are floats (i.e. floating point numbers).
 
 Example Usage:
 
 ```php
     
-    $collection = new \VersatileCollections\FloatCollection(
+    $collection = new \VersatileCollections\FloatsCollection(
         1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0
     );
 
     // OR
 
-    $collection = new \VersatileCollections\FloatCollection();
+    $collection = new \VersatileCollections\FloatsCollection();
     $collection[] = 4.0;
     $collection[] = 5.0;
     $collection[] = 7.7;

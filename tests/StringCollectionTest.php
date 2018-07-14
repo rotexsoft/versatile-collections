@@ -1,10 +1,10 @@
 <?php
 /**
- * Description of StringCollectionTest
+ * Description of StringsCollectionTest
  *
  * @author aadegbam
  */
-class StringCollectionTest extends \PHPUnit_Framework_TestCase {
+class StringsCollectionTest extends \PHPUnit_Framework_TestCase {
     
     protected function setUp() { 
         
@@ -16,7 +16,7 @@ class StringCollectionTest extends \PHPUnit_Framework_TestCase {
      */
     public function testThatOnlyStringsCanBeInjectedIntoCollection() {
         
-        $collection = new \VersatileCollections\StringCollection();
+        $collection = new \VersatileCollections\StringsCollection();
         
         $this->assertEquals($collection->count(), 0);
         
@@ -26,7 +26,7 @@ class StringCollectionTest extends \PHPUnit_Framework_TestCase {
         $collection->item3 = '7';
         $collection->item4 = '9';
         
-        $collection = new \VersatileCollections\StringCollection(
+        $collection = new \VersatileCollections\StringsCollection(
             '1', '2', '3', '4', '5', '6', '7'
         );
         

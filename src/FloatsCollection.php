@@ -2,25 +2,25 @@
 namespace VersatileCollections;
 
 /**
- * Description of IntCollection
+ * Description of FloatsCollection
  *
  * @author rotimi
  */
-class IntCollection extends NumericsCollection {
+class FloatsCollection extends NumericsCollection {
 
     public function checkType($item) {
         
-        return is_int($item);
+        return is_float($item);
     }
 
     public function getType() {
         
-        return 'int';
+        return 'float';
     }
-
+    
     protected function itemFromString($str) {
         
-        return ((int) ($str.''));
+        return ((float) ($str.''));
     }
 
     protected function itemToString($item) {

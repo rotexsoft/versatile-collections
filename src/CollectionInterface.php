@@ -1205,9 +1205,9 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * Non-strict comparison is unsafe for collections containing objects, for 
      * example you can't cast an object to a double or int. To get unique items 
      * using non-strict comparison see 
-     * \VersatileCollections\ScalarCollection::uniqueNonStrict().
+     * \VersatileCollections\ScalarsCollection::uniqueNonStrict().
      * 
-     * @see \VersatileCollections\ScalarCollection::uniqueNonStrict() 
+     * @see \VersatileCollections\ScalarsCollection::uniqueNonStrict() 
      * 
      * @return \VersatileCollections\CollectionInterface
      * 
