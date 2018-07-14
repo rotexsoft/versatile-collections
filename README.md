@@ -23,7 +23,7 @@ This package provides optional strict-typing of collection items and strives for
 
 ## Basics 
 
-If you are simply looking to store items of the same or differing types in a collection you can use simply use the `GenericCollection` class like so:
+If you are simply looking to store items of the same or differing types in a collection you can use simply use the **GenericCollection** class like so:
 
 ```php
 <?php 
@@ -126,12 +126,12 @@ in this package:
 * **StringsCollection :** a collection that only stores items that are strings (i.e. items for which is_string is true)
 
 To implement a custom collection that only contains objects that are instances of
-a specific class (for example `\PDO`), your custom collection class must adhere to
+a specific class (for example **\PDO**), your custom collection class must adhere to
 the following requirements:
 
-* Your custom collection class must implement `\VersatileCollections\StrictlyTypedCollectionInterface`
+* Your custom collection class must implement **\VersatileCollections\StrictlyTypedCollectionInterface**
 
-* It must use `\VersatileCollections\StrictlyTypedCollectionInterfaceImplementationTrait`
+* It must use **\VersatileCollections\StrictlyTypedCollectionInterfaceImplementationTrait**
 
 * It must implement the two methods below:
 
@@ -182,7 +182,7 @@ class PdoCollection implements \VersatileCollections\StrictlyTypedCollectionInte
 }
 ```
 
-You can declare your custom typed collection classes as `final` so that users of your 
+You can declare your custom typed collection classes as **final** so that users of your 
 classes will not be able to extend them and thereby circumvent the type-checking 
 being enforced at construct time and item addition time.
 
