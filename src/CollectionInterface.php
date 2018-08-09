@@ -92,8 +92,6 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
     public function count();
     
     ////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////
     ////////// OTHER COLLECTION METHODS ////////////////////////////////////////
     
     /**
@@ -343,7 +341,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
     
     /**
      * 
-     * Appends all items from $other collection to the end of $this collection. Note that appended items will be assigned numeric keys.
+     * Appends all items from $other collection to the end of $this collection. 
+     * Note that appended items will be assigned numeric keys.
      * 
      * @param \VersatileCollections\CollectionInterface $other
      * 
@@ -365,7 +364,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
     
     /**
      * 
-     * Prepends all items from $other collection to the front of $this collection. Note that all numerical keys will be modified to start counting from zero while literal keys won't be changed.
+     * Prepends all items from $other collection to the front of $this collection. 
+     * Note that all numerical keys will be modified to start counting from zero while literal keys won't be changed.
      * 
      * @param \VersatileCollections\CollectionInterface $other
      * 
@@ -691,7 +691,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      */
     public function shuffle($preserve_keys=true);
 
-        /**
+    /**
      * 
      * Search the collection for a given value and return the first 
      * corresponding key if successful.
@@ -748,7 +748,6 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      */
     public function searchByCallback(callable $callback, $bind_callback_to_this=true);
     
-
     /**
      * 
      * Get and remove the first item from the collection.
@@ -1104,7 +1103,6 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      */
     public function split($numberOfGroups);
     
-
     /**
      * 
      * Take the first or last {$limit} items and return them in a new collection.
@@ -1120,7 +1118,6 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * 
      */
     public function take($limit);
-
 
     /**
      * Pass a copy of collection to the given callback and then return $this.
