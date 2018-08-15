@@ -961,6 +961,47 @@ trait CollectionInterfaceImplementationTrait {
             $max_size_of_each_collection = 1;
         }
         
+        $collections = new \VersatileCollections\GenericCollection();
+        $current_batch = new static();
+        $result = [];
+        $counter = 0;
+        
+        foreach ($this->versatile_collections_items as $key=>$item) {
+            
+            $current_batch[$key] = $item;
+            
+            if( ++$counter >= $max_size_of_each_collection ) {
+                
+                $collections[] = $current_batch;
+                $counter = 0; // reset
+                $current_batch = new static(); // initialize next collection
+            }
+        }
+
+        // yield last batch if not already yielded
+        if( !$current_batch->isEmpty() ) {
+            
+            $collections[] = $current_batch;
+        }
+        
+        return $collections;
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * 
+     */
+    public function yieldCollectionsOfSizeN($max_size_of_each_collection=1) {
+        
+        if(
+            ((int)$max_size_of_each_collection) > $this->count()
+            || ((int)$max_size_of_each_collection) < 0
+            || !is_numeric($max_size_of_each_collection)
+        ) {
+            $max_size_of_each_collection = 1;
+        }
+        
         $current_batch = new static();
         $result = [];
         $counter = 0;
@@ -1823,7 +1864,7 @@ trait CollectionInterfaceImplementationTrait {
         
         $groups = new static();
 
-        foreach ( $this->getCollectionsOfSizeN($groupSize) as $group ) {
+        foreach ( $this->yieldCollectionsOfSizeN($groupSize) as $group ) {
             
             $groups[] = $group;
         }

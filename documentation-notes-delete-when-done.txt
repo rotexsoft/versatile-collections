@@ -41,21 +41,21 @@ Dynamically Registering Methods
 
 Accessing / Extracting Items 
 ------------------------------
-- ->key or [$key]
-- column($column_key, $index_key=null)
-- everyNth($n, $position_of_first_nth_item = 0)
-- firstItem(), to get first item in the collections
-- lastItem(), to get last item in the collections
-- getCollectionsOfSizeN($max_size_of_each_collection=1) see (split($numberOfGroups))
-- getIfExists($key, $default_value=null)
-- getKeys() & getValues()
-- getAndRemoveFirstItem()
-- getAndRemoveLastItem()
-- pull($key, $default = null)
-- randomKey() & randomKeys($number = 1)
-- randomItem() & randomItems($number = 1, $preserve_keys=false)
-- slice($offset, $length = null)
-- splice($offset, $length=null, array $replacement=[])
+*- ->key or [$key]
+*- column($column_key, $index_key=null)
+*- everyNth($n, $position_of_first_nth_item = 0)
+*- firstItem(), to get first item in the collections
+*- lastItem(), to get last item in the collections
+*- getCollectionsOfSizeN($max_size_of_each_collection=1) or yieldCollectionsOfSizeN($max_size_of_each_collection=1) see (split($numberOfGroups))
+*- getIfExists($key, $default_value=null)
+*- getKeys() & getValues()
+*- getAndRemoveFirstItem()
+*- getAndRemoveLastItem()
+*- pull($key, $default = null)
+*- randomKey() & randomKeys($number = 1)
+*- randomItem() & randomItems($number = 1, $preserve_keys=false)
+*- slice($offset, $length = null)
+*- splice($offset, $length=null, array $replacement=[])
 - split($numberOfGroups) (see getCollectionsOfSizeN($max_size_of_each_collection=1))
 - take($limit)
 - paginate($page_number, $num_items_per_page)

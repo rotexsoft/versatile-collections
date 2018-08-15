@@ -431,7 +431,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * 
      * If $this contains [1,2,3,4,5,6]
      * 
-     * foreach( $this->getCollectionsOfSizeN(2) as $batch ) {
+     * foreach( $this->yieldCollectionsOfSizeN(2) as $batch ) {
      * 
      *     var_dump($batch);
      * }
@@ -445,6 +445,30 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @param int $max_size_of_each_collection
      * 
      * @return \Generator a generator that yields sub-collections
+     * 
+     */
+    public function yieldCollectionsOfSizeN($max_size_of_each_collection=1);
+    
+    /**
+     * 
+     * Returns a collection of collections each having a maximum of $num_of_items. Original keys are preserved in each sub-collection.
+     * 
+     * If $this contains [1,2,3,4,5,6]
+     * 
+     * foreach( $this->getCollectionsOfSizeN(2) as $batch ) {
+     * 
+     *     var_dump($batch);
+     * }
+     * 
+     * will output
+     * 
+     * [0=>1,1=>2]
+     * [2=>3,3=>4]
+     * [4=>5,5=>6]
+     * 
+     * @param int $max_size_of_each_collection
+     * 
+     * @return \VersatileCollections\CollectionInterface a collection of sub-collections
      * 
      */
     public function getCollectionsOfSizeN($max_size_of_each_collection=1);

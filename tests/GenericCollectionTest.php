@@ -1559,7 +1559,7 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
             1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15
         );
         
-        $collections = iterator_to_array($collection->getCollectionsOfSizeN(3));
+        $collections = $collection->getCollectionsOfSizeN(3)->toArray();
         $this->assertEquals( [1,2,3], array_shift($collections)->toArray() );
         $this->assertEquals( [3=>4, 4=>5, 5=>6], array_shift($collections)->toArray() );
         $this->assertEquals( [6=>7, 7=>8, 8=>9], array_shift($collections)->toArray() );
@@ -1570,7 +1570,7 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
             1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14
         );
         
-        $collections = iterator_to_array($collection->getCollectionsOfSizeN(3));
+        $collections = $collection->getCollectionsOfSizeN(3)->toArray();
         $this->assertEquals( [1,2,3], array_shift($collections)->toArray() );
         $this->assertEquals( [3=>4, 4=>5, 5=>6], array_shift($collections)->toArray() );
         $this->assertEquals( [6=>7, 7=>8, 8=>9], array_shift($collections)->toArray() );
@@ -1581,7 +1581,7 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
             1, 2, 3, 4, 5
         );
         
-        $collections = iterator_to_array($collection->getCollectionsOfSizeN(50));
+        $collections = $collection->getCollectionsOfSizeN(50)->toArray();
         $this->assertEquals( [1], array_shift($collections)->toArray() );
         $this->assertEquals( [1=>2], array_shift($collections)->toArray() );
         $this->assertEquals( [2=>3], array_shift($collections)->toArray() );
@@ -1592,7 +1592,7 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
             1, 2, 3, 4, 5
         );
         
-        $collections = iterator_to_array($collection->getCollectionsOfSizeN(-50));
+        $collections = $collection->getCollectionsOfSizeN(-50)->toArray();
         $this->assertEquals( [1], array_shift($collections)->toArray() );
         $this->assertEquals( [1=>2], array_shift($collections)->toArray() );
         $this->assertEquals( [2=>3], array_shift($collections)->toArray() );
@@ -1603,7 +1603,65 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
             1, 2, 3, 4, 5
         );
         
-        $collections = iterator_to_array($collection->getCollectionsOfSizeN(null));
+        $collections = $collection->getCollectionsOfSizeN(null)->toArray();
+        $this->assertEquals( [1], array_shift($collections)->toArray() );
+        $this->assertEquals( [1=>2], array_shift($collections)->toArray() );
+        $this->assertEquals( [2=>3], array_shift($collections)->toArray() );
+        $this->assertEquals( [3=>4], array_shift($collections)->toArray() );
+        $this->assertEquals( [4=>5], array_shift($collections)->toArray() );
+    }
+    
+    public function testThatYieldCollectionsOfSizeNWorksAsExpected() {
+
+        $collection = new \BaseCollectionTestImplementation(
+            1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15
+        );
+        
+        $collections = iterator_to_array($collection->yieldCollectionsOfSizeN(3));
+        $this->assertEquals( [1,2,3], array_shift($collections)->toArray() );
+        $this->assertEquals( [3=>4, 4=>5, 5=>6], array_shift($collections)->toArray() );
+        $this->assertEquals( [6=>7, 7=>8, 8=>9], array_shift($collections)->toArray() );
+        $this->assertEquals( [9=>10, 10=>11, 11=>12], array_shift($collections)->toArray() );
+        $this->assertEquals( [12=>13,13=>14,14=>15], array_shift($collections)->toArray() );
+
+        $collection = new \BaseCollectionTestImplementation(
+            1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14
+        );
+        
+        $collections = iterator_to_array($collection->yieldCollectionsOfSizeN(3));
+        $this->assertEquals( [1,2,3], array_shift($collections)->toArray() );
+        $this->assertEquals( [3=>4, 4=>5, 5=>6], array_shift($collections)->toArray() );
+        $this->assertEquals( [6=>7, 7=>8, 8=>9], array_shift($collections)->toArray() );
+        $this->assertEquals( [9=>10, 10=>11, 11=>12], array_shift($collections)->toArray() );
+        $this->assertEquals( [12=>13,13=>14], array_shift($collections)->toArray() );
+
+        $collection = new \BaseCollectionTestImplementation(
+            1, 2, 3, 4, 5
+        );
+        
+        $collections = iterator_to_array($collection->yieldCollectionsOfSizeN(50));
+        $this->assertEquals( [1], array_shift($collections)->toArray() );
+        $this->assertEquals( [1=>2], array_shift($collections)->toArray() );
+        $this->assertEquals( [2=>3], array_shift($collections)->toArray() );
+        $this->assertEquals( [3=>4], array_shift($collections)->toArray() );
+        $this->assertEquals( [4=>5], array_shift($collections)->toArray() );
+
+        $collection = new \BaseCollectionTestImplementation(
+            1, 2, 3, 4, 5
+        );
+        
+        $collections = iterator_to_array($collection->yieldCollectionsOfSizeN(-50));
+        $this->assertEquals( [1], array_shift($collections)->toArray() );
+        $this->assertEquals( [1=>2], array_shift($collections)->toArray() );
+        $this->assertEquals( [2=>3], array_shift($collections)->toArray() );
+        $this->assertEquals( [3=>4], array_shift($collections)->toArray() );
+        $this->assertEquals( [4=>5], array_shift($collections)->toArray() );
+
+        $collection = new \BaseCollectionTestImplementation(
+            1, 2, 3, 4, 5
+        );
+        
+        $collections = iterator_to_array($collection->yieldCollectionsOfSizeN(null));
         $this->assertEquals( [1], array_shift($collections)->toArray() );
         $this->assertEquals( [1=>2], array_shift($collections)->toArray() );
         $this->assertEquals( [2=>3], array_shift($collections)->toArray() );

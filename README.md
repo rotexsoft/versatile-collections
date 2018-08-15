@@ -131,7 +131,7 @@ the following requirements:
 
 * Your custom collection class must implement **\VersatileCollections\StrictlyTypedCollectionInterface**
 
-* It must use **\VersatileCollections\StrictlyTypedCollectionInterfaceImplementationTrait**
+* It should use **\VersatileCollections\StrictlyTypedCollectionInterfaceImplementationTrait** (which contains implementation of the methods in **\VersatileCollections\StrictlyTypedCollectionInterface**). If you choose not to use **\VersatileCollections\StrictlyTypedCollectionInterfaceImplementationTrait**, then you will have to implement all the methods specified in **\VersatileCollections\StrictlyTypedCollectionInterface**.
 
 * It must implement the two methods below:
 
