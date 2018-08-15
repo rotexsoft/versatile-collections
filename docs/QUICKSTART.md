@@ -6,7 +6,7 @@
     * **StrictlyTypedCollectionInterface** (extends **CollectionInterface** and also contains additional methods that strictly typed collections must implement)
 
 * **CollectionInterfaceImplementationTrait** (contains implementation of methods specified in **CollectionInterface** and other helper methods)
-    * **StrictlyTypedCollectionInterfaceImplementationTrait** (contains implementation of methods specified in **StrictlyTypedCollectionInterface** and other helper methods)
+    * **StrictlyTypedCollectionInterfaceImplementationTrait** (contains implementation of methods specified in **StrictlyTypedCollectionInterface** and other helper methods). Also uses **CollectionInterfaceImplementationTrait** trait.
 
 The various Collection implementations in this package can be used directly or 
 extended in your applications. 
@@ -430,8 +430,8 @@ To extract a collection of every nth element in a collection you can call the
 ```
 
 To break-up a collection into a collection of sub-collections (each having a size of **N**), 
-use **getCollectionsOfSizeN($max_size_of_each_collection=1)**. You can also use 
-**yieldCollectionsOfSizeN($max_size_of_each_collection=1)** which returns a 
+use **getCollectionsOfSizeN($max_size_of_each_collection=1)**.<br>
+You can also use **yieldCollectionsOfSizeN($max_size_of_each_collection=1)** which returns a 
 Generator that yields each sub-collection.
 ```php
 <?php 
