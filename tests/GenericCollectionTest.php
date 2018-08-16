@@ -1402,9 +1402,6 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
         $this->assertFalse($collection->containsItem('7'));
     }
     
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testThatContainsKeyWorksAsExpected() {
 
         $item1 = "4";
@@ -1424,14 +1421,9 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
         $this->assertTrue($collection->containsKey('item1'));
         $this->assertTrue($collection->containsKey('item2'));
         $this->assertFalse($collection->containsKey('not in collection'));
-        
-        // exception no-int and non-string key
-        $collection->containsKey([]);
+        $this->assertFalse($collection->containsKey([]));
     }
     
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testThatContainsItemWithKeyWorksAsExpected() {
 
         $item1 = "4";
@@ -1450,10 +1442,9 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
         $this->assertTrue($collection->containsItemWithKey(2, $item3));
         $this->assertTrue($collection->containsItemWithKey('item1', ['name'=>'Joe', 'age'=>'10',]));
         $this->assertTrue($collection->containsItemWithKey('item2', ['name'=>'Jane', 'age'=>'20',]));
-        $this->assertFalse($collection->containsItemWithKey('not in collection', 'not in collection'));
-        
-        // exception no-int and non-string key
-        $collection->containsItemWithKey([], $item1);
+        $this->assertFalse($collection->containsItemWithKey('not in collection', $item1));
+        $this->assertFalse($collection->containsItemWithKey('item1', 'not in collection'));
+        $this->assertFalse($collection->containsItemWithKey([], $item1));
     }
     
     public function testThatContainsKeysWorksAsExpected() {

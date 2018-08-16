@@ -298,8 +298,6 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * 
      * @return bool true if collection contains item with the specified key, false otherwise
      * 
-     * @throws \InvalidArgumentException if $key is non-int and non-string
-     * 
      */
     public function containsItemWithKey($key, $item);
     
@@ -322,9 +320,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @param mixed $key key whose existence in the collection is to be checked
      * 
      * @return bool true if key exists in collection, false otherwise
-     * 
-     * @throws \InvalidArgumentException if $key is non-int and non-string
-     * 
+     *  
      */
     public function containsKey($key);
     

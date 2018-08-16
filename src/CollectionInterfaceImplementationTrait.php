@@ -753,13 +753,7 @@ trait CollectionInterfaceImplementationTrait {
         
         if( !is_int($key) && !is_string($key) ) {
             
-            $function = __FUNCTION__;
-            $class = get_class($this);
-            $key_type = gettype($key);
-            $msg = "Error [{$class}::{$function}(...)]:"
-            . " You must specify an integer or string as the \$key parameter."
-            . " You supplied a(n) `{$key_type}` with a value of: ". var_to_string($key);
-            throw new \InvalidArgumentException($msg); 
+            return false; 
         }
         
         return array_key_exists($key, $this->versatile_collections_items);
@@ -774,13 +768,7 @@ trait CollectionInterfaceImplementationTrait {
         
         if( !is_int($key) && !is_string($key) ) {
             
-            $function = __FUNCTION__;
-            $class = get_class($this);
-            $key_type = gettype($key);
-            $msg = "Error [{$class}::{$function}(...)]:"
-            . " You must specify an integer or string as the \$key parameter."
-            . " You supplied a(n) `{$key_type}` with a value of: ". var_to_string($key);
-            throw new \InvalidArgumentException($msg); 
+            return false; 
         }
         
         return $this->containsKey($key) 
