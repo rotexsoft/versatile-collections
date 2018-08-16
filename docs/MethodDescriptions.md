@@ -210,7 +210,7 @@ Check if all the specified items exist in a collection. Strict comparison is use
 
     $collection[] = 55;
     $collection->containsItems([$item1, $item2, $item3, $item4, $item5, 55]); // true
-    $collection->containsItems([$item1, $item2, $item3, $item4, $item5, 'not in collection', 55]); // false
+    $collection->containsItems([$item1, $item2, $item3, $item4, 'not in collection', 55]); // false
 ```
 
 ## Non-`CollectionInterface` Methods common to all Collection Classes using `CollectionInterfaceImplementationTrait`
