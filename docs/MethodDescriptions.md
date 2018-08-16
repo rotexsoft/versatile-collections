@@ -239,6 +239,34 @@ Check if a key exists in a collection.
     $collection->containsKey([]); // false
 ```
 
+### containsKeys(array $keys)
+Check if all the specified keys exist in a collection.
+
+```php
+<?php 
+    $item1 = "4";
+    $item2 = 5.0;
+    $item3 = 7;
+
+    $collection = 
+        new \VersatileCollections\GenericCollection($item1, $item2, $item3);
+
+    $collection->item1 = ['name'=>'Joe', 'age'=>'10',];
+    $collection->item2 = ['name'=>'Jane', 'age'=>'20',];
+
+    $collection->containsKeys([0]); // true
+    $collection->containsKeys([0, 1]); // true
+    $collection->containsKeys([0, 1, 2]); // true
+    $collection->containsKeys([0, 1, 2, 'item1']); // true
+    $collection->containsKeys([0, 1, 2, 'item1', 'item2']); // true
+    $collection->containsKeys(['not in collection']); // false
+    $collection->containsKeys([0, 1, 2, 'item1', 'item2', 'not in collection']); // false
+
+    $collection[] = 55;
+    $collection->containsKeys([0, 1, 2, 'item1', 'item2', 3]); // true
+    $collection->containsKeys([0, 1, 2, 'item1', 'item2', 'not in collection', 3]); // false
+```
+
 ## Non-`CollectionInterface` Methods common to all Collection Classes using `CollectionInterfaceImplementationTrait`
 
 
