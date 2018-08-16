@@ -261,10 +261,27 @@ Check if all the specified keys exist in a collection.
     $collection->containsKeys([0, 1, 2, 'item1', 'item2']); // true
     $collection->containsKeys(['not in collection']); // false
     $collection->containsKeys([0, 1, 2, 'item1', 'item2', 'not in collection']); // false
+    $collection->containsKeys([0, 1, 2, 'item1', 'item2', 3]); // false
 
-    $collection[] = 55;
+    $collection[] = 55; // will be automatically assigned the key `3` under the hood
     $collection->containsKeys([0, 1, 2, 'item1', 'item2', 3]); // true
     $collection->containsKeys([0, 1, 2, 'item1', 'item2', 'not in collection', 3]); // false
+```
+
+### count()
+Returns the number of items in collection.
+
+```php
+<?php
+    $collection = 
+        new \VersatileCollections\GenericCollection("4", 5.0, 7);
+    $collection->count(); // === 3
+
+    $collection->item1 = ['name'=>'Joe', 'age'=>'10',];
+    $collection->count(); // === 4
+
+    $collection->item2 = ['name'=>'Jane', 'age'=>'20',];
+    $collection->count(); // === 5
 ```
 
 ## Non-`CollectionInterface` Methods common to all Collection Classes using `CollectionInterfaceImplementationTrait`
