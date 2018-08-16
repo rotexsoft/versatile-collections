@@ -213,6 +213,32 @@ Check if all the specified items exist in a collection. Strict comparison is use
     $collection->containsItems([$item1, $item4, 'not in collection', 55]); // false
 ```
 
+### containsKey($key)
+Check if a key exists in a collection.
+
+```php
+<?php 
+
+    $item1 = "4";
+    $item2 = 5.0;
+    $item3 = 7;
+
+    $collection = 
+        new \VersatileCollections\GenericCollection($item1, $item2, $item3);
+
+    $collection->item1 = ['name'=>'Joe', 'age'=>'10',];
+    $collection->item2 = ['name'=>'Jane', 'age'=>'20',];
+
+    $collection->containsKey(0); // true
+    $collection->containsKey('0'); // true
+    $collection->containsKey(1); // true
+    $collection->containsKey(2); // true
+    $collection->containsKey('item1'); // true
+    $collection->containsKey('item2'); // true
+    $collection->containsKey('not in collection'); // false
+    $collection->containsKey([]); // false
+```
+
 ## Non-`CollectionInterface` Methods common to all Collection Classes using `CollectionInterfaceImplementationTrait`
 
 
