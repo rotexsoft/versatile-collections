@@ -183,6 +183,36 @@ Check if a collection contains a specified item with the specified key using str
     $collection->containsItemWithKey([], $item1); // false
 ```
 
+### containsItems(array $items)
+Check if all the specified items exist in a collection. Strict comparison is used for checking each item.
+
+```php
+<?php 
+    $item1 = "4";
+    $item2 = 5.0;
+    $item3 = 7;
+    $item4 = ['name'=>'Joe', 'age'=>'10',];
+    $item5 = ['name'=>'Jane', 'age'=>'20',];
+
+    $collection = 
+        new \VersatileCollections\GenericCollection($item1, $item2, $item3);
+
+    $collection->item1 = $item4;
+    $collection->item2 = $item5;
+
+    $collection->containsItems([$item1]); // true
+    $collection->containsItems([$item1, $item2]); // true
+    $collection->containsItems([$item1, $item2, $item3]); // true
+    $collection->containsItems([$item1, $item2, $item3, $item4]); // true
+    $collection->containsItems([$item1, $item2, $item3, $item4, $item5]); // true
+    $collection->containsItems(['not in collection']); // false
+    $collection->containsItems([$item1, $item2, $item3, $item4, $item5, 'not in collection']); // false
+
+    $collection[] = 55;
+    $collection->containsItems([$item1, $item2, $item3, $item4, $item5, 55]); // true
+    $collection->containsItems([$item1, $item2, $item3, $item4, $item5, 'not in collection', 55]); // false
+```
+
 ## Non-`CollectionInterface` Methods common to all Collection Classes using `CollectionInterfaceImplementationTrait`
 
 
