@@ -76,7 +76,6 @@ strings or integers otherwise an exception will be thrown.
 
 ```php
 <?php 
-
     // collection of objects
     $data = [];
     $data[] = (object)['id' => 17, 777 => 67, 'edition' => 2, 'title'=>"Boo"];
@@ -218,7 +217,6 @@ Check if a key exists in a collection.
 
 ```php
 <?php 
-
     $item1 = "4";
     $item2 = 5.0;
     $item3 = 7;
@@ -230,7 +228,9 @@ Check if a key exists in a collection.
     $collection->item2 = ['name'=>'Jane', 'age'=>'20',];
 
     $collection->containsKey(0); // true
-    $collection->containsKey('0'); // true
+    $collection->containsKey('0'); // true 
+                                   // (0 & '0' are the same 
+                                   // as far as keys are concerned)
     $collection->containsKey(1); // true
     $collection->containsKey(2); // true
     $collection->containsKey('item1'); // true
