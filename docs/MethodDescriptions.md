@@ -1,8 +1,8 @@
-# Methods common to all Collection Classes implementing `CollectionInterface`
+## Methods common to all Collection Classes implementing `CollectionInterface`
 Most of the examples in this section use the **\VersatileCollections\GenericCollection** class, 
 but are applicable to all collection classes that have implemented **\VersatileCollections\CollectionInterface**.
 
-## appendCollection(CollectionInterface $other)
+### appendCollection(CollectionInterface $other)
 Appends all items from $other collection to the end of a collection.<br>
 Appended items will be assigned numeric keys, so as to avoid overwriting item(s)
 in the original collection with same key(s).<br>
@@ -36,7 +36,7 @@ an instance of **NumericsCollection** (since **FloatsCollection** is a sub-type 
     // [ 0=>'4', 1=>5.0, 2=>7, 3=>'114', 4=>35.5, 5=>777 ]
 ```
 
-## appendItem($item)
+### appendItem($item)
 Appends an item to the end of a collection.<br>
 >For strictly typed collections, `$item` must be of the same type as the collection's type 
 or a sub-type of the the collection's type or else an Exception will be thrown.<br>
@@ -62,7 +62,7 @@ but you can append a **float** or an **integer** to an instance of **NumericsCol
     // [ 0=>4, 1=>5.0, 2=>7, 3=>777, 4=>7.5 ]
 ```
 
-## column($column_key, $index_key=null)
+### column($column_key, $index_key=null)
 Returns a collection containing the values from a single column in the collection. 
 Works like php's array_column.<br>
 **$column_key** is the name of the property in each object or the key in each array
@@ -89,14 +89,16 @@ strings or integers otherwise an exception will be thrown.
 
     // get a collection of of the values associated with the `title` property
     // of each object in the collection.
-    $collection->column('title'); // returns a collection containing
-                                  // [ 0=>'Boo', 1=>'Coo', 2=>'Doo', 3=>'Foo', 4=>'Goo', 5=>'Hoo' ]
+    $collection->column('title'); 
+    // returns a collection containing
+    // [ 0=>'Boo', 1=>'Coo', 2=>'Doo', 3=>'Foo', 4=>'Goo', 5=>'Hoo' ]
 
     // you can also specify the object property whose corresponding values should
     // be used as the keys in the collection to be returned. Let's use the `id` 
     // property for the keys:
-    $collection->column('title', 'id'); // returns a collection containing
-                                        // [ 17=>'Boo', 27=>'Coo', 37=>'Doo', 47=>'Foo', 57=>'Goo', 67=>'Hoo' ]
+    $collection->column('title', 'id'); 
+    // returns a collection containing
+    // [ 17=>'Boo', 27=>'Coo', 37=>'Doo', 47=>'Foo', 57=>'Goo', 67=>'Hoo' ]
 
     // collection of arrays
     $data = [];
@@ -110,17 +112,19 @@ strings or integers otherwise an exception will be thrown.
 
     // get a collection of of the values associated with the `title` key
     // of each array in the collection.
-    $collection->column('title'); // returns a collection containing
-                                  // [ 0=>'Boo', 1=>'Coo', 2=>'Doo', 3=>'Foo', 4=>'Goo', 5=>'Hoo' ]
+    $collection->column('title'); 
+    // returns a collection containing
+    // [ 0=>'Boo', 1=>'Coo', 2=>'Doo', 3=>'Foo', 4=>'Goo', 5=>'Hoo' ]
 
     // you can also specify the array key whose corresponding values should
     // be used as the keys in the collection to be returned. Let's use the `id` 
     // key for the keys:
-    $collection->column('title', 'id'); // returns a collection containing
-                                        // [ 17=>'Boo', 27=>'Coo', 37=>'Doo', 47=>'Foo', 57=>'Goo', 67=>'Hoo' ]
+    $collection->column('title', 'id'); 
+    // returns a collection containing
+    // [ 17=>'Boo', 27=>'Coo', 37=>'Doo', 47=>'Foo', 57=>'Goo', 67=>'Hoo' ]
 ```
 
-## containsItem($item)
+### containsItem($item)
 Check if a collection contains an item using strict comparison.
 
 ```php
@@ -152,7 +156,7 @@ Check if a collection contains an item using strict comparison.
     $collection->containsItem('7'); // false
 ```
 
-## containsItemWithKey($key, $item)
+### containsItemWithKey($key, $item)
 Check if a collection contains a specified item with the specified key using strict comparison for the item.
 
 ```php
@@ -168,7 +172,8 @@ Check if a collection contains a specified item with the specified key using str
     $collection->item2 = ['name'=>'Jane', 'age'=>'20',];
 
     $collection->containsItemWithKey(0, $item1); // true
-    $collection->containsItemWithKey('0', $item1); // true (Key 0 & '0' are the same, same goes for '1' & 1, etc.)
+    $collection->containsItemWithKey('0', $item1); // true (Key 0 & '0' are the same, 
+                                                   // same for '1' & 1, etc.)
     $collection->containsItemWithKey(1, $item2); // true
     $collection->containsItemWithKey(2, $item3); // true
     $collection->containsItemWithKey('item1', ['name'=>'Joe', 'age'=>'10',]); // true
@@ -178,8 +183,8 @@ Check if a collection contains a specified item with the specified key using str
     $collection->containsItemWithKey([], $item1); // false
 ```
 
-# Non-`CollectionInterface` Methods common to all Collection Classes using `CollectionInterfaceImplementationTrait`
+## Non-`CollectionInterface` Methods common to all Collection Classes using `CollectionInterfaceImplementationTrait`
 
 
 
-# Methods specific to various Strictly-Typed Collection classes
+## Methods specific to various Strictly-Typed Collection classes
