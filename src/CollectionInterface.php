@@ -502,7 +502,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      *                           point, the callback should return the value 
      *                           specified via $termination_value. For example,
      *                           if you wanted to loop through the first half of
-     *                           a collection you 
+     *                           a collection you should return false in the 
+     *                           callback when you reach the ($this->count()/2)th item.
      * 
      * @param mixed $termination_value a value that should be returned by $callback 
      *                                 signifying that iteration through a collection

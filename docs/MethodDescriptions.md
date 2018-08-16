@@ -270,6 +270,7 @@ Check if all the specified keys exist in a collection.
 
 ### count()
 Returns the number of items in collection.
+
 ```php
 <?php
     $collection = 
@@ -281,6 +282,70 @@ Returns the number of items in collection.
 
     $collection->item2 = ['name'=>'Jane', 'age'=>'20',];
     $collection->count(); // === 5
+```
+
+### each(callable $callback, $termination_value=false, $bind_callback_to_this=true)
+Iterate through a collection and execute a callback over each item during the iteration.<br>
+* **$callback**: a callback with the following signature **function($key, $item)**. 
+To stop iteration at any point, the callback should return the value specified via **$termination_value**.
+* **$termination_value**: a value that should be returned by **$callback** signifying that iteration through a collection should stop.
+* **$bind_callback_to_this**: `true` if the variable **$this** inside the supplied **$callback** should refer to the collection object 
+this method is being invoked on, else `false` if you don't want the supplied **$callback** to be bound to the collection object this 
+method is being invoked on.
+
+```php
+<?php
+
+    $collection = new \VersatileCollections\GenericCollection(
+        1, 2, 3, 4, 5, 6
+    );
+    
+    ////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////
+    // Iterate through a collection, printing out each key and item
+    // during each iteration
+    $collection->each(
+        function($key, $item) {
+            echo "{$key}:{$item}, ";
+        }
+    ); // outputs: 0:1, 1:2, 2:3, 3:4, 4:5, 5:6,
+
+    ////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////
+    // You can even do more fancy stuff, like sum all numbers in the 
+    // collection above and store the result in a variable.
+    $accumulator = 0; // will hold the sum
+    $collection->each(
+        function($key, $item) use (&$accumulator) {
+            
+            $accumulator += $item;
+        }
+    ); // At this point $accumulator === 21
+
+    ////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////
+    // You can sum the first half of the collection 
+    // i.e. 1 + 2 + 3
+    $accumulator = 0; // will hold the sum
+    $counter = 1; // keeps track of the number of iterations
+    $collection->each(
+        function($key, $item) use (&$accumulator, &$counter) {
+            
+            $accumulator += $item;
+            
+            // $this here refers to $collection
+            if( ((int)ceil($this->count() / 2)) === $counter++ ) {
+
+                return -999; // we have gotten half way through
+                             // the collection at this point,
+                             // we want to stop further iteration.
+            }
+        }, 
+        -999, // if -999 is returned from the callback, stop iteration immediately 
+        true  // bind the callback to the collection object this method is being 
+              // called on, in this case $collection.
+    ); // At this point $accumulator === 6
+
 ```
 
 ## Non-`CollectionInterface` Methods common to all Collection Classes using `CollectionInterfaceImplementationTrait`
