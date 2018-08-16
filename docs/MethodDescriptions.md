@@ -270,7 +270,6 @@ Check if all the specified keys exist in a collection.
 
 ### count()
 Returns the number of items in collection.
-
 ```php
 <?php
     $collection = 
