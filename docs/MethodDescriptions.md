@@ -1,9 +1,9 @@
-## Methods common to all Collection Classes implementing `CollectionInterface`
+## Methods common to all Collection Classes implementing **CollectionInterface**
 Most of the examples in this section use the **\VersatileCollections\GenericCollection** class, 
 but are applicable to all collection classes that have implemented **\VersatileCollections\CollectionInterface**.
 
 ### appendCollection(CollectionInterface $other)
-Appends all items from $other collection to the end of a collection.<br>
+Appends all items from `$other` collection to the end of a collection.<br>
 Appended items will be assigned numeric keys, so as to avoid overwriting item(s)
 in the original collection with same key(s).<br>
 >For strictly typed collections, `$other` must be of the same type as the collection's type 
@@ -347,6 +347,530 @@ method is being invoked on.
     ); // At this point $accumulator === 6
 
 ```
+
+### everyNth($n, $position_of_first_nth_item = 0)
+Create a new collection consisting of every n-th element.
+* **$n**: the number representing n. 
+* **$position_of_first_nth_item**: position in the collection to start counting for the nth elements.
+`0` represents the position of the first item in the collection.
+```php
+<?php
+    $collection = new \VersatileCollections\GenericCollection(
+        'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'
+    );
+
+    // every 4th item starting from the 0-indexed 0th position (actually 1st)
+    $collection->everyNth(4); // returns a collection containing
+                              // ['a',  'e']
+
+    // every 4th item starting from the 0-indexed 3rd position (actually 4th)
+    $collection->everyNth(4, 3); // returns a collection containing
+                                 // ['d',  'h']
+```
+
+### filterAll(callable $filterer, $copy_keys=false, $bind_callback_to_this=true, $remove_filtered_items=false)
+Filter all items in a collection matching criteria specified in a callback function and return filtered items in a new collection.
+* **$filterer**: a callback with the following signature `function($key, $item)` 
+that must return true if an item should be filtered out, or false if not. 
+* **$copy_keys**: true if the corresponding key for each filtered item 
+in the original collection should be copied into the new collection to be returned.
+* **$bind_callback_to_this**: `true` if the variable **$this** inside the supplied **$filterer** callback should refer to the collection object 
+this method is being invoked on, else `false` if you don't want the supplied **$filterer** callback to be bound to the collection object this 
+method is being invoked on.
+* **$remove_filtered_items**: `true` if the filtered items should be removed from the collection this method is being invoked on,
+else `false` if the filtered items should not be removed from the collection this method is being invoked on.
+
+```php
+<?php
+    $collection_of_ints = 
+        new \VersatileCollections\GenericCollection(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+    
+    ///////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////
+    // Filter all even numbers from the collection.
+    // Don't preserve keys in the collection of filtered items
+    $collection_of_even_ints = $collection_of_ints->filterAll(
+
+        function($key, $item) {
+
+            return ($item % 2) === 0;
+        }    
+    ); 
+    // At this point $collection_of_even_ints contains
+    //  [2, 4, 6, 8, 10]
+    //
+    // and $collection_of_ints still contains
+    //  [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+    //////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////
+    // Filter all even numbers from the first half of the collection.
+    // Preserve keys in the collection of filtered items 
+    // and remove filtered items from the original collection
+    $collection_of_even_ints = $collection_of_ints->filterAll(
+
+        function($key, $item) {
+        
+            // tracker of current iteration position
+            global $current_position; 
+            
+            if( !$current_position ) { 
+                
+                $current_position = 1; 
+            }
+            
+            return 
+                (
+                    $current_position++ 
+                    < ((int)ceil($this->count() / 2))
+                ) // are we still in the first half of the collection?
+                && (($item % 2) === 0); // is the current item an even number
+        },
+        true, // preserve keys  in the collection of filtered items
+        true, // make sure $this === $collection_of_ints inside the callback
+        true  // remove filtered items
+    );
+    // At this point $collection_of_even_ints contains
+    //  [ 1=>2, 3=>4 ]
+    //
+    // and $collection_of_ints now contains
+    //  [ 0=>1, 2=>3, 4=>5, 5=>6, 6=>7, 7=>8, 8=>9, 9=>10 ]
+```
+
+### filterFirstN(callable $filterer, $max_number_of_filtered_items=null, $copy_keys=false, $bind_callback_to_this=true, $remove_filtered_items=false)
+Filter first `N` items in a collection matching criteria specified in a callback function and return filtered items in a new collection.
+* **$filterer**: a callback with the following signature `function($key, $item)` 
+that must return true if an item should be filtered out, or false if not. 
+* **$max_number_of_filtered_items**: Number of filtered items to be returned. Null means return all filtered items.
+* **$copy_keys**: true if the corresponding key for each filtered item 
+in the original collection should be copied into the new collection to be returned.
+* **$bind_callback_to_this**: `true` if the variable **$this** inside the supplied **$filterer** callback should refer to the collection object 
+this method is being invoked on, else `false` if you don't want the supplied **$filterer** callback to be bound to the collection object this 
+method is being invoked on.
+* **$remove_filtered_items**: `true` if the filtered items should be removed from the collection this method is being invoked on,
+else `false` if the filtered items should not be removed from the collection this method is being invoked on.
+
+```php
+<?php
+    $collection_of_ints = 
+        new \VersatileCollections\GenericCollection(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+    
+    ///////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////
+    // Filter first three even numbers from the collection.
+    // Don't preserve keys in the collection of filtered items
+    $collection_of_even_ints = $collection_of_ints->filterFirstN(
+
+        function($key, $item) {
+
+            return ($item % 2) === 0;
+        },
+        3
+    ); 
+    // At this point $collection_of_even_ints contains
+    //  [ 2, 4, 6 ]
+    //
+    // and $collection_of_ints still contains
+    //  [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
+
+    ////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////
+    // Filter first two even numbers from the first half of the collection.
+    // Preserve keys in the collection of filtered items 
+    // and remove filtered items from the original collection
+    $collection_of_even_ints = $collection_of_ints->filterFirstN(
+
+        function($key, $item) {
+        
+            // tracker of current iteration position
+            global $current_position; 
+            
+            if( !$current_position ) { 
+                
+                $current_position = 1; 
+            }
+            
+            return 
+                (
+                    $current_position++ 
+                    < ((int)ceil($this->count() / 2))
+                ) // are we still in the first half of the collection?
+                && (($item % 2) === 0); // is the current item an even number
+        },
+        2,    // filter first two matching items
+        true, // preserve keys  in the collection of filtered items
+        true, // make sure $this === $collection_of_ints inside the callback
+        true  // remove filtered items
+    );
+    // At this point $collection_of_even_ints contains
+    //  [ 1=>2, 3=>4 ]
+    //
+    // and $collection_of_ints now contains
+    //  [ 0=>1, 2=>3, 4=>5, 5=>6, 6=>7, 7=>8, 8=>9, 9=>10 ]
+```
+
+### firstItem()
+Retrieves and returns the first item in a collection. See `lastItem()` if you want to get the last item.
+
+```php
+<?php
+    $collection = new \VersatileCollections\GenericCollection(
+        'One', 'Two', 'Three', 'Four'
+    );
+    $collection->firstItem(); // === 'One'
+```
+
+### getAllWhereKeysIn(array $keys)
+Return a collection of items whose keys are present in `$keys`. 
+Keys are preserved in the new collection.<br>
+If the keys in `$keys` do not exist in the collection, an empty collection object is returned.
+
+```php
+<?php
+
+    $collection = new \VersatileCollections\GenericCollection();
+    $collection->item1 = ['name'=>'Joe', 'age'=>'10',];
+    $collection->item2 = ['name'=>'Jane', 'age'=>'20',];
+    $collection->item3 = ['name'=>'Janice', 'age'=>'30',];
+
+    $new_collection = $collection->getAllWhereKeysIn(['item1', 'item3']);
+
+    // $new_collection now contains:
+    //  [
+    //      'item1' => [ 'name'=>'Joe', 'age' => '10', ],
+    //      'item3' => [ 'name'=>'Janice', 'age'=>'30', ],
+    //  ]
+
+    // $collection still contains
+    //  [
+    //      'item1' => [ 'name'=>'Joe', 'age'=>'10', ],
+    //      'item2' => [ 'name'=>'Jane', 'age'=>'20', ],
+    //      'item3' => [ 'name'=>'Janice', 'age'=>'30', ],
+    //  ]
+```
+
+### getAllWhereKeysNotIn(array $keys)
+Return a collection of items whose keys are not present in `$keys`. 
+Keys are preserved in the new collection.<br>
+If all the keys in the collection are also in `$keys`, an empty collection object is returned.
+
+```php
+<?php
+
+    $collection = new \VersatileCollections\GenericCollection();
+    $collection->item1 = ['name'=>'Joe', 'age'=>'10',];
+    $collection->item2 = ['name'=>'Jane', 'age'=>'20',];
+    $collection->item3 = ['name'=>'Janice', 'age'=>'30',];
+
+    $new_collection = $collection->getAllWhereKeysNotIn(['item1', 'item3']);
+
+    // $new_collection now contains:
+    //  [
+    //      'item2' => [ 'name'=>'Jane', 'age'=>'20', ],
+    //  ]
+
+    // $collection still contains
+    //  [
+    //      'item1' => [ 'name'=>'Joe', 'age'=>'10', ],
+    //      'item2' => [ 'name'=>'Jane', 'age'=>'20', ],
+    //      'item3' => [ 'name'=>'Janice', 'age'=>'30', ],
+    //  ]
+```
+
+### getAndRemoveFirstItem()
+Get and remove the first item from the collection. NULL is returned if the collection is empty.
+
+```php
+<?php
+        
+    $collection = new \VersatileCollections\GenericCollection(
+        'a', 'b', 'c', 'd'
+    );
+
+    $collection->getAndRemoveFirstItem(); // === 'a'
+    // At this point $collection contains [ 'b', 'c', 'd' ]
+
+    $collection->getAndRemoveFirstItem(); // === 'b'
+    // At this point $collection contains [ 'c', 'd' ]
+
+    $collection->getAndRemoveFirstItem(); // === 'c'
+    // At this point $collection contains [ 'd' ]
+
+    $collection->getAndRemoveFirstItem(); // === 'd'
+    // At this point $collection contains [] (i.e. it is empty)
+
+    $collection->getAndRemoveFirstItem(); // === NULL 
+                                          // Because collection is empty
+```
+
+### getAndRemoveLastItem()
+Get and remove the last item from the collection. NULL is returned if the collection is empty.
+
+```php
+<?php
+        
+    $collection = new \VersatileCollections\GenericCollection(
+        'a', 'b', 'c', 'd'
+    );
+
+    $collection->getAndRemoveLastItem(); // === 'd'
+    // At this point $collection contains [ 'a', 'b', 'c' ]
+
+    $collection->getAndRemoveLastItem(); // === 'c'
+    // At this point $collection contains [ 'a', 'b' ]
+
+    $collection->getAndRemoveLastItem(); // === 'b'
+    // At this point $collection contains [ 'a' ]
+
+    $collection->getAndRemoveLastItem(); // === 'a'
+    // At this point $collection contains [] (i.e. it is empty)
+
+    $collection->getAndRemoveLastItem(); // === NULL 
+                                          // Because collection is empty
+```
+
+### getAsNewType($new_collection_class=\VersatileCollections\GenericCollection::class)
+Create a new collection of the specified type with the keys and items of the collection object this method is being invoked on.<br>
+It's a neat way of casting one type of collection to another type. The types must be compatible. 
+For example, it is safe to convert an instance of **GenericCollection** (containing only integers) to a new instance of 
+**IntsCollection** or **NumericsCollection**, but an Excption will be thrown if you try to convert an instance of 
+**GenericCollection** (containing only integers) to a new instance of **ObjectsCollection**, since integers are not objects. <br>
+
+* **$new_collection_class**: name of a collection class that implements
+\VersatileCollections\CollectionInterface (e.g. `\VersatileCollections\NumericsCollection::class`) 
+or any compatible instance of \VersatileCollections\CollectionInterface
+
+>Only keys and items from the original collection will be copied into the new collection, 
+other properties of the original collection like methods added via addMethod(), 
+addMethodForAllInstances() and addStaticMethod() will not be copied.
+The original collection will not be modified.
+
+```php
+<?php
+    // a GenericCollection containing integers
+    $generic_ints_collection = 
+        \VersatileCollections\GenericCollection::makeNew([1, 2, 3, 4, 5]);
+
+    // create a new IntsCollection from the GenericCollection containing integers
+    $ints_collection = $generic_ints_collection->getAsNewType(
+        \VersatileCollections\IntsCollection::class
+    ); // safe operation
+
+    // create a new NumericsCollection from the GenericCollection containing integers
+    $numerics_collection = $generic_ints_collection->getAsNewType(
+        \VersatileCollections\NumericsCollection::class
+    ); // safe operation
+
+    // Exception will be thrown if you try to create a new ObjectsCollection 
+    // from the GenericCollection containing integers
+    // $objects_collection = $generic_ints_collection->getAsNewType(
+    //     \VersatileCollections\ObjectsCollection::class
+    // ); // unsafe operation
+```
+
+### getCollectionsOfSizeN($max_size_of_each_collection=1)
+Break-up a collection into a new collection (**GenericCollection**) of sub-collections (each having a maximum size of **N**). 
+Each sub-collection will be of the same type as the collection object this method is being called on. 
+The collection object this method is being called on is not modified.<br>
+You can also use **yieldCollectionsOfSizeN($max_size_of_each_collection=1)** which returns a 
+Generator (instead of a new collection) that yields each sub-collection.
+
+```php
+<?php
+
+    $collection = new \VersatileCollections\IntsCollection(1,2,3,4,5,6,7);
+
+    // Get a collection of sub-collections each containing at most 2 items
+    $collection->getCollectionsOfSizeN(2); // returns a collection containing
+                                           // [ 
+                                           //   [0=>1, 1=>2], // sub-collection of type IntsCollection
+                                           //   [2=>3, 3=>4], // sub-collection of type IntsCollection
+                                           //   [4=>5, 5=>6], // sub-collection of type IntsCollection
+                                           //   [6=>7]        // sub-collection of type IntsCollection
+                                           // ] // GenericCollection
+```
+
+### getIfExists($key, $default_value=null)
+Try to get an item from the collection with the specified key (`$key`) 
+or return `$default_value` if key does not exist in the collection.
+
+```php
+<?php
+
+    $collection = \VersatileCollections\GenericCollection::makeNew(
+       ['first_key'=>'first item', 'second_key'=>'second item']
+    );
+
+    $collection->getIfExists('first_key'); // === 'first item'
+    $collection->getIfExists('second_key'); // === 'second item'
+```
+
+### getIterator()
+Returns an **Iterator** object that can be used to traverse a collection. 
+You will not normally need to call this method since it's a fulfilment of php's
+**IteratorAggregate** interface and is automatically used under the hood whenever 
+you iterate over a collection object via a **foreach** loop.<br>
+You should use the **each()** method to iterate over a collection (it has a 
+fluent interface which supports method chaining), but if you want, you can also 
+use a `foreach` loop, `for` loop, `while` loop or `do-while` loop to iterate over 
+a collection, but you should not have to.
+
+```php
+<?php
+
+    $collection = new \VersatileCollections\IntsCollection(1,2,3,4,5,6,7);
+
+    // Because of getIterator() you can loop through a collection object using
+    // a foreach loop as illustrated below below:
+    foreach( $collection as $key => $item ) {
+        
+        // do stuff with $key and $item
+    }
+    
+    // OR
+
+    // For loop
+    $iterator = $collection->getIterator();
+    
+    for( $iterator->rewind(); $iterator->valid(); $iterator->next() ) {
+        
+        $key = $iterator->key();
+        $item = $iterator->current();
+        
+        // do stuff with $key and $item
+    }
+    
+    // OR
+    
+    // While loop
+    $iterator->rewind();
+    
+    while( $iterator->valid() ) {
+        
+        $key = $iterator->key();
+        $item = $iterator->current();
+
+        // do stuff with $key and $item
+        
+        $iterator->next();
+    }
+    
+    // OR
+    
+    // Do-While loop
+    $iterator->rewind();
+    
+    do{
+        if( $iterator->valid() ) {
+            $key = $iterator->key();
+            $item = $iterator->current();
+            
+            // do stuff with $key and $item
+            
+            $iterator->next();
+        }
+    } while( $iterator->valid() );
+```
+
+### getKeys()
+Get a collection (**GenericCollection**) of keys to a collection.
+
+```php
+<?php
+
+    $collection = \VersatileCollections\GenericCollection::makeNew(
+       ['first_key'=>'first item', 'second_key'=>'second item']
+    );
+
+    $collection->getKeys(); // a collection containing  [ 0=>'first_key', 1=>'second_key']
+```
+
+### getValues()
+Get a new collection (of the same type as the original collection) of items in a collection without the corresponding keys in the original collection.
+Items in the new collection will have sequentially increasing numeric keys starting from 0.
+
+```php
+<?php
+
+    $collection = \VersatileCollections\GenericCollection::makeNew(
+       ['first_key'=>'first item', 'second_key'=>'second item']
+    );
+
+    $collection->getValues(); // a collection containing [ 0=>'first item', 1=>'second item' ]
+```
+
+### isEmpty()
+Return true if there are one or more items in the collection or false otherwise.
+
+```php
+<?php
+
+    $collection = new \VersatileCollections\GenericCollection();
+    $collection->isEmpty(); // === true
+
+    $collection = \VersatileCollections\GenericCollection::makeNew(
+       ['first_key'=>'first item', 'second_key'=>'second item']
+    );
+    $collection->isEmpty(); // === false
+```
+
+### lastItem()
+Retrieves and returns the last item in a collection. See `firstItem()` if you want to get the first item.
+
+```php
+<?php
+    $collection = new \VersatileCollections\GenericCollection(
+        'One', 'Two', 'Three', 'Four'
+    );
+    $collection->lastItem(); // === 'Four'
+```
+
+### makeAllKeysNumeric($starting_key=0)
+Convert all keys in the collection to consecutive integer keys starting from `$starting_key`.
+* **$starting_key**: a positive integer value that will be the value of the first key.
+A negative integer value will be converted to zero.
+
+```php
+<?php
+
+    $collection = new \VersatileCollections\GenericCollection();
+    $collection->item1 = ['name'=>'Joe', 'age'=>'10',];
+    $collection->item2 = ['name'=>'Jane', 'age'=>'20',];
+    $collection->item3 = ['name'=>'Janice', 'age'=>'30',];
+
+    // $collection initially contains:
+    //  [
+    //      'item1' => [ 'name'=>'Joe', 'age'=>'10' ],
+    //      'item2' => [ 'name'=>'Jane', 'age' => '20' ],
+    //      'item3' => [ 'name' => 'Janice', 'age' => '30' ]
+    //  ]
+
+    // no args
+    $collection->makeAllKeysNumeric();
+    // $collection now contains:
+    //  [
+    //      0 => [ 'name'=>'Joe', 'age'=>'10' ],
+    //      1 => [ 'name'=>'Jane', 'age' => '20' ],
+    //      2 => [ 'name' => 'Janice', 'age' => '30' ]
+    //  ]
+    
+    // reset collection to initial state
+    $collection = new \VersatileCollections\GenericCollection();
+    $collection->item1 = ['name'=>'Joe', 'age'=>'10',];
+    $collection->item2 = ['name'=>'Jane', 'age'=>'20',];
+    $collection->item3 = ['name'=>'Janice', 'age'=>'30',];
+    
+    // with starting key value of 777
+    $collection->makeAllKeysNumeric(777);
+    // $collection now contains:
+    //  [
+    //      777 => [ 'name'=>'Joe', 'age'=>'10' ],
+    //      778 => [ 'name'=>'Jane', 'age' => '20' ],
+    //      779 => [ 'name' => 'Janice', 'age' => '30' ]
+    //  ]
+```
+
+
 
 ## Non-`CollectionInterface` Methods common to all Collection Classes using `CollectionInterfaceImplementationTrait`
 

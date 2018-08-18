@@ -286,8 +286,8 @@ object property access syntax.
 ```php
 <?php 
 
-    $collection = new \VersatileCollections\GenericCollection(
-        ...['first_key'=>'first item', 'second_key'=>'second item']
+    $collection = \VersatileCollections\GenericCollection::makeNew(
+       ['first_key'=>'first item', 'second_key'=>'second item']
     );
 
     // array access syntax
@@ -303,8 +303,8 @@ Similarly, use **lastItem()** or **getAndRemoveLastItem()** to get the last item
 ```php
 <?php 
 
-    $collection = new \VersatileCollections\GenericCollection(
-        ...['first_key'=>'first item', 'second_key'=>'second item']
+    $collection = \VersatileCollections\GenericCollection::makeNew(
+       ['first_key'=>'first item', 'second_key'=>'second item']
     );
 
     // get the first item
@@ -333,8 +333,8 @@ The latter gets the item and also removes it from the collection.
 ```php
 <?php 
 
-    $collection = new \VersatileCollections\GenericCollection(
-        ...['first_key'=>'first item', 'second_key'=>'second item']
+    $collection = \VersatileCollections\GenericCollection::makeNew(
+       ['first_key'=>'first item', 'second_key'=>'second item']
     );
 
     $collection->getIfExists('first_key'); // === 'first item'

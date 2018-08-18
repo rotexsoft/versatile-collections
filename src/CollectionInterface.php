@@ -16,7 +16,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * new \VersatileCollections\NumericsCollection(...[1,2,3])
      * vs \VersatileCollections\NumericsCollection::makeNew([1,2,3])
      * 
-     * @param array $items an array of items for the new collection to be created. Keys will be preserved in the created collection.
+     * @param array $items an array of items for the new collection to be created.
      * @param array $preserve_keys true if keys in $items will be preserved in the created collection.
      * 
      * @return \VersatileCollections\CollectionInterface newly created collection
@@ -133,10 +133,9 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
     /**
      * 
      * Filter out items in the collection via a callback function and return filtered items in a new collection.
-     * Note that the filtered items are not removed from the original collection.
      * 
      * @param callable $filterer a callback with the following signature
-     *                 function($key, $item) that returns true if an item should be filtered out, or false if not
+     *                 function($key, $item) that must return true if an item should be filtered out, or false if not
      * 
      * @param bool $copy_keys true if key for each filtered item in $this should be copied into the collection to be returned
      * 
@@ -160,10 +159,9 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
     /**
      * 
      * Filter out the first N items in the collection via a callback function and return filtered items in a new collection.
-     * Note that the filtered items are not removed from the original collection.
      * 
      * @param callable $filterer a callback with the following signature
-     *                 function($key, $item) that returns true if an item should be filtered out, or false if not
+     *                 function($key, $item) that must return true if an item should be filtered out, or false if not
      * 
      * @param int $max_number_of_filtered_items_to_return Number of filtered items to be returned. Null means return all filtered items
      * 
