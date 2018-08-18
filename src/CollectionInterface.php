@@ -389,8 +389,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * Use unionWith() and unionMeWith() if you want items from $this to be used
      * when same keys exist in both $items and $this.
      * 
-     * @see \VersatileCollections\CollectionInterface::unionWith($items)
-     * @see \VersatileCollections\CollectionInterface::unionMeWith($items)
+     * @see \VersatileCollections\CollectionInterface::unionWith(array $items)
+     * @see \VersatileCollections\CollectionInterface::unionMeWith(array $items)
      * 
      * @param array $items
      * 
@@ -409,8 +409,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * Use unionWith() and unionMeWith() if you want items from $this to be used
      * when same keys exist in both $items and $this.
      * 
-     * @see \VersatileCollections\CollectionInterface::unionWith($items)
-     * @see \VersatileCollections\CollectionInterface::unionMeWith($items)
+     * @see \VersatileCollections\CollectionInterface::unionWith(array $items)
+     * @see \VersatileCollections\CollectionInterface::unionMeWith(array $items)
      * 
      * @param array $items
      * 
@@ -1167,8 +1167,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * Use mergeWith() and mergeMeWith() if you want items from $items to be used
      * when same keys exist in both $items and $this.
      *
-     * @see \VersatileCollections\CollectionInterface::mergeWith($items)
-     * @see \VersatileCollections\CollectionInterface::mergeMeWith($items)
+     * @see \VersatileCollections\CollectionInterface::mergeWith(array $items)
+     * @see \VersatileCollections\CollectionInterface::mergeMeWith(array $items)
      * 
      * This method does not modify the original collection.
      * 
@@ -1200,8 +1200,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * Use mergeWith() and mergeMeWith() if you want items from $items to be used
      * when same keys exist in both $items and $this.
      * 
-     * @see \VersatileCollections\CollectionInterface::mergeWith($items)
-     * @see \VersatileCollections\CollectionInterface::mergeMeWith($items)
+     * @see \VersatileCollections\CollectionInterface::mergeWith(array $items)
+     * @see \VersatileCollections\CollectionInterface::mergeMeWith(array $items)
      * 
      * This method modifies the original collection.
      *
