@@ -206,7 +206,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * 
      * Iteratively reduce the collection items to a single value using a callback function.
      * 
-     * @see mixed array_reduce( array $array, callable $callback [, mixed $initial = NULL ] )
+     * @see http://php.net/manual/en/function.array-reduce.php array_reduce
      * 
      * @param callable $reducer function(mixed $carry , mixed $item): mixed
      *                          $carry: Holds the return value of the previous iteration; in the case of the first iteration it instead holds the value of initial.
@@ -389,8 +389,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * Use unionWith() and unionMeWith() if you want items from $this to be used
      * when same keys exist in both $items and $this.
      * 
-     * @see \VersatileCollections\CollectionInterface::unionWith(array $items)
-     * @see \VersatileCollections\CollectionInterface::unionMeWith(array $items)
+     * @see \VersatileCollections\CollectionInterface::unionWith()
+     * @see \VersatileCollections\CollectionInterface::unionMeWith()
      * 
      * @param array $items
      * 
@@ -409,8 +409,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * Use unionWith() and unionMeWith() if you want items from $this to be used
      * when same keys exist in both $items and $this.
      * 
-     * @see \VersatileCollections\CollectionInterface::unionWith(array $items)
-     * @see \VersatileCollections\CollectionInterface::unionMeWith(array $items)
+     * @see \VersatileCollections\CollectionInterface::unionWith()
+     * @see \VersatileCollections\CollectionInterface::unionMeWith()
      * 
      * @param array $items
      * 
@@ -783,7 +783,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * The collection itself should not be modified (i.e. sliced items will 
      * still remain in the collection this method is being called with).
      * 
-     * @see array_slice http://php.net/manual/en/function.array-slice.php
+     * @see http://php.net/manual/en/function.array-slice.php array_slice
      * 
      * @param int $offset If offset is non-negative, the sequence will start at 
      *                    that offset in the array. If offset is negative, the 
@@ -1071,7 +1071,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * Remove a portion of the collection and optionally replace with items in $replacement.
      * This method modifies the original collection.
      * 
-     * @see array_splice http://php.net/manual/en/function.array-splice.php
+     * @see http://php.net/manual/en/function.array-splice.php array_splice
      *
      * @param  int $offset If offset is positive then the start of removed portion 
      *                     is at that offset from the beginning of the collection. 
@@ -1167,8 +1167,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * Use mergeWith() and mergeMeWith() if you want items from $items to be used
      * when same keys exist in both $items and $this.
      *
-     * @see \VersatileCollections\CollectionInterface::mergeWith(array $items)
-     * @see \VersatileCollections\CollectionInterface::mergeMeWith(array $items)
+     * @see \VersatileCollections\CollectionInterface::mergeWith()
+     * @see \VersatileCollections\CollectionInterface::mergeMeWith()
      * 
      * This method does not modify the original collection.
      * 
@@ -1200,8 +1200,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * Use mergeWith() and mergeMeWith() if you want items from $items to be used
      * when same keys exist in both $items and $this.
      * 
-     * @see \VersatileCollections\CollectionInterface::mergeWith(array $items)
-     * @see \VersatileCollections\CollectionInterface::mergeMeWith(array $items)
+     * @see \VersatileCollections\CollectionInterface::mergeWith()
+     * @see \VersatileCollections\CollectionInterface::mergeMeWith()
      * 
      * This method modifies the original collection.
      *
