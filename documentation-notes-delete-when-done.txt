@@ -1,3 +1,5 @@
+https://help.github.com/categories/writing-on-github/
+
 Collection Documentation
 ==========================
 All Types of Collections
@@ -151,7 +153,7 @@ a variadic type hinted constructor.
 - CallablesCollection
 
 - ObjectCollection
-	- __call($method_name, $arguments) either calls dynamically registered method or executes method on each object with the return values returned in an array keyed by each corresponding object's key in the collection.
+	- __call($method_name, $arguments) either calls dynamically registered method or executes method on each object with the return values returned in an array keyed by each corresponding object's key in the collection. For example, if you have a collection of new db records that have not been saved to the db, and you have a save method on the db record class that saves a record to the db and returns it's auto generated primary keys, you can use this method to save such record and receive all the new primary keys in the result.
 
 - ResourceCollection
 
