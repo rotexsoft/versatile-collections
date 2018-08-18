@@ -1150,6 +1150,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * 
      * Union the collection with the given items by trying to append all items 
      * from $items to $this collection and return the result in a new collection.
+     * This method does not modify the original collection.
      * 
      * For keys that exist in both $items and $this, the items from $this 
      * will be used, and the matching items from $items will be ignored.
@@ -1170,8 +1171,6 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @see \VersatileCollections\CollectionInterface::mergeWith()
      * @see \VersatileCollections\CollectionInterface::mergeMeWith()
      * 
-     * This method does not modify the original collection.
-     * 
      * @param  array $items
      * 
      * @return \VersatileCollections\CollectionInterface A new collection containing items in the original collection unioned with $items.
@@ -1183,6 +1182,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * 
      * Union the collection with the given items by trying to append all items 
      * from $items to $this collection.
+     * This method modifies the original collection.
      * 
      * For keys that exist in both $items and $this, the items from $this 
      * will be used, and the matching items from $items will be ignored.
@@ -1202,8 +1202,6 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * 
      * @see \VersatileCollections\CollectionInterface::mergeWith()
      * @see \VersatileCollections\CollectionInterface::mergeMeWith()
-     * 
-     * This method modifies the original collection.
      *
      * @param  array $items
      * 
