@@ -386,10 +386,10 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * containing the result. The original collection will not be modified.
      * Items in $items with existing keys in $this will overwrite the existing items in $this.
      * 
-     * Use union() and unionMeWith() if you want items from $this to be used
+     * Use unionWith() and unionMeWith() if you want items from $this to be used
      * when same keys exist in both $items and $this.
      * 
-     * @see \VersatileCollections\CollectionInterface::union($items)
+     * @see \VersatileCollections\CollectionInterface::unionWith($items)
      * @see \VersatileCollections\CollectionInterface::unionMeWith($items)
      * 
      * @param array $items
@@ -406,10 +406,10 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * Adds all items from $items to $this collection. 
      * Items in $items with existing keys in $this will overwrite the existing items in $this.
      * 
-     * Use union() and unionMeWith() if you want items from $this to be used
+     * Use unionWith() and unionMeWith() if you want items from $this to be used
      * when same keys exist in both $items and $this.
      * 
-     * @see \VersatileCollections\CollectionInterface::union($items)
+     * @see \VersatileCollections\CollectionInterface::unionWith($items)
      * @see \VersatileCollections\CollectionInterface::unionMeWith($items)
      * 
      * @param array $items
@@ -1161,13 +1161,13 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * $b = [ "a"=>"pear", "b"=>"strawberry", "c"=>"cherry" ];
      * 
      * // result
-     * $a->union($b)->toArray() === [ "a"=>"apple", "b"=>"banana", "c"=>"cherry" ]
+     * $a->unionWith($b)->toArray() === [ "a"=>"apple", "b"=>"banana", "c"=>"cherry" ]
      *  
      * 
-     * Use merge() and mergeMeWith() if you want items from $items to be used
+     * Use mergeWith() and mergeMeWith() if you want items from $items to be used
      * when same keys exist in both $items and $this.
      *
-     * @see \VersatileCollections\CollectionInterface::merge($items)
+     * @see \VersatileCollections\CollectionInterface::mergeWith($items)
      * @see \VersatileCollections\CollectionInterface::mergeMeWith($items)
      * 
      * This method does not modify the original collection.
@@ -1194,13 +1194,13 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * $b = [ "a"=>"pear", "b"=>"strawberry", "c"=>"cherry" ];
      * 
      * // result
-     * $a->union($b)->toArray() === [ "a"=>"apple", "b"=>"banana", "c"=>"cherry" ]
+     * $a->unionMeWith($b)->toArray() === [ "a"=>"apple", "b"=>"banana", "c"=>"cherry" ]
      *  
      * 
-     * Use merge() and mergeMeWith() if you want items from $items to be used
+     * Use mergeWith() and mergeMeWith() if you want items from $items to be used
      * when same keys exist in both $items and $this.
      * 
-     * @see \VersatileCollections\CollectionInterface::merge($items)
+     * @see \VersatileCollections\CollectionInterface::mergeWith($items)
      * @see \VersatileCollections\CollectionInterface::mergeMeWith($items)
      * 
      * This method modifies the original collection.
