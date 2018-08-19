@@ -4,6 +4,7 @@ namespace VersatileCollections;
 /**
  *
  * @author aadegbam
+ * 
  */
 trait StrictlyTypedCollectionInterfaceImplementationTrait {
     
@@ -27,7 +28,7 @@ trait StrictlyTypedCollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::appendCollection()
      * 
      */
     public function appendCollection(CollectionInterface $other) {
@@ -73,7 +74,7 @@ trait StrictlyTypedCollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::offsetSet()
      * 
      */
     public function offsetSet($key, $val) {
@@ -85,7 +86,7 @@ trait StrictlyTypedCollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::prependCollection()
      * 
      */
     public function prependCollection(CollectionInterface $other) {
@@ -109,7 +110,7 @@ trait StrictlyTypedCollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::prependItem()
      * 
      */
     public function prependItem($item, $key=null) {
@@ -121,7 +122,7 @@ trait StrictlyTypedCollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::unionMeWith()
      * 
      */
     public function unionMeWith(array $items) {

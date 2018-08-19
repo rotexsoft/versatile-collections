@@ -299,7 +299,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::makeNew()
      * 
      */
     public static function makeNew(array $items=[], $preserve_keys=true) {
@@ -326,7 +326,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::offsetExists()
      * 
      */
     public function offsetExists($key) {
@@ -336,7 +336,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::offsetGet()
      * 
      */
     public function offsetGet($key) {
@@ -353,7 +353,7 @@ trait CollectionInterfaceImplementationTrait {
 
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::offsetSet()
      * 
      */
     public function offsetSet($key, $val) {
@@ -370,7 +370,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::offsetUnset()
      * 
      */
     public function offsetUnset($key) {
@@ -381,7 +381,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::toArray()
      * 
      */
     public function toArray() {
@@ -391,7 +391,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::getIterator()
      * 
      */
     public function getIterator() {
@@ -401,7 +401,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::count()
      * 
      */
     public function count() {
@@ -421,7 +421,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::firstItem()
      * 
      */
     public function firstItem(){
@@ -433,7 +433,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::lastItem()
      * 
      */
     public function lastItem(){
@@ -448,7 +448,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::getKeys()
      * 
      */
     public function getKeys() {
@@ -458,7 +458,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::setValForEachItem()
      * 
      */
     public function setValForEachItem($field_name, $field_val, $add_field_if_not_present=false) {
@@ -513,7 +513,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::filterAll()
      * 
      */
     public function filterAll(callable $filterer, $copy_keys=false, $bind_callback_to_this=true, $remove_filtered_items=false) {
@@ -523,7 +523,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::filterFirstN()
      * 
      */
     public function filterFirstN(callable $filterer, $max_number_of_filtered_items_to_return =null, $copy_keys=false, $bind_callback_to_this=true, $remove_filtered_items=false) {
@@ -592,7 +592,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::transform()
      * 
      */
     public function transform(callable $transformer, $bind_callback_to_this=true) {
@@ -629,7 +629,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::reduce()
      * 
      */
     public function reduce(callable $reducer, $initial_value=NULL) {
@@ -639,7 +639,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::reduceWithKeyAccess()
      * 
      */
     public function reduceWithKeyAccess(callable $reducer, $initial_value=NULL) {
@@ -656,7 +656,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::reverse()
      * 
      */
     public function reverse() {
@@ -668,7 +668,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::reverseMe()
      * 
      */
     public function reverseMe() {
@@ -681,7 +681,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::slice()
      * 
      */
     public function slice($offset, $length = null) {
@@ -715,7 +715,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::isEmpty()
      * 
      */
     public function isEmpty() {
@@ -725,7 +725,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::getIfExists()
      * 
      */
     public function getIfExists($key, $default_value=null) {
@@ -736,7 +736,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::containsItem()
      * 
      */
     public function containsItem($item) {
@@ -746,7 +746,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::containsKey()
      * 
      */
     public function containsKey($key) {
@@ -761,7 +761,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::containsItemWithKey()
      * 
      */
     public function containsItemWithKey($key, $item) {
@@ -777,7 +777,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::containsItems()
      * 
      */
     public function containsItems(array $items) {
@@ -799,7 +799,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::containsKeys()
      * 
      */
     public function containsKeys(array $keys) {
@@ -821,7 +821,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::appendCollection()
      * 
      */
     public function appendCollection(CollectionInterface $other) {
@@ -839,7 +839,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::appendItem()
      * 
      */
     public function appendItem($item) {
@@ -851,7 +851,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::mergeWith()
      * 
      */
     public function mergeWith(array $items) {
@@ -873,7 +873,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::mergeMeWith()
      * 
      */
     public function mergeMeWith(array $items) {
@@ -892,7 +892,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::prependCollection()
      * 
      */
     public function prependCollection(CollectionInterface $other) {
@@ -907,7 +907,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::prependItem()
      * 
      */
     public function prependItem($item, $key=null) {
@@ -936,7 +936,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::getCollectionsOfSizeN()
      * 
      */
     public function getCollectionsOfSizeN($max_size_of_each_collection=1) {
@@ -977,7 +977,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::yieldCollectionsOfSizeN()
      * 
      */
     public function yieldCollectionsOfSizeN($max_size_of_each_collection=1) {
@@ -1015,7 +1015,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::makeAllKeysNumeric()
      * 
      */
     public function makeAllKeysNumeric($starting_key=0) {
@@ -1055,7 +1055,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::each()
      * 
      */
     public function each(
@@ -1092,7 +1092,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::map()
      * 
      */
     public function map(
@@ -1140,7 +1140,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::everyNth()
      * 
      */
     public function everyNth($n, $position_of_first_nth_item = 0) {
@@ -1163,7 +1163,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::pipeAndReturnCallbackResult()
      * 
      */
     public function pipeAndReturnCallbackResult(callable $callback) {
@@ -1173,7 +1173,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::pipeAndReturnSelf()
      * 
      */
     public function pipeAndReturnSelf(callable $callback) {
@@ -1185,7 +1185,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::tap()
      * 
      */
     public function tap(callable $callback) {
@@ -1197,7 +1197,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::getAndRemoveFirstItem()
      * 
      */  
     public function getAndRemoveFirstItem() {
@@ -1207,7 +1207,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::getAndRemoveLastItem()
      * 
      */
     public function getAndRemoveLastItem()
@@ -1217,7 +1217,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::pull()
      * 
      */
     public function pull($key, $default = null) {
@@ -1231,7 +1231,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::push()
      * 
      */
     public function push($item) {
@@ -1241,7 +1241,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::put()
      * 
      */
     public function put($key, $value) {
@@ -1253,7 +1253,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::randomKey()
      * 
      */
     public function randomKey() {
@@ -1271,7 +1271,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::randomItem()
      * 
      */
     public function randomItem() {
@@ -1289,7 +1289,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::randomKeys()
      * 
      */
     public function randomKeys($number = 1) {
@@ -1331,7 +1331,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::randomItems()
      * 
      */
     public function randomItems($number = 1, $preserve_keys=false) {
@@ -1384,7 +1384,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::shuffle()
      * 
      */   
     public function shuffle($preserve_keys=true) {
@@ -1419,7 +1419,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::searchByVal()
      * 
      */    
     public function searchByVal( $value, $strict = false ) {
@@ -1429,7 +1429,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::searchAllByVal()
      * 
      */  
     public function searchAllByVal( $value, $strict = false ){
@@ -1446,7 +1446,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::searchByCallback()
      * 
      */  
     public function searchByCallback(callable $callback, $bind_callback_to_this=true) {
@@ -1569,7 +1569,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::sort()
      * 
      */
     public function sort(callable $callable=null, \VersatileCollections\SortType $type=null) {
@@ -1590,7 +1590,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::sortDesc()
      * 
      */
     public function sortDesc(callable $callable=null, \VersatileCollections\SortType $type=null) {
@@ -1611,7 +1611,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::sortByKey()
      * 
      */
     public function sortByKey(callable $callable=null, \VersatileCollections\SortType $type=null) {
@@ -1632,7 +1632,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::sortDescByKey()
      * 
      */
     public function sortDescByKey(callable $callable=null, \VersatileCollections\SortType $type=null) {
@@ -1654,7 +1654,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::sortByMultipleFields()
      * 
      */
     public function sortByMultipleFields(\VersatileCollections\MultiSortParameters ...$param) {
@@ -1676,7 +1676,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::sortMe()
      * 
      */
     public function sortMe(callable $callable=null, \VersatileCollections\SortType $type=null) {
@@ -1694,7 +1694,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::sortMeDesc()
      * 
      */
     public function sortMeDesc(callable $callable=null, \VersatileCollections\SortType $type=null) {
@@ -1712,7 +1712,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::sortMeByKey()
      * 
      */
     public function sortMeByKey(callable $callable=null, \VersatileCollections\SortType $type=null) {
@@ -1730,7 +1730,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::sortMeDescByKey()
      * 
      */
     public function sortMeDescByKey(callable $callable=null, \VersatileCollections\SortType $type=null) {
@@ -1748,7 +1748,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::sortMeByMultipleFields()
      * 
      */
     public function sortMeByMultipleFields(\VersatileCollections\MultiSortParameters ...$param) {
@@ -1772,7 +1772,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::splice()
      * 
      */
     public function splice($offset, $length=null, array $replacement=[]) {
@@ -1809,7 +1809,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::split()
      * 
      */
     public function split($numberOfGroups) {
@@ -1862,7 +1862,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::take()
      * 
      */
     public function take($limit) {
@@ -1887,7 +1887,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::unique()
      * 
      */
     public function unique() {
@@ -1911,7 +1911,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::unionWith()
      * 
      */
     public function unionWith(array $items) {
@@ -1921,7 +1921,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::unionMeWith()
      * 
      */
     public function unionMeWith(array $items) {
@@ -1934,7 +1934,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::column()
      * 
      */
     public function column($column_key, $index_key=null) {
@@ -2118,7 +2118,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::getValues()
      * 
      */
     public function getValues() {
@@ -2128,7 +2128,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::whenTrue()
      * 
      */
     public function whenTrue( 
@@ -2148,7 +2148,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::whenFalse()
      * 
      */
     public function whenFalse( 
@@ -2159,7 +2159,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::getAsNewType()
      * 
      */
     public function getAsNewType($new_collection_class=\VersatileCollections\GenericCollection::class) {
@@ -2202,7 +2202,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::removeAll()
      * 
      */
     public function removeAll(array $keys=[]) {
@@ -2228,7 +2228,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::getAllWhereKeysIn()
      * 
      */
     public function getAllWhereKeysIn(array $keys) {
@@ -2248,7 +2248,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::getAllWhereKeysNotIn()
      * 
      */
     public function getAllWhereKeysNotIn(array $keys) {
@@ -2268,7 +2268,7 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * {@inheritDoc}
+     * @see \VersatileCollections\CollectionInterface::paginate()
      * 
      */
     public function paginate($page_number, $num_items_per_page) {
