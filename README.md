@@ -11,7 +11,7 @@ property syntax.
 
 This package provides optional strict-typing of collection items and strives for 100 % unit-test coverage.
 
-![Collection Classes](versatile-collections.png)
+![Collection Classes](versatile-collections.svg)
 
 ## Installation 
 
