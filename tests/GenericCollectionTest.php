@@ -2778,6 +2778,9 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
      */
     public function testThatSortByMultipleFieldsWorksAsExpected() {
 
+        ////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////
+        // Collection of Arrays
         $data = [];
         $data[0] = [ 'volume' => 67, 'edition' => 2 ];
         $data[1] = [ 'volume' => 86, 'edition' => 2 ];
@@ -2833,7 +2836,235 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
             ], 
             $sorted_collection_asc_asc->toArray()
         );
+
+        ////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////
+        // Collection of ArrayAccess Objects
+        $data = [];
+        $data[0] = new ArrayAccessObject([ 'volume'=>67, 'edition'=>2 ]);
+        $data[1] = new ArrayAccessObject([ 'volume'=>86, 'edition'=>2 ]);
+        $data[2] = new ArrayAccessObject([ 'volume'=>85, 'edition'=>6 ]);
+        $data[3] = new ArrayAccessObject([ 'volume'=>86, 'edition'=>1 ]);
+
+        $collection = new \VersatileCollections\GenericCollection(...$data);
+        $sort_param = new \VersatileCollections\MultiSortParameters('volume', SORT_ASC, SORT_NUMERIC);
+        $sort_param2 = new \VersatileCollections\MultiSortParameters('edition', SORT_DESC, SORT_NUMERIC);
+        $sorted_collection_asc_desc = $collection->sortByMultipleFields($sort_param, $sort_param2);
+        $this->assertSame(
+            [
+                0 => 
+//                [
+//                    'volume' => 67,
+//                    'edition' => 2
+//                ]
+                $data[0],
+                2 => 
+//                [
+//                    'volume' => 85,
+//                    'edition' => 6
+//                ]
+                $data[2],
+                1 => 
+//                [
+//                    'volume' => 86,
+//                    'edition' => 2
+//                ]
+                $data[1],
+                3 => 
+//                [
+//                    'volume' => 86,
+//                    'edition' => 1
+//                ]
+                $data[3],
+            ], 
+            $sorted_collection_asc_desc->toArray()
+        );
         
+        $sort_param2->setSortDirection(SORT_ASC);
+        $sorted_collection_asc_asc = $collection->sortByMultipleFields($sort_param, $sort_param2);
+        $this->assertSame(
+            [
+                0 => 
+//                [
+//                    'volume' => 67,
+//                    'edition' => 2
+//                ]
+                $data[0],
+                2 => 
+//                [
+//                    'volume' => 85,
+//                    'edition' => 6
+//                ]
+                $data[2],
+                3 => 
+//                [
+//                    'volume' => 86,
+//                    'edition' => 1
+//                ]
+                $data[3],
+                1 => 
+//                [
+//                    'volume' => 86,
+//                    'edition' => 2
+//                ]
+                $data[1],
+            ], 
+            $sorted_collection_asc_asc->toArray()
+        );
+
+        ////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////
+        // Collection of StdClass Objects
+        $data = [];
+        $data[0] = ((object)[ 'volume'=>67, 'edition'=>2 ]);
+        $data[1] = ((object)[ 'volume'=>86, 'edition'=>2 ]);
+        $data[2] = ((object)[ 'volume'=>85, 'edition'=>6 ]);
+        $data[3] = ((object)[ 'volume'=>86, 'edition'=>1 ]);
+
+        $collection = new \VersatileCollections\GenericCollection(...$data);
+        $sort_param = new \VersatileCollections\MultiSortParameters('volume', SORT_ASC, SORT_NUMERIC);
+        $sort_param2 = new \VersatileCollections\MultiSortParameters('edition', SORT_DESC, SORT_NUMERIC);
+        $sorted_collection_asc_desc = $collection->sortByMultipleFields($sort_param, $sort_param2);
+        $this->assertSame(
+            [
+                0 => 
+//                [
+//                    'volume' => 67,
+//                    'edition' => 2
+//                ]
+                $data[0],
+                2 => 
+//                [
+//                    'volume' => 85,
+//                    'edition' => 6
+//                ]
+                $data[2],
+                1 => 
+//                [
+//                    'volume' => 86,
+//                    'edition' => 2
+//                ]
+                $data[1],
+                3 => 
+//                [
+//                    'volume' => 86,
+//                    'edition' => 1
+//                ]
+                $data[3],
+            ], 
+            $sorted_collection_asc_desc->toArray()
+        );
+        
+        $sort_param2->setSortDirection(SORT_ASC);
+        $sorted_collection_asc_asc = $collection->sortByMultipleFields($sort_param, $sort_param2);
+        $this->assertSame(
+            [
+                0 => 
+//                [
+//                    'volume' => 67,
+//                    'edition' => 2
+//                ]
+                $data[0],
+                2 => 
+//                [
+//                    'volume' => 85,
+//                    'edition' => 6
+//                ]
+                $data[2],
+                3 => 
+//                [
+//                    'volume' => 86,
+//                    'edition' => 1
+//                ]
+                $data[3],
+                1 => 
+//                [
+//                    'volume' => 86,
+//                    'edition' => 2
+//                ]
+                $data[1],
+            ], 
+            $sorted_collection_asc_asc->toArray()
+        );
+
+        ////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////
+        // Collection of Objects to be sorted by private and protected properties
+        $data = [];
+        $data[0] = new TestValueObject3(67, 2);
+        $data[1] = new TestValueObject3(86, 2);
+        $data[2] = new TestValueObject3(85, 6);
+        $data[3] = new TestValueObject3(86, 1);
+
+        $collection = new \VersatileCollections\GenericCollection(...$data);
+        $sort_param = new \VersatileCollections\MultiSortParameters('volume', SORT_ASC, SORT_NUMERIC); // protected property
+        $sort_param2 = new \VersatileCollections\MultiSortParameters('edition', SORT_DESC, SORT_NUMERIC);  // private property
+        $sorted_collection_asc_desc = $collection->sortByMultipleFields($sort_param, $sort_param2);
+        $this->assertSame(
+            [
+                0 => 
+//                [
+//                    'volume' => 67,
+//                    'edition' => 2
+//                ]
+                $data[0],
+                2 => 
+//                [
+//                    'volume' => 85,
+//                    'edition' => 6
+//                ]
+                $data[2],
+                1 => 
+//                [
+//                    'volume' => 86,
+//                    'edition' => 2
+//                ]
+                $data[1],
+                3 => 
+//                [
+//                    'volume' => 86,
+//                    'edition' => 1
+//                ]
+                $data[3],
+            ], 
+            $sorted_collection_asc_desc->toArray()
+        );
+        
+        $sort_param2->setSortDirection(SORT_ASC);
+        $sorted_collection_asc_asc = $collection->sortByMultipleFields($sort_param, $sort_param2);
+        $this->assertSame(
+            [
+                0 => 
+//                [
+//                    'volume' => 67,
+//                    'edition' => 2
+//                ]
+                $data[0],
+                2 => 
+//                [
+//                    'volume' => 85,
+//                    'edition' => 6
+//                ]
+                $data[2],
+                3 => 
+//                [
+//                    'volume' => 86,
+//                    'edition' => 1
+//                ]
+                $data[3],
+                1 => 
+//                [
+//                    'volume' => 86,
+//                    'edition' => 2
+//                ]
+                $data[1],
+            ], 
+            $sorted_collection_asc_asc->toArray()
+        );
+        
+        ////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////
         $collection_of_wrong_types = new \VersatileCollections\GenericCollection(...[1,2,3]);
         
         // Can't multi sort collection of non-arrays or ArrayAccess objects

@@ -1498,7 +1498,7 @@ trait CollectionInterfaceImplementationTrait {
         $multi_sort_args = [];
         $columns_to_sort_by = [];
         
-        $original_key_tracker = 'http://versatile-collections.com/original_key_b4_sort';
+        $original_key_tracker = 'http_versatile_collections_dot_com_original_key_b4_sort';
         
         foreach( $array_to_be_sorted as $key => $item) {
             
@@ -1515,6 +1515,22 @@ trait CollectionInterfaceImplementationTrait {
                     
                     $columns_to_sort_by[$current_param->getFieldName()][$key] 
                                         = $item[$current_param->getFieldName()];
+                }
+                
+            } else if ( is_object($item) /*a non ArrayAccess object*/ ) {
+                
+                $array_to_be_sorted[$key]->$original_key_tracker = $key;
+                
+                foreach($param as $current_param) {
+                    
+                    if( !array_key_exists($current_param->getFieldName() , $columns_to_sort_by) ) {
+                        
+                        $columns_to_sort_by[$current_param->getFieldName()] = [];
+                    }
+                    
+                    // get the field's value even if it's private or protected
+                    $columns_to_sort_by[$current_param->getFieldName()][$key] 
+                        = get_object_property_value($item, $current_param->getFieldName(), null, true);                    
                 }
                 
             } else {
@@ -1552,12 +1568,30 @@ trait CollectionInterfaceImplementationTrait {
 
         foreach( $sorted_array_with_unpreserved_keys as $array_key => $current_array_data ) {
 
-            $original_key = $sorted_array_with_unpreserved_keys[$array_key][$original_key_tracker];
+            $original_key = 
+                (
+                    is_array($sorted_array_with_unpreserved_keys[$array_key])
+                    || $sorted_array_with_unpreserved_keys[$array_key] instanceof \ArrayAccess
+                )
+                ? $sorted_array_with_unpreserved_keys[$array_key][$original_key_tracker] // array / ArrayAccess
+                : $sorted_array_with_unpreserved_keys[$array_key]->$original_key_tracker // object
+                ;
             
             // Remove the key we added in this method 
-            // to keep track of the original key of each array item
-            unset($sorted_array_with_unpreserved_keys[$array_key][$original_key_tracker]); 
-
+            // to keep track of the original key of each array item / object
+            if(
+                is_array($sorted_array_with_unpreserved_keys[$array_key])
+                || $sorted_array_with_unpreserved_keys[$array_key] instanceof \ArrayAccess        
+            ) {
+                // array / ArrayAccess
+                unset($sorted_array_with_unpreserved_keys[$array_key][$original_key_tracker]);
+                
+            } else {
+                
+                // object
+                unset($sorted_array_with_unpreserved_keys[$array_key]->$original_key_tracker);
+            }
+            
             $sorted_array_with_preserved_keys[$original_key] = $sorted_array_with_unpreserved_keys[$array_key];
         }
 
@@ -1654,6 +1688,9 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
+     * Can also sort by private and / or protected field(s) in each object in 
+     * the collection.
+     * 
      * @see \VersatileCollections\CollectionInterface::sortByMultipleFields()
      * 
      */
@@ -1747,6 +1784,9 @@ trait CollectionInterfaceImplementationTrait {
     }
     
     /**
+     * 
+     * Can also sort by private and / or protected field(s) in each object in 
+     * the collection.
      * 
      * @see \VersatileCollections\CollectionInterface::sortMeByMultipleFields()
      * 
@@ -1934,6 +1974,9 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
+     * Can also extract values from private and  / or protected properties 
+     * of each object in the collection.
+     * 
      * @see \VersatileCollections\CollectionInterface::column()
      * 
      */
@@ -2070,8 +2113,8 @@ trait CollectionInterfaceImplementationTrait {
                     && object_has_property($item, $column_key)
                     && object_has_property($item, $index_key)   
                 ) {
-                    $index_key_value = get_object_property_value($item, $index_key);
-                    $column_key_value = get_object_property_value($item, $column_key);
+                    $index_key_value = get_object_property_value($item, $index_key, null, true);
+                    $column_key_value = get_object_property_value($item, $column_key, null, true);
                     
                     if( 
                         !is_int($index_key_value) 
@@ -2094,7 +2137,7 @@ trait CollectionInterfaceImplementationTrait {
                     is_null($index_key) 
                     && object_has_property($item, $column_key)
                 ) {
-                    $column_2_return[] = get_object_property_value($item, $column_key);
+                    $column_2_return[] = get_object_property_value($item, $column_key, null, true);
                     
                 } else {
                     

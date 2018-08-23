@@ -9,18 +9,21 @@ namespace VersatileCollections;
  * Works with \stdClass objects created from arrays with numeric key(s) 
  * (the value of the propertie(s) with numeric key(s) in such \stdClass 
  * objects will be retrieved by this function).
- *  
  * 
  * @param mixed $obj
  * @param string|int $property
  * @param mixed $default_val
+ * @param bool $access_private_or_protected true if value associated with private or protected property should be returned.
+ *                                          If false is specified and you try to access a private or protected property, a
+ *                                          \RuntimeException will be thrown.
  * 
  * @return mixed
  * 
  * @throws \InvalidArgumentException
+ * @throws \RuntimeException
  * 
  */
-function get_object_property_value($obj, $property, $default_val=null) {
+function get_object_property_value($obj, $property, $default_val=null, $access_private_or_protected=false) {
     
     if( !is_object($obj) ) {
         
@@ -48,8 +51,38 @@ function get_object_property_value($obj, $property, $default_val=null) {
         
         if( $obj instanceof \stdClass ) {
             
+            // will work for stdClass instances that were created 
+            // by casting an array with numeric and / or string keys to an object.
+            // e.g. ( (object)[ 777=>'Some Value', 'a_string_property'=>'Another Value'] )
             $obj_as_array = ((array)$obj);
             $return_val = $obj_as_array[$property];
+            
+        } else if(
+            property_exists ($obj, $property) // is either public, protected or private
+            && !array_key_exists($property, get_object_vars($obj)) // definitely a protected or a private property
+        ) {
+            if( $access_private_or_protected ) {
+                
+                // use some reflection gymnastics to retrieve the value
+                $reflection_class = new \ReflectionClass(get_class($obj));
+                $property = $reflection_class->getProperty($property);
+                $property->setAccessible(true);
+                $return_val = $property->getValue($obj);
+                //$property->setAccessible(false);
+                
+            } else {
+                
+                // throw exception letting user know that they are
+                // trying to access a private or protected value
+                $function = __FUNCTION__;
+                $ns = __NAMESPACE__;
+                $obj_type = get_class($obj);
+                $msg = "Error [{$ns}::{$function}(...)]:"
+                . " Trying to access a protected or private property named `{$property}` on the instance of `$obj_type` below:"
+                . PHP_EOL . var_to_string($obj)
+                . PHP_EOL . "To access a protected or private property named `{$property}` call `{$ns}::{$function}()` with `true` as the fourth argument.";
+                throw new \RuntimeException();
+            }
             
         } else {
             
@@ -96,19 +129,23 @@ function object_has_property($obj, $property) {
     }
     
     return (
-                property_exists($obj, $property)
+                property_exists($obj, $property) // check if property is public, protected or private
                 ||
                 (
                     method_exists($obj, '__isset')
                     && method_exists($obj, '__get')
-                    && isset($obj->{$property})    
-                )
+                    && $obj->__isset($property)
+                ) // check if property is accessible via magic method
                 ||
                 (
-                    $obj instanceof \stdClass
-                    && array_key_exists( $property, ((array)$obj) )
-                ) // hack for arrays with numeric keys that were
-                  // cast into an object. E.g $item === ((object)[777=>'boo'])  
+                    array_key_exists( $property, ((array)$obj) )
+                ) // works for arrays with numeric keys that were
+                  // cast into an object. E.g $item === ((object)[777=>'boo'])
+                  // Also detects properties that are not defined in the class
+                  // (i.e. they were not explicitly defined as public, private
+                  // or protected) but were assigned during run-time, like 
+                  // properties assigned to instances of \stdClass (which 
+                  // could also be assigned to instances of any php class)
            );
 }
 
@@ -144,7 +181,6 @@ function random_array_key(array $array) {
     $random_key = null;
 
     try {
-        
         // random_int is more cryptographically secure than 
         // array_rand
         $min = 0;
@@ -167,7 +203,6 @@ function random_array_key(array $array) {
         // This is optional and maybe omitted if you do not want to handle errors
         // during generation.
         $error_occurred = true;
-        
     }
     
     if( $error_occurred === true ) {

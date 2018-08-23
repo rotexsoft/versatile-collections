@@ -183,6 +183,17 @@ class HelperFunctionsTest extends \PHPUnit_Framework_TestCase {
         $this->assertTrue( object_has_property($obj_without_magic_methods, 'title') ); // string property
         $this->assertFalse( object_has_property($obj_without_magic_methods, 1000) ); // int property
         $this->assertFalse( object_has_property($obj_without_magic_methods, 'title2') ); // string property
+        
+        $obj_real_and_dynamic_props_and_no_magic_methods = new TestValueObject2('John Doe', 47);
+        $obj_real_and_dynamic_props_and_no_magic_methods->dynamic_property1 = 'dynamic_property1';
+        $obj_real_and_dynamic_props_and_no_magic_methods->dynamic_property2 = 'dynamic_property2';
+        $this->assertTrue( object_has_property($obj_real_and_dynamic_props_and_no_magic_methods, 'name') ); // public property
+        $this->assertTrue( object_has_property($obj_real_and_dynamic_props_and_no_magic_methods, 'age') ); // public property
+        $this->assertTrue( object_has_property($obj_real_and_dynamic_props_and_no_magic_methods, 'protected_field') ); // protected property
+        $this->assertTrue( object_has_property($obj_real_and_dynamic_props_and_no_magic_methods, 'private_field') ); // private property
+        $this->assertTrue( object_has_property($obj_real_and_dynamic_props_and_no_magic_methods, 'dynamic_property1') ); // dynamically assigned property
+        $this->assertTrue( object_has_property($obj_real_and_dynamic_props_and_no_magic_methods, 'dynamic_property2') ); // dynamically assigned property
+        $this->assertFalse( object_has_property($obj_real_and_dynamic_props_and_no_magic_methods, 'non_existent_property') ); // non-existent property
     }
     
     /**
@@ -223,6 +234,12 @@ class HelperFunctionsTest extends \PHPUnit_Framework_TestCase {
             (new TestValueObject())
                 ->setData(['id'=>17, 777 =>67, 'edition'=>2, 'title'=>"Boo"]);
         
+        // Object without __get, __isset & __set and some real public, protected 
+        // and private properties
+        $obj_real_and_dynamic_props_and_no_magic_methods = new TestValueObject2('John Doe', 47);
+        $obj_real_and_dynamic_props_and_no_magic_methods->dynamic_property1 = 'dynamic_property1';
+        $obj_real_and_dynamic_props_and_no_magic_methods->dynamic_property2 = 'dynamic_property2';
+        
         // StdClass Objects without __get, __isset & __set
         $obj_without_magic_methods = 
             (object)['id' => 17, 777 => 67, 'edition' => 2, 'title'=>"Boo"];
@@ -247,6 +264,39 @@ class HelperFunctionsTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame( get_object_property_value($obj_without_magic_methods, 'title'), "Boo" ); // string property
         $this->assertSame( get_object_property_value($obj_without_magic_methods, 1000, -777), -777 ); // int property
         $this->assertSame( get_object_property_value($obj_without_magic_methods, 'title2', -777), -777 ); // string property
+        
+        // public, private and protected property and dynamically assigned property
+        // access check
+        $this->assertSame( get_object_property_value($obj_real_and_dynamic_props_and_no_magic_methods, 'name'), 'John Doe' ); // public property
+        $this->assertSame( get_object_property_value($obj_real_and_dynamic_props_and_no_magic_methods, 'age'), 47 ); // public property
+        $this->assertSame( get_object_property_value($obj_real_and_dynamic_props_and_no_magic_methods, 'protected_field', null, true), 'protected_field' ); // protected property
+        $this->assertSame( get_object_property_value($obj_real_and_dynamic_props_and_no_magic_methods, 'private_field', null, true), 'private_field' ); // private property
+        $this->assertSame( get_object_property_value($obj_real_and_dynamic_props_and_no_magic_methods, 'dynamic_property1'), 'dynamic_property1' ); // dynamically assigned property
+        $this->assertSame( get_object_property_value($obj_real_and_dynamic_props_and_no_magic_methods, 'dynamic_property2'), 'dynamic_property2' ); // dynamically assigned property
+    }
+    
+    /**
+     * @expectedException \RuntimeException
+     */
+    public function testThatNonIntendedProtectedPropertyAccessVia_get_object_property_value_WorksAsExpected() {
+        
+        $obj_protected_and_private_props_and_no_magic_methods = new TestValueObject2('John Doe', 47);
+        
+        // accessing the protected property without passing true as the fourth
+        // argument to get_object_property_value() below should throw an exception
+        get_object_property_value($obj_protected_and_private_props_and_no_magic_methods, 'protected_field');
+    }
+    
+    /**
+     * @expectedException \RuntimeException
+     */
+    public function testThatNonIntendedPrivatePropertyAccessVia_get_object_property_value_WorksAsExpected() {
+        
+        $obj_protected_and_private_props_and_no_magic_methods = new TestValueObject2('John Doe', 47);
+        
+        // accessing the private property without passing true as the fourth
+        // argument to get_object_property_value() below should throw an exception
+        get_object_property_value($obj_protected_and_private_props_and_no_magic_methods, 'private_field');
     }
     
     /**

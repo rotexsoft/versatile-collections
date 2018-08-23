@@ -903,12 +903,12 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
     
     /**
      * 
-     * Sort a collection of associative arrays or objects that implement \ArrayAccess by 
+     * Sort a collection of associative arrays or objects by 
      * specified field name(s) and return a new collection containing the sorted items
      * with their original key associations preserved.
      * 
      * This method should throw a \RuntimeException if any of the items in the 
-     * collection is not an associative array or an object that implements \ArrayAccess.
+     * collection is not an associative array or an object.
      * 
      * Example:
      * $data = [];
@@ -1032,11 +1032,11 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
     
     /**
      * 
-     * Sort a collection of associative arrays or objects that implement \ArrayAccess by 
+     * Sort a collection of associative arrays or objects by 
      * specified field name(s) while preserving original key associations.
      * 
      * This method should throw a \RuntimeException if any of the items in the 
-     * collection is not an associative array or an object that implements \ArrayAccess.
+     * collection is not an associative array or an object.
      * 
      * Example:
      * $data = [];
