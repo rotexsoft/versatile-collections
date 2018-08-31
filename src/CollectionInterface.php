@@ -17,12 +17,58 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * vs \VersatileCollections\NumericsCollection::makeNew([1,2,3])
      * 
      * @param array $items an array of items for the new collection to be created.
-     * @param array $preserve_keys true if keys in $items will be preserved in the created collection.
+     * @param bool $preserve_keys true if keys in $items will be preserved in the created collection.
      * 
      * @return \VersatileCollections\CollectionInterface newly created collection
      * 
      */
     public static function makeNew(array $items=[], $preserve_keys=true);
+    
+    /**
+     * 
+     * Get a key's value.
+     * 
+     * @param string $key The requested key.
+     * 
+     * @return mixed
+     * 
+     */
+    public function __get($key);
+    
+    /**
+     * 
+     * Does the requested key exist?
+     * 
+     * @param string $key The requested key.
+     * 
+     * @return bool
+     * 
+     */
+    public function __isset($key);
+    
+    /**
+     * 
+     * Set a key's value.
+     * 
+     * @param string $key The requested key.
+     * 
+     * @param string $val The value to set it to.
+     * 
+     * @return void
+     * 
+     */
+    public function __set($key, $val);
+    
+    /**
+     * 
+     * Unset a key.
+     * 
+     * @param string $key The requested key.
+     * 
+     * @return void
+     * 
+     */
+    public function __unset($key);
     
     /**
      * 
@@ -37,7 +83,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
     
     /**
      * 
-     * ArrayAccess: get a key value.
+     * ArrayAccess: get a key's value.
      * 
      * @param string $key The requested key.
      * 
@@ -48,7 +94,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
     
     /**
      * 
-     * ArrayAccess: set a key value.
+     * ArrayAccess: set a key's value.
      * 
      * @param string $key The requested key.
      * 

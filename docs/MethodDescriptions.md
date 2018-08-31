@@ -870,10 +870,56 @@ A negative integer value will be converted to zero.
     //  ]
 ```
 
+### static makeNew(array $items=[], $preserve_keys=true)
+Creates a new collection from an array.<br>
+THIS IS THE STRONGLY RECOMMENDED WAY TO CREATE COLLECTION OBJECTS (if you forget 
+to unpack arguments when creating collection objects via the constructor, you 
+will end up with a collection containing only one item, which is the array 
+passed to the constructor which you forgot to unpack).
+* **$items**: an array of items to be stored in the new collection that will be created.
+* **$preserve_keys**: true if keys in `$items` will be preserved in the created collection.
+
+```php
+<?php
+
+    $data = [];
+    $data['item1'] = ['name'=>'Joe', 'age'=>'10',];
+    $data['item2'] = ['name'=>'Jane', 'age'=>'20',];
+    $data['item3'] = ['name'=>'Janice', 'age'=>'30',];
+
+    $collection = \VersatileCollections\GenericCollection::makeNew($data);
+    // Keys preserved and $collection contains:
+    //  [
+    //      'item1' => [ 'name'=>'Joe', 'age'=>'10' ],
+    //      'item2' => [ 'name'=>'Jane', 'age' => '20' ],
+    //      'item3' => [ 'name' => 'Janice', 'age' => '30' ]
+    //  ]
+    
+    $collection = \VersatileCollections\GenericCollection::makeNew($data, false);
+    // Keys not preserved and $collection contains:
+    //  [
+    //      0 => [ 'name'=>'Joe', 'age'=>'10' ],
+    //      1 => [ 'name'=>'Jane', 'age' => '20' ],
+    //      2 => [ 'name' => 'Janice', 'age' => '30' ]
+    //  ]
+```
+
 
 
 ## Non-`CollectionInterface` Methods common to all Collection Classes using `CollectionInterfaceImplementationTrait`
 
+__call [public]<br>
+__callStatic [public] [static]<br>
+__construct [public]<br>
+addMethod [public]<br>
+addMethodForAllInstances [public] [static]<br>
+addStaticMethod [public] [static]<br>
+<br>
+**Protected methods you shouldn't need to directly call:**<br>
+getKeyForDynamicMethod [protected] [static]<br>
+performMultiSort [protected]<br>
+performSort [protected]<br>
+validateMethodName [protected] [static]<br>
 
 
 ## Methods specific to various Strictly-Typed Collection classes
