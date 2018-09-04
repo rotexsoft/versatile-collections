@@ -67,6 +67,23 @@ an instance of **NumericsCollection** (since **FloatsCollection** is a sub-type 
 
     // At this point, $collection now contains:
     // [ 0=>'4', 1=>5.0, 2=>7, 3=>'114', 4=>35.5, 5=>777 ]
+
+    ////////////////////////
+    // Inheritance example
+    ////////////////////////
+    $numeric_collection = new \VersatileCollections\NumericsCollection(
+        1.0, 2.0, 3, 4, 5, 6
+    );
+    
+    // append a sub-class collection
+    $int_collection = new \VersatileCollections\IntsCollection(8, 9, 10, 11);
+    $numeric_collection->appendCollection($int_collection);
+    $numeric_collection->toArray(); // === [1.0, 2.0, 3, 4, 5, 6, 8, 9, 10, 11]
+
+    // append another sub-class collection
+    $float_collection = new \VersatileCollections\FloatsCollection(8.5, 9.7, 10.8, 11.9);
+    $numeric_collection->appendCollection($float_collection);
+    $numeric_collection->toArray(); // === [1.0, 2.0, 3, 4, 5, 6, 8, 9, 10, 11, 8.5, 9.7, 10.8, 11.9]
 ```
 
 ### appendItem($item): $this
@@ -1191,7 +1208,8 @@ passed to the constructor which you forgot to unpack).
 ### map(callable $callback, $preserve_keys=true, $bind_callback_to_this=true): \VersatileCollections\CollectionInterface
 Applies the callback to the items in the collection and returns a new 
 collection containing all the items in the original collection after
-applying the callback function to each one.
+applying the callback function to each one. The original collection 
+is not modified.
 
 * **$callback**: a callback with the following signature: **function($key, $item): mixed**. 
 It should perform an operation on each item and return the result of the operation on each item.
@@ -1213,6 +1231,7 @@ $callback should refer to the collection object this method is being invoked on.
         false,
         false
     );
+    $int_collection->toArray(); // === [1, 2, 3, 4, 5]
     $multiplied->toArray(); // === [2, 4, 6, 8, 10]
 
     $multiplied = $int_collection->map(
@@ -1222,6 +1241,7 @@ $callback should refer to the collection object this method is being invoked on.
         false,
         true
     );
+    $int_collection->toArray(); // === [1, 2, 3, 4, 5]
     $multiplied->toArray(); // === [5, 10, 15, 20, 25])
 
     // preserved keys
@@ -1538,6 +1558,57 @@ in the callback's signature is the collection object this
             }
         ); // finally print out the results below:
 //  Average: 5.1818181818182, Max: 10, Median: 5, Min: 1, Mode: 2, Product: 7257600, Sum: 57
+```
+
+
+### prependCollection(CollectionInterface $other): $this
+Prepends all items from `$other` collection to the front of a collection.<br>
+Note that all numeric keys will be modified to start counting from zero while 
+literal keys won't be changed.<br>
+>For strictly typed collections, `$other` must be of the same type as the collection's type 
+or a sub-type of the the collection's type or else an Exception will be thrown.<br>
+
+For example, you cannot prepend an instance of **StringsCollection** to an instance 
+of **ArraysCollection**, but you can prepend an instance of **FloatsCollection** to
+an instance of **NumericsCollection** (since **FloatsCollection** is a sub-type of
+**NumericsCollection**).
+
+```php
+<?php 
+    $item1 = "4";
+    $item2 = 5.0;
+    $item3 = 7;
+    $collection = new \VersatileCollections\GenericCollection(
+        $item1, $item2, $item3
+    );
+
+    $other_item1 = "114";
+    $other_item2 = 35.5;
+    $other_item3 = 777;
+    $other_collection = new \VersatileCollections\GenericCollection(
+        $other_item1, $other_item2, $other_item3
+    );
+    $collection->prependCollection($other_collection);
+
+    // At this point, $collection now contains:
+    // [ 0=>'114', 1=>35.5, 2=>777, 3=>'4', 4=>5.0, 5=>7 ]
+
+    ////////////////////////
+    // Inheritance example
+    ////////////////////////
+    $numeric_collection = new \VersatileCollections\NumericsCollection(
+        1.0, 2.0, 3, 4, 5, 6
+    );
+    
+    // append a sub-class collection
+    $int_collection = new \VersatileCollections\IntsCollection(8, 9, 10, 11);
+    $numeric_collection->prependCollection($int_collection);
+    $numeric_collection->toArray(); // === [8, 9, 10, 11, 1.0, 2.0, 3, 4, 5, 6]
+
+    // append another sub-class collection
+    $float_collection = new \VersatileCollections\FloatsCollection(8.5, 9.7, 10.8, 11.9);
+    $numeric_collection->prependCollection($float_collection);
+    $numeric_collection->toArray(); // === [8.5, 9.7, 10.8, 11.9, 8, 9, 10, 11, 1.0, 2.0, 3, 4, 5, 6]
 ```
 
 ## Non-`CollectionInterface` Methods common to all Collection Classes using `CollectionInterfaceImplementationTrait`

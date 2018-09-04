@@ -405,7 +405,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
     /**
      * 
      * Prepends all items from $other collection to the front of $this collection. 
-     * Note that all numerical keys will be modified to start counting from zero while literal keys won't be changed.
+     * Note that all numeric keys will be modified to start counting from zero while literal keys won't be changed.
      * 
      * @param \VersatileCollections\CollectionInterface $other
      * 
@@ -568,7 +568,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * 
      * Applies the callback to the items in the collection and returns a new 
      * collection containing all the items in the original collection after 
-     * applying the callback function to each one.
+     * applying the callback function to each one. The original collection
+     * is not modified.
      * 
      * 
      * 
