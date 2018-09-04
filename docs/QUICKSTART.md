@@ -355,7 +355,7 @@ The latter gets the item and also removes it from the collection.
 
 To get a collection of all the keys in a collection, use **getKeys()**.
 
-To get a collection of all the items in a collection, use **getValues()**. 
+To get a collection of all the items in a collection, use **getItems()**. 
 This is an easy way of converting a collection to one with sequentially increasing
 numeric keys with the first key being **0**.
 

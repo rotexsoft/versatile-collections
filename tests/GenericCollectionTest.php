@@ -1,4 +1,5 @@
 <?php
+use function VersatileCollections\dump_var;
 
 class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
     
@@ -458,6 +459,11 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
         );
     }
     
+    /**
+     * 
+     * @expectedException \InvalidArgumentException
+     * 
+     */
     public function testThatFilterFirstN_WorksAsExpected() {
         
         $collection_of_ints = 
@@ -541,8 +547,17 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(
             $collection_of_ints->toArray(), [ 0=>1,  9=>10]
         );
+        
+        // exception will be thrown because we are trying to
+        // bind a non-closure callable to $this
+        $collection_of_ints_except_first_and_last_items->filterFirstN('is_null', null, false, true, false);
     }
     
+    /**
+     * 
+     * @expectedException \InvalidArgumentException
+     * 
+     */
     public function testThatTransformWorksAsExpected() {
         
         $collection_of_ints = 
@@ -575,8 +590,17 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(
             $collection_of_ints->toArray(), [8, 16, 24, 32]
         );
+        
+        // exception will be thrown because we are trying to
+        // bind a non-closure callable to $this
+        $collection_of_ints->transform('strtolower', true);
     }
     
+    /**
+     * 
+     * @expectedException \InvalidArgumentException
+     * 
+     */
     public function testThatEachWorksAsExpected() {
         
         $numeric_collection = new \VersatileCollections\NumericsCollection(
@@ -624,8 +648,19 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($accumulator, 21);
         
         $this->assertSame($return_val_from_each, $numeric_collection);
+        
+        // exception will be thrown because we are trying to
+        // bind a non-closure callable to $this
+        $numeric_collection->each(
+            'strtolower', false, true        
+        );
     }
     
+    /**
+     * 
+     * @expectedException \InvalidArgumentException
+     * 
+     */
     public function testThatMapWorksAsExpected() {
         
         $int_collection = new \VersatileCollections\IntsCollection(1, 2, 3, 4, 5);
@@ -664,6 +699,10 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
             true
         );
         $this->assertEquals($multiplied->toArray(), [5=>5, 6=>10, 7=>15, 8=>20, 9=>25]);
+        
+        // exception will be thrown because we are trying to
+        // bind a non-closure callable to $this
+        $int_collection->map('strtolower', true, true);
     }
     
     public function testThatToArrayWorksAsExpected() {
@@ -774,6 +813,11 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($collection->item2->age, '48');
         $this->assertEquals($collection->item3->age, '48');
         
+        $collection->setValForEachItem('age2', '48', true);
+        $this->assertEquals($collection->item1->age2, '48');
+        $this->assertEquals($collection->item2->age2, '48');
+        $this->assertEquals($collection->item3->age2, '48');
+        
         $collection = new \BaseCollectionTestImplementation();
         $collection->item1 = new TestValueObject('Joe');
         $collection->item2 = new TestValueObject('Jane');
@@ -805,6 +849,28 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
                 $exc
             );
         }
+        
+        ///////////////////////////////////////////////////
+        ///////////////////////////////////////////////////
+        $collection = new \BaseCollectionTestImplementation();
+        $collection->item1 = new ArrayAccessObject();
+        $collection->item2 = new ArrayAccessObject();
+        $collection->item3 = new ArrayAccessObject();
+        
+        $collection->setValForEachItem('age', 24, true);
+        $this->assertEquals($collection->item1['age'], 24);
+        $this->assertEquals($collection->item2['age'], 24);
+        $this->assertEquals($collection->item3['age'], 24);
+        
+        $collection->setValForEachItem('age', '48', true);
+        $this->assertEquals($collection->item1['age'], '48');
+        $this->assertEquals($collection->item2['age'], '48');
+        $this->assertEquals($collection->item3['age'], '48');
+        
+        $collection->setValForEachItem('age3', '59', true);
+        $this->assertEquals($collection->item1['age3'], '59');
+        $this->assertEquals($collection->item2['age3'], '59');
+        $this->assertEquals($collection->item3['age3'], '59');
     }
     
     public function testThatIsEmptyWorksAsExpected() {
@@ -1852,7 +1918,10 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
             $bind_to_this_on_invocation
         );
     }
-    
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
     public function testThatAddMethodWorksAsExpected() {
         
         $collection = new \BaseCollectionTestImplementation();
@@ -1911,6 +1980,11 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
             $array_of_static_methods[$expected_key_for_new_method]['method'], 
             $method
         );
+        
+        //try binding a non-closure callable to this should generate exception
+        $collection->addMethod(
+            'strToLower', 'strtolower', true, true
+        ); 
     }
     
     public function testThatEveryNthWorksAsExpected() {
@@ -3679,7 +3753,7 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
             ]
         );
         
-        $values = $c->getValues();
+        $values = $c->getItems();
         
         $this->assertTrue(
             $values instanceof \VersatileCollections\CollectionInterface
@@ -4299,6 +4373,29 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
         $c->paginate([], [])->toArray();
     }
     
+    
+    /**
+     * @expectedException \BadMethodCallException
+     */
+    public function testThat__CallWorksAsExpected2() {
+        
+        \VersatileCollections\GenericCollection::addMethodForAllInstances(
+            'toUpper', 
+            'strtoupper', 
+            true,
+            true
+        );
+        
+        $collection = new \BaseCollectionTestImplementation();
+        $collection[] = 'Johnny Cash';
+        $collection[] = 'Suzzy Something';
+        $collection[] = 'Jack Bauer';
+        $collection[] = 'Jane Fonda';
+        
+        // binding non-closure callable to $this will generate exception
+        $collection->toUpper();
+    }
+    
     /**
      * @expectedException \BadMethodCallException
      */
@@ -4431,5 +4528,240 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals('toUpper via addStaticMethod'. \BaseCollectionTestImplementation::class, $result);
 
         \BaseCollectionTestImplementation::nonExistentMethod();
+    }
+    
+    public function testDiffCollection() {
+	
+        $c = \VersatileCollections\GenericCollection::makeNew(['id' => 1, 'first_word' => 'Hello']);
+        
+        $this->assertEquals(['id' => 1], $c->diff(['first_word' => 'Hello', 'last_word' => 'World'])->toArray());
+    }
+	
+    public function testDiffUsingWithCollection() {
+	
+        $c = \VersatileCollections\GenericCollection::makeNew(['en_GB', 'fr', 'HR']);
+        // demonstrate that diffKeys wont support case insensitivity
+        $this->assertEquals(['en_GB', 'fr', 'HR'], $c->diff(['en_gb', 'hr'])->toArray());
+        // allow for case insensitive difference
+        $this->assertEquals(['fr'], $c->diffUsing(['en_gb', 'hr'], 'strcasecmp')->getItems()->toArray());
+    }
+	
+    public function testDiffUsingWithEmptyArray() {
+	
+        $c = \VersatileCollections\GenericCollection::makeNew(['en_GB', 'fr', 'HR']);
+        $this->assertEquals(['en_GB', 'fr', 'HR'], $c->diffUsing([], 'strcasecmp')->getItems()->toArray());
+    }
+	
+    public function testDiffWithEmptyArray() {
+	
+        $c = \VersatileCollections\GenericCollection::makeNew(['id' => 1, 'first_word' => 'Hello']);
+        $this->assertEquals(['id' => 1, 'first_word' => 'Hello'], $c->diff([])->toArray());
+    }
+	
+    public function testDiffKeys() {
+	
+        $c1 = \VersatileCollections\GenericCollection::makeNew(['id' => 1, 'first_word' => 'Hello']);
+        $c2 = \VersatileCollections\GenericCollection::makeNew(['id' => 123, 'foo_bar' => 'Hello']);
+        $this->assertEquals(['first_word' => 'Hello'], $c1->diffKeys($c2->toArray())->toArray());
+    }
+	
+    public function testDiffKeysUsing() {
+	
+        $c1 = \VersatileCollections\GenericCollection::makeNew(['id' => 1, 'first_word' => 'Hello']);
+        $c2 = \VersatileCollections\GenericCollection::makeNew(['ID' => 123, 'foo_bar' => 'Hello']);
+        // demonstrate that diffKeys wont support case insensitivity
+        $this->assertEquals(['id'=>1, 'first_word'=> 'Hello'], $c1->diffKeys($c2->toArray())->toArray());
+        // allow for case insensitive difference
+        $this->assertEquals(['first_word' => 'Hello'], $c1->diffKeysUsing($c2->toArray(), 'strcasecmp')->toArray());
+    }
+	
+    public function testDiffAssoc() {
+	
+        $c1 = \VersatileCollections\GenericCollection::makeNew(['id' => 1, 'first_word' => 'Hello', 'not_affected' => 'value']);
+        $c2 = \VersatileCollections\GenericCollection::makeNew(['id' => 123, 'foo_bar' => 'Hello', 'not_affected' => 'value']);
+        $this->assertEquals(['id' => 1, 'first_word' => 'Hello'], $c1->diffAssoc($c2->toArray())->toArray());
+    }
+	
+    public function testDiffAssocUsing() {
+	
+        $c1 = \VersatileCollections\GenericCollection::makeNew(['a' => 'green', 'b' => 'brown', 'c' => 'blue', 'red']);
+        $c2 = \VersatileCollections\GenericCollection::makeNew(['A' => 'green', 'yellow', 'red']);
+        // demonstrate that the case of the keys will affect the output when diffAssoc is used
+        $this->assertEquals(['a' => 'green', 'b' => 'brown', 'c' => 'blue', 'red'], $c1->diffAssoc($c2->toArray())->toArray());
+        // allow for case insensitive difference
+        $this->assertEquals(['b' => 'brown', 'c' => 'blue', 'red'], $c1->diffAssocUsing($c2->toArray(), 'strcasecmp')->toArray());
+    }
+    
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testAllSatisfyConditions() {
+	
+        $c = \VersatileCollections\GenericCollection::makeNew([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+        
+        // test that $this also works
+        // All items less than 11: true
+        $this->assertTrue(
+            $c->allSatisfyConditions(
+                function($key, $item) {
+                    return $this->count() > 0 && $item < 11;
+                }
+            )
+        );
+            
+        $this->assertFalse(
+            $c->allSatisfyConditions(
+                function($key, $item) {
+                    return $item > 5;
+                }
+            )
+        );
+            
+        $this->assertFalse(
+            $c->allSatisfyConditions(
+                function($key, $item) {
+                    return (isset($this) && $this instanceof \VersatileCollections\CollectionInterface);
+                },
+                false
+            )
+        );
+                
+        // use non-closure callback without bind $this
+        $this->assertFalse(
+            $c->allSatisfyConditions(
+                [ \TestValueObject2::class, 'isItemGreaterThan11' ],
+                false
+            )
+        );
+        
+        // use non-closure callback and try binding to $this which should throw exception
+        $c->allSatisfyConditions(
+            [ \TestValueObject2::class, 'isItemGreaterThan11' ]
+        );
+    }
+    
+    public function testIntersectByKeys() {
+        
+        $array1 = array('blue'=>1, 'red'=>2, 'green'=>3, 'purple'=>4);
+        $array2 = array('green'=>5, 'blue'=>6, 'yellow'=>7, 'cyan'=>8);
+        
+        $collection = \VersatileCollections\GenericCollection::makeNew($array1);
+        
+        $this->assertSame(
+            $collection->intersectByKeys($array2)->toArray(), 
+            ['blue'=>1, 'green'=>3]
+        );
+    }
+    
+    public function testIntersectByItems() {
+        
+        $array1 = array("a" => "green", "red", "blue");
+        $array2 = array("b" => "green", "yellow", "red");
+        
+        $collection = \VersatileCollections\GenericCollection::makeNew($array1);
+        
+        $this->assertSame(
+            $collection->intersectByItems($array2)->toArray(), 
+            ["a" => "green", 0 => "red"]
+        );
+    }
+    
+    public function testIntersectByKeysAndItems() {
+        
+        $array1 = array("a" => "green", "b" => "brown", "c" => "blue", "red");
+        $array2 = array("a" => "green", "b" => "yellow", "blue", "red");
+        
+        $collection = \VersatileCollections\GenericCollection::makeNew($array1);
+        
+        $this->assertSame(
+            $collection->intersectByKeysAndItems($array2)->toArray(), 
+            ["a" => "green"]
+        );
+    }
+    
+    public function testIntersectByKeysUsingCallback() {
+
+        $key_compare_func = function ($key1, $key2) {
+            
+            if ($key1 == $key2)
+                return 0;
+            else if ($key1 > $key2)
+                return 1;
+            else
+                return -1;
+        };
+        
+        $array1 = array('blue'  => 1, 'red'  => 2, 'green'  => 3, 'purple' => 4);
+        $array2 = array('green' => 5, 'blue' => 6, 'yellow' => 7, 'cyan'   => 8);
+        
+        $collection = \VersatileCollections\GenericCollection::makeNew($array1);
+        
+        $this->assertSame(
+            $collection->intersectByKeysUsingCallback($array2, $key_compare_func)->toArray(), 
+            ['blue'  => 1, 'green'  => 3]
+        );
+    }
+    
+    public function testIntersectByItemsUsingCallback() {
+
+        $array1 = array("a" => "green", "b" => "brown", "c" => "blue", "red");
+        $array2 = array("a" => "GREEN", "B" => "brown", "yellow", "red");
+        
+        $collection = \VersatileCollections\GenericCollection::makeNew($array1);
+        
+        $this->assertSame(
+            $collection->intersectByItemsUsingCallback($array2, "strcasecmp")->toArray(), 
+            ["a" => "green", "b" => "brown", 0 => "red"]
+        );
+    }
+    
+    public function testIntersectByKeysAndItemsUsingCallbacks() {
+        
+        //////////////////////////////////////////////////////////////////////////////
+        // null key callback and null item callback
+        $array1 = array("a" => "green", "b" => "brown", "c" => "blue", "red");
+        $array2 = array("a" => "green", "b" => "yellow", "blue", "red");
+        
+        $collection = \VersatileCollections\GenericCollection::makeNew($array1);
+        
+        $this->assertSame(
+            $collection->intersectByKeysAndItemsUsingCallbacks($array2, null, null)->toArray(), 
+            ["a" => "green"]
+        );
+        
+        //////////////////////////////////////////////////////////////////////////////
+        // non-null key callback and non-null item callback
+        $array1 = array("a" => "green", "b" => "brown", "c" => "blue", "red");
+        $array2 = array("a" => "GREEN", "B" => "brown", "yellow", "red");
+        
+        $collection = \VersatileCollections\GenericCollection::makeNew($array1);
+        
+        $this->assertSame(
+            $collection->intersectByKeysAndItemsUsingCallbacks($array2, "strcasecmp", "strcasecmp")->toArray(), 
+            ["a" => "green", "b" => "brown"]
+        );
+        
+        //////////////////////////////////////////////////////////////////////////////
+        // null key callback and non-null item callback
+        $array1 = array("a" => "green", "b" => "brown", "c" => "blue", "red");
+        $array2 = array("a" => "GREEN", "B" => "brown", "yellow", "red");
+        
+        $collection = \VersatileCollections\GenericCollection::makeNew($array1);
+        
+        $this->assertSame(
+            $collection->intersectByKeysAndItemsUsingCallbacks($array2, null, "strcasecmp")->toArray(), 
+            ["a" => "green"]
+        );
+        //////////////////////////////////////////////////////////////////////////////
+        // non-null key callback and null item callback
+        $array1 = array("a" => "green", "b" => "brown", "c" => "blue", "red");
+        $array2 = array("a" => "GREEN", "B" => "brown", "yellow", "red");
+        
+        $collection = \VersatileCollections\GenericCollection::makeNew($array1);
+        
+        $this->assertSame(
+            $collection->intersectByKeysAndItemsUsingCallbacks($array2, "strcasecmp", null)->toArray(), 
+            ["b" => "brown"]
+        );
     }
 }

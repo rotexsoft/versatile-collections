@@ -152,9 +152,9 @@ trait CollectionInterfaceImplementationTrait {
             
             if( ((bool)$bind_to_this) ) {
                 
-                $new_callable = \Closure::bind($callable, $this);
+                $new_callable = @\Closure::bind($callable, $this);
                 
-                if( $new_callable !== false ) {
+                if( $new_callable instanceof \Closure ) {
                     
                     $callable = $new_callable;
                     
@@ -219,10 +219,10 @@ trait CollectionInterfaceImplementationTrait {
             
             if( ((bool)static::$versatile_collections_methods_for_all_instances[$key_for_all_instances]['bind_to_this_on_invocation']) ) {
                 
-                $new_callable = \Closure::bind($new_callable, $this);
+                $new_callable = @\Closure::bind($new_callable, $this);
             }
             
-            if( is_callable($new_callable) ) {
+            if( $new_callable instanceof \Closure ) {
             
                 $result = call_user_func_array($new_callable, $arguments);
 
@@ -467,6 +467,7 @@ trait CollectionInterfaceImplementationTrait {
             
             if( 
                 is_object($item)
+                && !($item instanceof \ArrayAccess)
                 && 
                 ( 
                     $add_field_if_not_present 
@@ -530,9 +531,9 @@ trait CollectionInterfaceImplementationTrait {
         
         if( $bind_callback_to_this === true ) {
             
-            $new_callback = \Closure::bind($filterer, $this);
+            $new_callback = @\Closure::bind($filterer, $this);
 
-            if( $new_callback === false ) {
+            if( is_null($new_callback) || !($new_callback instanceof \Closure) ) {
 
                 $function = __FUNCTION__;
                 $class = get_class($this);
@@ -599,9 +600,9 @@ trait CollectionInterfaceImplementationTrait {
         
         if( $bind_callback_to_this === true ) {
             
-            $new_callback = \Closure::bind($transformer, $this);
+            $new_callback = @\Closure::bind($transformer, $this);
 
-            if( $new_callback === false ) {
+            if( is_null($new_callback) || !($new_callback instanceof \Closure) ) {
 
                 $function = __FUNCTION__;
                 $class = get_class($this);
@@ -1063,9 +1064,9 @@ trait CollectionInterfaceImplementationTrait {
     ) {
         if( $bind_callback_to_this === true ) {
             
-            $new_callback = \Closure::bind($callback, $this);
+            $new_callback = @\Closure::bind($callback, $this);
 
-            if( $new_callback === false ) {
+            if( is_null($new_callback) || !($new_callback instanceof \Closure) ) {
 
                 $function = __FUNCTION__;
                 $class = get_class($this);
@@ -1100,9 +1101,9 @@ trait CollectionInterfaceImplementationTrait {
     ) {    
         if( $bind_callback_to_this === true ) {
             
-            $new_callback = \Closure::bind($callback, $this);
+            $new_callback = @\Closure::bind($callback, $this);
 
-            if( $new_callback === false ) {
+            if( is_null($new_callback) || !($new_callback instanceof \Closure) ) {
 
                 $function = __FUNCTION__;
                 $class = get_class($this);
@@ -2161,10 +2162,10 @@ trait CollectionInterfaceImplementationTrait {
     
     /**
      * 
-     * @see \VersatileCollections\CollectionInterface::getValues()
+     * @see \VersatileCollections\CollectionInterface::getItems()
      * 
      */
-    public function getValues() {
+    public function getItems() {
         
         return new static(...array_values($this->versatile_collections_items));
     }
@@ -2358,5 +2359,185 @@ trait CollectionInterfaceImplementationTrait {
         }
 
         return $this->slice($offset, $num_items_per_page);
+    }
+    
+    /**
+     * 
+     * @see \VersatileCollections\CollectionInterface::diff()
+     * 
+     */
+    public function diff(array $items) {
+        
+        return static::makeNew(array_diff($this->versatile_collections_items, $items));
+    }
+
+    /**
+     * 
+     * @see \VersatileCollections\CollectionInterface::diffUsing()
+     * 
+     */
+    public function diffUsing(array $items, callable $callback) {
+        
+        return static::makeNew(array_udiff($this->versatile_collections_items, $items, $callback));
+    }
+
+    /**
+     * 
+     * @see \VersatileCollections\CollectionInterface::diffAssoc()
+     * 
+     */
+    public function diffAssoc(array $items) {
+        
+        return static::makeNew(array_diff_assoc($this->versatile_collections_items, $items));
+    }
+
+    /**
+     * 
+     * @see \VersatileCollections\CollectionInterface::diffAssocUsing()
+     * 
+     */
+    public function diffAssocUsing(array $items, callable $key_comparator) {
+        
+        return static::makeNew(array_diff_uassoc($this->versatile_collections_items, $items, $key_comparator));
+    }
+
+    /**
+     * 
+     * @see \VersatileCollections\CollectionInterface::diffKeys()
+     * 
+     */
+    public function diffKeys(array $items) {
+        
+        return static::makeNew(array_diff_key($this->versatile_collections_items, $items));
+    }
+
+    /**
+     * 
+     * @see \VersatileCollections\CollectionInterface::diffKeysUsing()
+     * 
+     */
+    public function diffKeysUsing(array $items, callable $key_comparator) {
+        
+        return static::makeNew(array_diff_ukey($this->versatile_collections_items, $items, $key_comparator));
+    }
+
+    /**
+     * 
+     * @see \VersatileCollections\CollectionInterface::allSatisfyConditions()
+     * 
+     */
+    public function allSatisfyConditions(callable $callback, $bind_callback_to_this=true) {
+        
+        if( $bind_callback_to_this === true ) {
+            
+            $new_callback = @\Closure::bind($callback, $this);
+
+            if( is_null($new_callback) || !($new_callback instanceof \Closure) ) {
+
+                $function = __FUNCTION__;
+                $class = get_class($this);
+                $msg = "Error [{$class}::{$function}(...)]: Could not bind \$this to the supplied callable"
+                    . PHP_EOL . " `\$callback`: " . var_to_string($callback);
+                throw new \InvalidArgumentException($msg);
+
+            } else {
+
+                $callback = $new_callback;
+            }
+        }
+        
+        return $this->reduceWithKeyAccess(
+            function($carry, $item, $key) use ($callback){
+            
+                return $carry && $callback($key, $item);
+            }, 
+            true
+        );
+    }
+    
+    /**
+     * 
+     * @see \VersatileCollections\CollectionInterface::intersectByKeys()
+     * 
+     */
+    public function intersectByKeys(array $arr) {
+        
+        return static::makeNew(array_intersect_key($this->versatile_collections_items, $arr));
+    }
+    
+    /**
+     * 
+     * @see \VersatileCollections\CollectionInterface::intersectByItems()
+     * 
+     */
+    public function intersectByItems(array $arr) {
+        
+        return static::makeNew(array_intersect($this->versatile_collections_items, $arr));
+    }
+    
+    /**
+     * 
+     * @see \VersatileCollections\CollectionInterface::intersectByKeysAndItems()
+     * 
+     */
+    public function intersectByKeysAndItems(array $arr) {
+        
+        return static::makeNew(array_intersect_assoc($this->versatile_collections_items, $arr));
+    }
+    
+    /**
+     * 
+     * @see \VersatileCollections\CollectionInterface::intersectByKeysUsingCallback()
+     * 
+     */
+    public function intersectByKeysUsingCallback(array $arr, callable $key_comparator) {
+        
+        return static::makeNew(array_intersect_ukey($this->versatile_collections_items, $arr, $key_comparator));
+    }
+    
+    /**
+     * 
+     * @see \VersatileCollections\CollectionInterface::intersectByItemsUsingCallback()
+     * 
+     */
+    public function intersectByItemsUsingCallback(array $arr, callable $item_comparator) {
+        
+        return static::makeNew(array_uintersect($this->versatile_collections_items, $arr, $item_comparator));
+    }
+    
+    /**
+     * 
+     * @see \VersatileCollections\CollectionInterface::intersectByKeysAndItemsUsingCallbacks()
+     * 
+     */
+    public function intersectByKeysAndItemsUsingCallbacks(array $arr, callable $key_comparator=null, callable $item_comparator=null){
+        
+        $result = [];
+        
+        if( !is_null($key_comparator) && is_null($item_comparator) ) {
+            
+            $result = array_intersect_uassoc(
+                $this->versatile_collections_items, $arr, $key_comparator
+            );
+            
+        } else if( is_null($key_comparator) && !is_null($item_comparator) ) {
+            
+            $result = array_uintersect_assoc(
+                $this->versatile_collections_items, $arr, $item_comparator
+            );
+            
+        } else if( !is_null($key_comparator) && !is_null($item_comparator) ) {
+            
+            $result = array_uintersect_uassoc(
+                $this->versatile_collections_items, $arr, $item_comparator, $key_comparator
+            );
+            
+        } else {
+            
+            //is_null($key_comparator) && is_null($item_comparator)
+            $result = array_intersect_assoc($this->versatile_collections_items, $arr);
+        }
+        
+        return static::makeNew($result);
     }
 }

@@ -100,12 +100,10 @@ Finding Items in a Collection Object
 - searchAllByVal( $value, $strict = false )
 - searchByCallback(callable $callback, $bind_callback_to_this=true)
 
-
 Iterating over / Looping through a Collection Object
 -------------------------------------------------------
 - each(callable $callback, $termination_value=false, $bind_callback_to_this=true)
 - map(callable $callback, $preserve_keys = true, $bind_callback_to_this=true)
-
 
 Sorting Items in a Collection Object
 ------------------------------------------
@@ -140,6 +138,20 @@ Other Operations on a Collection Object
 - unique()
 - whenTrue( $truthy_value, callable $callback, callable $default=null )
 - whenFalse( $falsy_value, callable $callback, callable $default=null )
+- diff(array $items)
+- diffUsing(array $items, callable $callback)
+- diffAssoc(array $items)
+- diffAssocUsing(array $items, callable $key_comparator)
+- diffKeys(array $items)
+- diffKeysUsing(array $items, callable $key_comparator)
+- allSatisfyConditions(callable $callback, $bind_callback_to_this=true)
+- intersectByKeys(array $arr)
+- intersectByItems(array $arr)
+- intersectByKeysAndItems(array $arr)
+- intersectByKeysUsingCallback(array $arr, callable $key_comparator)
+- intersectByItemsUsingCallback(array $arr, callable $item_comparator)
+- intersectByKeysAndItemsUsingCallbacks(array $arr, callable $key_comparator=null, callable $item_comparator=null)
+
 
 
 Strictly Typed Collections Documentation

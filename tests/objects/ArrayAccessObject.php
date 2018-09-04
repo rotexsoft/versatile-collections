@@ -44,8 +44,8 @@ class ArrayAccessObject implements \ArrayAccess {
         }
         
         throw new Exception( 
-            "Error in ".__METHOD__.": Offset `"
-            . \VersatileCollections\VersatileCollections\var_to_string($offset)
+            "Error in ".__METHOD__.": offsetGet `"
+            . \VersatileCollections\var_to_string($offset)
             ."` does not exist."
         );
     }

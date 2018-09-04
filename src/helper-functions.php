@@ -288,7 +288,7 @@ function random_array_keys(array $array, $number_of_random_keys = 1) {
  * 
  * Generate a (screen/user)-friendly string representation of a variable. 
  * 
- * @param mix $var
+ * @param mixed $var
  * 
  * @return string a (screen / user)-friendly string representation of a variable
  * 
@@ -296,4 +296,19 @@ function random_array_keys(array $array, $number_of_random_keys = 1) {
 function var_to_string($var) {
     
     return (new \SebastianBergmann\Exporter\Exporter())->export($var);
+}
+
+/**
+ * 
+ * Generate a (screen/user)-friendly string representation of a variable and print it out to the screen. 
+ * 
+ * @param mixed $var
+ * 
+ * @return void
+ * 
+ */
+function dump_var($var) {
+    
+    $line_breaker = (php_sapi_name() === 'cli') ? PHP_EOL : '<br>';
+    echo var_to_string($var). $line_breaker . $line_breaker;
 }

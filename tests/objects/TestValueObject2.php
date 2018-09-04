@@ -16,4 +16,9 @@ class TestValueObject2 {
         $this->age = $age;
         $this->name = $name;
     }
+    
+    public static function isItemGreaterThan11($key, $item) {
+     
+        return $item > 11;
+    }
 }

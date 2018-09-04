@@ -535,7 +535,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      *
      * @return \VersatileCollections\CollectionInterface new collection with all the items in the original collection
      */
-    public function getValues();
+    public function getItems();
     
     /**
      * 
@@ -573,7 +573,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * 
      * 
      * @param callable $callback a callback with the following signature
-     *                           function($key, $item). It should perform an
+     *                           function($key, $item): mixed. It should perform an
      *                           operation on each item and return the result 
      *                           of the operation on each item.
      *                          
@@ -614,7 +614,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * returned from executing the given callback.
      *
      * @param  callable $callback a callback with the following signature
-     *                            function($collection). The $collection 
+     *                            function($collection):mixed. The $collection 
      *                            argument in the callback's signature is
      *                            collection object this 
      *                            pipeAndReturnCallbackResult 
@@ -1494,4 +1494,209 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * 
      */
     public function paginate($page_number, $num_items_per_page);
+    
+    /**
+     * 
+     * Get the items in the collection that are not present in the given items.
+     *
+     * @param  array  $items items in the collection that are not present in $items are returned by this method
+     * 
+     * @return \VersatileCollections\CollectionInterface a new collection containing items in the collection that are not present in the given items
+     */
+    public function diff(array $items);
+    
+    /**
+     * 
+     * Get the items in the collection that are not present in the given items using a callback for the comparison.
+     *
+     * @param  array  $items items in the collection that are not present in $items are returned by this method 
+     * @param  callable  $callback a callback used to check if an item in the collection is equal to an item in $item 
+     *                   The function must have the following signature:
+     *                   int callback ( mixed $a, mixed $b ): 
+     *                   The comparison function must return an integer less than, 
+     *                   equal to, or greater than zero if the first argument is 
+     *                   considered to be respectively less than, equal to, 
+     *                   or greater than the second.
+     * 
+     * @return \VersatileCollections\CollectionInterface a new collection containing items in the collection that are not present in the given items
+     */
+    public function diffUsing(array $items, callable $callback);
+    
+    /**
+     * 
+     * Get the items in the collection whose keys and values are not present in the given items.
+     *
+     * @param  array  $items items in the collection whose keys and values are not present in $items are returned by this method
+     * 
+     * @return \VersatileCollections\CollectionInterface a new collection containing items in the collection whose keys and values are not present in the given items
+     */
+    public function diffAssoc(array $items);
+
+    /**
+     * 
+     * Get the items in the collection whose keys and values are not present in the given items.
+     *
+     * @param  array  $items
+     * @param  callable  $key_comparator a callback used to check if a key for an item in the collection is equal to a key for an item in $item 
+     *                   The function must have the following signature:
+     *                   int callback ( mixed $a, mixed $b ): 
+     *                   The comparison function must return an integer less than, 
+     *                   equal to, or greater than zero if the first argument is 
+     *                   considered to be respectively less than, equal to, 
+     *                   or greater than the second.
+     * 
+     * @return \VersatileCollections\CollectionInterface a new collection containing items in the collection whose keys and values are not present in the given items
+     */
+    public function diffAssocUsing(array $items, callable $key_comparator);
+    
+    /**
+     * 
+     * Get the items in the collection whose keys are not present in the given items.
+     *
+     * @param  array  $items items in the collection whose keys are not present in $items are returned by this method
+     * @return \VersatileCollections\CollectionInterface a new collection containing items in the collection whose keys are not present in $items
+     */
+    public function diffKeys(array $items);
+
+    /**
+     * 
+     * Get the items in the collection whose keys are not present in the given items using a callback for the key comparison.
+     *
+     * @param  array   $items items in the collection whose keys are not present in $items are returned by this method
+     * @param  callable  $key_comparator a callback used to check if a key for an item in the collection is equal to a key for an item in $item 
+     *                   The function must have the following signature:
+     *                   int callback ( mixed $a, mixed $b ): 
+     *                   The comparison function must return an integer less than, 
+     *                   equal to, or greater than zero if the first argument is 
+     *                   considered to be respectively less than, equal to, 
+     *                   or greater than the second.
+     * 
+     * @return \VersatileCollections\CollectionInterface a new collection containing items in the collection whose keys are not present in $items
+     */
+    public function diffKeysUsing(array $items, callable $key_comparator);
+    
+    
+    /**
+     * 
+     * Iterate through a collection and execute a callback over each item (the callback
+     * checks if each item satisfies one or more condition(s) and returns true if an item 
+     * satisfies the condition(s) or false if not) and return true if all items satisfy 
+     * the condition(s) tested in the callback or false otherwise.
+     * 
+     * @param callable $callback a callback with the following signature
+     *                           function($key, $item):bool
+     *                           It should return true if the current item `$item`
+     *                           satisfies one or more condition(s) or false otherwise.
+     * 
+     * @param bool $bind_callback_to_this true if the variable $this inside the supplied 
+     *                                    $callback should refer to the collection object
+     *                                    this method is being invoked on, else false if
+     *                                    you want the variable $this to be undefined 
+     *                                    inside the supplied $callback.
+     * 
+     * @return bool
+     * 
+     */
+    public function allSatisfyConditions(callable $callback, $bind_callback_to_this=true);
+    
+    /**
+     * 
+     * Create a collection of items from the original collection whose keys are present in $arr
+     * 
+     * @param array $arr
+     * 
+     * @return \VersatileCollections\CollectionInterface new collection of items from the original collection whose keys are present in $arr
+     * 
+     */
+    public function intersectByKeys(array $arr);
+    
+    /**
+     * 
+     * Create a collection of items from the original collection that are present in $arr
+     * 
+     * @param array $arr
+     * 
+     * @return \VersatileCollections\CollectionInterface new collection of items from the original collection that are present in $arr
+     * 
+     */
+    public function intersectByItems(array $arr);
+    
+    /**
+     * 
+     * Create a collection of items from the original collection whose keys and corresponding items /values are present in $arr
+     * 
+     * @param array $arr
+     * 
+     * @return \VersatileCollections\CollectionInterface new collection of items from the original collection whose keys and corresponding items /values are present in $arr
+     * 
+     */
+    public function intersectByKeysAndItems(array $arr);
+    
+    /**
+     * 
+     * Create a collection of items from the original collection whose keys are present in $arr using a callback for the key comparison
+     * 
+     * @param array $arr
+     * @param callable $key_comparator a callback used to check if a key in the collection is equal to a key in $arr 
+     *                   The function must have the following signature:
+     *                   int callback ( mixed $a, mixed $b ): 
+     *                   The comparison function must return an integer less than, 
+     *                   equal to, or greater than zero if the first argument is 
+     *                   considered to be respectively less than, equal to, 
+     *                   or greater than the second.
+     * 
+     * @return \VersatileCollections\CollectionInterface new collection of items from the original collection whose keys are present in $arr
+     * 
+     */
+    public function intersectByKeysUsingCallback(array $arr, callable $key_comparator);
+    
+    /**
+     * 
+     * Create a collection of items from the original collection that are present in $arr using a callback for the item comparison
+     * 
+     * @param array $arr
+     * @param callable $item_comparator a callback used to check if an item in the collection is equal to an item in $arr 
+     *                   The function must have the following signature:
+     *                   int callback ( mixed $a, mixed $b ): 
+     *                   The comparison function must return an integer less than, 
+     *                   equal to, or greater than zero if the first argument is 
+     *                   considered to be respectively less than, equal to, 
+     *                   or greater than the second.
+     * 
+     * @return \VersatileCollections\CollectionInterface new collection of items from the original collection that are present in $arr
+     * 
+     */
+    public function intersectByItemsUsingCallback(array $arr, callable $item_comparator);
+    
+    /**
+     * 
+     * Create a collection of items from the original collection whose keys and corresponding items /values are present in $arr  using callbacks for key and item comparisons
+     * 
+     * @param array $arr
+     * 
+     * @param callable $key_comparator a callback used to check if a key in the collection is equal to a key in $arr 
+     *                   The function must have the following signature:
+     *                   int callback ( mixed $a, mixed $b ): 
+     *                   The comparison function must return an integer less than, 
+     *                   equal to, or greater than zero if the first argument is 
+     *                   considered to be respectively less than, equal to, 
+     *                   or greater than the second.
+     * 
+     * @param callable $item_comparator a callback used to check if an item in the collection is equal to an item in $arr 
+     *                   The function must have the following signature:
+     *                   int callback ( mixed $a, mixed $b ): 
+     *                   The comparison function must return an integer less than, 
+     *                   equal to, or greater than zero if the first argument is 
+     *                   considered to be respectively less than, equal to, 
+     *                   or greater than the second.
+     * 
+     *                   !is_null($key_comparator) && is_null($item_comparator) use array_intersect_uassoc
+     *                   is_null($key_comparator) && !is_null($item_comparator) use array_uintersect_assoc
+     *                   !is_null($key_comparator) && !is_null($item_comparator) use array_uintersect_uassoc
+     *                   is_null($key_comparator) && is_null($item_comparator) use array_intersect_assoc
+     * 
+     * @return \VersatileCollections\CollectionInterface new collection of items from the original collection whose keys and corresponding items /values are present in $arr
+     * 
+     */
+    public function intersectByKeysAndItemsUsingCallbacks(array $arr, callable $key_comparator=null, callable $item_comparator=null);
 }

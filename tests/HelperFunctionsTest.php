@@ -322,4 +322,25 @@ class HelperFunctionsTest extends \PHPUnit_Framework_TestCase {
         
         get_object_property_value([], []);
     }
+    
+    public function test_dump_var() {
+
+        $result = $this->execFuncAndReturnBufferedOutput(
+            "\\VersatileCollections\\dump_var", [['Hello World!', 'Boo']]
+        );
+        
+        $this->assertContains('Hello World!', $result);
+        $this->assertContains('Boo', $result);
+    }
+    
+    protected function execFuncAndReturnBufferedOutput(callable $func, array $args=[]) {
+        
+        // Capture the output
+        ob_start();
+        
+        call_user_func_array($func, $args);
+        
+        // Get the captured output and close the buffer and return the captured output
+        return ob_get_clean();
+    }
 }

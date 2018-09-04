@@ -2,7 +2,40 @@
 Most of the examples in this section use the **\VersatileCollections\GenericCollection** class, 
 but are applicable to all collection classes that have implemented **\VersatileCollections\CollectionInterface**.
 
-### appendCollection(CollectionInterface $other)
+### allSatisfyConditions(callable $callback, $bind_callback_to_this=true): bool
+Iterate through a collection and execute a callback over each item (the callback
+checks if each item satisfies one or more condition(s) and returns true if an item 
+satisfies the condition(s) or false if not) and return true if all items satisfy 
+the condition(s) tested in the callback or false otherwise.
+
+* **$callback**: a callback with the following signature **function($key, $item) : bool**. 
+It should return `true` if the current item `$item` satisfies one or more condition(s) or `false` otherwise.
+* **$bind_callback_to_this**: `true` if the variable **$this** inside the supplied **$callback** should refer to the collection object 
+this method is being invoked on, else `false` if you don't want the supplied **$callback** to be bound to the collection object this 
+method is being invoked on.
+
+```php
+<?php
+    $c = \VersatileCollections\GenericCollection::makeNew(
+        [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    );
+
+    // All items less than 11: true
+    $c->allSatisfyConditions(
+        function($key, $item) {
+            return $this->count() > 0 && $item < 11;
+        }
+    ); // === true
+
+    // All items greater than 5: false
+    $c->allSatisfyConditions(
+        function($key, $item) {
+            return $item > 5;
+        }
+    ); // === false
+```
+
+### appendCollection(CollectionInterface $other): $this
 Appends all items from `$other` collection to the end of a collection.<br>
 Appended items will be assigned numeric keys, so as to avoid overwriting item(s)
 in the original collection with same key(s).<br>
@@ -36,7 +69,7 @@ an instance of **NumericsCollection** (since **FloatsCollection** is a sub-type 
     // [ 0=>'4', 1=>5.0, 2=>7, 3=>'114', 4=>35.5, 5=>777 ]
 ```
 
-### appendItem($item)
+### appendItem($item): $this
 Appends an item to the end of a collection.<br>
 >For strictly typed collections, `$item` must be of the same type as the collection's type 
 or a sub-type of the the collection's type or else an Exception will be thrown.<br>
@@ -62,7 +95,7 @@ but you can append a **float** or an **integer** to an instance of **NumericsCol
     // [ 0=>4, 1=>5.0, 2=>7, 3=>777, 4=>7.5 ]
 ```
 
-### column($column_key, $index_key=null)
+### column($column_key, $index_key=null): \VersatileCollections\GenericCollection
 Returns a collection containing the values from a single column in the collection. 
 Works like php's array_column.<br>
 **$column_key** is the name of the property in each object or the key in each array
@@ -123,7 +156,7 @@ strings or integers otherwise an exception will be thrown.
     // [ 17=>'Boo', 27=>'Coo', 37=>'Doo', 47=>'Foo', 57=>'Goo', 67=>'Hoo' ]
 ```
 
-### containsItem($item)
+### containsItem($item): bool
 Check if a collection contains an item using strict comparison.
 
 ```php
@@ -155,7 +188,7 @@ Check if a collection contains an item using strict comparison.
     $collection->containsItem('7'); // false
 ```
 
-### containsItemWithKey($key, $item)
+### containsItemWithKey($key, $item): bool
 Check if a collection contains a specified item with the specified key using strict comparison for the item.
 
 ```php
@@ -182,7 +215,7 @@ Check if a collection contains a specified item with the specified key using str
     $collection->containsItemWithKey([], $item1); // false
 ```
 
-### containsItems(array $items)
+### containsItems(array $items): bool
 Check if all the specified items exist in a collection. Strict comparison is used for checking each item.
 
 ```php
@@ -212,7 +245,7 @@ Check if all the specified items exist in a collection. Strict comparison is use
     $collection->containsItems([$item1, $item4, 'not in collection', 55]); // false
 ```
 
-### containsKey($key)
+### containsKey($key): bool
 Check if a key exists in a collection.
 
 ```php
@@ -239,7 +272,7 @@ Check if a key exists in a collection.
     $collection->containsKey([]); // false
 ```
 
-### containsKeys(array $keys)
+### containsKeys(array $keys): bool
 Check if all the specified keys exist in a collection.
 
 ```php
@@ -268,7 +301,7 @@ Check if all the specified keys exist in a collection.
     $collection->containsKeys([0, 1, 2, 'item1', 'item2', 'not in collection', 3]); // false
 ```
 
-### count()
+### count(): int
 Returns the number of items in collection.
 
 ```php
@@ -284,7 +317,118 @@ Returns the number of items in collection.
     $collection->count(); // === 5
 ```
 
-### each(callable $callback, $termination_value=false, $bind_callback_to_this=true)
+### diff(array $items): \VersatileCollections\CollectionInterface
+Get the items in the collection that are not present in the given items.
+* **$items**: items in the collection that are not present in `$items` are returned by this method 
+
+```php
+<?php
+    $c = \VersatileCollections\GenericCollection::makeNew(['id' => 1, 'first_word' => 'Hello']);
+    $c->diff(['first_word' => 'Hello', 'last_word' => 'World'])->toArray(); // === ['id' => 1]
+
+    $c = \VersatileCollections\GenericCollection::makeNew(['en_GB', 'fr', 'HR']);
+    // diff is case sensitive
+    $c->diff(['en_gb', 'hr'])->toArray(); // === ['en_GB', 'fr', 'HR']
+
+    $c = \VersatileCollections\GenericCollection::makeNew(['id' => 1, 'first_word' => 'Hello']);
+    $c->diff([])->toArray(); // === ['id' => 1, 'first_word' => 'Hello']
+```
+
+### diffUsing(array $items, callable $callback): \VersatileCollections\CollectionInterface
+Get the items in the collection that are not present in the given items using a callback for the comparison.
+* **$items**: items in the collection that are not present in `$items` are returned by this method
+* **$callback**: a callback used to check if an item in the collection is equal to an item in `$item`
+The function must have the following signature: **function ( mixed $a, mixed $b ): int**.
+The comparison function must return an integer less than, equal to, or greater than zero 
+if the first argument is considered to be respectively less than, equal to, 
+or greater than the second. 
+
+```php
+<?php
+    $c = \VersatileCollections\GenericCollection::makeNew(['en_GB', 'fr', 'HR']);
+    // allow for case insensitive difference
+    $c->diffUsing(['en_gb', 'hr'], 'strcasecmp')->getItems()->toArray(); // === ['fr']
+
+    $c = \VersatileCollections\GenericCollection::makeNew(['en_GB', 'fr', 'HR']);
+    $c->diffUsing([], 'strcasecmp')->getItems()->toArray(); // === ['en_GB', 'fr', 'HR']
+```
+
+### diffAssoc(array $items): \VersatileCollections\CollectionInterface
+Get the items in the collection whose keys and values are not present in the given items.
+* **$items**: items in the collection whose keys and values are not present in `$items` are returned by this method 
+
+```php
+<?php
+    $c1 = \VersatileCollections\GenericCollection::makeNew(
+        ['id'=>1, 'first_word'=>'Hello', 'not_affected'=>'value']
+    );
+    $c1->diffAssoc(
+        ['id'=>123, 'foo_bar'=>'Hello', 'not_affected'=>'value']
+    )->toArray(); // === ['id' => 1, 'first_word' => 'Hello']
+```
+
+### diffAssocUsing(array $items, callable $key_comparator): \VersatileCollections\CollectionInterface
+Get the items in the collection whose keys and values are not present in the given items.
+* **$items**: 
+* **$key_comparator**: a callback used to check if a key for an item in the collection is equal to a key for an item in `$item`
+The function must have the following signature: **function( mixed $a, mixed $b ): int**
+The comparison function must return an integer less than, equal to, or greater than zero 
+if the first argument is considered to be respectively less than, equal to, 
+or greater than the second. 
+
+```php
+<?php
+    $c1 = \VersatileCollections\GenericCollection::makeNew(
+        [ 'a'=>'green', 'b'=>'brown', 'c'=>'blue', 'red' ]
+    );
+
+    // demonstrate that diffAssoc wont support case insensitivity
+    $c1->diffAssoc([ 'A'=>'green', 'yellow', 'red' ])
+       ->toArray(); // === ['a'=>'green', 'b'=>'brown', 'c'=>'blue', 0=>'red']
+
+    // allow for case insensitive difference
+    $c1->diffAssocUsing([ 'A'=>'green', 'yellow', 'red' ], 'strcasecmp')
+       ->toArray(); // === [ 'b'=>'brown', 'c'=>'blue', 0=>'red' ]
+```
+
+### diffKeys(array $items): \VersatileCollections\CollectionInterface
+Get the items in the collection whose keys are not present in the given items.
+* **$items**: items in the collection whose keys are not present in `$items` are returned by this method
+
+```php
+<?php
+	
+    $c1 = \VersatileCollections\GenericCollection::makeNew(
+        [ 'id'=>1, 'first_word'=>'Hello' ]
+    );
+    $c1->diffKeys(
+        [ 'id'=>123, 'foo_bar'=>'Hello' ]
+    )->toArray(); // === ['first_word'=>'Hello']
+```
+
+### diffKeysUsing(array $items, callable $key_comparator): \VersatileCollections\CollectionInterface
+Get the items in the collection whose keys and values are not present in the given items.
+* **$items**: 
+* **$key_comparator**: a callback used to check if a key for an item in the collection is equal to a key for an item in `$items`
+The function must have the following signature: **function( mixed $a, mixed $b ): int**
+The comparison function must return an integer less than, equal to, or greater than zero 
+if the first argument is considered to be respectively less than, equal to, 
+or greater than the second. 
+
+```php
+<?php
+    $c1 = \VersatileCollections\GenericCollection::makeNew(['id' => 1, 'first_word' => 'Hello']);
+
+    // demonstrate that diffKeys wont support case insensitivity
+    $c1->diffKeys(['ID'=>123, 'foo_bar'=>'Hello'])
+       ->toArray(); // ['id'=>1, 'first_word'=> 'Hello']
+
+    // allow for case insensitive difference
+    $c1->diffKeysUsing(['ID'=>123, 'foo_bar'=>'Hello'], 'strcasecmp')
+       ->toArray(); // === ['first_word' => 'Hello']
+```
+
+### each(callable $callback, $termination_value=false, $bind_callback_to_this=true): $this
 Iterate through a collection and execute a callback over each item during the iteration.<br>
 * **$callback**: a callback with the following signature **function($key, $item)**. 
 To stop iteration at any point, the callback should return the value specified via **$termination_value**.
@@ -348,7 +492,7 @@ method is being invoked on.
 
 ```
 
-### everyNth($n, $position_of_first_nth_item = 0)
+### everyNth($n, $position_of_first_nth_item = 0): \VersatileCollections\CollectionInterface
 Create a new collection consisting of every n-th element.
 * **$n**: the number representing n. 
 * **$position_of_first_nth_item**: position in the collection to start counting for the nth elements.
@@ -368,7 +512,7 @@ Create a new collection consisting of every n-th element.
                                  // ['d',  'h']
 ```
 
-### filterAll(callable $filterer, $copy_keys=false, $bind_callback_to_this=true, $remove_filtered_items=false)
+### filterAll(callable $filterer, $copy_keys=false, $bind_callback_to_this=true, $remove_filtered_items=false): \VersatileCollections\CollectionInterface
 Filter all items in a collection matching criteria specified in a callback function and return filtered items in a new collection.
 * **$filterer**: a callback with the following signature `function($key, $item)` 
 that must return true if an item should be filtered out, or false if not. 
@@ -437,7 +581,7 @@ else `false` if the filtered items should not be removed from the collection thi
     //  [ 0=>1, 2=>3, 4=>5, 5=>6, 6=>7, 7=>8, 8=>9, 9=>10 ]
 ```
 
-### filterFirstN(callable $filterer, $max_number_of_filtered_items=null, $copy_keys=false, $bind_callback_to_this=true, $remove_filtered_items=false)
+### filterFirstN(callable $filterer, $max_number_of_filtered_items=null, $copy_keys=false, $bind_callback_to_this=true, $remove_filtered_items=false): \VersatileCollections\CollectionInterface
 Filter first `N` items in a collection matching criteria specified in a callback function and return filtered items in a new collection.
 * **$filterer**: a callback with the following signature `function($key, $item)` 
 that must return true if an item should be filtered out, or false if not. 
@@ -509,7 +653,7 @@ else `false` if the filtered items should not be removed from the collection thi
     //  [ 0=>1, 2=>3, 4=>5, 5=>6, 6=>7, 7=>8, 8=>9, 9=>10 ]
 ```
 
-### firstItem()
+### firstItem(): mixed
 Retrieves and returns the first item in a collection. See `lastItem()` if you want to get the last item.
 
 ```php
@@ -520,7 +664,7 @@ Retrieves and returns the first item in a collection. See `lastItem()` if you wa
     $collection->firstItem(); // === 'One'
 ```
 
-### getAllWhereKeysIn(array $keys)
+### getAllWhereKeysIn(array $keys): \VersatileCollections\CollectionInterface
 Return a collection of items whose keys are present in `$keys`. 
 Keys are preserved in the new collection.<br>
 If the keys in `$keys` do not exist in the collection, an empty collection object is returned.
@@ -549,7 +693,7 @@ If the keys in `$keys` do not exist in the collection, an empty collection objec
     //  ]
 ```
 
-### getAllWhereKeysNotIn(array $keys)
+### getAllWhereKeysNotIn(array $keys): \VersatileCollections\CollectionInterface
 Return a collection of items whose keys are not present in `$keys`. 
 Keys are preserved in the new collection.<br>
 If all the keys in the collection are also in `$keys`, an empty collection object is returned.
@@ -577,7 +721,7 @@ If all the keys in the collection are also in `$keys`, an empty collection objec
     //  ]
 ```
 
-### getAndRemoveFirstItem()
+### getAndRemoveFirstItem(): mixed
 Get and remove the first item from the collection. NULL is returned if the collection is empty.
 
 ```php
@@ -603,7 +747,7 @@ Get and remove the first item from the collection. NULL is returned if the colle
                                           // Because collection is empty
 ```
 
-### getAndRemoveLastItem()
+### getAndRemoveLastItem(): mixed
 Get and remove the last item from the collection. NULL is returned if the collection is empty.
 
 ```php
@@ -629,7 +773,7 @@ Get and remove the last item from the collection. NULL is returned if the collec
                                           // Because collection is empty
 ```
 
-### getAsNewType($new_collection_class=\VersatileCollections\GenericCollection::class)
+### getAsNewType($new_collection_class=\VersatileCollections\GenericCollection::class): \VersatileCollections\CollectionInterface
 Create a new collection of the specified type with the keys and items of the collection object this method is being invoked on.<br>
 It's a neat way of casting one type of collection to another type. The types must be compatible. 
 For example, it is safe to convert an instance of **GenericCollection** (containing only integers) to a new instance of 
@@ -668,7 +812,7 @@ The original collection will not be modified.
     // ); // unsafe operation
 ```
 
-### getCollectionsOfSizeN($max_size_of_each_collection=1)
+### getCollectionsOfSizeN($max_size_of_each_collection=1): \VersatileCollections\CollectionInterface
 Break-up a collection into a new collection (**GenericCollection**) of sub-collections (each having a maximum size of **N**). 
 Each sub-collection will be of the same type as the collection object this method is being called on. 
 The collection object this method is being called on is not modified.<br>
@@ -690,7 +834,7 @@ Generator (instead of a new collection) that yields each sub-collection.
                                            // ] // GenericCollection
 ```
 
-### getIfExists($key, $default_value=null)
+### getIfExists($key, $default_value=null): mixed
 Try to get an item from the collection with the specified key (`$key`) 
 or return `$default_value` if key does not exist in the collection.
 
@@ -705,7 +849,21 @@ or return `$default_value` if key does not exist in the collection.
     $collection->getIfExists('second_key'); // === 'second item'
 ```
 
-### getIterator()
+### getItems(): \VersatileCollections\CollectionInterface
+Get a new collection (of the same type as the original collection) of items in a collection without the corresponding keys in the original collection.
+Items in the new collection will have sequentially increasing numeric keys starting from 0.
+
+```php
+<?php
+
+    $collection = \VersatileCollections\GenericCollection::makeNew(
+       ['first_key'=>'first item', 'second_key'=>'second item']
+    );
+
+    $collection->getItems(); // a collection containing [ 0=>'first item', 1=>'second item' ]
+```
+
+### getIterator(): \Iterator
 Returns an **Iterator** object that can be used to traverse a collection. 
 You will not normally need to call this method since it's a fulfilment of php's
 **IteratorAggregate** interface and is automatically used under the hood whenever 
@@ -772,7 +930,7 @@ a collection, but you should not have to.
     } while( $iterator->valid() );
 ```
 
-### getKeys()
+### getKeys(): \VersatileCollections\GenericCollection
 Get a collection (**GenericCollection**) of keys to a collection.
 
 ```php
@@ -785,21 +943,147 @@ Get a collection (**GenericCollection**) of keys to a collection.
     $collection->getKeys(); // a collection containing  [ 0=>'first_key', 1=>'second_key']
 ```
 
-### getValues()
-Get a new collection (of the same type as the original collection) of items in a collection without the corresponding keys in the original collection.
-Items in the new collection will have sequentially increasing numeric keys starting from 0.
+### intersectByItems(array $arr): \VersatileCollections\CollectionInterface
+Create a collection of items from the original collection that are present in `$arr`
 
 ```php
 <?php
+    $array1 = ["a" => "green", "red", "blue"];
+    $array2 = ["b" => "green", "yellow", "red"];
+    $collection = \VersatileCollections\GenericCollection::makeNew($array1);
 
-    $collection = \VersatileCollections\GenericCollection::makeNew(
-       ['first_key'=>'first item', 'second_key'=>'second item']
-    );
-
-    $collection->getValues(); // a collection containing [ 0=>'first item', 1=>'second item' ]
+    $collection->intersectByItems($array2)
+               ->toArray(); // === ["a" => "green", 0 => "red"]
 ```
 
-### isEmpty()
+### intersectByItemsUsingCallback(array $arr, callable $item_comparator): \VersatileCollections\CollectionInterface 
+Create a collection of items from the original collection that are present in `$arr` using a callback for the item comparison
+
+* **$item_comparator**:  a callback used to check if an item in the collection is equal to an item in `$arr`.
+The function must have the following signature: **function( mixed $a, mixed $b ): int**.
+The comparison function must return an integer less than, equal to, or greater than zero 
+if the first argument is considered to be respectively less than, equal to, 
+or greater than the second.
+
+```php
+<?php
+    $array2 = ["a" => "GREEN", "B" => "brown", "yellow", "red"];
+    $array1 = ["a" => "green", "b" => "brown", "c" => "blue", "red"];
+    $collection = \VersatileCollections\GenericCollection::makeNew($array1);
+
+    $collection->intersectByItemsUsingCallback($array2, "strcasecmp")
+               ->toArray(); // === ["a"=>"green", "b"=>"brown", 0=>"red"]
+```
+
+### intersectByKeys(array $arr): \VersatileCollections\CollectionInterface
+Create a collection of items from the original collection whose keys are present in `$arr`
+
+```php
+<?php
+    $array1 = ['blue'=>1, 'red'=>2, 'green'=>3, 'purple'=>4];
+    $array2 = ['green'=>5, 'blue'=>6, 'yellow'=>7, 'cyan'=>8];
+    $collection = \VersatileCollections\GenericCollection::makeNew($array1);
+
+    $collection->intersectByKeys($array2)
+               ->toArray(); // === ['blue'=>1, 'green'=>3]
+```
+
+### intersectByKeysUsingCallback(array $arr, callable $key_comparator): \VersatileCollections\CollectionInterface 
+Create a collection of items from the original collection whose keys are present in $arr using a callback for the key comparison
+
+* **$key_comparator**: a callback used to check if a key in the collection is equal to a key in `$arr`.
+The function must have the following signature: **function( mixed $a, mixed $b ): int**.
+The comparison function must return an integer less than, equal to, or greater than zero 
+if the first argument is considered to be respectively less than, equal to, 
+or greater than the second.
+
+```php
+<?php
+    $key_compare_func = function ($key1, $key2) {
+
+        if ($key1 == $key2)
+            return 0;
+        else if ($key1 > $key2)
+            return 1;
+        else
+            return -1;
+    };
+
+    $array1 = ['blue'  => 1, 'red'  => 2, 'green'  => 3, 'purple' => 4];
+    $array2 = ['green' => 5, 'blue' => 6, 'yellow' => 7, 'cyan'   => 8];
+    $collection = \VersatileCollections\GenericCollection::makeNew($array1);
+
+    $collection->intersectByKeysUsingCallback($array2, $key_compare_func)
+               ->toArray(); // === ['blue'=>1, 'green'=>3]
+```
+
+### intersectByKeysAndItems(array $arr): \VersatileCollections\CollectionInterface
+Create a collection of items from the original collection whose keys and corresponding items /values are present in `$arr`
+
+```php
+<?php
+    $array1 = ["a" => "green", "b" => "brown", "c" => "blue", "red"];
+    $array2 = ["a" => "green", "b" => "yellow", "blue", "red"];
+    $collection = \VersatileCollections\GenericCollection::makeNew($array1);
+
+    $collection->intersectByKeysAndItems($array2)
+               ->toArray(); // === ["a" => "green"]
+```
+
+### intersectByKeysAndItemsUsingCallbacks(array $arr, callable $key_comparator=null, callable $item_comparator=null): \VersatileCollections\CollectionInterface 
+Create a collection of items from the original collection whose keys and corresponding items /values are present in `$arr` using callbacks for key and item comparisons
+
+* **$key_comparator**: a callback used to check if a key in the collection is equal to a key in `$arr`.
+The function must have the following signature: **function( mixed $a, mixed $b ): int**.
+The comparison function must return an integer less than, equal to, or greater than zero 
+if the first argument is considered to be respectively less than, equal to, 
+or greater than the second.
+* **$item_comparator**: a callback used to check if an item in the collection is equal to an item in `$arr`.
+The function must have the following signature: **function( mixed $a, mixed $b ): int**.
+The comparison function must return an integer less than, equal to, or greater than zero 
+if the first argument is considered to be respectively less than, equal to, 
+or greater than the second.
+
+```php
+<?php
+    //////////////////////////////////////////////////////////////////////////////
+    // null key callback and null item callback
+    $array1 = ["a" => "green", "b" => "brown", "c" => "blue", "red"];
+    $array2 = ["a" => "green", "b" => "yellow", "blue", "red"];
+    $collection = \VersatileCollections\GenericCollection::makeNew($array1);
+
+    $collection->intersectByKeysAndItemsUsingCallbacks($array2, null, null)
+               ->toArray(); // === ["a" => "green"]
+
+    //////////////////////////////////////////////////////////////////////////////
+    // non-null key callback and non-null item callback
+    $array1 = ["a" => "green", "b" => "brown", "c" => "blue", "red"];
+    $array2 = ["a" => "GREEN", "B" => "brown", "yellow", "red"];
+    $collection = \VersatileCollections\GenericCollection::makeNew($array1);
+
+    $collection->intersectByKeysAndItemsUsingCallbacks($array2, "strcasecmp", "strcasecmp")
+               ->toArray(); // === ["a" => "green", "b" => "brown"]
+
+    //////////////////////////////////////////////////////////////////////////////
+    // null key callback and non-null item callback
+    $array1 = ["a" => "green", "b" => "brown", "c" => "blue", "red"];
+    $array2 = ["a" => "GREEN", "B" => "brown", "yellow", "red"];
+    $collection = \VersatileCollections\GenericCollection::makeNew($array1);
+
+    $collection->intersectByKeysAndItemsUsingCallbacks($array2, null, "strcasecmp")
+               ->toArray();// === ["a" => "green"]
+
+    //////////////////////////////////////////////////////////////////////////////
+    // non-null key callback and null item callback
+    $array1 = ["a" => "green", "b" => "brown", "c" => "blue", "red"];
+    $array2 = ["a" => "GREEN", "B" => "brown", "yellow", "red"];
+    $collection = \VersatileCollections\GenericCollection::makeNew($array1);
+
+    $collection->intersectByKeysAndItemsUsingCallbacks($array2, "strcasecmp", null)
+               ->toArray(); // === ["b" => "brown"]
+```
+
+### isEmpty(): bool
 Return true if there are one or more items in the collection or false otherwise.
 
 ```php
@@ -814,7 +1098,7 @@ Return true if there are one or more items in the collection or false otherwise.
     $collection->isEmpty(); // === false
 ```
 
-### lastItem()
+### lastItem(): mixed
 Retrieves and returns the last item in a collection. See `firstItem()` if you want to get the first item.
 
 ```php
@@ -825,7 +1109,7 @@ Retrieves and returns the last item in a collection. See `firstItem()` if you wa
     $collection->lastItem(); // === 'Four'
 ```
 
-### makeAllKeysNumeric($starting_key=0)
+### makeAllKeysNumeric($starting_key=0): $this
 Convert all keys in the collection to consecutive integer keys starting from `$starting_key`.
 * **$starting_key**: a positive integer value that will be the value of the first key.
 A negative integer value will be converted to zero.
@@ -870,7 +1154,7 @@ A negative integer value will be converted to zero.
     //  ]
 ```
 
-### static makeNew(array $items=[], $preserve_keys=true)
+### static makeNew(array $items=[], $preserve_keys=true): \VersatileCollections\CollectionInterface
 Creates a new collection from an array.<br>
 THIS IS THE STRONGLY RECOMMENDED WAY TO CREATE COLLECTION OBJECTS (if you forget 
 to unpack arguments when creating collection objects via the constructor, you 
@@ -904,7 +1188,357 @@ passed to the constructor which you forgot to unpack).
     //  ]
 ```
 
+### map(callable $callback, $preserve_keys=true, $bind_callback_to_this=true): \VersatileCollections\CollectionInterface
+Applies the callback to the items in the collection and returns a new 
+collection containing all the items in the original collection after
+applying the callback function to each one.
 
+* **$callback**: a callback with the following signature: **function($key, $item): mixed**. 
+It should perform an operation on each item and return the result of the operation on each item.
+* **$preserve_keys**: true if keys in the returned collection should match the keys in the 
+original collection, else false for sequentially incrementing integer keys (starting from 0)
+in the returned collection.
+* **$bind_callback_to_this**: true if the variable `$this` inside the supplied 
+$callback should refer to the collection object this method is being invoked on.
+
+```php
+<?php
+    $int_collection = 
+        new \VersatileCollections\IntsCollection(1, 2, 3, 4, 5);
+
+    $multiplied = $int_collection->map(
+        function ($key, $item) {
+            return $item * 2;
+        },
+        false,
+        false
+    );
+    $multiplied->toArray(); // === [2, 4, 6, 8, 10]
+
+    $multiplied = $int_collection->map(
+        function ($key, $item) {
+            return $item * $this->count();
+        },
+        false,
+        true
+    );
+    $multiplied->toArray(); // === [5, 10, 15, 20, 25])
+
+    // preserved keys
+    $int_collection = new \VersatileCollections\IntsCollection();
+    $int_collection[5] = 1;
+    $int_collection[6] = 2;
+    $int_collection[7] = 3;
+    $int_collection[8] = 4;
+    $int_collection[9] = 5;
+
+    $multiplied = $int_collection->map(
+        function ($key, $item) {
+            return $item * $this->count();
+        },
+        true,
+        true
+    );
+    $multiplied->toArray(); // === [5=>5, 6=>10, 7=>15, 8=>20, 9=>25]
+```
+
+### mergeMeWith(array $items): $this
+Adds all items from `$items` to the collection object this method is being called on.
+Items in `$items` with existing keys in the original collection will overwrite 
+the existing items in the original collection.<br>
+Use `unionWith()` and `unionMeWith()` if you want items from the original collection
+to be used when same keys exist in both `$items` and the original collection.
+
+```php
+<?php
+    $collection = \VersatileCollections\GenericCollection::makeNew(
+        [ 'a'=>1, 'b'=>2, 'c'=>3, 'd'=>4, 'e'=>5 ]
+    );
+
+    $collection->mergeMeWith(
+        [ 'a'=>15, 'b'=>25, 'c'=>35, 'd'=>45 ]
+    );
+    $collection->toArray(); // [ 'a'=>15, 'b'=>25, 'c'=>35, 'd'=>45, 'e'=>5 ]
+
+    // overwrite all items
+    $collection->mergeMeWith(
+        [ 'a'=>152, 'b'=>252, 'c'=>352, 'd'=>452, 'e'=>552 ]
+    );
+    $collection->toArray(); // [ 'a'=>152, 'b'=>252, 'c'=>352, 'd'=>452, 'e'=>552 ]
+```
+
+### mergeWith(array $items): \VersatileCollections\CollectionInterface
+Works exactly like `mergeMeWith(array $items)`, except that the original
+collection is not modified, but instead the merged items are returned in
+a new collection.<br>
+Use `unionWith()` and `unionMeWith()` if you want items from the original collection
+to be used when same keys exist in both `$items` and the original collection.
+
+```php
+<?php
+    $collection = \VersatileCollections\GenericCollection::makeNew(
+        [ 'a'=>1, 'b'=>2, 'c'=>3, 'd'=>4, 'e'=>5 ]
+    );
+
+    $merged = $collection->mergeWith(
+        [ 'a'=>15, 'b'=>25, 'c'=>35, 'd'=>45 ]
+    );
+    $merged->toArray(); // [ 'a'=>15, 'b'=>25, 'c'=>35, 'd'=>45, 'e'=>5 ]
+    $collection->toArray(); // [ 'a'=>1, 'b'=>2, 'c'=>3, 'd'=>4, 'e'=>5 ]
+
+    // overwrite all items
+    $merged = $collection->mergeWith(
+        [ 'a'=>152, 'b'=>252, 'c'=>352, 'd'=>452, 'e'=>552 ]
+    );
+    $merged->toArray(); // [ 'a'=>152, 'b'=>252, 'c'=>352, 'd'=>452, 'e'=>552 ]
+    $collection->toArray(); // [ 'a'=>1, 'b'=>2, 'c'=>3, 'd'=>4, 'e'=>5 ]
+```
+
+### offsetExists($key): bool
+Returns true if the specified key exists in a collection or false if not.<br>
+You shouldn't need to call this method since it is automatically used by the
+ArrayAccess API.
+
+### offsetGet($key): mixed
+Returns the item associated with the specified key if the key exists in the collection.<br>
+You shouldn't need to call this method since it is automatically used by the
+ArrayAccess API.
+
+### offsetSet($key, $val): void
+Add an item (`$val`) to the collection with the specified key (`$key`).<br>
+You shouldn't need to call this method since it is automatically used by the
+ArrayAccess API.
+
+### offsetUnset($key): void
+Remove an item associated with the specified key (`$key`) from the collection.<br>
+You shouldn't need to call this method since it is automatically used by the
+ArrayAccess API.
+
+### paginate($page_number, $num_items_per_page): \VersatileCollections\CollectionInterface
+Get a collection of at most `$num_items_per_page` items starting from the
+`(($page_number * $num_items_per_page) - $num_items_per_page + 1)th` position
+in the collection.<br>
+
+This method assumes positions in the collection are 1-indexed rather
+than zero-indexed. For example item 'a' in this array (['a', 'b', 'c'])
+is at the first position as far as the documentation of this method is 
+concerned as opposed to the zeroeth position (which is how you would
+actually reference it php code).<br>
+
+For example given a collection containing:
+``` 
+          [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h' ]
+             ^    ^    ^    ^    ^    ^    ^    ^
+ position    1    2    3    4    5    6    7    8
+```
+
+calling `paginate(2, 3)` on that collection means you want to get a collection 
+of at most 3 items starting from the 2nd page which is actually the 
+(((2 * 3) - 3 + 1) == 4th) position in that collection which should 
+return a collection containing:
+``` 
+    [ 'd', 'e', 'f' ]
+```
+* **$page_number**: Page number. It must be a positive integer starting from 1.
+If a value less than 1 is supplied, it will be bumped up to 1.
+If it has a value larger than the total number of available pages 
+(i.e. `($this->count() / $num_items_per_page)` assuming  
+`1 <= $num_items_per_page <= $this->count()`), 
+an empty collection will be returned.
+* **$num_items_per_page**: The number of items in the collection to be returned. 
+It must be a positive integer starting from 1. If a value less than 1 is supplied, 
+it will be bumped up to 1. If it has a value larger than `$this->count()`, all items 
+from position `$page_number` in the collection till the end of the collection will be returned.
+
+```php
+<?php
+    $empty_c = \VersatileCollections\GenericCollection::makeNew();
+    $c = \VersatileCollections\GenericCollection::makeNew(
+        [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h' ]
+    );
+
+    $empty_c->paginate(1, 2)->toArray(); // === []
+    // paginate(0, 2) === paginate(1, 2), 0 is converted to 1
+    $c->paginate(0, 2)->toArray(); // === ['a', 'b']
+    $c->paginate(1, 2)->toArray(); // === ['a', 'b']
+
+    // -2 and 0 below will be converted to 1
+    // i.e. paginate(0, -2) === paginate(0, 1) === paginate(1, 1)
+    $c->paginate(0, -2)->toArray(); // === ['a']
+
+    // -777 below will be converted to 1
+    // i.e. paginate(-777, 2) === paginate(1, 2)
+    $c->paginate(-777, 2)->toArray(); // === ['a', 'b']
+
+    $c->paginate(2, 2)->toArray(); // === [2=>'c', 3=>'d']
+    $c->paginate(2, 3)->toArray(); // === [3=>'d', 4=>'e', 5=>'f']
+
+    // number of items in page > $c->count()
+    $c->paginate(2, 777)
+      ->toArray(); // === [1=>'b', 2=>'c', 3=>'d', 4=>'e', 5=>'f', 6=>'g', 7=>'h']
+
+    // only 4 pages of two items per page available in 
+    //  [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h' ]
+    // requesting a 5th page should return an empty collection
+    $c->paginate(5, 2)->toArray(); // === []
+```
+
+### pipeAndReturnCallbackResult(callable $callback): mixed
+Pass the collection to the given callback and return whatever value is
+returned from executing the given callback.<br>
+This method is very useful for chaining a series of operations to be 
+performed on a collection object especially when the output of prior
+operations are needed as input for the next operation.
+
+* **$callback**: a callback with the following signature
+**function($collection):mixed**. The `$collection` argument 
+in the callback's signature is the collection object this 
+`pipeAndReturnCallbackResult` method is being invoked on.
+
+```php
+<?php
+    $collection = new \VersatileCollections\GenericCollection(
+        'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'
+    );
+
+    $counter = function($collection) { return $collection->count(); };
+    $to_array = function($collection) { return $collection->toArray(); };
+
+    $collection->pipeAndReturnCallbackResult($counter); // === 8
+    $collection->pipeAndReturnCallbackResult($to_array); 
+                    // === ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
+
+    ////////////////////////////////////////////////
+    // More interesting operation chaining example:
+    ////////////////////////////////////////////////
+    $data = [];
+    $data[] = ['id' => 17, 'age' => 21, 'score' => 75, 'name'=>"Jake"];
+    $data[] = ['id' => 27, 'age' => 23, 'score' => 70, 'name'=>"Jane"];
+    $data[] = ['id' => 37, 'age' => 24, 'score' => 80, 'name'=>"Abel"];
+    $data[] = ['id' => 47, 'age' => 31, 'score' => 99, 'name'=>"Abby"];
+    $data[] = ['id' => 57, 'age' => 18, 'score' => 90, 'name'=>"Tara"];
+    $data[] = ['id' => 67, 'age' => 40, 'score' => 89, 'name'=>"Tory"];
+    $collection = 
+        \VersatileCollections\GenericCollection::makeNew($data);
+
+    $collection_of_items_with_age_gte_20_and_lte_30_and_score_gte_75 =
+        $collection
+            ->pipeAndReturnCallbackResult(
+                function($collection){
+
+                    return $collection->filterAll(
+
+                        function($key, $item) {
+
+                            return $item['age'] >= 20 && $item['age'] <= 30;
+                        },
+                        true // copy keys
+                    );  // filter all students with age >=20 and age <=30
+                }
+            ) // at this point we should have a collection of students 
+              // with age >=20 and age <=30
+              // we are now going to further filter these results for
+              // students with score >= 75 in the second call to
+              // pipeAndReturnCallbackResult below
+            ->pipeAndReturnCallbackResult(
+                function($collection){
+
+                    return $collection->filterAll(
+
+                        function($key, $item) {
+
+                            return $item['score'] >= 75;
+                        },
+                        true // copy keys
+                    );  // filter all students with score >= 75
+                }
+            ); // at this point we should have a collection of students 
+               // with age >=20 and age <=30 and score >= 75
+
+    // $collection_of_items_with_age_gte_20_and_lte_30_and_score_gte_75 
+    // now contains:
+    //      [
+    //          0 => ['id' => 17, 'age' => 21, 'score' => 75, 'name'=>"Jake"],
+    //          2 => ['id' => 37, 'age' => 24, 'score' => 80, 'name'=>"Abel"]
+    //      ]
+```
+
+### pipeAndReturnSelf(callable $callback): $this
+Pass the collection to the given callback and return the collection object 
+the `pipeAndReturnSelf` method is being called on.<br>
+This method is very useful for chaining a series of operations to be 
+performed on a collection object.
+
+* **$callback**: a callback with the following signature
+**function($collection):void**. The `$collection` argument 
+in the callback's signature is the collection object this 
+`pipeAndReturnSelf` method is being invoked on.
+
+```php
+<?php
+    $average = 0;
+    $max = 0;
+    $median = 0;
+    $min = 0;
+    $mode = 0;
+    $product = 0;
+    $sum = 0;
+    $collection = new \VersatileCollections\IntsCollection(
+        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 2
+    );
+
+    $collection
+        ->pipeAndReturnSelf(
+            function($collection)use(&$average) {
+
+                $average = $collection->average(); 
+            }
+        ) // calculate average
+        ->pipeAndReturnSelf(
+            function($collection)use(&$max) {
+
+                $max = $collection->max();
+            }
+        ) // calculate max
+        ->pipeAndReturnSelf(
+            function($collection)use(&$median) {
+
+                $median = $collection->median();
+            }
+        ) // calculate median
+        ->pipeAndReturnSelf(
+            function($collection)use(&$min) {
+
+                $min = $collection->min();
+            }
+        ) // calculate min
+        ->pipeAndReturnSelf(
+            function($collection)use(&$mode) {
+        
+                $mode = implode(', ', $collection->mode());
+            }
+        ) // calculate mode
+        ->pipeAndReturnSelf(
+            function($collection)use(&$product) {
+
+                $product = $collection->product();
+            }
+        ) // calculate product
+        ->pipeAndReturnSelf(
+            function($collection)use(&$sum) {
+
+                $sum = $collection->sum();
+            }
+        ) // calculate sum
+        ->pipeAndReturnSelf(
+            function($collection)
+            use(&$average, &$max, &$median, &$min, &$mode, &$product, &$sum) {
+                echo " Average: $average, Max: $max, Median: $median,"
+                   . " Min: $min, Mode: $mode, Product: $product, Sum: $sum";
+            }
+        ); // finally print out the results below:
+//  Average: 5.1818181818182, Max: 10, Median: 5, Min: 1, Mode: 2, Product: 7257600, Sum: 57
+```
 
 ## Non-`CollectionInterface` Methods common to all Collection Classes using `CollectionInterfaceImplementationTrait`
 
