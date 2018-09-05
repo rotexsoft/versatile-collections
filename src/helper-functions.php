@@ -16,7 +16,6 @@ namespace VersatileCollections;
  * @param bool $access_private_or_protected true if value associated with private or protected property should be returned.
  *                                          If false is specified and you try to access a private or protected property, a
  *                                          \RuntimeException will be thrown.
- * 
  * @return mixed
  * 
  * @throws \InvalidArgumentException
@@ -67,8 +66,7 @@ function get_object_property_value($obj, $property, $default_val=null, $access_p
                 $reflection_class = new \ReflectionClass(get_class($obj));
                 $property = $reflection_class->getProperty($property);
                 $property->setAccessible(true);
-                $return_val = $property->getValue($obj);
-                //$property->setAccessible(false);
+                $return_val = $property->getValue($obj); //$property->setAccessible(false);
                 
             } else {
                 
@@ -78,8 +76,7 @@ function get_object_property_value($obj, $property, $default_val=null, $access_p
                 $ns = __NAMESPACE__;
                 $obj_type = get_class($obj);
                 $msg = "Error [{$ns}::{$function}(...)]:"
-                . " Trying to access a protected or private property named `{$property}` on the instance of `$obj_type` below:"
-                . PHP_EOL . var_to_string($obj)
+                . " Trying to access a protected or private property named `{$property}` on the instance of `$obj_type` below:" . PHP_EOL . var_to_string($obj)
                 . PHP_EOL . "To access a protected or private property named `{$property}` call `{$ns}::{$function}()` with `true` as the fourth argument.";
                 throw new \RuntimeException();
             }
@@ -181,8 +178,7 @@ function random_array_key(array $array) {
     $random_key = null;
 
     try {
-        // random_int is more cryptographically secure than 
-        // array_rand
+        // random_int is more cryptographically secure than array_rand
         $min = 0;
         $max = count($keys) - 1;
         $random_index = random_int( $min, $max );
@@ -273,7 +269,6 @@ function random_array_keys(array $array, $number_of_random_keys = 1) {
         $current_random_key = null;
         
         do { // loop to ensure uniqueness of selected random keys
-        
             $current_random_key = random_array_key($array);
             
         } while( in_array($current_random_key, $random_keys, true) );

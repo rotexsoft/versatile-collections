@@ -3779,9 +3779,9 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
 
         $collection = new \BaseCollectionTestImplementation(...['michael', 'tom']);
 
-        // Test return this
+        // Test return null
         $this->assertSame(
-            $collection, 
+            null, 
             $collection->whenTrue(false, function ($collection) {
                 return $collection->push('adam');
             })
@@ -3821,9 +3821,9 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
 
         $collection = new \BaseCollectionTestImplementation(...['michael', 'tom']);
 
-        // Test return this
+        // Test return null
         $this->assertSame(
-            $collection, 
+            null, 
             $collection->whenFalse(true, function ($collection) {
                 return $collection->push('adam');
             })

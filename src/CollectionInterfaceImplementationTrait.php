@@ -477,6 +477,7 @@ trait CollectionInterfaceImplementationTrait {
                     (
                         method_exists($item, '__set')
                         && method_exists($item, '__get')
+                        && method_exists($item, '__isset')
                         && isset($item->{$field_name})    
                     )
                 )
@@ -2187,7 +2188,7 @@ trait CollectionInterfaceImplementationTrait {
             return $default($this, $truthy_value);
         }
 
-        return $this;
+        return $default;
     }
     
     /**

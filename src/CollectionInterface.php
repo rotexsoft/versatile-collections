@@ -1279,7 +1279,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * 
      * Execute $callback on $this and return its return value if $truthy_value is truthy
      * or execute $default on $this and return its return value if $default is not null
-     * or return $this as a last resort.
+     * or return NULL as a last resort.
      * 
      * @param bool $truthy_value
      * 
@@ -1304,7 +1304,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * 
      * Execute $callback on $this and return its return value if $falsy_value is falsy
      * or execute $default on $this and return its return value if $default is not null
-     * or return $this as a last resort.
+     * or return NULL as a last resort.
      * 
      * @param bool $falsy_value
      * 
