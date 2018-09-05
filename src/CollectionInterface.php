@@ -273,7 +273,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @param callable $reducer function(mixed $carry , mixed $item, string|int $key): mixed
      *                          $carry: Holds the return value of the previous iteration; in the case of the first iteration it instead holds the value of initial.
      *                           $item: Holds the value of the current iteration.
-     *                            $key: Holds the coresponding key of the current iteration.
+     *                            $key: Holds the corresponding key of the current iteration.
      * 
      * @param mixed $initial_value If the optional initial is available, it will be used at the beginning of the process, or as a final result in case the collection is empty.
      * 
@@ -1403,10 +1403,12 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * 
      */
     public function getAsNewType($new_collection_class=\VersatileCollections\GenericCollection::class);
-    
+
     /**
      * 
      * Remove items from the collection (whose keys are present in $keys) or (all items if $keys is empty)  and return $this.
+     * 
+     * @param array $keys optional array of keys for the items to be removed.
      * 
      * @return $this
      * 

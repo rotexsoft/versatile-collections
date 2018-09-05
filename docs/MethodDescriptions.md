@@ -506,7 +506,6 @@ method is being invoked on.
         true  // bind the callback to the collection object this method is being 
               // called on, in this case $collection.
     ); // At this point $accumulator === 6
-
 ```
 
 ### everyNth($n, $position_of_first_nth_item = 0): \VersatileCollections\CollectionInterface
@@ -1560,7 +1559,6 @@ in the callback's signature is the collection object this
 //  Average: 5.1818181818182, Max: 10, Median: 5, Min: 1, Mode: 2, Product: 7257600, Sum: 57
 ```
 
-
 ### prependCollection(CollectionInterface $other): $this
 Prepends all items from `$other` collection to the front of a collection.<br>
 Note that all numeric keys will be modified to start counting from zero while 
@@ -1610,6 +1608,238 @@ an instance of **NumericsCollection** (since **FloatsCollection** is a sub-type 
     $numeric_collection->prependCollection($float_collection);
     $numeric_collection->toArray(); // === [8.5, 9.7, 10.8, 11.9, 8, 9, 10, 11, 1.0, 2.0, 3, 4, 5, 6]
 ```
+
+### prependItem($item, $key=null): $this
+Prepends an item to the front of a collection (an optional key (string or integer) could be supplied).<br>
+>For strictly typed collections, `$item` must be of the same type as the collection's type 
+or a sub-type of the the collection's type or else an Exception will be thrown.<br>
+
+For example, you cannot prepend a string to an instance of **ArraysCollection**,
+but you can prepend a **float** or an **integer** to an instance of **NumericsCollection** 
+(since **floats** and **integers** are numeric).
+
+```php
+<?php 
+    $collection = new \VersatileCollections\NumericsCollection(4, 5.0, 7);
+    $collection->prependItem(777); // integer acceptable
+    $collection->prependItem(7.5); // float acceptable
+    //$collection->prependItem('7.5'); // string not acceptable
+    $collection->toArray(); // [ 0=>7.5, 1=>777, 2=>4, 3=>5.0, 4=>7 ]
+
+    //////////////////////////////////////
+    // More Examples:
+    /////////////////////////////////////
+    $numeric_collection = new \VersatileCollections\NumericsCollection(
+        1.9, 2.9, 3, 4, 5, 6
+    );
+    $numeric_collection->toArray(); // === [ 0=>1.9, 1=>2.9, 2=>3, 3=>4, 4=>5, 5=>6 ]
+
+    $numeric_collection->prependItem(777);
+    $numeric_collection->toArray(); // === [ 0=>777, 1=>1.9, 2=>2.9, 3=>3, 4=>4, 5=>5, 6=>6 ]
+    
+    // overwrite the value associated with the existing key `1` 
+    // which is currently associated with the value `1.9`
+    $numeric_collection->prependItem(888, 1); 
+    $numeric_collection->toArray(); // === [ 1=>888, 0=>777, 2=>2.9, 3=>3, 4=>4, 5=>5, 6=>6 ]
+    
+    $numeric_collection->prependItem(999, 'custom_key');
+    $numeric_collection->toArray(); 
+                // === [ 'custom_key'=>999, 1=>888, 0=>777, 2=>2.9, 3=>3, 4=>4, 5=>5, 6=>6 ]
+```
+
+### pull($key, $default = null): mixed
+Get and remove an item with the specified key from the collection.<br> 
+A default value will be returned if the specified key does not exist in the collection.
+
+```php
+<?php 
+    $collection = new \VersatileCollections\GenericCollection();
+    $collection['item1'] = 22;
+    $collection['item2'] = 23;
+    $collection['item3'] = 24;
+    $collection['item4'] = 25;
+
+    $collection->pull('item1'); // === 22
+    $collection->toArray(); // === [ 'item2'=>23, 'item3'=>24, 'item4'=>25 ]
+
+    $collection->pull('item2'); // === 23
+    $collection->toArray(); // === [ 'item3'=>24, 'item4'=>25 ]
+
+    $collection->pull('item3'); // === 24
+    $collection->toArray(); // === [ 'item4'=>25 ]
+
+    $collection->pull('item4')); // === 25
+    $collection->toArray(); // === []
+
+    // default value returned for non-existent key
+    $collection->pull('key_4_non_existent_item', -999); // === -999
+    $collection->toArray(); // === []
+```
+
+### push($item): $this
+Alias of appendItem($item).
+
+### put($key, $value): $this
+Insert an item (`$value`) into the collection using the specified key (`$key`).<br>
+If the key already exists in the collection, its value will be updated with `$value`.
+
+```php
+<?php 
+    $collection = new \VersatileCollections\GenericCollection();
+    $collection->toArray(); // === []
+    
+    $collection->put('item1', 12);
+    $collection->toArray(); // === [ 'item1'=>12 ]
+
+    $collection->put('item2', 13);
+    $collection->toArray(); // === [ 'item1'=>12, 'item2'=>13 ]
+
+    $collection->put('item3', 14);
+    $collection->toArray(); // === [ 'item1'=>12, 'item2'=>13, 'item3'=>14 ]
+
+    $collection->put('item4',15);
+    $collection->toArray(); // === [ 'item1'=>12, 'item2'=>13, 'item3'=>14, 'item4'=>15 ]
+
+    $collection['item1'] = 22;
+    $collection['item2'] = 23;
+    $collection['item3'] = 24;
+    $collection['item4'] = 25;
+    $collection->toArray(); // === [ 'item1'=>22, 'item2'=>23, 'item3'=>24, 'item4'=>25 ]
+
+    $collection->put('item1', 32);
+    $collection->toArray(); // === [ 'item1'=>32, 'item2'=>23, 'item3'=>24, 'item4'=>25 ]
+
+    $collection->put('item2', 33);
+    $collection->toArray(); // === [ 'item1'=>32, 'item2'=>33, 'item3'=>24, 'item4'=>25 ]
+
+    $collection->put('item3', 34);
+    $collection->toArray(); // === [ 'item1'=>32, 'item2'=>33, 'item3'=>34, 'item4'=>25 ]
+
+    $collection->put('item4',35);
+    $collection->toArray(); // === [ 'item1'=>32, 'item2'=>33, 'item3'=>34, 'item4'=>35 ]
+```
+
+### randomItem(): mixed
+Get one item randomly from the collection.<br>
+A length exception (`\LengthException`) is thrown if this method is called on an empty collection.
+
+### randomItems($number=1, $preserve_keys=false): \VersatileCollections\CollectionInterface
+Get a specified number of items randomly from the collection and return them in a new collection.<br>
+A length exception (`\LengthException`) is thrown if this method is called on an empty collection.<br>
+An `\InvalidArgumentException` is thrown if `$number` is either not an integer or if it is bigger than the number of items in the collection.
+
+* **$number**: number of random items to be returned
+* **$preserve_keys**: true if the key associated with each random item should be 
+used in the new collection returned by this method, otherwise false if the new 
+collection returned should have sequential integer keys starting at zero.
+
+### randomKey(): mixed
+Get one key randomly from the collection.<br>
+A length exception (`\LengthException`) is thrown if this method is called on an empty collection.
+
+### randomKeys($number=1): \VersatileCollections\GenericCollection
+Get a specified number of unique keys randomly from the collection and return them in a new collection.<br>
+A length exception (`\LengthException`) is thrown if this method is called on an empty collection.<br>
+An `\InvalidArgumentException` is thrown if `$number` is either not an integer or if it is bigger than the number of items in the collection.
+
+* **$number**: number of random keys to be returned
+
+### reduce(callable $reducer, $initial_value=NULL): mixed
+Iteratively reduce the collection items to a single value using a callback function.
+
+* **$reducer**: a callback with the following signature: **function(mixed $carry , mixed $item): mixed**. 
+    * `$carry:` Holds the return value of the previous iteration; in the case of the first iteration it instead holds the value of initial.
+    * `$item:` Holds the value of the current iteration.
+* **$initial_value**: If the optional initial value is available, it will be used at the beginning of the process,
+or as a final result in case the collection is empty.
+
+```php
+<?php
+    $int_collection = 
+        new \VersatileCollections\IntsCollection(1, 2, 3);
+
+    $sum = $int_collection->reduce(
+        function ($carry, $item) {
+             return $carry + $item;
+        },
+        0
+    ); // at this point $sum === 6
+```
+
+### reduceWithKeyAccess(callable $reducer, $initial_value=NULL): mixed
+Iteratively reduce the collection items to a single value using a callback function.<br>
+The callback function will have access to the key for each item.
+
+* **$reducer**: a callback with the following signature: **function(mixed $carry , mixed $item, string|int $key): mixed**. 
+    * `$carry:` Holds the return value of the previous iteration; in the case of the first iteration it instead holds the value of initial.
+    * `$item:` Holds the value of the current iteration.
+    * `$key:` Holds the corresponding key of the current iteration.
+* **$initial_value**: If the optional initial is available, it will be used at the beginning of the process, or as a final result in case the collection is empty.
+
+```php
+<?php
+    $int_collection = 
+        new \VersatileCollections\IntsCollection(1, 2, 3);
+
+    $sum = $int_collection->reduceWithKeyAccess(
+        function ($carry, $item, $key) {
+                
+            // you can do stuff with $key if you want
+
+            return $carry + $item;
+        },
+        0
+    ); // at this point $sum === 6
+```
+
+### removeAll(array $keys=[]): $this
+Remove items from the collection (whose keys are present in `$keys`) or (all items if `$keys` is empty) and return `$this`.<br>
+* **$initial_value**: optional array of keys for the items to be removed.
+
+```php
+<?php
+    $c = \VersatileCollections\GenericCollection::makeNew([1, 2, 3, 4, 5]);
+    $c->removeAll();
+    $c->toArray(); // === []
+
+    // removing with specified keys
+    $c = \VersatileCollections\GenericCollection::makeNew([1, 2, 3, 4, 5]);
+    $c->removeAll([0,2,4]);
+    $c->toArray(); // === [ 1=>2, 3=>4 ]
+```
+
+### reverse(): \VersatileCollections\CollectionInterface
+Reverse order of items in the collection and return the reversed items in a new collection.<br>
+
+```php
+<?php
+    $data = \VersatileCollections\GenericCollection::makeNew(['zaeed', 'alan']);
+    $reversed = $data->reverse();
+    $reversed->toArray(); // === [ 1=>'alan', 0=>'zaeed' ]
+
+    $data = \VersatileCollections\GenericCollection::makeNew(
+        [ 'name'=>'taylor', 'framework'=>'laravel' ]
+    );
+    $reversed = $data->reverse();
+    $reversed->toArray(); // === [ 'framework'=>'laravel', 'name'=>'taylor' ]
+```
+
+### reverseMe(): $this
+Reverse order of items in the collection. Original collection will be modified.<br>
+
+```php
+<?php
+    $data = \VersatileCollections\GenericCollection::makeNew(['zaeed', 'alan']);
+    $data->reverseMe();
+    $data->toArray(); // === [ 1=>'alan', 0=>'zaeed' ]
+
+    $data = \VersatileCollections\GenericCollection::makeNew(
+        [ 'name'=>'taylor', 'framework'=>'laravel' ]
+    );
+    $data->reverseMe();
+    $data->toArray(); // === [ 'framework'=>'laravel', 'name'=>'taylor' ]
+```
+
 
 ## Non-`CollectionInterface` Methods common to all Collection Classes using `CollectionInterfaceImplementationTrait`
 
