@@ -24,7 +24,7 @@ Dynamically Registering Methods
         $has_return_val=false
     )
 	
-	public static function addMethodForAllInstances(
+    public static function addMethodForAllInstances(
         $name, 
         callable $callable, 
         $has_return_val=false,
@@ -50,7 +50,7 @@ Accessing / Extracting Items
 *- lastItem(), to get last item in the collections
 *- getCollectionsOfSizeN($max_size_of_each_collection=1) or yieldCollectionsOfSizeN($max_size_of_each_collection=1) see (split($numberOfGroups))
 *- getIfExists($key, $default_value=null)
-*- getKeys() & getValues()
+*- getKeys() & getItems()
 *- getAndRemoveFirstItem()
 *- getAndRemoveLastItem()
 *- pull($key, $default = null)

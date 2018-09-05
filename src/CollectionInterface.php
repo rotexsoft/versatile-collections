@@ -775,7 +775,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
     /**
      * 
      * Search the collection for a given value and return an array of all 
-     * corresponding key(s) in the collection whose item(s) match the value, 
+     * corresponding key(s) in the collection whose item(s) match the given value, 
      * if successful.
      * 
      * 
