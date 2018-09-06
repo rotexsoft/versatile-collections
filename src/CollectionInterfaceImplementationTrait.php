@@ -990,6 +990,11 @@ trait CollectionInterfaceImplementationTrait {
             || !is_numeric($max_size_of_each_collection)
         ) {
             $max_size_of_each_collection = 1;
+            
+        } else if( is_float($max_size_of_each_collection) ) {
+            
+            $max_size_of_each_collection = 
+                (int)$max_size_of_each_collection;
         }
         
         $current_batch = new static();

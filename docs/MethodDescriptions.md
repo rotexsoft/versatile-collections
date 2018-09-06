@@ -2,6 +2,36 @@
 Most of the examples in this section use the **\VersatileCollections\GenericCollection** class, 
 but are applicable to all collection classes that have implemented **\VersatileCollections\CollectionInterface**.
 
+
+------------------------------------------------------------------------------------------------
+### __isset($key): bool
+Returns true if the specified key exists in a collection or false if not.<br>
+You shouldn't need to call this method since it is automatically called when you
+try to check for the existence of an item with a specified key in a collection 
+using the isset construct like so:<br> 
+>`isset($collection->key)`.
+
+------------------------------------------------------------------------------------------------
+### __get($key): mixed
+Returns the item associated with the specified key if the key exists in the collection.<br>
+You shouldn't need to call this method since it is automatically called when you
+try to get an item from a collection using this syntax:<br> 
+>`$collection->key`.
+
+------------------------------------------------------------------------------------------------
+### __set($key, $val): void
+Add an item (`$val`) to the collection with the specified key (`$key`).<br>
+You shouldn't need to call this method since it is automatically called when you
+try to add an item to a collection using this syntax:<br> 
+>`$collection->key = $val`.
+
+------------------------------------------------------------------------------------------------
+### __unset($key): void
+Remove an item associated with the specified key (`$key`) from the collection.<br>
+You shouldn't need to call this method since it is automatically called when you
+try to remove an item from a collection using the unset construct like so:<br> 
+>`unset($collection->key)`.
+
 ------------------------------------------------------------------------------------------------
 ### allSatisfyConditions(callable $callback, $bind_callback_to_this=true): bool
 Iterate through a collection and execute a callback over each item (the callback
@@ -2982,10 +3012,11 @@ using non-strict comparison see `\VersatileCollections\ScalarsCollection::unique
 ------------------------------------------------------------------------------------------------
 ### whenFalse( $falsy_value, callable $callback, callable $default=null): mixed
 Execute `$callback` on the collection and return its return value if the first argument
-(`$falsy_value`) is falsy or if `$default` is not null execute the `$default` callback 
-on the collection and return its return value or return NULL as a last resort.
+(`$falsy_value`) is falsy or if the first argument is truthy and `$default` is not null 
+execute the `$default` callback on the collection and return its return value or 
+return NULL as a last resort.
 
-* **$falsy_value**: a value or expression that is converted to a boolean
+* **$falsy_value**: a value or expression that is evaluated to a boolean
 * **$callback**: a callback with the following signature:
 **function(\VersatileCollections\CollectionInterface $collection):mixed**.
 It will be invoked on the collection object from which this method is being 
@@ -2998,62 +3029,350 @@ is not falsy, NULL will be returned by this method.
 
 ```php
 <?php
-    $object = new ArrayObject();
-    $object2 = new ArrayObject();
+    $collection = \VersatileCollections\GenericCollection::makeNew(
+        ['michael', 'tom']
+    );
 
-    $collection = \VersatileCollections\GenericCollection::makeNew();
-    $collection->item1 = "4";
-    $collection->item2 = 5.0;
-    $collection->item3 = 7;
-    $collection->item4 = true;
-    $collection->item5 = false;
-    $collection->item12 = "4";
-    $collection->item22 = 5.0;
-    $collection->item32 = 7;
-    $collection->item42 = true;
-    $collection->item52 = false;
-    $collection->item123 = 4;
-    $collection->item223 = '5.0';
-    $collection->item323 = '7';
-    $collection->item423 = 'true';
-    $collection->item523 = 'false';
-    $collection->item623 = $object;
-    $collection->item723 = $object2;
-    $collection->item823 = $object;
-    $collection->item923 = $object2;
+    // Add `adam` to the collection if first argument is falsy 
+    $collection->whenFalse(false, function ($collection) {
+        
+        return $collection->push('adam');
+    });
+    $collection->toArray(); // === ['michael', 'tom', 'adam']
 
-    \VersatileCollections\GenericCollection::makeNew()->unique()->toArray(); // === [];
-    $collection->unique()->toArray(); 
-        // === ['4', 5.0, 7, true, false, 4, '5.0', '7','true', 'false', $object, $object2];
+    // Test return null
+    $result = $collection->whenFalse(true, function ($collection) {
+        
+        return $collection->push('adam');
+    }); // $result === null
+    $collection->toArray(); // === ['michael', 'tom', 'adam']
+
+    // Default callback gets executed when first argument is not falsy
+    // and the third argument is not null
+    $collection->whenFalse(
+        true, 
+        function ($collection) {
+
+            return $collection->push('adam');
+        }, 
+        function ($collection) {
+
+            return $collection->push('taylor');
+        }
+    );
+    $collection->toArray(); // === ['michael', 'tom', 'adam', 'taylor']
 ```
 
+------------------------------------------------------------------------------------------------
+### whenTrue( $truthy_value, callable $callback, callable $default=null): mixed
+Execute `$callback` on the collection and return its return value if the first argument
+(`$truthy_value`) is truthy or if the first argument is falsy and `$default` is not null 
+execute the `$default` callback on the collection and return its return value 
+or return NULL as a last resort.
 
+* **$falsy_value**: a value or expression that is evaluated to a boolean
+* **$callback**: a callback with the following signature:
+**function(\VersatileCollections\CollectionInterface $collection):mixed**.
+It will be invoked on the collection object from which this method is being 
+called if `$truthy_value` is truthy.
+* **$default**: a callback with the following signature
+**function(\VersatileCollections\CollectionInterface $collection): mixed**. 
+It will be invoked on the collection object from which this method is being 
+called if `$truthy_value` is not truthy. If `$default` is null and `$truthy_value` 
+is not truthy, NULL will be returned by this method.
 
+```php
+<?php
 
+    $collection = \VersatileCollections\GenericCollection::makeNew(
+        ['michael', 'tom']
+    );
 
+    // Add `adam` to the collection if first argument is truthy 
+    $collection->whenTrue(true, function ($collection) {
+        
+        return $collection->push('adam');
+    });
+    $collection->toArray(); // === ['michael', 'tom', 'adam']
 
+    // Test return null
+    $result = $collection->whenTrue(false, function ($collection) {
+        
+        return $collection->push('adam');
+    });// $result === null
+    $collection->toArray(); // === ['michael', 'tom', 'adam']
 
+    // Default callback gets executed when first argument is not truthy
+    // and the third argument is not null
+    $collection->whenTrue(
+        false, 
+        function ($collection) {
 
+            return $collection->push('adam');
+        }, 
+        function ($collection) {
 
+            return $collection->push('taylor');
+        }
+    );
+    $collection->toArray(); // === ['michael', 'tom', 'adam', 'taylor']
+```
 
+------------------------------------------------------------------------------------------------
+### yieldCollectionsOfSizeN($max_size_of_each_collection=1): \Generator
+Returns a generator that yields collections each having a maximum of 
+`$max_size_of_each_collection` items. Original keys are preserved in 
+each returned collection.
 
+* **$max_size_of_each_collection**: maximum number of items in each collection 
+that will be yielded by the generator returned by this method. If its value is 
+greater than the total number of items in the collection or if its value is less 
+than zero or if it has a non-numeric value it will be set to a value of 1. If it 
+has a float value, it will be automatically cast into an integer.
 
+```php
+<?php
+    $collection = \VersatileCollections\GenericCollection::makeNew(
+        [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+    );
 
+    $sub_collection_generator = $collection->yieldCollectionsOfSizeN(3);
 
+    foreach ( $sub_collection_generator as $sub_collection ) {
+        
+        var_export($sub_collection->toArray());
+    }
+    
+    // Will generate the output below:
+    //    [ 0=>1,    1=>2,  2=>3   ]
+    //    [ 3=>4,    4=>5,  5=>6   ]
+    //    [ 6=>7,    7=>8,  8=>9   ]
+    //    [ 9=>10,  10=>11, 11=>12 ]
+    //    [ 12=>13, 13=>14         ]
+```
+
+------------------------------------------------------------------------------------------------
 ## Non-`CollectionInterface` Methods common to all Collection Classes using `CollectionInterfaceImplementationTrait`
 
-__call [public]<br>
-__callStatic [public] [static]<br>
-__construct [public]<br>
-addMethod [public]<br>
-addMethodForAllInstances [public] [static]<br>
-addStaticMethod [public] [static]<br>
-<br>
-**Protected methods you shouldn't need to directly call:**<br>
-getKeyForDynamicMethod [protected] [static]<br>
-performMultiSort [protected]<br>
-performSort [protected]<br>
-validateMethodName [protected] [static]<br>
+------------------------------------------------------------------------------------------------
+### addMethod($name, callable $callable, $has_return_val=false, $bind_to_this=true): $this
+Register a callback (with the name `$name`) to a single instance of the collection 
+class that can later be called on the object. 
 
+> Methods registered to a single instance 
+of the collection class having the same name as a method added for all instances 
+(via `addMethodForAllInstances()`) will override the method implementation for 
+all instances.
 
+* **$name**: name of the method being added / registered
+* **$callable**: method being added
+* **$has_return_val**: true means that return value from `$callable` will be returned when the method is called, else false for no value to be returned from `$callback`
+* **$bind_to_this**: true means `$callable` will be bound to the collection object
+
+```php
+<?php
+    $collection_obj = new \VersatileCollections\GenericCollection();
+
+    $method_name = 'getCount'; // name of the method you are adding / registering
+    $method = function(){ return $this->count(); }; // method implementation
+    $has_return_val = true; // true means the return value will be returned
+    $bind_to_this = true; // true means $this inside $method will be a reference 
+                          // to $collection_obj
+
+    $collection_obj->addMethod(
+        $method_name, $method, $has_return_val, $bind_to_this
+    );
+
+    // you can then call the newly added instance method like so:
+    $collection_obj->getCount(); // will return the value `0`
+
+    // add another item to the collection
+    $collection_obj[] = 'an item';
+
+    // calling the newly added instance method after adding an item to the collection
+    $collection_obj->getCount(); // will return an updated count value of `1`
+```
+
+------------------------------------------------------------------------------------------------
+### static addMethodForAllInstances($name, callable $callable, $has_return_val=false, $bind_to_this_on_invocation=true): $this
+Register a callback (with the name `$name`) to all instances of a collection 
+class and all its sub-classes that can later be called on any of those instances. 
+
+> Methods registered to a single instance 
+of the collection class having the same name as a method added for all instances 
+(via `addMethodForAllInstances()`) will override the method implementation for 
+all instances.
+
+* **$name**: name of the method being added / registered
+* **$callable**: method being added
+* **$has_return_val**: true means that return value from `$callable` will be returned when the method is called, else false for no value to be returned from `$callback`
+* **$bind_to_this_on_invocation**: true means `$callable` will be bound to each collection object instance when the method is invoked on each instance
+
+```php
+<?php
+    $collection_obj = new \VersatileCollections\GenericCollection();
+
+    $method_name = 'getBlah'; // name of the method you are adding
+    $method = function(){ return 'blah'; }; // method implementation
+    $has_return_val = true; // true means the return value will be returned
+    $bind_to_this = true; // true means $this inside $method will be a reference 
+                          // to collection object $method is being invoked on 
+
+    \VersatileCollections\GenericCollection::addMethodForAllInstances(
+        $method_name, $method, $has_return_val, $bind_to_this
+    );
+
+    // you can then call the newly added instance method like so:
+    $collection_obj->getBlah(); // will return the string 'blah'
+
+    // Addition of these instance methods also respect inheritance rules.
+    // For example adding a dynamic instance method to an instance of a parent collection class will
+    // also make the method available to all child class instances and adding a dynamic instance
+    // method in a child class with the same name as a parent class' dynamic instance method
+    // will override the implementation of the dynamic instance method registered at the parent
+    // class level.
+
+    $parent_collection_object = new \VersatileCollections\ScalarsCollection(1, 2);
+    
+    // add to parent class
+    \VersatileCollections\ScalarsCollection::addMethodForAllInstances(
+        'getBlah', 
+        function() { return "blah from ScalarsCollection with {$this->count()} items"; }, 
+        true,
+        true
+    );
+        
+    // invoke from parent class
+    $parent_collection_object->getBlah(); // will return the string
+                                          // 'blah from ScalarsCollection with 2 items'
+
+    $child_collection_object = new \VersatileCollections\StringsCollection('1', '2', '3');
+        
+    // invoke from child class
+    $child_collection_object->getBlah(); // will return the string
+                                         // 'blah from ScalarsCollection with 3 items'
+
+    // add to specific class, which should override the one
+    // added to the parent class
+    \VersatileCollections\StringsCollection::addMethodForAllInstances(
+        'getBlah', 
+        function() { return "blah from StringsCollection with {$this->count()} items"; }, 
+        true,
+        true
+    );
+
+    // invoke from child class after the override
+    $child_collection_object->getBlah(); // will return the string
+                                         // 'blah from StringsCollection with 3 items'
+```
+
+------------------------------------------------------------------------------------------------
+### static addStaticMethod($name, callable $callable, $has_return_val=false): $this
+Register a callback (with the name `$name`) to a collection class and all its sub-classes 
+that can later be statically called on any of those classes. 
+
+> Methods registered to a single instance 
+of the collection class having the same name as a method added for all instances 
+(via `addMethodForAllInstances()`) will override the method implementation for 
+all instances.
+
+* **$name**: name of the method being added / registered
+* **$callable**: method being added
+* **$has_return_val**: true means that return value from `$callable` will be returned when the method is called, else false for no value to be returned from `$callback`
+
+```php
+<?php
+    $method_name = 'getBlah'; // name of the method you are adding
+    $method = function(){ return 'blah'; }; // method implementation
+    $has_return_val = true; // true means the return value will be returned
+
+    \VersatileCollections\GenericCollection::addStaticMethod(
+        $method_name, $method, $has_return_val
+    );
+
+    // you can then call the newly added static method like so:
+    \VersatileCollections\GenericCollection::getBlah(); // will return the string 'blah'
+
+    // Addition of these static methods also respect inheritance rules.
+    // For example adding a dynamic static method to a parent collection class will
+    // also make the method available to all child classes and adding a dynamic static
+    // method in a child class with the same name as a parent class' dynamic static method
+    // will override the implementation of the dynamic static method registered at the parent
+    // class level.
+
+    // add to parent class
+    \VersatileCollections\ScalarsCollection::addStaticMethod(
+        'getBlah', 
+        function() { return 'blah'; }, 
+        true
+    );
+
+    // invoke from child class
+    \VersatileCollections\StringsCollection::getBlah(); // will return the string
+                                                        // 'blah'
+
+    // add to specific class, which should override the one
+    // added to the parent class
+    \VersatileCollections\StringsCollection::addStaticMethod(
+        'getBlah', 
+        function() { return 'blah from child class'; }, 
+        true
+    );
+
+    // invoke from child class after the override
+    \VersatileCollections\StringsCollection::getBlah(); // will return the string
+                                                        // 'blah from child class'
+```
+
+------------------------------------------------------------------------------------------------
+### __call($name, $arguments): mixed
+Responds to method calls for methods registered via `addMethod()` & 
+`addMethodForAllInstances()`.<br> 
+You should not have to directly call this method, since it's automatically called
+by php whenever you call methods registered via `addMethod()` & `addMethodForAllInstances()`.
+
+* **$name**: name of the method being called
+* **$arguments**: optional array of arguments the method is being called with
+
+------------------------------------------------------------------------------------------------
+### static __callStatic($name, $arguments): mixed
+Responds to method calls for methods registered via `addStaticMethod()`.<br> 
+You should not have to directly call this method, since it's automatically called
+by php whenever you call methods registered via `addStaticMethod()`.
+
+* **$name**: name of the method being called
+* **$arguments**: optional array of arguments the method is being called with
+
+------------------------------------------------------------------------------------------------
+### __construct(...$items)
+Constructor for collection objects.<br>
+Classes that implement `\VersatileCollections\CollectionInterface` do not necessarily
+have to implement their constructor using this signature, but it is a strongly 
+recommended signature especially for strictly-typed collections.
+>IT IS STRONGLY RECOMENDED THAT YOU USE THE static `makeNew()` method to create 
+new collection objects.
+
+* **...$items**: one or more items to be added to a new collection or an array of items to be
+added to a collection via argument unpacking
+
+------------------------------------------------------------------------------------------------
 ## Methods specific to various Strictly-Typed Collection classes
+
+NumericsCollection:
+- average(): mixed
+- max(): mixed
+- median(): mixed
+- min(): mixed
+- mode(): mixed
+- product(): int|float
+- sum(): int|float
+
+ObjectsCollection:
+- __call($method_name, $arguments): mixed
+    - Invokes \VersatileCollections\CollectionInterface::__call($name, $arguments)
+      if an exception is thrown, tries to call the method on each item in the
+      collection and return an array of return values keyed on each item's 
+      corresponding key.
+
+ScalarsCollection:
+- uniqueNonStrict(): \VersatileCollections\CollectionInterface

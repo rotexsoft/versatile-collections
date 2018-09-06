@@ -191,8 +191,7 @@ You can add extra methods to your collection classes via one of the methods belo
 
 * Adding a dynamic instance method to **all instances** of a collection class and its sub-classes:
 ```php
-<?php 
-
+<?php
     $collection_obj = new \VersatileCollections\GenericCollection();
 
     $method_name = 'getBlah'; // name of the method you are adding
@@ -201,7 +200,7 @@ You can add extra methods to your collection classes via one of the methods belo
     $bind_to_this = true; // true means $this inside $method will be a reference 
                           // to collection object $method is being invoked on 
 
-    $collection_obj->addMethodForAllInstances(
+    \VersatileCollections\GenericCollection::addMethodForAllInstances(
         $method_name, $method, $has_return_val, $bind_to_this
     );
 
@@ -218,7 +217,7 @@ You can add extra methods to your collection classes via one of the methods belo
     $parent_collection_object = new \VersatileCollections\ScalarsCollection(1, 2);
     
     // add to parent class
-    $parent_collection_object->addMethodForAllInstances(
+    \VersatileCollections\ScalarsCollection::addMethodForAllInstances(
         'getBlah', 
         function() { return "blah from ScalarsCollection with {$this->count()} items"; }, 
         true,
@@ -237,7 +236,7 @@ You can add extra methods to your collection classes via one of the methods belo
 
     // add to specific class, which should override the one
     // added to the parent class
-    $child_collection_object->addMethodForAllInstances(
+    \VersatileCollections\StringsCollection::addMethodForAllInstances(
         'getBlah', 
         function() { return "blah from StringsCollection with {$this->count()} items"; }, 
         true,
