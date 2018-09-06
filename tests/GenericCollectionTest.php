@@ -3771,7 +3771,9 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
         
         $collection = new \BaseCollectionTestImplementation(...['michael', 'tom']);
 
-        $collection->whenTrue('adam', function ($collection, $newName) {
+        $newName = 'adam';
+        
+        $collection->whenTrue('adam', function ($collection)use(&$newName) {
             return $collection->push($newName);
         });
 
@@ -3813,7 +3815,7 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
         
         $collection = new \BaseCollectionTestImplementation(...['michael', 'tom']);
 
-        $collection->whenFalse(false, function ($collection, $newName) {
+        $collection->whenFalse(false, function ($collection) {
             return $collection->push('adam');
         });
 

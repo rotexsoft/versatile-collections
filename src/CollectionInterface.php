@@ -167,6 +167,10 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
     
     /**
      * 
+     * This method works only on collections of arrays and / or objects.
+     * It set's the specified field in each array or property in each object
+     * to the given value.
+     * 
      * @param string $field_name
      * @param mixed $field_val
      * @param bool $add_field_if_not_present
@@ -235,7 +239,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * Transform each item in the collection via a callback function.
      * 
      * @param callable $transformer a callback with the following signature
-     *                 function($key, $item) that returns a value that will replace $this[$key]
+     *                 function($key, $item):mixed that returns a value that will replace $this[$key]
      * 
      * @param bool $bind_callback_to_this true if the variable $this inside the supplied 
      *                                    $transformer should refer to the collection object
@@ -798,7 +802,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * true.
      * 
      * @param callable $callback a callback with the following signature
-     *                           function($key, $item). It should return true
+     *                           function($key, $item):bool. It should return true
      *                           if a $key should be returned or false otherwise.
      *  
      * @param bool $bind_callback_to_this true if the variable $this inside the supplied 
@@ -979,6 +983,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * ........
      * ........
      * @param \VersatileCollections\MultiSortParameters $param
+     *                                                  See \VersatileCollections\MultiSortParameters::$valid_sort_types for available sort types for each field.
+     *                                                  See \VersatileCollections\MultiSortParameters::$valid_sort_directions for available sort directions for each field.
      * 
      * @return \VersatileCollections\CollectionInterface A new collection containing the sorted items
      * 
@@ -1188,7 +1194,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
     /**
      * Pass a copy of collection to the given callback and then return $this.
      *
-     * @param  callable  $callback
+     * @param  callable $callback a callback with the following signature: 
+     *                            function(\VersatileCollections\CollectionInterface $collection):void
      * @return $this
      */
     public function tap(callable $callback);
@@ -1284,15 +1291,15 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @param bool $truthy_value
      * 
      * @param callable $callback a callback with the following signature
-     *                           function(\VersatileCollections\CollectionInterface $collection, $truthy_value)
+     *                           function(\VersatileCollections\CollectionInterface $collection): mixed
      *                           It will be invoked on the collection object from which this method
      *                           is being called.
      * 
      * @param callable|null $default a callback with the following signature
-     *                               function(\VersatileCollections\CollectionInterface $collection, $truthy_value)
+     *                               function(\VersatileCollections\CollectionInterface $collection): mixed
      *                               It will be invoked on the collection object from which this method
      *                               is being called. 
-     *                               If $default is null and $truthy_value is not truthy, $this will
+     *                               If $default is null and $truthy_value is not truthy, NULL will
      *                               be returned by this method.
      * 
      * @return mixed
@@ -1309,15 +1316,15 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @param bool $falsy_value
      * 
      * @param callable $callback a callback with the following signature
-     *                           function(\VersatileCollections\CollectionInterface $collection, $falsy_value)
+     *                           function(\VersatileCollections\CollectionInterface $collection): mixed
      *                           It will be invoked on the collection object from which this method
      *                           is being called.
      * 
      * @param callable|null $default a callback with the following signature
-     *                               function(\VersatileCollections\CollectionInterface $collection, $falsy_value)
+     *                               function(\VersatileCollections\CollectionInterface $collection): mixed
      *                               It will be invoked on the collection object from which this method
      *                               is being called. 
-     *                               If $default is null and $falsy_value is not falsy, $this will
+     *                               If $default is null and $falsy_value is not falsy, NULL will
      *                               be returned by this method.
      * 
      * @return mixed

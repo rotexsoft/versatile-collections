@@ -2181,11 +2181,11 @@ trait CollectionInterfaceImplementationTrait {
     ) {
         if ( $truthy_value ) {
             
-            return $callback($this, $truthy_value);
+            return $callback($this);
             
         } elseif ( !is_null($default) ) {
             
-            return $default($this, $truthy_value);
+            return $default($this);
         }
 
         return $default;
