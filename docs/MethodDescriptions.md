@@ -2,6 +2,8 @@
 Most of the examples in this section use the **\VersatileCollections\GenericCollection** class, 
 but are applicable to all collection classes that have implemented **\VersatileCollections\CollectionInterface**.
 
+[appendCollection](#appendCollection)
+
 
 ------------------------------------------------------------------------------------------------
 ### __isset($key): bool
@@ -67,6 +69,7 @@ method is being invoked on.
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="appendCollection"></div>
 ### appendCollection(CollectionInterface $other): $this
 Appends all items from `$other` collection to the end of a collection.<br>
 Appended items will be assigned numeric keys, so as to avoid overwriting item(s)
