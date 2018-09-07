@@ -4,33 +4,42 @@
 Most of the examples in this section use the **\VersatileCollections\GenericCollection** class, 
 but are applicable to all collection classes that have implemented **\VersatileCollections\CollectionInterface**.
 
-|                                             |                                                                                 |                                                           |                                                   |
-|---                                          |---                                                                              |---                                                        |---                                                |
-|[__get](#__get)                              |[getAllWhereKeysIn](#getAllWhereKeysIn)                                          |[offsetUnset](#offsetUnset)                                |[sortByKey](#sortByKey)                            |
-|[__isset](#__isset)                          |[getAllWhereKeysNotIn](#getAllWhereKeysNotIn)                                    |[paginate](#paginate)                                      |[sortByMultipleFields](#sortByMultipleFields)      |
-|[__set](#__set)                              |[getAndRemoveFirstItem](#getAndRemoveFirstItem)                                  |[pipeAndReturnCallbackResult](#pipeAndReturnCallbackResult)|[sortDesc](#sortDesc)                              |
-|[__unset](#__unset)                          |[getAndRemoveLastItem](#getAndRemoveLastItem)                                    |[pipeAndReturnSelf](#pipeAndReturnSelf)                    |[sortDescByKey](#sortDescByKey)                    |
-|[allSatisfyConditions](#allSatisfyConditions)|[getAsNewType](#getAsNewType)                                                    |[prependCollection](#prependCollection)                    |[sortMe](#sortMe)                                  |
-|[appendCollection](#appendCollection)        |[getCollectionsOfSizeN](#getCollectionsOfSizeN)                                  |[prependItem](#prependItem)                                |[sortMeByKey](#sortMeByKey)                        |
-|[appendItem](#appendItem)                    |[getIfExists](#getIfExists)                                                      |[pull](#pull)                                              |[sortMeByMultipleFields](#sortMeByMultipleFields)  |
-|[column](#column)                            |[getItems](#getItems)                                                            |[push](#push)                                              |[sortMeDesc](#sortMeDesc)                          |
-|[containsItem](#containsItem)                |[getIterator](#getIterator)                                                      |[put](#put)                                                |[sortMeDescByKey](#sortMeDescByKey)                |
-|[containsItemWithKey](#containsItemWithKey)  |[getKeys](#getKeys)                                                              |[randomItem](#randomItem)                                  |[splice](#splice)                                  |
-|[containsItems](#containsItems)              |[intersectByItems](#intersectByItems)                                            |[randomItems](#randomItems)                                |[split](#split)                                    |
-|[containsKey](#containsKey)                  |[intersectByItemsUsingCallback](#intersectByItemsUsingCallback)                  |[randomKey](#randomKey)                                    |[take](#take)                                      |
-|[containsKeys](#containsKeys)                |[intersectByKeys](#intersectByKeys)                                              |[randomKeys](#randomKeys)                                  |[tap](#tap)                                        |
-|[count](#count)                              |[intersectByKeysAndItems](#intersectByKeysAndItems)                              |[reduce](#reduce)                                          |[toArray](#toArray)                                |
-|[diff](#diff)                                |[intersectByKeysAndItemsUsingCallbacks](#intersectByKeysAndItemsUsingCallbacks)  |[reduceWithKeyAccess](#reduceWithKeyAccess)                |[transform](#transform)                            |
-|[diffAssoc](#diffAssoc)                      |[intersectByKeysUsingCallback](#intersectByKeysUsingCallback)                    |[removeAll](#removeAll)                                    |[unionMeWith](#unionMeWith)                        |
-|[diffAssocUsing](#diffAssocUsing)            |[lastItem](#lastItem)                                                            |[reverse](#reverse)                                        |[unionWith](#unionWith)                            |
-|[diffKeys](#diffKeys)                        |[makeAllKeysNumeric](#makeAllKeysNumeric)                                        |[reverseMe](#reverseMe)                                    |[unique](#unique)                                  |
-|[diffKeysUsing](#diffKeysUsing)              |[makeNew](#makeNew)                                                              |[searchAllByVal](#searchAllByVal)                          |[whenFalse](#whenFalse)                            |
-|[diffUsing](#diffUsing)                      |[map](#map)                                                                      |[searchByCallback](#searchByCallback)                      |[whenTrue](#whenTrue)                              |
-|[each](#each)                                |[mergeMeWith](#mergeMeWith)                                                      |[searchByVal](#searchByVal)                                |[yieldCollectionsOfSizeN](#yieldCollectionsOfSizeN)|
-|[everyNth](#everyNth)                        |[mergeWith](#mergeWith)                                                          |[setValForEachItem](#setValForEachItem)                    |                                                   |
-|[filterAll](#filterAll)                      |[offsetExists](#offsetExists)                                                    |[shuffle](#shuffle)                                        |                                                   |
-|[filterFirstN](#filterFirstN)                |[offsetGet](#offsetGet)                                                          |[slice](#slice)                                            |                                                   |
-|[firstItem](#firstItem)                      |[offsetSet](#offsetSet)                                                          |[sort](#sort)                                              |                                                   |
+|                                             |                                                               |                                                   |
+|---                                          |---                                                            |---                                                |
+|[__get](#__get)                              |[getIterator](#getIterator)                                    |[removeAll](#removeAll)                            |
+|[__isset](#__isset)                          |[getKeys](#getKeys)                                            |[reverse](#reverse)                                |
+|[__set](#__set)                              |[intersectByItems](#intersectByItems)                          |[reverseMe](#reverseMe)                            |
+|[__unset](#__unset)                          |[intersectByItemsUsingCallback](#intersectByItemsUsingCallback)|[searchAllByVal](#searchAllByVal)                  |
+|[allSatisfyConditions](#allSatisfyConditions)|[intersectByKeys](#intersectByKeys)                            |[searchByCallback](#searchByCallback)              |
+|[appendCollection](#appendCollection)        |[intersectByKeysAndItems](#intersectByKeysAndItems)            |[searchByVal](#searchByVal)                        |
+|[appendItem](#appendItem)                    |[intersectByKeysAndItemsUsingCallbacks](#intersectByKeysAndItemsUsingCallbacks)|[setValForEachItem](#setValForEachItem)            |
+|[column](#column)                            |[intersectByKeysUsingCallback](#intersectByKeysUsingCallback)  |[shuffle](#shuffle)                                |
+|[containsItem](#containsItem)                |[isEmpty](#isEmpty)                                            |[slice](#slice)                                    |
+|[containsItemWithKey](#containsItemWithKey)  |[lastItem](#lastItem)                                          |[sort](#sort)                                      |
+|[containsItems](#containsItems)              |[makeAllKeysNumeric](#makeAllKeysNumeric)                      |[sortByKey](#sortByKey)                            |
+|[containsKey](#containsKey)                  |[makeNew](#makeNew)                                            |[sortByMultipleFields](#sortByMultipleFields)      |
+|[containsKeys](#containsKeys)                |[map](#map)                                                    |[sortDesc](#sortDesc)                              |
+|[count](#count)                              |[mergeMeWith](#mergeMeWith)                                    |[sortDescByKey](#sortDescByKey)                    |
+|[diff](#diff)                                |[mergeWith](#mergeWith)                                        |[sortMe](#sortMe)                                  |
+|[diffAssoc](#diffAssoc)                      |[offsetExists](#offsetExists)                                  |[sortMeByKey](#sortMeByKey)                        |
+|[diffAssocUsing](#diffAssocUsing)            |[offsetGet](#offsetGet)                                        |[sortMeByMultipleFields](#sortMeByMultipleFields)  |
+|[diffKeys](#diffKeys)                        |[offsetSet](#offsetSet)                                        |[sortMeDesc](#sortMeDesc)                          |
+|[diffKeysUsing](#diffKeysUsing)              |[offsetUnset](#offsetUnset)                                    |[sortMeDescByKey](#sortMeDescByKey)                |
+|[diffUsing](#diffUsing)                      |[paginate](#paginate)                                          |[splice](#splice)                                  |
+|[each](#each)                                |[pipeAndReturnCallbackResult](#pipeAndReturnCallbackResult)    |[split](#split)                                    |
+|[everyNth](#everyNth)                        |[pipeAndReturnSelf](#pipeAndReturnSelf)                        |[take](#take)                                      |
+|[filterAll](#filterAll)                      |[prependCollection](#prependCollection)                        |[tap](#tap)                                        |
+|[filterFirstN](#filterFirstN)                |[prependItem](#prependItem)                                    |[toArray](#toArray)                                |
+|[firstItem](#firstItem)                      |[pull](#pull)                                                  |[transform](#transform)                            |
+|[getAllWhereKeysIn](#getAllWhereKeysIn)      |[push](#push)                                                  |[unionMeWith](#unionMeWith)                        |
+|[getAllWhereKeysNotIn](#getAllWhereKeysNotIn)|[put](#put)                                                    |[unionWith](#unionWith)                            |
+|[getAndRemoveFirstItem](#getAndRemoveFirstItem)|[randomItem](#randomItem)                                      |[unique](#unique)                                  |
+|[getAndRemoveLastItem](#getAndRemoveLastItem)|[randomItems](#randomItems)                                    |[whenFalse](#whenFalse)                            |
+|[getAsNewType](#getAsNewType)                |[randomKey](#randomKey)                                        |[whenTrue](#whenTrue)                              |
+|[getCollectionsOfSizeN](#getCollectionsOfSizeN)|[randomKeys](#randomKeys)                                      |[yieldCollectionsOfSizeN](#yieldCollectionsOfSizeN)|
+|[getIfExists](#getIfExists)                  |[reduce](#reduce)                                              |                                                   |
+|[getItems](#getItems)                        |[reduceWithKeyAccess](#reduceWithKeyAccess)                    |                                                   |
+
 
 ------------------------------------------------------------------------------------------------
 <div id="__isset"></div>
