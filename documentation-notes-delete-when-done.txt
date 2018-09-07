@@ -189,3 +189,5 @@ a variadic type hinted constructor.
 				+ IntCollection
 				
 		+ StringCollection
+
+Create a laravel collections to versatile collections method equivalence table
