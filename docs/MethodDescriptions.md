@@ -1,11 +1,40 @@
+# Collection Methods
+
 ## Methods common to all Collection Classes implementing **CollectionInterface**
 Most of the examples in this section use the **\VersatileCollections\GenericCollection** class, 
 but are applicable to all collection classes that have implemented **\VersatileCollections\CollectionInterface**.
 
-[appendCollection](#appendCollection)
-
+|                                             |                                                                                 |                                                           |                                                   |
+|---                                          |---                                                                              |---                                                        |---                                                |
+|[__get](#__get)                              |[getAllWhereKeysIn](#getAllWhereKeysIn)                                          |[offsetUnset](#offsetUnset)                                |[sortByKey](#sortByKey)                            |
+|[__isset](#__isset)                          |[getAllWhereKeysNotIn](#getAllWhereKeysNotIn)                                    |[paginate](#paginate)                                      |[sortByMultipleFields](#sortByMultipleFields)      |
+|[__set](#__set)                              |[getAndRemoveFirstItem](#getAndRemoveFirstItem)                                  |[pipeAndReturnCallbackResult](#pipeAndReturnCallbackResult)|[sortDesc](#sortDesc)                              |
+|[__unset](#__unset)                          |[getAndRemoveLastItem](#getAndRemoveLastItem)                                    |[pipeAndReturnSelf](#pipeAndReturnSelf)                    |[sortDescByKey](#sortDescByKey)                    |
+|[allSatisfyConditions](#allSatisfyConditions)|[getAsNewType](#getAsNewType)                                                    |[prependCollection](#prependCollection)                    |[sortMe](#sortMe)                                  |
+|[appendCollection](#appendCollection)        |[getCollectionsOfSizeN](#getCollectionsOfSizeN)                                  |[prependItem](#prependItem)                                |[sortMeByKey](#sortMeByKey)                        |
+|[appendItem](#appendItem)                    |[getIfExists](#getIfExists)                                                      |[pull](#pull)                                              |[sortMeByMultipleFields](#sortMeByMultipleFields)  |
+|[column](#column)                            |[getItems](#getItems)                                                            |[push](#push)                                              |[sortMeDesc](#sortMeDesc)                          |
+|[containsItem](#containsItem)                |[getIterator](#getIterator)                                                      |[put](#put)                                                |[sortMeDescByKey](#sortMeDescByKey)                |
+|[containsItemWithKey](#containsItemWithKey)  |[getKeys](#getKeys)                                                              |[randomItem](#randomItem)                                  |[splice](#splice)                                  |
+|[containsItems](#containsItems)              |[intersectByItems](#intersectByItems)                                            |[randomItems](#randomItems)                                |[split](#split)                                    |
+|[containsKey](#containsKey)                  |[intersectByItemsUsingCallback](#intersectByItemsUsingCallback)                  |[randomKey](#randomKey)                                    |[take](#take)                                      |
+|[containsKeys](#containsKeys)                |[intersectByKeys](#intersectByKeys)                                              |[randomKeys](#randomKeys)                                  |[tap](#tap)                                        |
+|[count](#count)                              |[intersectByKeysAndItems](#intersectByKeysAndItems)                              |[reduce](#reduce)                                          |[toArray](#toArray)                                |
+|[diff](#diff)                                |[intersectByKeysAndItemsUsingCallbacks](#intersectByKeysAndItemsUsingCallbacks)  |[reduceWithKeyAccess](#reduceWithKeyAccess)                |[transform](#transform)                            |
+|[diffAssoc](#diffAssoc)                      |[intersectByKeysUsingCallback](#intersectByKeysUsingCallback)                    |[removeAll](#removeAll)                                    |[unionMeWith](#unionMeWith)                        |
+|[diffAssocUsing](#diffAssocUsing)            |[lastItem](#lastItem)                                                            |[reverse](#reverse)                                        |[unionWith](#unionWith)                            |
+|[diffKeys](#diffKeys)                        |[makeAllKeysNumeric](#makeAllKeysNumeric)                                        |[reverseMe](#reverseMe)                                    |[unique](#unique)                                  |
+|[diffKeysUsing](#diffKeysUsing)              |[makeNew](#makeNew)                                                              |[searchAllByVal](#searchAllByVal)                          |[whenFalse](#whenFalse)                            |
+|[diffUsing](#diffUsing)                      |[map](#map)                                                                      |[searchByCallback](#searchByCallback)                      |[whenTrue](#whenTrue)                              |
+|[each](#each)                                |[mergeMeWith](#mergeMeWith)                                                      |[searchByVal](#searchByVal)                                |[yieldCollectionsOfSizeN](#yieldCollectionsOfSizeN)|
+|[everyNth](#everyNth)                        |[mergeWith](#mergeWith)                                                          |[setValForEachItem](#setValForEachItem)                    |                                                   |
+|[filterAll](#filterAll)                      |[offsetExists](#offsetExists)                                                    |[shuffle](#shuffle)                                        |                                                   |
+|[filterFirstN](#filterFirstN)                |[offsetGet](#offsetGet)                                                          |[slice](#slice)                                            |                                                   |
+|[firstItem](#firstItem)                      |[offsetSet](#offsetSet)                                                          |[sort](#sort)                                              |                                                   |
 
 ------------------------------------------------------------------------------------------------
+<div id="__isset"></div>
+
 ### __isset($key): bool
 Returns true if the specified key exists in a collection or false if not.<br>
 You shouldn't need to call this method since it is automatically called when you
@@ -14,6 +43,8 @@ using the isset construct like so:<br>
 >`isset($collection->key)`.
 
 ------------------------------------------------------------------------------------------------
+<div id="__get"></div>
+
 ### __get($key): mixed
 Returns the item associated with the specified key if the key exists in the collection.<br>
 You shouldn't need to call this method since it is automatically called when you
@@ -21,6 +52,8 @@ try to get an item from a collection using this syntax:<br>
 >`$collection->key`.
 
 ------------------------------------------------------------------------------------------------
+<div id="__set"></div>
+
 ### __set($key, $val): void
 Add an item (`$val`) to the collection with the specified key (`$key`).<br>
 You shouldn't need to call this method since it is automatically called when you
@@ -28,6 +61,8 @@ try to add an item to a collection using this syntax:<br>
 >`$collection->key = $val`.
 
 ------------------------------------------------------------------------------------------------
+<div id="__unset"></div>
+
 ### __unset($key): void
 Remove an item associated with the specified key (`$key`) from the collection.<br>
 You shouldn't need to call this method since it is automatically called when you
@@ -35,6 +70,8 @@ try to remove an item from a collection using the unset construct like so:<br>
 >`unset($collection->key)`.
 
 ------------------------------------------------------------------------------------------------
+<div id="allSatisfyConditions"></div>
+
 ### allSatisfyConditions(callable $callback, $bind_callback_to_this=true): bool
 Iterate through a collection and execute a callback over each item (the callback
 checks if each item satisfies one or more condition(s) and returns true if an item 
@@ -123,6 +160,8 @@ an instance of **NumericsCollection** (since **FloatsCollection** is a sub-type 
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="appendItem"></div>
+
 ### appendItem($item): $this
 Appends an item to the end of a collection.<br>
 >For strictly typed collections, `$item` must be of the same type as the collection's type 
@@ -150,6 +189,8 @@ but you can append a **float** or an **integer** to an instance of **NumericsCol
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="column"></div>
+
 ### column($column_key, $index_key=null): \VersatileCollections\GenericCollection
 Returns a collection containing the values from a single column in the collection. 
 Works like php's array_column.<br>
@@ -212,6 +253,8 @@ strings or integers otherwise an exception will be thrown.
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="containsItem"></div>
+
 ### containsItem($item): bool
 Check if a collection contains an item using strict comparison.
 
@@ -245,6 +288,8 @@ Check if a collection contains an item using strict comparison.
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="containsItemWithKey"></div>
+
 ### containsItemWithKey($key, $item): bool
 Check if a collection contains a specified item with the specified key using strict comparison for the item.
 
@@ -273,6 +318,8 @@ Check if a collection contains a specified item with the specified key using str
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="containsItems"></div>
+
 ### containsItems(array $items): bool
 Check if all the specified items exist in a collection. Strict comparison is used for checking each item.
 
@@ -304,6 +351,8 @@ Check if all the specified items exist in a collection. Strict comparison is use
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="containsKey"></div>
+
 ### containsKey($key): bool
 Check if a key exists in a collection.
 
@@ -332,6 +381,8 @@ Check if a key exists in a collection.
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="containsKeys"></div>
+
 ### containsKeys(array $keys): bool
 Check if all the specified keys exist in a collection.
 
@@ -362,6 +413,8 @@ Check if all the specified keys exist in a collection.
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="count"></div>
+
 ### count(): int
 Returns the number of items in collection.
 
@@ -379,6 +432,8 @@ Returns the number of items in collection.
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="diff"></div>
+
 ### diff(array $items): \VersatileCollections\CollectionInterface
 Get the items in the collection that are not present in the given items.
 * **$items**: items in the collection that are not present in `$items` are returned by this method 
@@ -397,6 +452,8 @@ Get the items in the collection that are not present in the given items.
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="diffUsing"></div>
+
 ### diffUsing(array $items, callable $callback): \VersatileCollections\CollectionInterface
 Get the items in the collection that are not present in the given items using a callback for the comparison.
 * **$items**: items in the collection that are not present in `$items` are returned by this method
@@ -417,6 +474,8 @@ or greater than the second.
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="diffAssoc"></div>
+
 ### diffAssoc(array $items): \VersatileCollections\CollectionInterface
 Get the items in the collection whose keys and values are not present in the given items.
 * **$items**: items in the collection whose keys and values are not present in `$items` are returned by this method 
@@ -432,6 +491,8 @@ Get the items in the collection whose keys and values are not present in the giv
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="diffAssocUsing"></div>
+
 ### diffAssocUsing(array $items, callable $key_comparator): \VersatileCollections\CollectionInterface
 Get the items in the collection whose keys and values are not present in the given items.
 * **$items**: 
@@ -457,6 +518,8 @@ or greater than the second.
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="diffKeys"></div>
+
 ### diffKeys(array $items): \VersatileCollections\CollectionInterface
 Get the items in the collection whose keys are not present in the given items.
 * **$items**: items in the collection whose keys are not present in `$items` are returned by this method
@@ -473,6 +536,8 @@ Get the items in the collection whose keys are not present in the given items.
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="diffKeysUsing"></div>
+
 ### diffKeysUsing(array $items, callable $key_comparator): \VersatileCollections\CollectionInterface
 Get the items in the collection whose keys and values are not present in the given items.
 * **$items**: 
@@ -496,6 +561,8 @@ or greater than the second.
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="each"></div>
+
 ### each(callable $callback, $termination_value=false, $bind_callback_to_this=true): $this
 Iterate through a collection and execute a callback over each item during the iteration.<br>
 * **$callback**: a callback with the following signature **function($key, $item)**. 
@@ -560,6 +627,8 @@ method is being invoked on.
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="everyNth"></div>
+
 ### everyNth($n, $position_of_first_nth_item = 0): \VersatileCollections\CollectionInterface
 Create a new collection consisting of every n-th element.
 * **$n**: the number representing n. 
@@ -581,6 +650,8 @@ Create a new collection consisting of every n-th element.
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="filterAll"></div>
+
 ### filterAll(callable $filterer, $copy_keys=false, $bind_callback_to_this=true, $remove_filtered_items=false): \VersatileCollections\CollectionInterface
 Filter all items in a collection matching criteria specified in a callback function and return filtered items in a new collection.
 * **$filterer**: a callback with the following signature `function($key, $item)` 
@@ -651,6 +722,8 @@ else `false` if the filtered items should not be removed from the collection thi
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="filterFirstN"></div>
+
 ### filterFirstN(callable $filterer, $max_number_of_filtered_items=null, $copy_keys=false, $bind_callback_to_this=true, $remove_filtered_items=false): \VersatileCollections\CollectionInterface
 Filter first `N` items in a collection matching criteria specified in a callback function and return filtered items in a new collection.
 * **$filterer**: a callback with the following signature `function($key, $item)` 
@@ -724,6 +797,8 @@ else `false` if the filtered items should not be removed from the collection thi
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="firstItem"></div>
+
 ### firstItem(): mixed
 Retrieves and returns the first item in a collection. See `lastItem()` if you want to get the last item.
 
@@ -736,6 +811,8 @@ Retrieves and returns the first item in a collection. See `lastItem()` if you wa
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="getAllWhereKeysIn"></div>
+
 ### getAllWhereKeysIn(array $keys): \VersatileCollections\CollectionInterface
 Return a collection of items whose keys are present in `$keys`. 
 Keys are preserved in the new collection.<br>
@@ -766,6 +843,8 @@ If the keys in `$keys` do not exist in the collection, an empty collection objec
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="getAllWhereKeysNotIn"></div>
+
 ### getAllWhereKeysNotIn(array $keys): \VersatileCollections\CollectionInterface
 Return a collection of items whose keys are not present in `$keys`. 
 Keys are preserved in the new collection.<br>
@@ -795,6 +874,8 @@ If all the keys in the collection are also in `$keys`, an empty collection objec
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="getAndRemoveFirstItem"></div>
+
 ### getAndRemoveFirstItem(): mixed
 Get and remove the first item from the collection. NULL is returned if the collection is empty.
 
@@ -822,6 +903,8 @@ Get and remove the first item from the collection. NULL is returned if the colle
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="getAndRemoveLastItem"></div>
+
 ### getAndRemoveLastItem(): mixed
 Get and remove the last item from the collection. NULL is returned if the collection is empty.
 
@@ -849,6 +932,8 @@ Get and remove the last item from the collection. NULL is returned if the collec
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="getAsNewType"></div>
+
 ### getAsNewType($new_collection_class=\VersatileCollections\GenericCollection::class): \VersatileCollections\CollectionInterface
 Create a new collection of the specified type with the keys and items of the collection object this method is being invoked on.<br>
 It's a neat way of casting one type of collection to another type. The types must be compatible. 
@@ -889,6 +974,8 @@ The original collection will not be modified.
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="getCollectionsOfSizeN"></div>
+
 ### getCollectionsOfSizeN($max_size_of_each_collection=1): \VersatileCollections\CollectionInterface
 Break-up a collection into a new collection (**GenericCollection**) of sub-collections (each having a maximum size of **N**). 
 Each sub-collection will be of the same type as the collection object this method is being called on. 
@@ -912,6 +999,8 @@ Generator (instead of a new collection) that yields each sub-collection.
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="getIfExists"></div>
+
 ### getIfExists($key, $default_value=null): mixed
 Try to get an item from the collection with the specified key (`$key`) 
 or return `$default_value` if key does not exist in the collection.
@@ -928,6 +1017,8 @@ or return `$default_value` if key does not exist in the collection.
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="getItems"></div>
+
 ### getItems(): \VersatileCollections\CollectionInterface
 Get a new collection (of the same type as the original collection) of items in a collection without the corresponding keys in the original collection.
 Items in the new collection will have sequentially increasing numeric keys starting from 0.
@@ -943,6 +1034,8 @@ Items in the new collection will have sequentially increasing numeric keys start
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="getIterator"></div>
+
 ### getIterator(): \Iterator
 Returns an **Iterator** object that can be used to traverse a collection. 
 You will not normally need to call this method since it's a fulfilment of php's
@@ -1011,6 +1104,8 @@ a collection, but you should not have to.
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="getKeys"></div>
+
 ### getKeys(): \VersatileCollections\GenericCollection
 Get a collection (**GenericCollection**) of keys to a collection.
 
@@ -1025,6 +1120,8 @@ Get a collection (**GenericCollection**) of keys to a collection.
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="intersectByItems"></div>
+
 ### intersectByItems(array $arr): \VersatileCollections\CollectionInterface
 Create a collection of items from the original collection that are present in `$arr`
 
@@ -1039,6 +1136,8 @@ Create a collection of items from the original collection that are present in `$
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="intersectByItemsUsingCallback"></div>
+
 ### intersectByItemsUsingCallback(array $arr, callable $item_comparator): \VersatileCollections\CollectionInterface 
 Create a collection of items from the original collection that are present in `$arr` using a callback for the item comparison
 
@@ -1059,6 +1158,8 @@ or greater than the second.
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="intersectByKeys"></div>
+
 ### intersectByKeys(array $arr): \VersatileCollections\CollectionInterface
 Create a collection of items from the original collection whose keys are present in `$arr`
 
@@ -1073,6 +1174,8 @@ Create a collection of items from the original collection whose keys are present
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="intersectByKeysUsingCallback"></div>
+
 ### intersectByKeysUsingCallback(array $arr, callable $key_comparator): \VersatileCollections\CollectionInterface 
 Create a collection of items from the original collection whose keys are present in $arr using a callback for the key comparison
 
@@ -1103,6 +1206,8 @@ or greater than the second.
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="intersectByKeysAndItems"></div>
+
 ### intersectByKeysAndItems(array $arr): \VersatileCollections\CollectionInterface
 Create a collection of items from the original collection whose keys and corresponding items /values are present in `$arr`
 
@@ -1117,6 +1222,8 @@ Create a collection of items from the original collection whose keys and corresp
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="intersectByKeysAndItemsUsingCallbacks"></div>
+
 ### intersectByKeysAndItemsUsingCallbacks(array $arr, callable $key_comparator=null, callable $item_comparator=null): \VersatileCollections\CollectionInterface 
 Create a collection of items from the original collection whose keys and corresponding items /values are present in `$arr` using callbacks for key and item comparisons
 
@@ -1171,6 +1278,8 @@ or greater than the second.
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="isEmpty"></div>
+
 ### isEmpty(): bool
 Return true if there are one or more items in the collection or false otherwise.
 
@@ -1187,6 +1296,8 @@ Return true if there are one or more items in the collection or false otherwise.
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="lastItem"></div>
+
 ### lastItem(): mixed
 Retrieves and returns the last item in a collection. See `firstItem()` if you want to get the first item.
 
@@ -1199,6 +1310,8 @@ Retrieves and returns the last item in a collection. See `firstItem()` if you wa
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="makeAllKeysNumeric"></div>
+
 ### makeAllKeysNumeric($starting_key=0): $this
 Convert all keys in the collection to consecutive integer keys starting from `$starting_key`.
 * **$starting_key**: a positive integer value that will be the value of the first key.
@@ -1245,6 +1358,8 @@ A negative integer value will be converted to zero.
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="makeNew"></div>
+
 ### static makeNew(array $items=[], $preserve_keys=true): \VersatileCollections\CollectionInterface
 Creates a new collection from an array.<br>
 THIS IS THE STRONGLY RECOMMENDED WAY TO CREATE COLLECTION OBJECTS (if you forget 
@@ -1280,6 +1395,8 @@ passed to the constructor which you forgot to unpack).
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="map"></div>
+
 ### map(callable $callback, $preserve_keys=true, $bind_callback_to_this=true): \VersatileCollections\CollectionInterface
 Applies the callback to the items in the collection and returns a new 
 collection containing all the items in the original collection after
@@ -1338,6 +1455,8 @@ $callback should refer to the collection object this method is being invoked on.
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="mergeMeWith"></div>
+
 ### mergeMeWith(array $items): $this
 Adds all items from `$items` to the collection object this method is being called on.
 Items in `$items` with existing keys in the original collection will overwrite 
@@ -1364,6 +1483,8 @@ to be used when same keys exist in both `$items` and the original collection.
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="mergeWith"></div>
+
 ### mergeWith(array $items): \VersatileCollections\CollectionInterface
 Works exactly like `mergeMeWith(array $items)`, except that the original
 collection is not modified, but instead the merged items are returned in
@@ -1392,30 +1513,40 @@ to be used when same keys exist in both `$items` and the original collection.
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="offsetExists"></div>
+
 ### offsetExists($key): bool
 Returns true if the specified key exists in a collection or false if not.<br>
 You shouldn't need to call this method since it is automatically used by the
 ArrayAccess API.
 
 ------------------------------------------------------------------------------------------------
+<div id="offsetGet"></div>
+
 ### offsetGet($key): mixed
 Returns the item associated with the specified key if the key exists in the collection.<br>
 You shouldn't need to call this method since it is automatically used by the
 ArrayAccess API.
 
 ------------------------------------------------------------------------------------------------
+<div id="offsetSet"></div>
+
 ### offsetSet($key, $val): void
 Add an item (`$val`) to the collection with the specified key (`$key`).<br>
 You shouldn't need to call this method since it is automatically used by the
 ArrayAccess API.
 
 ------------------------------------------------------------------------------------------------
+<div id="offsetUnset"></div>
+
 ### offsetUnset($key): void
 Remove an item associated with the specified key (`$key`) from the collection.<br>
 You shouldn't need to call this method since it is automatically used by the
 ArrayAccess API.
 
 ------------------------------------------------------------------------------------------------
+<div id="paginate"></div>
+
 ### paginate($page_number, $num_items_per_page): \VersatileCollections\CollectionInterface
 Get a collection of at most `$num_items_per_page` items starting from the
 `(($page_number * $num_items_per_page) - $num_items_per_page + 1)th` position
@@ -1486,6 +1617,8 @@ from position `$page_number` in the collection till the end of the collection wi
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="pipeAndReturnCallbackResult"></div>
+
 ### pipeAndReturnCallbackResult(callable $callback): mixed
 Pass the collection to the given callback and return whatever value is
 returned from executing the given callback.<br>
@@ -1567,6 +1700,8 @@ in the callback's signature is the collection object this
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="pipeAndReturnSelf"></div>
+
 ### pipeAndReturnSelf(callable $callback): $this
 Pass the collection to the given callback and return the collection object 
 the `pipeAndReturnSelf` method is being called on.<br>
@@ -1645,6 +1780,8 @@ in the callback's signature is the collection object this
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="prependCollection"></div>
+
 ### prependCollection(CollectionInterface $other): $this
 Prepends all items from `$other` collection to the front of a collection.<br>
 Note that all numeric keys will be modified to start counting from zero while 
@@ -1696,6 +1833,8 @@ an instance of **NumericsCollection** (since **FloatsCollection** is a sub-type 
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="prependItem"></div>
+
 ### prependItem($item, $key=null): $this
 Prepends an item to the front of a collection (an optional key (string or integer) could be supplied).<br>
 >For strictly typed collections, `$item` must be of the same type as the collection's type 
@@ -1735,6 +1874,8 @@ but you can prepend a **float** or an **integer** to an instance of **NumericsCo
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="pull"></div>
+
 ### pull($key, $default = null): mixed
 Get and remove an item with the specified key from the collection.<br> 
 A default value will be returned if the specified key does not exist in the collection.
@@ -1765,10 +1906,14 @@ A default value will be returned if the specified key does not exist in the coll
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="push"></div>
+
 ### push($item): $this
 Alias of appendItem($item).
 
 ------------------------------------------------------------------------------------------------
+<div id="put"></div>
+
 ### put($key, $value): $this
 Insert an item (`$value`) into the collection using the specified key (`$key`).<br>
 If the key already exists in the collection, its value will be updated with `$value`.
@@ -1810,11 +1955,15 @@ If the key already exists in the collection, its value will be updated with `$va
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="randomItem"></div>
+
 ### randomItem(): mixed
 Get one item randomly from the collection.<br>
 A length exception (`\LengthException`) is thrown if this method is called on an empty collection.
 
 ------------------------------------------------------------------------------------------------
+<div id="randomItems"></div>
+
 ### randomItems($number=1, $preserve_keys=false): \VersatileCollections\CollectionInterface
 Get a specified number of items randomly from the collection and return them in a new collection.<br>
 A length exception (`\LengthException`) is thrown if this method is called on an empty collection.<br>
@@ -1826,11 +1975,15 @@ used in the new collection returned by this method, otherwise false if the new
 collection returned should have sequential integer keys starting at zero.
 
 ------------------------------------------------------------------------------------------------
+<div id="randomKey"></div>
+
 ### randomKey(): mixed
 Get one key randomly from the collection.<br>
 A length exception (`\LengthException`) is thrown if this method is called on an empty collection.
 
 ------------------------------------------------------------------------------------------------
+<div id="randomKeys"></div>
+
 ### randomKeys($number=1): \VersatileCollections\GenericCollection
 Get a specified number of unique keys randomly from the collection and return them in a new collection.<br>
 A length exception (`\LengthException`) is thrown if this method is called on an empty collection.<br>
@@ -1839,6 +1992,8 @@ An `\InvalidArgumentException` is thrown if `$number` is either not an integer o
 * **$number**: number of random keys to be returned
 
 ------------------------------------------------------------------------------------------------
+<div id="reduce"></div>
+
 ### reduce(callable $reducer, $initial_value=NULL): mixed
 Iteratively reduce the collection items to a single value using a callback function.
 
@@ -1862,6 +2017,8 @@ or as a final result in case the collection is empty.
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="reduceWithKeyAccess"></div>
+
 ### reduceWithKeyAccess(callable $reducer, $initial_value=NULL): mixed
 Iteratively reduce the collection items to a single value using a callback function.<br>
 The callback function will have access to the key for each item.
@@ -1889,6 +2046,8 @@ The callback function will have access to the key for each item.
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="removeAll"></div>
+
 ### removeAll(array $keys=[]): $this
 Remove items from the collection (whose keys are present in `$keys`) or (all items if `$keys` is empty) and return `$this`.<br>
 * **$keys**: optional array of keys for the items to be removed.
@@ -1906,6 +2065,8 @@ Remove items from the collection (whose keys are present in `$keys`) or (all ite
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="reverse"></div>
+
 ### reverse(): \VersatileCollections\CollectionInterface
 Reverse order of items in the collection and return the reversed items in a new collection.<br>
 
@@ -1923,6 +2084,8 @@ Reverse order of items in the collection and return the reversed items in a new 
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="reverseMe"></div>
+
 ### reverseMe(): $this
 Reverse order of items in the collection. Original collection will be modified.<br>
 
@@ -1940,6 +2103,8 @@ Reverse order of items in the collection. Original collection will be modified.<
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="searchAllByVal"></div>
+
 ### searchAllByVal($value, $strict=false): mixed
 Search the collection for a given value and return an array of all corresponding 
 key(s) in the collection whose item(s) match the given value, if successful
@@ -1982,6 +2147,8 @@ or `false` if the given value is not found in the collection.
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="searchByCallback"></div>
+
 ### searchByCallback(callable $callback, $bind_callback_to_this=true): mixed
 Search the collection using a callback. The callback will be executed on each 
 item and corresponding key in the collection. Returns an array of all 
@@ -2028,6 +2195,8 @@ It should return true if a `$key` should be returned or false otherwise.
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="searchByVal"></div>
+
 ### searchByVal($value, $strict=false): mixed
 Search the collection for a given value & return the first corresponding key 
 if successful or `false` if the given value is not found in the collection.
@@ -2069,6 +2238,8 @@ if successful or `false` if the given value is not found in the collection.
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="setValForEachItem"></div>
+
 ### setValForEachItem($field_name, $field_val, $add_field_if_not_present=false): $this
 This method works only on collections of arrays and / or objects. It set's the 
 specified field in each array or property in each object to the given value.
@@ -2105,6 +2276,8 @@ does not exist in one or more array(s) / object(s) in the collection.
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="shuffle"></div>
+
 ### shuffle($preserve_keys=true): \VersatileCollections\CollectionInterface
 Shuffle all the items in the collection and return shuffled items in a new collection.
 If collection is empty, this method will return an empty collection.
@@ -2130,6 +2303,8 @@ new collection returned should have sequential integer keys starting at zero.
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="slice"></div>
+
 ### slice($offset, $length=null): \VersatileCollections\CollectionInterface
 Extract a slice of the collection.<br>
 The collection itself should is not modified (i.e. sliced items will still 
@@ -2160,6 +2335,8 @@ up until the end of the array.
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="sort"></div>
+
 ### sort(callable $callable=null, \VersatileCollections\SortType $type=null): \VersatileCollections\CollectionInterface
 Sort the collection's items in ascending order while maintaining key association.<br>
 A new collection containing the sorted items is returned.
@@ -2236,6 +2413,8 @@ See **\VersatileCollections\SortType::$valid_sort_types** for available sort typ
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="sortByKey"></div>
+
 ### sortByKey(callable $callable=null, \VersatileCollections\SortType $type=null): \VersatileCollections\CollectionInterface
 Sort the collection's items by keys in ascending order while maintaining key association.<br>
 A new collection containing the sorted items is returned.
@@ -2287,6 +2466,8 @@ See **\VersatileCollections\SortType::$valid_sort_types** for available sort typ
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="sortByMultipleFields"></div>
+
 ### sortByMultipleFields(\VersatileCollections\MultiSortParameters ...$param): \VersatileCollections\CollectionInterface
 Sort a collection of associative arrays or objects by specified field name(s) 
 and return a new collection containing the sorted items with their original 
@@ -2371,6 +2552,8 @@ See **\VersatileCollections\MultiSortParameters::$valid_sort_directions** for av
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="sortDesc"></div>
+
 ### sortDesc(callable $callable=null, \VersatileCollections\SortType $type=null): \VersatileCollections\CollectionInterface
 Sort the collection's items in descending order while maintaining key association.<br>
 A new collection containing the sorted items is returned.
@@ -2386,6 +2569,8 @@ See **\VersatileCollections\SortType::$valid_sort_types** for available sort typ
 See `sort(callable $callable=null, \VersatileCollections\SortType $type=null)` for code samples.
 
 ------------------------------------------------------------------------------------------------
+<div id="sortDescByKey"></div>
+
 ### sortDescByKey(callable $callable=null, \VersatileCollections\SortType $type=null): \VersatileCollections\CollectionInterface
 Sort the collection's items by keys in descending order while maintaining key association.<br>
 A new collection containing the sorted items is returned.
@@ -2401,6 +2586,8 @@ See **\VersatileCollections\SortType::$valid_sort_types** for available sort typ
 See `sortByKey(callable $callable=null, \VersatileCollections\SortType $type=null)` for code samples.
 
 ------------------------------------------------------------------------------------------------
+<div id="sortMe"></div>
+
 ### sortMe(callable $callable=null, \VersatileCollections\SortType $type=null): \VersatileCollections\CollectionInterface
 Sort the collection's items in ascending order while maintaining key association.<br>
 The original collection itself is modified and returned.
@@ -2476,6 +2663,8 @@ See **\VersatileCollections\SortType::$valid_sort_types** for available sort typ
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="sortMeByKey"></div>
+
 ### sortMeByKey(callable $callable=null, \VersatileCollections\SortType $type=null): \VersatileCollections\CollectionInterface
 Sort the collection's items by keys in ascending order while maintaining key association.<br>
 The original collection itself is modified and returned.
@@ -2526,6 +2715,8 @@ See **\VersatileCollections\SortType::$valid_sort_types** for available sort typ
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="sortMeByMultipleFields"></div>
+
 ### sortMeByMultipleFields(\VersatileCollections\MultiSortParameters ...$param): \VersatileCollections\CollectionInterface
 Sort a collection of associative arrays or objects by specified field name(s) 
 and return a new collection containing the sorted items with their original 
@@ -2610,6 +2801,8 @@ See **\VersatileCollections\MultiSortParameters::$valid_sort_directions** for av
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="sortMeDesc"></div>
+
 ### sortMeDesc(callable $callable=null, \VersatileCollections\SortType $type=null): \VersatileCollections\CollectionInterface
 Sort the collection's items in descending order while maintaining key association.<br>
 The original collection itself is modified and returned.
@@ -2624,6 +2817,8 @@ See **\VersatileCollections\SortType::$valid_sort_types** for available sort typ
 See `sortMe(callable $callable=null, \VersatileCollections\SortType $type=null)` for code samples.
 
 ------------------------------------------------------------------------------------------------
+<div id="sortMeDescByKey"></div>
+
 ### sortMeDescByKey(callable $callable=null, \VersatileCollections\SortType $type=null): \VersatileCollections\CollectionInterface
 Sort the collection's items by keys in descending order while maintaining key association.<br>
 The original collection itself is modified and returned.
@@ -2638,6 +2833,8 @@ See **\VersatileCollections\SortType::$valid_sort_types** for available sort typ
 See `sortMeByKey(callable $callable=null, \VersatileCollections\SortType $type=null)` for code samples.
 
 ------------------------------------------------------------------------------------------------
+<div id="splice"></div>
+
 ### splice($offset, $length=null, array $replacement=[]): \VersatileCollections\CollectionInterface
 Remove a portion of the collection and optionally replace with items in $replacement.<br>
 This method modifies the original collection.
@@ -2683,6 +2880,8 @@ specified by the offset. Note that keys in replacement array are not preserved.
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="split"></div>
+
 ### split($numberOfGroups): \VersatileCollections\CollectionInterface
 Split a collection into a certain number of groups.
 
@@ -2830,6 +3029,8 @@ Split a collection into a certain number of groups.
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="take"></div>
+
 ### take($limit): \VersatileCollections\CollectionInterface
 Take the first or last `$limit` items and return them in a new collection. 
 The items will not be removed from the original collection.
@@ -2850,6 +3051,8 @@ If zero, then empty collection will be returned.
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="tap"></div>
+
 ### tap(callable $callback): $this
 Execute the given callback on a copy of a collection and then return the original collection.<br>
 The original collection is not modified.
@@ -2878,6 +3081,8 @@ The original collection is not modified.
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="toArray"></div>
+
 ### toArray(): array
 Returns the underlying array containing all items in a collection object.
 
@@ -2890,6 +3095,8 @@ Returns the underlying array containing all items in a collection object.
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="transform"></div>
+
 ### transform(callable $transformer, $bind_callback_to_this=true): $this
 This method iterates over the collection and calls the given callback with each 
 item in the collection. The items in the collection will be replaced by the values 
@@ -2930,6 +3137,8 @@ Its return value that will replace each item in the original collection.
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="unionMeWith"></div>
+
 ### unionMeWith(array $items): $this
 Union the collection with the given items by trying to append all items from `$items` to 
 the collection. For keys that exist in both `$items` and the collection, the items from
@@ -2951,6 +3160,8 @@ when same keys exist in both `$items` and the collection.
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="unionWith"></div>
+
 ### unionWith(array $items): \VersatileCollections\CollectionInterface
 Union the collection with the given items by trying to append all items from 
 `$items` to the collection and return the result in a new collection.
@@ -2974,6 +3185,8 @@ when same keys exist in both `$items` and the collection.
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="unique"></div>
+
 ### unique(): \VersatileCollections\CollectionInterface
 Get a new collection of unique items from an existing collection. The keys are not 
 preserved in the returned collection. The uniqueness test is done via strict comparison (===). 
@@ -3014,6 +3227,8 @@ using non-strict comparison see `\VersatileCollections\ScalarsCollection::unique
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="whenFalse"></div>
+
 ### whenFalse( $falsy_value, callable $callback, callable $default=null): mixed
 Execute `$callback` on the collection and return its return value if the first argument
 (`$falsy_value`) is falsy or if the first argument is truthy and `$default` is not null 
@@ -3068,6 +3283,8 @@ is not falsy, NULL will be returned by this method.
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="whenTrue"></div>
+
 ### whenTrue( $truthy_value, callable $callback, callable $default=null): mixed
 Execute `$callback` on the collection and return its return value if the first argument
 (`$truthy_value`) is truthy or if the first argument is falsy and `$default` is not null 
@@ -3123,6 +3340,8 @@ is not truthy, NULL will be returned by this method.
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="yieldCollectionsOfSizeN"></div>
+
 ### yieldCollectionsOfSizeN($max_size_of_each_collection=1): \Generator
 Returns a generator that yields collections each having a maximum of 
 `$max_size_of_each_collection` items. Original keys are preserved in 
@@ -3159,6 +3378,8 @@ has a float value, it will be automatically cast into an integer.
 ## Non-`CollectionInterface` Methods common to all Collection Classes using `CollectionInterfaceImplementationTrait`
 
 ------------------------------------------------------------------------------------------------
+<div id="addMethod"></div>
+
 ### addMethod($name, callable $callable, $has_return_val=false, $bind_to_this=true): $this
 Register a callback (with the name `$name`) to a single instance of the collection 
 class that can later be called on the object. 
@@ -3198,6 +3419,8 @@ all instances.
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="addMethodForAllInstances"></div>
+
 ### static addMethodForAllInstances($name, callable $callable, $has_return_val=false, $bind_to_this_on_invocation=true): $this
 Register a callback (with the name `$name`) to all instances of a collection 
 class and all its sub-classes that can later be called on any of those instances. 
@@ -3271,6 +3494,8 @@ all instances.
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="addStaticMethod"></div>
+
 ### static addStaticMethod($name, callable $callable, $has_return_val=false): $this
 Register a callback (with the name `$name`) to a collection class and all its sub-classes 
 that can later be statically called on any of those classes. 
@@ -3329,6 +3554,8 @@ all instances.
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="__call"></div>
+
 ### __call($name, $arguments): mixed
 Responds to method calls for methods registered via `addMethod()` & 
 `addMethodForAllInstances()`.<br> 
@@ -3339,6 +3566,8 @@ by php whenever you call methods registered via `addMethod()` & `addMethodForAll
 * **$arguments**: optional array of arguments the method is being called with
 
 ------------------------------------------------------------------------------------------------
+<div id="__callStatic"></div>
+
 ### static __callStatic($name, $arguments): mixed
 Responds to method calls for methods registered via `addStaticMethod()`.<br> 
 You should not have to directly call this method, since it's automatically called
@@ -3348,6 +3577,8 @@ by php whenever you call methods registered via `addStaticMethod()`.
 * **$arguments**: optional array of arguments the method is being called with
 
 ------------------------------------------------------------------------------------------------
+<div id="__construct"></div>
+
 ### __construct(...$items)
 Constructor for collection objects.<br>
 Classes that implement `\VersatileCollections\CollectionInterface` do not necessarily
@@ -3363,20 +3594,47 @@ added to a collection via argument unpacking
 ## Methods specific to various Strictly-Typed Collection classes
 
 NumericsCollection:
-- average(): mixed
-- max(): mixed
-- median(): mixed
-- min(): mixed
-- mode(): mixed
-- product(): int|float
-- sum(): int|float
+------------------------------------------------------------------------------------------------
+<div id="average"></div>
+
+### average(): mixed
+------------------------------------------------------------------------------------------------
+<div id="max"></div>
+
+### max(): mixed
+------------------------------------------------------------------------------------------------
+<div id="median"></div>
+
+### median(): mixed
+------------------------------------------------------------------------------------------------
+<div id="min"></div>
+
+### min(): mixed
+------------------------------------------------------------------------------------------------
+<div id="mode"></div>
+
+### mode(): mixed
+------------------------------------------------------------------------------------------------
+<div id="product"></div>
+
+### product(): int|float
+------------------------------------------------------------------------------------------------
+<div id="sum"></div>
+
+### sum(): int|float
 
 ObjectsCollection:
-- __call($method_name, $arguments): mixed
+------------------------------------------------------------------------------------------------
+<div id="ObjectsCollection__call"></div>
+
+### __call($method_name, $arguments): mixed
     - Invokes \VersatileCollections\CollectionInterface::__call($name, $arguments)
       if an exception is thrown, tries to call the method on each item in the
       collection and return an array of return values keyed on each item's 
       corresponding key.
 
 ScalarsCollection:
-- uniqueNonStrict(): \VersatileCollections\CollectionInterface
+------------------------------------------------------------------------------------------------
+<div id="uniqueNonStrict"></div>
+
+### uniqueNonStrict(): \VersatileCollections\CollectionInterface
