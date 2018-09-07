@@ -104,6 +104,7 @@ Iterating over / Looping through a Collection Object
 -------------------------------------------------------
 - each(callable $callback, $termination_value=false, $bind_callback_to_this=true)
 - map(callable $callback, $preserve_keys = true, $bind_callback_to_this=true)
+- getIterator()
 
 Sorting Items in a Collection Object
 ------------------------------------------
@@ -128,6 +129,8 @@ Sorting Items in a Collection Object
 
 Other Operations on a Collection Object
 ------------------------------------------
+- count()
+- isEmpty()
 - getAsNewType($new_collection_class=\VersatileCollections\GenericCollection::class)
 - reduce(callable $reducer, $initial_value=NULL)
 - reduceWithKeyAccess(callable $reducer, $initial_value=NULL)
@@ -135,6 +138,7 @@ Other Operations on a Collection Object
 - pipeAndReturnCallbackResult(callable $callback)
 - pipeAndReturnSelf(callable $callback)
 - tap(callable $callback)
+- toArray()
 - unique()
 - whenTrue( $truthy_value, callable $callback, callable $default=null )
 - whenFalse( $falsy_value, callable $callback, callable $default=null )
