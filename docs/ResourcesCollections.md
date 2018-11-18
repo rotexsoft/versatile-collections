@@ -1,4 +1,4 @@
-# Resource Collection
+# Resources Collection
 
 `\VersatileCollections\ResourcesCollection` is a Collection class that only accepts
 items that are [resources](http://php.net/manual/en/language.types.resource.php).
