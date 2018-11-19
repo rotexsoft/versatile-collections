@@ -1168,7 +1168,6 @@ More details about the collection objects in this package are contained in the l
     * [Object Collections](ObjectsCollections.md): a collection that can only contain [objects](http://php.net/manual/en/language.types.object.php) (any kind of object)
     * [Resource Collections](ResourcesCollections.md): a collection that can only contain [resources](http://php.net/manual/en/language.types.resource.php)
     * [Scalar Collections](ScalarsCollections.md): a collection that can only scalar values. I.e. any of [booleans](http://php.net/manual/en/language.types.boolean.php), [floats](http://php.net/manual/en/language.types.float.php), [integers](http://php.net/manual/en/language.types.integer.php) or [strings](http://php.net/manual/en/language.types.string.php). It accepts any mix of scalars, e.g. ints, booleans, floats and strings can all be present in an instance of this type of collection.
-        * [Numeric Collections](NumericCollections.md): a collection that can only contain [floats](http://php.net/manual/en/language.types.float.php) and/or [integers](http://php.net/manual/en/language.types.integer.php)
-            * [Float Collections](FloatsCollections.md): a collection that can only contain [floats](http://php.net/manual/en/language.types.float.php)
+        * [Numeric Collections](NumericssCollections.md): a collection that can only contain [floats](http://php.net/manual/en/language.types.float.php)
             * [Int Collections](IntsCollections.md): a collection that can only contain [integers](http://php.net/manual/en/language.types.integer.php)
         * [String Collections](StringsCollections.md): a collection that can only contain [strings](http://php.net/manual/en/language.types.string.php)

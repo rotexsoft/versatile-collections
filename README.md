@@ -189,6 +189,7 @@ being enforced at construct time and item addition time.
 ## Documentation
 
 * [Quick Start Guide](docs/QUICKSTART.md)
+* [Detailed Methods Guide with Examples](docs/MethodDescriptions.md)
 * [Generic Collections](docs/GenericCollections.md)
 * Strictly Typed Collections
     * Array Collections
@@ -196,7 +197,7 @@ being enforced at construct time and item addition time.
     * [Object Collections](docs/ObjectsCollections.md): a collection that can only contain [objects](http://php.net/manual/en/language.types.object.php) (any kind of object)
     * [Resource Collections](docs/ResourcesCollections.md): a collection that can only contain [resources](http://php.net/manual/en/language.types.resource.php)
     * [Scalar Collections](docs/ScalarsCollections.md): a collection that can only scalar values. I.e. any of [booleans](http://php.net/manual/en/language.types.boolean.php), [floats](http://php.net/manual/en/language.types.float.php), [integers](http://php.net/manual/en/language.types.integer.php) or [strings](http://php.net/manual/en/language.types.string.php). It accepts any mix of scalars, e.g. ints, booleans, floats and strings can all be present in an instance of this type of collection.
-        * [Numeric Collections](docs/NumericCollections.md): a collection that can only contain [floats](http://php.net/manual/en/language.types.float.php) and/or [integers](http://php.net/manual/en/language.types.integer.php)
+        * [Numeric Collections](docs/NumericsCollections.md): a collection that can only contain [floats](http://php.net/manual/en/language.types.float.php) and/or [integers](http://php.net/manual/en/language.types.integer.php)
             * [Float Collections](docs/FloatsCollections.md): a collection that can only contain [floats](http://php.net/manual/en/language.types.float.php)
             * [Int Collections](docs/IntsCollections.md): a collection that can only contain [integers](http://php.net/manual/en/language.types.integer.php)
         * [String Collections](docs/StringsCollections.md): a collection that can only contain [strings](http://php.net/manual/en/language.types.string.php)
