@@ -21,6 +21,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * 
      * @return \VersatileCollections\CollectionInterface newly created collection
      * 
+     * @used-for: creating-new-collections
+     * 
      */
     public static function makeNew(array $items=[], $preserve_keys=true);
     
@@ -32,6 +34,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * 
      * @return mixed
      * 
+     * @used-for: accessing-or-extracting-keys-or-items
+     * 
      */
     public function __get($key);
     
@@ -42,6 +46,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @param string $key The requested key.
      * 
      * @return bool
+     * 
+     * @used-for: checking-items-presence
      * 
      */
     public function __isset($key);
@@ -56,6 +62,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * 
      * @return void
      * 
+     * @used-for: adding-items
+     * 
      */
     public function __set($key, $val);
     
@@ -66,6 +74,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @param string $key The requested key.
      * 
      * @return void
+     * 
+     * @used-for: deleting-items
      * 
      */
     public function __unset($key);
@@ -78,6 +88,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * 
      * @return bool
      * 
+     * @used-for: checking-items-presence
+     * 
      */
     public function offsetExists($key);
     
@@ -88,6 +100,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @param string $key The requested key.
      * 
      * @return mixed
+     * 
+     * @used-for: accessing-or-extracting-keys-or-items
      * 
      */
     public function offsetGet($key);
@@ -102,6 +116,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * 
      * @return void
      * 
+     * @used-for: adding-items
+     * 
      */
     public function offsetSet($key, $val);
     
@@ -113,12 +129,16 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * 
      * @return void
      * 
+     * @used-for: deleting-items
+     * 
      */
     public function offsetUnset($key);
     
     /**
      * 
      * @return array an array containing all items in the collection object
+     * 
+     * @used-for: accessing-or-extracting-keys-or-items
      * 
      */
     public function toArray();
@@ -127,12 +147,16 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * 
      * @return \Iterator an iterator
      * 
+     * @used-for: iteration
+     * 
      */
     public function getIterator();
     
     /**
      * 
      * @return int number of items in collection
+     * 
+     * @used-for: getting-collection-meta-data
      * 
      */
     public function count();
@@ -146,6 +170,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * 
      * @return mixed The first item in this collection or null if collection is empty.
      * 
+     * @used-for: accessing-or-extracting-keys-or-items
+     * 
      */
     public function firstItem();
     
@@ -155,12 +181,16 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * 
      * @return mixed The last item in this collection or null if collection is empty.
      * 
+     * @used-for: accessing-or-extracting-keys-or-items
+     * 
      */
     public function lastItem();
     
     /**
      * 
      * @return \VersatileCollections\GenericCollection keys to this collection
+     * 
+     * @used-for: accessing-or-extracting-keys-or-items, getting-collection-meta-data, creating-new-collections
      * 
      */
     public function getKeys();
@@ -176,6 +206,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @param bool $add_field_if_not_present
      * 
      * @return $this
+     * 
+     * @used-for: modifying-items
      * 
      */
     public function setValForEachItem($field_name, $field_val, $add_field_if_not_present=false);
@@ -202,6 +234,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      *                                    being invoked on.
      * 
      * @return \VersatileCollections\CollectionInterface a collection of filtered items or an empty collection
+     * 
+     * @used-for: finding-or-searching-for-items, creating-new-collections
      * 
      */
     public function filterAll(callable $filterer, $copy_keys=false, $bind_callback_to_this=true, $remove_filtered_items=false);
@@ -231,6 +265,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * 
      * @return \VersatileCollections\CollectionInterface a collection of filtered items or an empty collection
      * 
+     * @used-for: finding-or-searching-for-items, creating-new-collections
+     * 
      */
     public function filterFirstN(callable $filterer, $max_number_of_filtered_items_to_return=null, $copy_keys=false, $bind_callback_to_this=true, $remove_filtered_items=false);
     
@@ -249,6 +285,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * 
      * @return $this
      * 
+     * @used-for: modifying-items, iteration
+     * 
      */
     public function transform(callable $transformer, $bind_callback_to_this=true);
     
@@ -265,6 +303,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @param mixed $initial_value If the optional initial is available, it will be used at the beginning of the process, or as a final result in case the collection is empty.
      * 
      * @return mixed a value that all items in the collection have been reduced to by applying the $reducer callback on each item.
+     * 
+     * @used-for: accessing-or-extracting-keys-or-items, iteration
      *  
      */
     public function reduce(callable $reducer, $initial_value=NULL);
@@ -282,6 +322,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @param mixed $initial_value If the optional initial is available, it will be used at the beginning of the process, or as a final result in case the collection is empty.
      * 
      * @return mixed a value that all items in the collection have been reduced to by applying the $reducer callback on each item.
+     * 
+     * @used-for: accessing-or-extracting-keys-or-items, iteration
      *  
      */
     public function reduceWithKeyAccess(callable $reducer, $initial_value=NULL);
@@ -292,6 +334,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * 
      * @return \VersatileCollections\CollectionInterface a collection of reversed items
      * 
+     * @used-for: ordering-or-sorting-items, creating-new-collections
+     * 
      */
     public function reverse();
     
@@ -301,6 +345,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * 
      * @return $this
      * 
+     * @used-for: ordering-or-sorting-items
+     * 
      */
     public function reverseMe();
     
@@ -309,6 +355,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * Return true if there are one or more items in the collection or false otherwise
      * 
      * @return bool
+     * 
+     * @used-for: getting-collection-meta-data
      * 
      */
     public function isEmpty();
@@ -322,6 +370,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * 
      * @return mixed
      * 
+     * @used-for: accessing-or-extracting-keys-or-items, checking-items-presence
+     * 
      */
     public function getIfExists($key, $default_value=null);
     
@@ -332,6 +382,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @param mixed $item item whose existence in the collection is to be checked
      * 
      * @return bool true if collection contains item, false otherwise
+     * 
+     * @used-for: checking-items-presence
      * 
      */
     public function containsItem($item);
@@ -346,6 +398,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * 
      * @return bool true if collection contains item with the specified key, false otherwise
      * 
+     * @used-for: checking-items-presence, checking-keys-presence
+     * 
      */
     public function containsItemWithKey($key, $item);
     
@@ -358,6 +412,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * 
      * @return bool true if all specified items exist in collection, false otherwise
      * 
+     * @used-for: checking-items-presence
+     * 
      */
     public function containsItems(array $items);
     
@@ -368,6 +424,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @param mixed $key key whose existence in the collection is to be checked
      * 
      * @return bool true if key exists in collection, false otherwise
+     * 
+     * @used-for: checking-keys-presence
      *  
      */
     public function containsKey($key);
@@ -379,6 +437,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @param array $keys specified keys whose existence is to be checked in the collection 
      * 
      * @return bool true if all specified keys exist in collection, false otherwise
+     * 
+     * @used-for: checking-keys-presence
      * 
      */
     public function containsKeys(array $keys);
@@ -392,6 +452,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * 
      * @return $this
      * 
+     * @used-for: adding-items
+     * 
      */
     public function appendCollection(CollectionInterface $other);
     
@@ -402,6 +464,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @param mixed $item
      * 
      * @return $this
+     * 
+     * @used-for: adding-items
      * 
      */
     public function appendItem($item);
@@ -415,6 +479,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * 
      * @return $this
      * 
+     * @used-for: adding-items
+     * 
      */
     public function prependCollection(CollectionInterface $other);
     
@@ -426,6 +492,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @param string|int $key
      * 
      * @return $this
+     * 
+     * @used-for: adding-items
      * 
      */
     public function prependItem($item, $key=null);
@@ -448,6 +516,9 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      *                                                   the result of merging all 
      *                                                   items from $items with 
      *                                                   $this collection
+     * 
+     * @used-for: adding-items, creating-new-collections
+     * 
      */
     public function mergeWith(array $items);
     
@@ -465,6 +536,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @param array $items
      * 
      * @return $this
+     * 
+     * @used-for: adding-items
      * 
      */
     public function mergeMeWith(array $items);
@@ -490,6 +563,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * 
      * @return \Generator a generator that yields sub-collections
      * 
+     * @used-for: creating-new-collections
+     * 
      */
     public function yieldCollectionsOfSizeN($max_size_of_each_collection=1);
     
@@ -514,6 +589,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * 
      * @return \VersatileCollections\CollectionInterface a collection of sub-collections
      * 
+     * @used-for: creating-new-collections
+     * 
      */
     public function getCollectionsOfSizeN($max_size_of_each_collection=1);
     
@@ -525,6 +602,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      *                          A negative integer value should be forced to zero.
      * 
      * @return $this
+     * 
+     * @used-for: modifying-keys
      * 
      * @throws \InvalidArgumentException if $starting_key is not an integer
      * 
@@ -538,6 +617,9 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * starting from zero.
      *
      * @return \VersatileCollections\CollectionInterface new collection with all the items in the original collection
+     * 
+     * @used-for: accessing-or-extracting-keys-or-items, creating-new-collections, modifying-keys
+     * 
      */
     public function getItems();
     
@@ -564,6 +646,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      *                                    inside the supplied $callback.
      * 
      * @return $this
+     * 
+     * @used-for: accessing-or-extracting-keys-or-items, iteration
      * 
      */
     public function each(callable $callback, $termination_value=false, $bind_callback_to_this=true);
@@ -595,6 +679,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * 
      * @return \VersatileCollections\CollectionInterface
      * 
+     * @used-for: accessing-or-extracting-keys-or-items, creating-new-collections, iteration
+     * 
      */
     public function map(callable $callback, $preserve_keys=true, $bind_callback_to_this=true);
     
@@ -609,6 +695,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      *                                          the first item in the collection.
      * 
      * @return \VersatileCollections\CollectionInterface (a new collection consisting of every n-th element)
+     * 
+     * @used-for: creating-new-collections
      * 
      */
     public function everyNth($n, $position_of_first_nth_item = 0);
@@ -627,6 +715,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * 
      * @return mixed whatever is returned by $callback
      * 
+     * @used-for: other-operations
+     * 
      */
     public function pipeAndReturnCallbackResult(callable $callback);
     
@@ -642,6 +732,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * 
      * @return $this
      * 
+     * @used-for: other-operations
+     * 
      */
     public function pipeAndReturnSelf(callable $callback);
     
@@ -650,6 +742,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * Get and remove the last item from the collection.
      *
      * @return mixed
+     * 
+     * @used-for: accessing-or-extracting-keys-or-items, deleting-items
      * 
      */
     public function getAndRemoveLastItem();
@@ -662,6 +756,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @param  mixed  $default
      * @return mixed
      * 
+     * @used-for: accessing-or-extracting-keys-or-items, deleting-items
+     * 
      */
     public function pull($key, $default = null);
     
@@ -671,6 +767,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      *
      * @param  mixed  $item
      * @return $this
+     * 
+     * @used-for: adding-items
      * 
      */
     public function push($item);
@@ -685,6 +783,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * 
      * @return $this
      * 
+     * @used-for: adding-items
+     * 
      */
     public function put($key, $value);
     
@@ -696,6 +796,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @return mixed a random key from the collection if there is at least an item in the collection
      * 
      * @throws \LengthException
+     * 
+     * @used-for: accessing-or-extracting-keys-or-items
      *
      */
     public function randomKey();
@@ -706,6 +808,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * A length exception (\LengthException) should be thrown if this method is called on an empty collection.
      * 
      * @return mixed a random item from the collection if there is at least an item in the collection
+     * 
+     * @used-for: accessing-or-extracting-keys-or-items
      * 
      * @throws \LengthException
      *
@@ -722,6 +826,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @param int $number number of random keys to be returned
      * 
      * @return \VersatileCollections\GenericCollection (a new collection containing the random keys)
+     * 
+     * @used-for: accessing-or-extracting-keys-or-items
      *
      * @throws \InvalidArgumentException
      * @throws \LengthException
@@ -741,6 +847,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      *                            otherwise false if the new collection returned should have sequential integer keys starting at zero.
      * 
      * @return \VersatileCollections\CollectionInterface (a new collection containing the random items)
+     * 
+     * @used-for: accessing-or-extracting-keys-or-items
      *
      * @throws \InvalidArgumentException
      * @throws \LengthException
@@ -758,6 +866,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * 
      * @return \VersatileCollections\CollectionInterface (a new collection containing the shuffled items)
      * 
+     * @used-for: creating-new-collections, ordering-or-sorting-items
+     * 
      */
     public function shuffle($preserve_keys=true);
 
@@ -772,6 +882,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * 
      * @return mixed the first key in the collection whose item matches $value 
      *               or false if $value is not found in the collection
+     * 
+     * @used-for: accessing-or-extracting-keys-or-items, finding-or-searching-for-items
      * 
      */
     public function searchByVal( $value, $strict = false );
@@ -789,6 +901,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * 
      * @return mixed an array of all key(s) in the collection whose item(s) match $value 
      *               or false if $value is not found in the collection
+     * 
+     * @used-for: accessing-or-extracting-keys-or-items, finding-or-searching-for-items
      * 
      */
     public function searchAllByVal( $value, $strict = false );
@@ -815,6 +929,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      *               returned true or false if the callback did not return true for 
      *               any iteration over the collection
      * 
+     * @used-for: accessing-or-extracting-keys-or-items, finding-or-searching-for-items
+     * 
      */
     public function searchByCallback(callable $callback, $bind_callback_to_this=true);
     
@@ -823,6 +939,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * Get and remove the first item from the collection.
      *
      * @return mixed
+     * 
+     * @used-for: accessing-or-extracting-keys-or-items, deleting-items
      * 
      */
     public function getAndRemoveFirstItem ();
@@ -851,6 +969,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * 
      * @return \VersatileCollections\CollectionInterface A new collection containing the sliced items
      * 
+     * @used-for: accessing-or-extracting-keys-or-items, creating-new-collections
+     * 
      * @throws \InvalidArgumentException if $offset is non-int and / or if $length is non-null and non-int
      * 
      */
@@ -877,6 +997,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * 
      * @return \VersatileCollections\CollectionInterface A new collection containing the sorted items
      * 
+     * @used-for: ordering-or-sorting-items, creating-new-collections
+     * 
      */
     public function sort(callable $callable=null, \VersatileCollections\SortType $type=null);
     
@@ -900,6 +1022,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      *                                             for available sort types.
      * 
      * @return \VersatileCollections\CollectionInterface A new collection containing the sorted items
+     * 
+     * @used-for: ordering-or-sorting-items, creating-new-collections
      * 
      */
     public function sortDesc(callable $callable=null, \VersatileCollections\SortType $type=null);
@@ -925,6 +1049,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * 
      * @return \VersatileCollections\CollectionInterface A new collection containing the sorted items
      * 
+     * @used-for: ordering-or-sorting-items, creating-new-collections
+     * 
      */
     public function sortByKey(callable $callable=null, \VersatileCollections\SortType $type=null);
     
@@ -948,6 +1074,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      *                                             for available sort types.
      * 
      * @return \VersatileCollections\CollectionInterface A new collection containing the sorted items
+     * 
+     * @used-for: ordering-or-sorting-items, creating-new-collections
      * 
      */
     public function sortDescByKey(callable $callable=null, \VersatileCollections\SortType $type=null);
@@ -988,6 +1116,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * 
      * @return \VersatileCollections\CollectionInterface A new collection containing the sorted items
      * 
+     * @used-for: ordering-or-sorting-items, creating-new-collections
+     * 
      */
     public function sortByMultipleFields(\VersatileCollections\MultiSortParameters ...$param);
     
@@ -1010,6 +1140,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      *                                             for available sort types.
      * 
      * @return $this
+     * 
+     * @used-for: ordering-or-sorting-items
      * 
      */
     public function sortMe(callable $callable=null, \VersatileCollections\SortType $type=null);
@@ -1034,6 +1166,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * 
      * @return $this
      * 
+     * @used-for: ordering-or-sorting-items
+     * 
      */
     public function sortMeDesc(callable $callable=null, \VersatileCollections\SortType $type=null);
     
@@ -1057,6 +1191,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * 
      * @return $this
      * 
+     * @used-for: ordering-or-sorting-items
+     * 
      */
     public function sortMeByKey(callable $callable=null, \VersatileCollections\SortType $type=null);
     
@@ -1079,6 +1215,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      *                                             for available sort types.
      * 
      * @return $this
+     * 
+     * @used-for: ordering-or-sorting-items
      * 
      */
     public function sortMeDescByKey(callable $callable=null, \VersatileCollections\SortType $type=null);
@@ -1114,7 +1252,9 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * ........
      * @param \VersatileCollections\MultiSortParameters $param
      * 
-     * @return \VersatileCollections\CollectionInterface A new collection containing the sorted items
+     * @return $this
+     * 
+     * @used-for: ordering-or-sorting-items
      * 
      */
     public function sortMeByMultipleFields(\VersatileCollections\MultiSortParameters ...$param);
@@ -1152,6 +1292,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      *                            
      * @return \VersatileCollections\CollectionInterface A new collection containing the removed items.
      * 
+     * @used-for: accessing-or-extracting-keys-or-items, creating-new-collections, deleting-items, modifying-items
+     * 
      * @throws \InvalidArgumentException if $offset is non-int and / or if $length is non-null and non-int
      * 
      */
@@ -1169,6 +1311,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @param  int $numberOfGroups
      * 
      * @return \VersatileCollections\CollectionInterface A new collection containing $numberOfGroups collections
+     * 
+     * @used-for: creating-new-collections
      *
      * @throws \InvalidArgumentException
      * 
@@ -1186,6 +1330,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * 
      * @return \VersatileCollections\CollectionInterface A new collection containing first or last {$limit} items.
      * 
+     * @used-for: accessing-or-extracting-keys-or-items, creating-new-collections
+     * 
      * @throws \InvalidArgumentException
      * 
      */
@@ -1197,6 +1343,9 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @param  callable $callback a callback with the following signature: 
      *                            function(\VersatileCollections\CollectionInterface $collection):void
      * @return $this
+     * 
+     * @used-for: other-operations
+     * 
      */
     public function tap(callable $callback);
     
@@ -1228,6 +1377,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @param  array $items
      * 
      * @return \VersatileCollections\CollectionInterface A new collection containing items in the original collection unioned with $items.
+     * 
+     * @used-for: adding-items, creating-new-collections
      * 
      */
     public function unionWith(array $items);
@@ -1261,6 +1412,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * 
      * @return $this
      * 
+     * @used-for: adding-items
+     * 
      */
     public function unionMeWith(array $items);
     
@@ -1278,6 +1431,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @see \VersatileCollections\ScalarsCollection::uniqueNonStrict() 
      * 
      * @return \VersatileCollections\CollectionInterface
+     * 
+     * @used-for: accessing-or-extracting-keys-or-items, creating-new-collections, modifying-keys
      * 
      */
     public function unique();
@@ -1303,6 +1458,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      *                               be returned by this method.
      * 
      * @return mixed
+     * 
      * 
      */
     public function whenTrue( $truthy_value, callable $callback, callable $default=null);
