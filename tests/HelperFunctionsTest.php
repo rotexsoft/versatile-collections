@@ -5,7 +5,7 @@ use function VersatileCollections\random_array_keys;
 use function VersatileCollections\object_has_property;
 use function VersatileCollections\get_object_property_value;
 
-class HelperFunctionsTest extends \PHPUnit_Framework_TestCase {
+class HelperFunctionsTest extends \PHPUnit\Framework\TestCase {
     
     
     protected function setUp() { 

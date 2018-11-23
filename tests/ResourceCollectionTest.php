@@ -4,7 +4,7 @@
  *
  * @author aadegbam
  */
-class ResourcesCollectionTest extends \PHPUnit_Framework_TestCase {
+class ResourcesCollectionTest extends \PHPUnit\Framework\TestCase {
     
     protected function setUp() { 
         

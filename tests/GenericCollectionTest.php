@@ -1,7 +1,7 @@
 <?php
 use function VersatileCollections\dump_var;
 
-class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
+class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
     
     
     protected function setUp() { 

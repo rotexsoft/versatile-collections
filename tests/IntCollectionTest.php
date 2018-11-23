@@ -4,7 +4,7 @@
  *
  * @author aadegbam
  */
-class IntsCollectionTest extends \PHPUnit_Framework_TestCase {
+class IntsCollectionTest extends \PHPUnit\Framework\TestCase {
     
     protected function setUp() { 
         

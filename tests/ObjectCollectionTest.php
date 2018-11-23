@@ -4,7 +4,7 @@
  *
  * @author aadegbam
  */
-class ObjectsCollectionTest extends \PHPUnit_Framework_TestCase {
+class ObjectsCollectionTest extends \PHPUnit\Framework\TestCase {
     
     protected function setUp() { 
         

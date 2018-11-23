@@ -4,7 +4,7 @@
  *
  * @author aadegbam
  */
-class ScalarsCollectionTest extends \PHPUnit_Framework_TestCase {
+class ScalarsCollectionTest extends \PHPUnit\Framework\TestCase {
     
     protected function setUp() { 
         

@@ -4,7 +4,7 @@
  *
  * @author aadegbam
  */
-class SortTypeTest extends \PHPUnit_Framework_TestCase {
+class SortTypeTest extends \PHPUnit\Framework\TestCase {
     
     protected function setUp() { 
         

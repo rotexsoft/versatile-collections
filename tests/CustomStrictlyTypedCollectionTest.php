@@ -4,7 +4,7 @@
  *
  * @author aadegbam
  */
-class CustomStrictlyTypedCollectionTest extends \PHPUnit_Framework_TestCase {
+class CustomStrictlyTypedCollectionTest extends \PHPUnit\Framework\TestCase {
     
     protected function setUp() { 
         

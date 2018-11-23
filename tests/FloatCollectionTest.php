@@ -4,7 +4,7 @@
  *
  * @author aadegbam
  */
-class FloatsCollectionTest extends \PHPUnit_Framework_TestCase {
+class FloatsCollectionTest extends \PHPUnit\Framework\TestCase {
     
     protected function setUp() { 
         

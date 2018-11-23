@@ -4,7 +4,7 @@
  *
  * @author aadegbam
  */
-class MultiSortParametersTest extends \PHPUnit_Framework_TestCase {
+class MultiSortParametersTest extends \PHPUnit\Framework\TestCase {
     
     protected function setUp() { 
         
