@@ -453,7 +453,7 @@ trait CollectionInterfaceImplementationTrait {
      */
     public function getKeys() {
         
-        return new \VersatileCollections\GenericCollection( ...array_keys($this->versatile_collections_items) );
+        return \VersatileCollections\GenericCollection::makeNew( array_keys($this->versatile_collections_items) );
     }
     
     /**
@@ -548,7 +548,7 @@ trait CollectionInterfaceImplementationTrait {
             }
         }
         
-        $filtered_items = new static();
+        $filtered_items = static::makeNew();
         
         if( 
             is_null($max_number_of_filtered_items_to_return)
@@ -951,8 +951,8 @@ trait CollectionInterfaceImplementationTrait {
             $max_size_of_each_collection = 1;
         }
         
-        $collections = new \VersatileCollections\GenericCollection();
-        $current_batch = new static();
+        $collections = \VersatileCollections\GenericCollection::makeNew();
+        $current_batch = static::makeNew();
         $result = [];
         $counter = 0;
         
@@ -964,7 +964,7 @@ trait CollectionInterfaceImplementationTrait {
                 
                 $collections[] = $current_batch;
                 $counter = 0; // reset
-                $current_batch = new static(); // initialize next collection
+                $current_batch = static::makeNew(); // initialize next collection
             }
         }
 
@@ -997,7 +997,7 @@ trait CollectionInterfaceImplementationTrait {
                 (int)$max_size_of_each_collection;
         }
         
-        $current_batch = new static();
+        $current_batch = static::makeNew();
         $result = [];
         $counter = 0;
         
@@ -1009,7 +1009,7 @@ trait CollectionInterfaceImplementationTrait {
                 
                 yield $current_batch;
                 $counter = 0; // reset
-                $current_batch = new static(); // initialize next collection
+                $current_batch = static::makeNew(); // initialize next collection
             }
         }
 
@@ -1123,7 +1123,7 @@ trait CollectionInterfaceImplementationTrait {
             }
         }
         
-        $new_collection = new static();
+        $new_collection = static::makeNew();
         
         foreach ( $this->versatile_collections_items as $key => $item ) {
             
@@ -1152,7 +1152,7 @@ trait CollectionInterfaceImplementationTrait {
      */
     public function everyNth($n, $position_of_first_nth_item = 0) {
         
-        $new = new static();
+        $new = static::makeNew();
         $iteration_counter = 0;
 
         foreach ($this->versatile_collections_items as $item) {
@@ -1333,7 +1333,7 @@ trait CollectionInterfaceImplementationTrait {
 
         // keys could be strings or ints or a mix
         // GenericCollection will allow both types
-        return new \VersatileCollections\GenericCollection(...$keys); 
+        return \VersatileCollections\GenericCollection::makeNew($keys); 
     }
     
     /**
@@ -1371,7 +1371,7 @@ trait CollectionInterfaceImplementationTrait {
             throw new \InvalidArgumentException($msg); 
         }
         
-        $random_items = new static();
+        $random_items = static::makeNew();
         $random_keys = $this->randomKeys($number);
         
         foreach ($random_keys as $random_key) {
@@ -1398,10 +1398,10 @@ trait CollectionInterfaceImplementationTrait {
                 
         if( $this->isEmpty() ) {
             
-            return new static();
+            return static::makeNew();
         }
         
-        $shuffled_collection = new static();
+        $shuffled_collection = static::makeNew();
         
         // Decided to use $this->randomKeys() instead of php's
         // native shuffle(array &$array) since $this->randomKeys() uses 
@@ -1892,12 +1892,12 @@ trait CollectionInterfaceImplementationTrait {
         
         if ( $this->isEmpty() || $numberOfGroups === 0 ) {
             
-            return new static();
+            return static::makeNew();
         }
 
         $groupSize = ceil($this->count() / $numberOfGroups);
         
-        $groups = new static();
+        $groups = static::makeNew();
 
         foreach ( $this->yieldCollectionsOfSizeN($groupSize) as $group ) {
             
@@ -1991,7 +1991,7 @@ trait CollectionInterfaceImplementationTrait {
         
         // use GenericCollection because the values 
         // in the column may be of varying types
-        $column_2_return = new \VersatileCollections\GenericCollection();
+        $column_2_return = \VersatileCollections\GenericCollection::makeNew();
         
         if( !is_int($column_key) && !is_string($column_key) ) {
             
@@ -2173,7 +2173,7 @@ trait CollectionInterfaceImplementationTrait {
      */
     public function getItems() {
         
-        return new static(...array_values($this->versatile_collections_items));
+        return static::makeNew(array_values($this->versatile_collections_items));
     }
     
     /**
@@ -2283,7 +2283,7 @@ trait CollectionInterfaceImplementationTrait {
      */
     public function getAllWhereKeysIn(array $keys) {
         
-        $result = new static();
+        $result = static::makeNew();
         
         foreach ( $this->versatile_collections_items as $key => $item ) {
             
@@ -2303,7 +2303,7 @@ trait CollectionInterfaceImplementationTrait {
      */
     public function getAllWhereKeysNotIn(array $keys) {
         
-        $result = new static();
+        $result = static::makeNew();
         
         foreach ( $this->versatile_collections_items as $key => $item ) {
             
