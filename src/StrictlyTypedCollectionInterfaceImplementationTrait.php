@@ -14,6 +14,7 @@ trait StrictlyTypedCollectionInterfaceImplementationTrait {
         CollectionInterfaceImplementationTrait::prependCollection as parentPrependCollection;
         CollectionInterfaceImplementationTrait::prependItem as parentPrependItem;
         CollectionInterfaceImplementationTrait::unionMeWith as parentUnionMeWith;
+        CollectionInterfaceImplementationTrait::__call as parent__call;
     }
     
     public function __construct(...$arr_objs) {

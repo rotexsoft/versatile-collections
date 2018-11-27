@@ -8,10 +8,7 @@ namespace VersatileCollections;
  */
 class ObjectsCollection implements \VersatileCollections\StrictlyTypedCollectionInterface {
     
-    use StrictlyTypedCollectionInterfaceImplementationTrait {
-        
-        StrictlyTypedCollectionInterfaceImplementationTrait::__call as parent__call;
-    }
+    use StrictlyTypedCollectionInterfaceImplementationTrait;
     
     /**
      * 
