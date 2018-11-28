@@ -129,18 +129,15 @@ To implement a custom collection that only contains objects that are instances o
 a specific class (for example **\PDO**), your custom collection class must adhere to
 the following requirements:
 
-* Your custom collection class must implement **\VersatileCollections\StrictlyTypedCollectionInterface**
-
-* It should use **\VersatileCollections\StrictlyTypedCollectionInterfaceImplementationTrait** (which contains implementation of the methods in **\VersatileCollections\StrictlyTypedCollectionInterface**). If you choose not to use **\VersatileCollections\StrictlyTypedCollectionInterfaceImplementationTrait**, then you will have to implement all the methods specified in **\VersatileCollections\StrictlyTypedCollectionInterface**.
-
-* It must implement the two methods below:
+* Your custom collection class must implement **\VersatileCollections\StrictlyTypedCollectionInterface** which currently contains the methods below:
 
     * **public function checkType($item)** : it must return true if `$item` is of the expected type or false otherwise
-    * **public function getType()** : it must return a string or an array of strings representing the name(s) of the expected type
+    * **public function getType()** : it must return a string or an array of strings representing the name(s) of the expected type(s)
 
+* Your custom collection class should use **\VersatileCollections\StrictlyTypedCollectionInterfaceImplementationTrait** (which contains implementation of the methods in **\VersatileCollections\StrictlyTypedCollectionInterface**). If you choose not to use **\VersatileCollections\StrictlyTypedCollectionInterfaceImplementationTrait**, then you will have to implement all the methods specified in **\VersatileCollections\StrictlyTypedCollectionInterface** and make sure you call the **checkType($item)** method in every method where you add items to or modify items in the collection such as **offsetSet($key, $val)**  and throw an **VersatileCollections\Exceptions\InvalidItemException** exception whenever **checkType($item)** returns false. If you use **\VersatileCollections\StrictlyTypedCollectionInterfaceImplementationTrait** in your custom collection class but add new methods that also add items to or modify items in the collection you can use the helper method **isRightTypeOrThrowInvalidTypeException($item, $calling_functions_name)** provided in **\VersatileCollections\StrictlyTypedCollectionInterfaceImplementationTrait** to validate items (it will automatically throw an exception for you if the item you are validating is of the wrong type; see **\VersatileCollections\StrictlyTypedCollectionInterfaceImplementationTrait::offsetSet($key, $val)** for an example of how this helper method should be used).
 
 * You can optionally override **StrictlyTypedCollectionInterfaceImplementationTrait::__construct(...$arr_objs)** with a constructor
-with the same signature but with the specific type. For example, **__construct(\PDO ...$arr_objs)** ensures that only instances of
+with the same signature but with the specific type. For example, **__construct(\PDO ...$pdo_objs)** ensures that only instances of
 **\PDO** can be injected into the constructor via argument unpacking. 
 
 The code example below shows how a custom collection class called **PdoCollection**, 
@@ -153,9 +150,9 @@ class PdoCollection implements \VersatileCollections\StrictlyTypedCollectionInte
     
     use \VersatileCollections\StrictlyTypedCollectionInterfaceImplementationTrait;
     
-    public function __construct(\PDO ...$arr_objs) {
+    public function __construct(\PDO ...$pdo_objs) {
                 
-        $this->versatile_collections_items = $arr_objs;
+        $this->versatile_collections_items = $pdo_objs;
     }
 
     /**

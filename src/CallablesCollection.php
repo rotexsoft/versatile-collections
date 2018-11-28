@@ -9,6 +9,11 @@ namespace VersatileCollections;
 class CallablesCollection implements \VersatileCollections\StrictlyTypedCollectionInterface {
     
     use StrictlyTypedCollectionInterfaceImplementationTrait;
+    
+    public function __construct(callable ...$callables) {
+        
+        $this->versatile_collections_items = $callables;
+    }
 
     public function checkType($item) {
         
