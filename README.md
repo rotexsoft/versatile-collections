@@ -146,12 +146,12 @@ that only stores items that are instances of **\PDO**, can be implemented:
 ```php
 <?php 
 
-class PdoCollection implements \VersatileCollections\StrictlyTypedCollectionInterface {
+class PdoCollection implements \VersatileCollections\StrictlyTypedCollectionInterface { // 1. implement the interface
     
-    use \VersatileCollections\StrictlyTypedCollectionInterfaceImplementationTrait;
+    use \VersatileCollections\StrictlyTypedCollectionInterfaceImplementationTrait; // 2. use the trait
     
-    public function __construct(\PDO ...$pdo_objs) {
-                
+    public function __construct(\PDO ...$pdo_objs) { // 3. Optionally override the constructor with a type
+                                                     //    specific one
         $this->versatile_collections_items = $pdo_objs;
     }
 
@@ -160,7 +160,7 @@ class PdoCollection implements \VersatileCollections\StrictlyTypedCollectionInte
      * @return bool true if $item is of the expected type, else false
      * 
      */
-    public function checkType($item) {
+    public function checkType($item) { // 4. implement interface methods not implemented in the trait above
         
         return ($item instanceof \PDO);
     }
@@ -172,7 +172,7 @@ class PdoCollection implements \VersatileCollections\StrictlyTypedCollectionInte
      *                      collection class
      * 
      */
-    public function getType() {
+    public function getType() { // 4. implement interface methods not implemented in the trait above
         
         return \PDO::class;
     }
