@@ -185,7 +185,6 @@ being enforced at construct time and item addition time.
 
 ## Documentation
 
-* [Quick Start Guide](docs/QUICKSTART.md)
 * [Methods Glossary by Category](docs/MethodsByCategory.md)
 * [Detailed Methods Guide with Examples](docs/MethodDescriptions.md)
 * [Generic Collections](docs/GenericCollections.md)
