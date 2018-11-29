@@ -186,7 +186,7 @@ being enforced at construct time and item addition time.
 ## Documentation
 
 * [Methods Glossary by Category](docs/MethodsByCategory.md)
-* [Detailed Methods Guide with Examples](docs/MethodDescriptions.md)
+* [Methods Descriptions with Examples](docs/MethodDescriptions.md)
 * [Generic Collections](docs/GenericCollections.md)
 * Strictly Typed Collections
     * Array Collections

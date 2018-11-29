@@ -28,6 +28,3 @@ Example Usage:
     $collection[] = tmpfile();
     $collection[] = 'Hello World!';
 ```
-
-See the [Quick Start Guide](QUICKSTART.md) for more examples of how to use this type of
-collection.
