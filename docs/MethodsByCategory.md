@@ -21,7 +21,7 @@
 <div id="accessing-or-extracting-keys-or-items"></div>
 
 ## Accessing or Extracting Keys and / or Items in a Collection
-* `VersatileCollections\CollectionInterface`
+* **`VersatileCollections\CollectionInterface`**
   * [__get](MethodDescriptions.md#CollectionInterface-__get): Retrieves an item associated with a specified key in the collection.
   * [column](MethodDescriptions.md#CollectionInterface-column): Returns a new collection containing the values from a specified field in each item in a collection. Corresponding keys in the returned collection could be specified as another field in each item in the collection. MUST be a collection whose items are arrays and / or objects.
   * [diff](MethodDescriptions.md#CollectionInterface-diff): Returns a new collection containing items in an existing collection that are not present in the specified array of items.
@@ -65,7 +65,7 @@
   * [toArray](MethodDescriptions.md#CollectionInterface-toArray): Returns all items in the collection and their corresponding keys in an array.
   * [unique](MethodDescriptions.md#CollectionInterface-unique): Returns a new collection of unique items from an existing collection. This method uses strict comparison for testing uniqueness.
 
-* `VersatileCollections\ScalarsCollection`
+* **`VersatileCollections\ScalarsCollection`**
   * [uniqueNonStrict](MethodDescriptions.md#ScalarsCollection-uniqueNonStrict): Returns a new collection of unique items from an existing collection. This method uses non-strict comparison for testing uniqueness.
 
 
@@ -73,7 +73,7 @@
 <div id="adding-items"></div>
 
 ## Adding Items to a Collection
-* `VersatileCollections\CollectionInterface`
+* **`VersatileCollections\CollectionInterface`**
   * [__set](MethodDescriptions.md#CollectionInterface-__set): Adds an item with a specified key to the collection.
   * [appendCollection](MethodDescriptions.md#CollectionInterface-appendCollection): Appends all items from a specified collection to the end of a collection. Note that appended items will be assigned numeric keys.
   * [appendItem](MethodDescriptions.md#CollectionInterface-appendItem): Appends a specified item to the end of a collection.
@@ -92,7 +92,7 @@
 <div id="adding-methods-at-runtime"></div>
 
 ## Adding Methods to a Collection at Runtime
-* `VersatileCollections\CollectionInterfaceImplementationTrait`
+* **`VersatileCollections\CollectionInterfaceImplementationTrait`**
   * [addMethod](MethodDescriptions.md#CollectionInterfaceImplementationTrait-addMethod): Registers a specified `callable` with a specified name to a single instance of a Collection class, so that the registered callable can be later called as an instance method with the specified name on the instance of the Collection class the callable was registered to.
   * [addMethodForAllInstances](MethodDescriptions.md#CollectionInterfaceImplementationTrait-addMethodForAllInstances): Registers a specified `callable` with a specified name to a Collection class, so that the registered callable can be later called as an instance method with the specified name on any instance of the Collection class or any of its sub-classes.
   * [addStaticMethod](MethodDescriptions.md#CollectionInterfaceImplementationTrait-addStaticMethod): Registers a specified `callable` with a specified name to a Collection class, so that the registered callable can be later called as a static method with the specified name on the Collection class or any of its sub-classes.
@@ -102,7 +102,7 @@
 <div id="checking-items-presence"></div>
 
 ## Checking if Item(s) exist in a Collection
-* `VersatileCollections\CollectionInterface`
+* **`VersatileCollections\CollectionInterface`**
   * [__isset](MethodDescriptions.md#CollectionInterface-__isset): Checks if an item with a specified key exists in the collection.
   * [containsItem](MethodDescriptions.md#CollectionInterface-containsItem): Checks if a collection contains a specified item (using strict comparison).
   * [containsItemWithKey](MethodDescriptions.md#CollectionInterface-containsItemWithKey): Checks if a collection contains a specified item (using strict comparison) together with the specified key.
@@ -115,7 +115,7 @@
 <div id="checking-keys-presence"></div>
 
 ## Checking if Key(s) exist in a Collection
-* `VersatileCollections\CollectionInterface`
+* **`VersatileCollections\CollectionInterface`**
   * [containsItemWithKey](MethodDescriptions.md#CollectionInterface-containsItemWithKey): Checks if a collection contains a specified item (using strict comparison) together with the specified key.
   * [containsKey](MethodDescriptions.md#CollectionInterface-containsKey): Checks if a collection contains a specified key.
   * [containsKeys](MethodDescriptions.md#CollectionInterface-containsKeys): Checks if a collection contains all specified keys.
@@ -125,7 +125,7 @@
 <div id="creating-new-collections"></div>
 
 ## Creating Collections
-* `VersatileCollections\CollectionInterface`
+* **`VersatileCollections\CollectionInterface`**
   * [diff](MethodDescriptions.md#CollectionInterface-diff): Returns a new collection containing items in an existing collection that are not present in the specified array of items.
   * [diffAssoc](MethodDescriptions.md#CollectionInterface-diffAssoc): Returns a new collection containing items in an existing collection whose keys and values are not present in the specified array of items.
   * [diffAssocUsing](MethodDescriptions.md#CollectionInterface-diffAssocUsing): Returns a new collection containing items in an existing collection whose keys and values are not present in the specified array of items using a callback to test for key presence.
@@ -166,7 +166,7 @@
   * [unique](MethodDescriptions.md#CollectionInterface-unique): Returns a new collection of unique items from an existing collection. This method uses strict comparison for testing uniqueness.
   * [yieldCollectionsOfSizeN](MethodDescriptions.md#CollectionInterface-yieldCollectionsOfSizeN): Returns a generator that yields collections each having a specified maximum number of items. Original keys are preserved in each returned collection.
 
-* `VersatileCollections\ScalarsCollection`
+* **`VersatileCollections\ScalarsCollection`**
   * [uniqueNonStrict](MethodDescriptions.md#ScalarsCollection-uniqueNonStrict): Returns a new collection of unique items from an existing collection. This method uses non-strict comparison for testing uniqueness.
 
 
@@ -174,7 +174,7 @@
 <div id="deleting-items"></div>
 
 ## Deleting Items from a Collection
-* `VersatileCollections\CollectionInterface`
+* **`VersatileCollections\CollectionInterface`**
   * [__unset](MethodDescriptions.md#CollectionInterface-__unset): Removes an item associated with the specified key from the collection.
   * [getAndRemoveFirstItem](MethodDescriptions.md#CollectionInterface-getAndRemoveFirstItem): Returns and removes the first item in a collection.
   * [getAndRemoveLastItem](MethodDescriptions.md#CollectionInterface-getAndRemoveLastItem): Removes and returns the last item from a collection.
@@ -188,7 +188,7 @@
 <div id="finding-or-searching-for-items"></div>
 
 ## Finding or Searching for Items in a Collection
-* `VersatileCollections\CollectionInterface`
+* **`VersatileCollections\CollectionInterface`**
   * [diff](MethodDescriptions.md#CollectionInterface-diff): Returns a new collection containing items in an existing collection that are not present in the specified array of items.
   * [diffAssoc](MethodDescriptions.md#CollectionInterface-diffAssoc): Returns a new collection containing items in an existing collection whose keys and values are not present in the specified array of items.
   * [diffAssocUsing](MethodDescriptions.md#CollectionInterface-diffAssocUsing): Returns a new collection containing items in an existing collection whose keys and values are not present in the specified array of items using a callback to test for key presence.
@@ -214,7 +214,7 @@
 <div id="getting-collection-meta-data"></div>
 
 ## Getting Information about a Collection
-* `VersatileCollections\CollectionInterface`
+* **`VersatileCollections\CollectionInterface`**
   * [count](MethodDescriptions.md#CollectionInterface-count): Returns the number of items in the collection.
   * [getKeys](MethodDescriptions.md#CollectionInterface-getKeys): Returns a new instance of \VersatileCollections\GenericCollection containing all the keys in the original collection.
   * [isEmpty](MethodDescriptions.md#CollectionInterface-isEmpty): Returns true if there are one or more items in the collection or false otherwise.
@@ -224,7 +224,7 @@
 <div id="iteration"></div>
 
 ## Looping / Iterating through a Collection
-* `VersatileCollections\CollectionInterface`
+* **`VersatileCollections\CollectionInterface`**
   * [each](MethodDescriptions.md#CollectionInterface-each): Iterates through a collection and executes a callback over each item.
   * [getIterator](MethodDescriptions.md#CollectionInterface-getIterator): Returns an Iterator object that can be used to iterate through the collection.
   * [map](MethodDescriptions.md#CollectionInterface-map): Applies a callback to the items in a collection and returns a new collection containing all items in the original collection after applying the callback function to each one. The original collection is not modified.
@@ -237,7 +237,7 @@
 <div id="mathematical-operations"></div>
 
 ## Mathematical Operations on Numeric Collections
-* `VersatileCollections\NumericsCollection`
+* **`VersatileCollections\NumericsCollection`**
   * [average](MethodDescriptions.md#NumericsCollection-average): Returns the average of all of the values(a.k.a items) in the collection or null if collection is empty.
   * [max](MethodDescriptions.md#NumericsCollection-max): Returns the maximum of all of the values(a.k.a items) in the collection or null if collection is empty.
   * [median](MethodDescriptions.md#NumericsCollection-median): Returns the median of all of the values(a.k.a items) in the collection or null if collection is empty.
@@ -251,7 +251,7 @@
 <div id="modifying-items"></div>
 
 ## Modifying the Item(s) in a Collection
-* `VersatileCollections\CollectionInterface`
+* **`VersatileCollections\CollectionInterface`**
   * [setValForEachItem](MethodDescriptions.md#CollectionInterface-setValForEachItem): Sets the specified field in each array or object in the collection to a specified value.
   * [splice](MethodDescriptions.md#CollectionInterface-splice): Removes and returns in a new collection, a portion of a collection and optionally replaces the removed portion with some specified items.
   * [transform](MethodDescriptions.md#CollectionInterface-transform): Transforms each item in the collection via a callback function.
@@ -261,12 +261,12 @@
 <div id="modifying-keys"></div>
 
 ## Modifying the Key(s) in a Collection
-* `VersatileCollections\CollectionInterface`
+* **`VersatileCollections\CollectionInterface`**
   * [getItems](MethodDescriptions.md#CollectionInterface-getItems): Returns a new collection with all items in the original collection. All the keys in the new collection will be consecutive integer keys starting from zero.
   * [makeAllKeysNumeric](MethodDescriptions.md#CollectionInterface-makeAllKeysNumeric): Converts all keys in a collection to consecutive integer keys starting from the specified integer value.
   * [unique](MethodDescriptions.md#CollectionInterface-unique): Returns a new collection of unique items from an existing collection. This method uses strict comparison for testing uniqueness.
 
-* `VersatileCollections\ScalarsCollection`
+* **`VersatileCollections\ScalarsCollection`**
   * [uniqueNonStrict](MethodDescriptions.md#ScalarsCollection-uniqueNonStrict): Returns a new collection of unique items from an existing collection. This method uses non-strict comparison for testing uniqueness.
 
 
@@ -274,7 +274,7 @@
 <div id="ordering-or-sorting-items"></div>
 
 ## Ordering or Sorting Items in a Collection
-* `VersatileCollections\CollectionInterface`
+* **`VersatileCollections\CollectionInterface`**
   * [reverse](MethodDescriptions.md#CollectionInterface-reverse): Reverses the order of items in the collection and returns the reversed items in a new collection.
   * [reverseMe](MethodDescriptions.md#CollectionInterface-reverseMe): Reverses the order of items in the collection. Original collection is modified.
   * [shuffle](MethodDescriptions.md#CollectionInterface-shuffle): Shuffles all the items in a collection and returns the shuffled items in a new collection. The original collection is not modified.
@@ -294,7 +294,7 @@
 <div id="other-operations"></div>
 
 ## Other Collection Operations
-* `VersatileCollections\CollectionInterface`
+* **`VersatileCollections\CollectionInterface`**
   * [allSatisfyConditions](MethodDescriptions.md#CollectionInterface-allSatisfyConditions): Iterates through a collection and executes a callback (that returns a boolean) over each item and returns true if the callback returns true for all items or false otherwise.
   * [pipeAndReturnCallbackResult](MethodDescriptions.md#CollectionInterface-pipeAndReturnCallbackResult): Executes the given callback on a collection and returns whatever value the callback returned.
   * [pipeAndReturnSelf](MethodDescriptions.md#CollectionInterface-pipeAndReturnSelf): Executes the given callback on a collection and returns the collection itself.
@@ -302,10 +302,10 @@
   * [whenFalse](MethodDescriptions.md#CollectionInterface-whenFalse): Conditionally executes a specified callback on a collection if first argument is falsy or executes a specified default callback otherwise and returns the value returned by the executed callback. If no callback could be executed, null is returned.
   * [whenTrue](MethodDescriptions.md#CollectionInterface-whenTrue): Conditionally executes a specified callback on a collection if first argument is truthy or executes a specified default callback otherwise and returns the value returned by the executed callback. If no callback could be executed, null is returned.
 
-* `VersatileCollections\ObjectsCollection`
+* **`VersatileCollections\ObjectsCollection`**
   * [__call](MethodDescriptions.md#ObjectsCollection-__call): Tries to call the specified method with the specified arguments and return its return value if it was registered via either `addMethod` or `addMethodForAllInstances` or tries to call the specified method with the specified arguments on each item in the collection and returns an array of return values keyed by each item's key in the collection. An exception of type **\VersatileCollections\Exceptions\InvalidCollectionOperationException** is thrown if the method could not be called.
 
-* `VersatileCollections\CollectionInterfaceImplementationTrait`
+* **`VersatileCollections\CollectionInterfaceImplementationTrait`**
   * [__call](MethodDescriptions.md#CollectionInterfaceImplementationTrait-__call): Tries to call the specified method with the specified arguments and return its return value if it was registered via either `addMethod` or `addMethodForAllInstances` . An exception of type **\BadMethodCallException** is thrown if the method could not be called.
   * [__callStatic](MethodDescriptions.md#CollectionInterfaceImplementationTrait-__callStatic): Tries to call the specified method with the specified arguments and return its return value if it was registered via `addStaticMethod`. An exception of type **\BadMethodCallException** is thrown if the method could not be called.
 
