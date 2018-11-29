@@ -1,5 +1,23 @@
 # Collection Methods by Category
 
+  * [Accessing or Extracting Keys and / or Items in a Collection](#accessing-or-extracting-keys-or-items)
+  * [Adding Items to a Collection](#adding-items)
+  * [Checking if Item(s) exist in a Collection](#checking-items-presence)
+  * [Checking if Key(s) exist in a Collection](#checking-keys-presence)
+  * [Creating Collections](#creating-new-collections)
+  * [Deleting Items from a Collection](#deleting-items)
+  * [Finding or Searching for Items in a Collection](#finding-or-searching-for-items)
+  * [Getting Information about a Collection](#getting-collection-meta-data)
+  * [Looping / Iterating through a Collection](#iteration)
+  * [Modifying the Item(s) in a Collection](#modifying-items)
+  * [Modifying the Key(s) in a Collection](#modifying-keys)
+  * [Ordering or Sorting Items in a Collection](#ordering-or-sorting-items)
+  * [Other Collection Operations](#other-operations)
+
+
+------------------------------------------------------------------------------------------------
+<div id="accessing-or-extracting-keys-or-items"></div>
+
 ## Accessing or Extracting Keys and / or Items in a Collection
 * VersatileCollections\CollectionInterface
   * [__get](MethodDescriptions.md#__get): Retrieves an item associated with a specified key in the collection.
@@ -46,6 +64,9 @@
   * [unique](MethodDescriptions.md#unique): Returns a new collection of unique items from an existing collection. This method uses strict comparison for testing uniqueness.
 
 
+------------------------------------------------------------------------------------------------
+<div id="adding-items"></div>
+
 ## Adding Items to a Collection
 * VersatileCollections\CollectionInterface
   * [__set](MethodDescriptions.md#__set): Adds an item with a specified key to the collection.
@@ -62,6 +83,9 @@
   * [unionWith](MethodDescriptions.md#unionWith): Appends specified items to a collection and returns the result in a new collection. New items with the same keys as existing items will not overwrite the existing items. Original collection is not modified.
 
 
+------------------------------------------------------------------------------------------------
+<div id="checking-items-presence"></div>
+
 ## Checking if Item(s) exist in a Collection
 * VersatileCollections\CollectionInterface
   * [__isset](MethodDescriptions.md#__isset): Checks if an item with a specified key exists in the collection.
@@ -72,12 +96,18 @@
   * [offsetExists](MethodDescriptions.md#offsetExists): Checks if an item with a specified key exists in the collection.
 
 
+------------------------------------------------------------------------------------------------
+<div id="checking-keys-presence"></div>
+
 ## Checking if Key(s) exist in a Collection
 * VersatileCollections\CollectionInterface
   * [containsItemWithKey](MethodDescriptions.md#containsItemWithKey): Checks if a collection contains a specified item (using strict comparison) together with the specified key.
   * [containsKey](MethodDescriptions.md#containsKey): Checks if a collection contains a specified key.
   * [containsKeys](MethodDescriptions.md#containsKeys): Checks if a collection contains all specified keys.
 
+
+------------------------------------------------------------------------------------------------
+<div id="creating-new-collections"></div>
 
 ## Creating Collections
 * VersatileCollections\CollectionInterface
@@ -122,6 +152,9 @@
   * [yieldCollectionsOfSizeN](MethodDescriptions.md#yieldCollectionsOfSizeN): Returns a generator that yields collections each having a specified maximum number of items. Original keys are preserved in each returned collection.
 
 
+------------------------------------------------------------------------------------------------
+<div id="deleting-items"></div>
+
 ## Deleting Items from a Collection
 * VersatileCollections\CollectionInterface
   * [__unset](MethodDescriptions.md#__unset): Removes an item associated with the specified key from the collection.
@@ -132,6 +165,9 @@
   * [removeAll](MethodDescriptions.md#removeAll): Removes items from a collection (whose keys are specified) or (all items if no keys were specified).
   * [splice](MethodDescriptions.md#splice): Removes and returns in a new collection, a portion of a collection and optionally replaces the removed portion with some specified items.
 
+
+------------------------------------------------------------------------------------------------
+<div id="finding-or-searching-for-items"></div>
 
 ## Finding or Searching for Items in a Collection
 * VersatileCollections\CollectionInterface
@@ -156,12 +192,18 @@
   * [searchByVal](MethodDescriptions.md#searchByVal): Searches the collection for a given value and returns the first corresponding key in the collection whose item matches the given value if successful or false if not.
 
 
+------------------------------------------------------------------------------------------------
+<div id="getting-collection-meta-data"></div>
+
 ## Getting Information about a Collection
 * VersatileCollections\CollectionInterface
   * [count](MethodDescriptions.md#count): Returns the number of items in the collection.
   * [getKeys](MethodDescriptions.md#getKeys): Returns a new instance of \VersatileCollections\GenericCollection containing all the keys in the original collection.
   * [isEmpty](MethodDescriptions.md#isEmpty): Returns true if there are one or more items in the collection or false otherwise.
 
+
+------------------------------------------------------------------------------------------------
+<div id="iteration"></div>
 
 ## Looping / Iterating through a Collection
 * VersatileCollections\CollectionInterface
@@ -173,6 +215,9 @@
   * [transform](MethodDescriptions.md#transform): Transforms each item in the collection via a callback function.
 
 
+------------------------------------------------------------------------------------------------
+<div id="modifying-items"></div>
+
 ## Modifying the Item(s) in a Collection
 * VersatileCollections\CollectionInterface
   * [setValForEachItem](MethodDescriptions.md#setValForEachItem): Sets the specified field in each array or object in the collection to a specified value.
@@ -180,12 +225,18 @@
   * [transform](MethodDescriptions.md#transform): Transforms each item in the collection via a callback function.
 
 
+------------------------------------------------------------------------------------------------
+<div id="modifying-keys"></div>
+
 ## Modifying the Key(s) in a Collection
 * VersatileCollections\CollectionInterface
   * [getItems](MethodDescriptions.md#getItems): Returns a new collection with all items in the original collection. All the keys in the new collection will be consecutive integer keys starting from zero.
   * [makeAllKeysNumeric](MethodDescriptions.md#makeAllKeysNumeric): Converts all keys in a collection to consecutive integer keys starting from the specified integer value.
   * [unique](MethodDescriptions.md#unique): Returns a new collection of unique items from an existing collection. This method uses strict comparison for testing uniqueness.
 
+
+------------------------------------------------------------------------------------------------
+<div id="ordering-or-sorting-items"></div>
 
 ## Ordering or Sorting Items in a Collection
 * VersatileCollections\CollectionInterface
@@ -203,6 +254,9 @@
   * [sortMeDesc](MethodDescriptions.md#sortMeDesc): Sorts a collection's items in descending order while maintaining key association. The original collection is modified.
   * [sortMeDescByKey](MethodDescriptions.md#sortMeDescByKey): Sorts a collection's items by keys in descending order while maintaining key association. The original collection is modified.
 
+
+------------------------------------------------------------------------------------------------
+<div id="other-operations"></div>
 
 ## Other Collection Operations
 * VersatileCollections\CollectionInterface
