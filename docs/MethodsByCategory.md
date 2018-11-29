@@ -13,7 +13,7 @@
   * [Mathematical Operations on Numeric Collections](#mathematical-operations)
   * [Modifying the Item(s) in a Collection](#modifying-items)
   * [Modifying the Key(s) in a Collection](#modifying-keys)
-  * [Ordering or Sorting Items in a Collection](#ordering-or-sorting-items)
+  * [Ordering or Sorting or Shuffling / Randomizing Items in a Collection](#ordering-or-sorting-items)
   * [Other Collection Operations](#other-operations)
 
 
@@ -38,7 +38,7 @@
   * [getAndRemoveLastItem](MethodDescriptions.md#CollectionInterface-getAndRemoveLastItem): Removes and returns the last item from a collection.
   * [getIfExists](MethodDescriptions.md#CollectionInterface-getIfExists): Returns the item in the collection with the specified key (if such an item exists) or the specified default value otherwise.
   * [getItems](MethodDescriptions.md#CollectionInterface-getItems): Returns a new collection with all items in the original collection. All the keys in the new collection will be consecutive integer keys starting from zero.
-  * [getKeys](MethodDescriptions.md#CollectionInterface-getKeys): Returns a new instance of \VersatileCollections\GenericCollection containing all the keys in the original collection.
+  * [getKeys](MethodDescriptions.md#CollectionInterface-getKeys): Returns a new instance of **`\VersatileCollections\GenericCollection`** containing all the keys in the original collection.
   * [intersectByItems](MethodDescriptions.md#CollectionInterface-intersectByItems): Returns a new collection of items from an existing collection that are present in an array of specified items.
   * [intersectByItemsUsingCallback](MethodDescriptions.md#CollectionInterface-intersectByItemsUsingCallback): Returns a new collection of items from an existing collection that are present in an array of specified items using a specified callback for testing item presence.
   * [intersectByKeys](MethodDescriptions.md#CollectionInterface-intersectByKeys): Returns a new collection of items from an existing collection whose keys are present in an array of specified keys.
@@ -63,10 +63,10 @@
   * [splice](MethodDescriptions.md#CollectionInterface-splice): Removes and returns in a new collection, a portion of a collection and optionally replaces the removed portion with some specified items.
   * [take](MethodDescriptions.md#CollectionInterface-take): Returns the first or last specified number of items in a collection in a new collection. Original collection is not modified.
   * [toArray](MethodDescriptions.md#CollectionInterface-toArray): Returns all items in the collection and their corresponding keys in an array.
-  * [unique](MethodDescriptions.md#CollectionInterface-unique): Returns a new collection of unique items from an existing collection. This method uses strict comparison for testing uniqueness.
+  * [unique](MethodDescriptions.md#CollectionInterface-unique): Returns a new collection of unique items from an existing collection. This method uses strict comparison for testing uniqueness. The keys are not preserved in the returned collection.
 
 * **`VersatileCollections\ScalarsCollection`**
-  * [uniqueNonStrict](MethodDescriptions.md#ScalarsCollection-uniqueNonStrict): Returns a new collection of unique items from an existing collection. This method uses non-strict comparison for testing uniqueness.
+  * [uniqueNonStrict](MethodDescriptions.md#ScalarsCollection-uniqueNonStrict): Returns a new collection of unique items from an existing collection. This method uses non-strict comparison for testing uniqueness. The keys are not preserved in the returned collection.
 
 
 ------------------------------------------------------------------------------------------------
@@ -140,7 +140,7 @@
   * [getAsNewType](MethodDescriptions.md#CollectionInterface-getAsNewType): Creates a new collection of the specified type with the keys and items from an existing collection. The specified collection type MUST be compatible with the existing collection's type.
   * [getCollectionsOfSizeN](MethodDescriptions.md#CollectionInterface-getCollectionsOfSizeN): Returns a collection of collections; with each sub-collection having a specified maximum number of items. Original keys are preserved in each sub-collection.
   * [getItems](MethodDescriptions.md#CollectionInterface-getItems): Returns a new collection with all items in the original collection. All the keys in the new collection will be consecutive integer keys starting from zero.
-  * [getKeys](MethodDescriptions.md#CollectionInterface-getKeys): Returns a new instance of \VersatileCollections\GenericCollection containing all the keys in the original collection.
+  * [getKeys](MethodDescriptions.md#CollectionInterface-getKeys): Returns a new instance of **`\VersatileCollections\GenericCollection`** containing all the keys in the original collection.
   * [intersectByItems](MethodDescriptions.md#CollectionInterface-intersectByItems): Returns a new collection of items from an existing collection that are present in an array of specified items.
   * [intersectByItemsUsingCallback](MethodDescriptions.md#CollectionInterface-intersectByItemsUsingCallback): Returns a new collection of items from an existing collection that are present in an array of specified items using a specified callback for testing item presence.
   * [intersectByKeys](MethodDescriptions.md#CollectionInterface-intersectByKeys): Returns a new collection of items from an existing collection whose keys are present in an array of specified keys.
@@ -163,11 +163,11 @@
   * [split](MethodDescriptions.md#CollectionInterface-split): Splits a collection into a specified number of collections and returns a collection containing those collections.
   * [take](MethodDescriptions.md#CollectionInterface-take): Returns the first or last specified number of items in a collection in a new collection. Original collection is not modified.
   * [unionWith](MethodDescriptions.md#CollectionInterface-unionWith): Appends specified items to a collection and returns the result in a new collection. New items with the same keys as existing items will not overwrite the existing items. Original collection is not modified.
-  * [unique](MethodDescriptions.md#CollectionInterface-unique): Returns a new collection of unique items from an existing collection. This method uses strict comparison for testing uniqueness.
+  * [unique](MethodDescriptions.md#CollectionInterface-unique): Returns a new collection of unique items from an existing collection. This method uses strict comparison for testing uniqueness. The keys are not preserved in the returned collection.
   * [yieldCollectionsOfSizeN](MethodDescriptions.md#CollectionInterface-yieldCollectionsOfSizeN): Returns a generator that yields collections each having a specified maximum number of items. Original keys are preserved in each returned collection.
 
 * **`VersatileCollections\ScalarsCollection`**
-  * [uniqueNonStrict](MethodDescriptions.md#ScalarsCollection-uniqueNonStrict): Returns a new collection of unique items from an existing collection. This method uses non-strict comparison for testing uniqueness.
+  * [uniqueNonStrict](MethodDescriptions.md#ScalarsCollection-uniqueNonStrict): Returns a new collection of unique items from an existing collection. This method uses non-strict comparison for testing uniqueness. The keys are not preserved in the returned collection.
 
 
 ------------------------------------------------------------------------------------------------
@@ -216,7 +216,7 @@
 ## Getting Information about a Collection
 * **`VersatileCollections\CollectionInterface`**
   * [count](MethodDescriptions.md#CollectionInterface-count): Returns the number of items in the collection.
-  * [getKeys](MethodDescriptions.md#CollectionInterface-getKeys): Returns a new instance of \VersatileCollections\GenericCollection containing all the keys in the original collection.
+  * [getKeys](MethodDescriptions.md#CollectionInterface-getKeys): Returns a new instance of **`\VersatileCollections\GenericCollection`** containing all the keys in the original collection.
   * [isEmpty](MethodDescriptions.md#CollectionInterface-isEmpty): Returns true if there are one or more items in the collection or false otherwise.
 
 
@@ -264,17 +264,21 @@
 * **`VersatileCollections\CollectionInterface`**
   * [getItems](MethodDescriptions.md#CollectionInterface-getItems): Returns a new collection with all items in the original collection. All the keys in the new collection will be consecutive integer keys starting from zero.
   * [makeAllKeysNumeric](MethodDescriptions.md#CollectionInterface-makeAllKeysNumeric): Converts all keys in a collection to consecutive integer keys starting from the specified integer value.
-  * [unique](MethodDescriptions.md#CollectionInterface-unique): Returns a new collection of unique items from an existing collection. This method uses strict comparison for testing uniqueness.
+  * [unique](MethodDescriptions.md#CollectionInterface-unique): Returns a new collection of unique items from an existing collection. This method uses strict comparison for testing uniqueness. The keys are not preserved in the returned collection.
 
 * **`VersatileCollections\ScalarsCollection`**
-  * [uniqueNonStrict](MethodDescriptions.md#ScalarsCollection-uniqueNonStrict): Returns a new collection of unique items from an existing collection. This method uses non-strict comparison for testing uniqueness.
+  * [uniqueNonStrict](MethodDescriptions.md#ScalarsCollection-uniqueNonStrict): Returns a new collection of unique items from an existing collection. This method uses non-strict comparison for testing uniqueness. The keys are not preserved in the returned collection.
 
 
 ------------------------------------------------------------------------------------------------
 <div id="ordering-or-sorting-items"></div>
 
-## Ordering or Sorting Items in a Collection
+## Ordering or Sorting or Shuffling / Randomizing Items in a Collection
 * **`VersatileCollections\CollectionInterface`**
+  * [randomItem](MethodDescriptions.md#CollectionInterface-randomItem): Gets one item randomly from a collection.
+  * [randomItems](MethodDescriptions.md#CollectionInterface-randomItems): Gets a specified number of items randomly from a collection and returns them in a new collection.
+  * [randomKey](MethodDescriptions.md#CollectionInterface-randomKey): Gets one key randomly from a collection.
+  * [randomKeys](MethodDescriptions.md#CollectionInterface-randomKeys): Gets a specified number of unique keys randomly from a collection and returns them in a new collection.
   * [reverse](MethodDescriptions.md#CollectionInterface-reverse): Reverses the order of items in the collection and returns the reversed items in a new collection.
   * [reverseMe](MethodDescriptions.md#CollectionInterface-reverseMe): Reverses the order of items in the collection. Original collection is modified.
   * [shuffle](MethodDescriptions.md#CollectionInterface-shuffle): Shuffles all the items in a collection and returns the shuffled items in a new collection. The original collection is not modified.
