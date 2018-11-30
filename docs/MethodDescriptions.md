@@ -995,16 +995,23 @@ Generator (instead of a new collection) that yields each sub-collection.
 ```php
 <?php
 
-    $collection = new \VersatileCollections\IntsCollection(1,2,3,4,5,6,7);
+    $collection = \VersatileCollections\GenericCollection::makeNew(
+        [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+    );
 
-    // Get a collection of sub-collections each containing at most 2 items
-    $collection->getCollectionsOfSizeN(2); // returns a collection containing
-                                           // [ 
-                                           //   [0=>1, 1=>2], // sub-collection of type IntsCollection
-                                           //   [2=>3, 3=>4], // sub-collection of type IntsCollection
-                                           //   [4=>5, 5=>6], // sub-collection of type IntsCollection
-                                           //   [6=>7]        // sub-collection of type IntsCollection
-                                           // ] // GenericCollection
+    $sub_collections = $collection->getCollectionsOfSizeN(3);
+
+    foreach ( $sub_collections as $sub_collection ) {
+        
+        var_export($sub_collection->toArray());
+    }
+    
+    // Will generate the output below:
+    //    [ 0=>1,    1=>2,  2=>3   ]
+    //    [ 3=>4,    4=>5,  5=>6   ]
+    //    [ 6=>7,    7=>8,  8=>9   ]
+    //    [ 9=>10,  10=>11, 11=>12 ]
+    //    [ 12=>13, 13=>14         ]
 ```
 
 ------------------------------------------------------------------------------------------------
