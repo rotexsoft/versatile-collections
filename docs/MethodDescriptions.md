@@ -1,5 +1,12 @@
 # Collection Methods
 
+* [Methods common to all Collection Classes implementing CollectionInterface](#Methods-common-to-all-Collection-Classes-implementing-CollectionInterface)
+* [Non-CollectionInterface Methods common to all Collection Classes using CollectionInterfaceImplementationTrait](#Non-CollectionInterface-Methods-common-to-all-Collection-Classes-using-CollectionInterfaceImplementationTrait)
+* [Methods specific to various Strictly-Typed Collection classes](#Methods-specific-to-various-Strictly-Typed-Collection-classes)
+
+------------------------------------------------------------------------------------------------
+<div id="Methods-common-to-all-Collection-Classes-implementing-CollectionInterface"></div>
+
 ## Methods common to all Collection Classes implementing **CollectionInterface**
 Most of the examples in this section use the **\VersatileCollections\GenericCollection** class, 
 but are applicable to all collection classes that have implemented **\VersatileCollections\CollectionInterface**.
@@ -3391,6 +3398,8 @@ has a float value, it will be automatically cast into an integer.
 ```
 
 ------------------------------------------------------------------------------------------------
+<div id="Non-CollectionInterface-Methods-common-to-all-Collection-Classes-using-CollectionInterfaceImplementationTrait"></div>
+
 ## Non-`CollectionInterface` Methods common to all Collection Classes using `CollectionInterfaceImplementationTrait`
 
 ------------------------------------------------------------------------------------------------
@@ -3607,7 +3616,16 @@ new collection objects.
 added to a collection via argument unpacking
 
 ------------------------------------------------------------------------------------------------
+<div id="Methods-specific-to-various-Strictly-Typed-Collection-classes"></div>
+
 ## Methods specific to various Strictly-Typed Collection classes
+
+* [NumericsCollection](#VersatileCollections-NumericsCollection)
+* [ObjectsCollection](#VersatileCollections-ObjectsCollection)
+* [ScalarsCollection](#VersatileCollections-ScalarsCollection)
+
+------------------------------------------------------------------------------------------------
+<div id="VersatileCollections-NumericsCollection"></div>
 
 NumericsCollection:
 ------------------------------------------------------------------------------------------------
@@ -3639,6 +3657,9 @@ NumericsCollection:
 
 ### sum(): int|float
 
+------------------------------------------------------------------------------------------------
+<div id="VersatileCollections-ObjectsCollection"></div>
+
 ObjectsCollection:
 ------------------------------------------------------------------------------------------------
 <div id="ObjectsCollection-__call"></div>
@@ -3648,6 +3669,9 @@ ObjectsCollection:
       if an exception is thrown, tries to call the method on each item in the
       collection and return an array of return values keyed on each item's 
       corresponding key.
+
+------------------------------------------------------------------------------------------------
+<div id="VersatileCollections-ScalarsCollection"></div>
 
 ScalarsCollection:
 ------------------------------------------------------------------------------------------------
