@@ -1,5 +1,0 @@
-Post link to project in the comments section of this video: https://www.youtube.com/watch?time_continue=58&v=1l0kO-iaN_o
-
-https://help.github.com/categories/writing-on-github/
-
-Create a laravel collections to versatile collections method equivalence table

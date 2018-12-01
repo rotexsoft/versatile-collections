@@ -52,7 +52,7 @@ return value of NULL for such calls.
 If the called method does not exist in one or more of the objects in the collection,
 an exception is thrown.
 
->NOTE: methods registered to the collection via either **`addMethod`** or 
+> **NOTE:** methods registered to the collection via either **`addMethod`** or 
 **`addMethodForAllInstances`** having the same name as a method present in the
 objects in the collection will be called instead of the one in the objects. For
 example, if a method named **`save`** was registered via either **`addMethod`** or 
