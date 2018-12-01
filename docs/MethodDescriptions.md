@@ -3916,5 +3916,10 @@ The keys are not preserved in the returned collection.
     $collection->item523 = 'false';
 
     var_dump($empty_collection->uniqueNonStrict()->toArray()); // === []
-    var_dump($collection->uniqueNonStrict()->toArray()); // === ['4', 5.0, 7, false, 'true', 'false']
+    
+    var_dump($collection->uniqueNonStrict()->toArray()); 
+                // === ['4', 5.0, 7, false, 'true', 'false']
+    
+    var_dump($collection->unique()->toArray()); 
+                // === ['4', 5.0, 7, true, false, 4, '5.0', '7', 'true', 'false']
 ```
