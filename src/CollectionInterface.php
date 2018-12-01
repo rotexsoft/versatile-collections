@@ -220,7 +220,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * 
      * @used-for: accessing-or-extracting-keys-or-items, getting-collection-meta-data, creating-new-collections
      * 
-     * @title: Returns a new instance of \VersatileCollections\GenericCollection containing all the keys in the original collection.
+     * @title: Returns a new instance of **`\VersatileCollections\GenericCollection`** containing all the keys in the original collection.
      * 
      */
     public function getKeys();
@@ -895,7 +895,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * 
      * @throws \LengthException
      * 
-     * @used-for: accessing-or-extracting-keys-or-items
+     * @used-for: accessing-or-extracting-keys-or-items, ordering-or-sorting-items
      * 
      * @title: Gets one key randomly from a collection.
      *
@@ -909,7 +909,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * 
      * @return mixed a random item from the collection if there is at least an item in the collection
      * 
-     * @used-for: accessing-or-extracting-keys-or-items
+     * @used-for: accessing-or-extracting-keys-or-items, ordering-or-sorting-items
      * 
      * @title: Gets one item randomly from a collection.
      * 
@@ -929,7 +929,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * 
      * @return \VersatileCollections\GenericCollection (a new collection containing the random keys)
      * 
-     * @used-for: accessing-or-extracting-keys-or-items
+     * @used-for: accessing-or-extracting-keys-or-items, ordering-or-sorting-items
      *
      * @title: Gets a specified number of unique keys randomly from a collection and returns them in a new collection.
      * 
@@ -952,7 +952,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * 
      * @return \VersatileCollections\CollectionInterface (a new collection containing the random items)
      * 
-     * @used-for: accessing-or-extracting-keys-or-items
+     * @used-for: accessing-or-extracting-keys-or-items, ordering-or-sorting-items
      *
      * @title: Gets a specified number of items randomly from a collection and returns them in a new collection.
      * 
@@ -1586,7 +1586,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * 
      * @used-for: accessing-or-extracting-keys-or-items, creating-new-collections, modifying-keys
      * 
-     * @title: Returns a new collection of unique items from an existing collection.
+     * @title: Returns a new collection of unique items from an existing collection. This method uses strict comparison for testing uniqueness. The keys are not preserved in the returned collection.
      * 
      */
     public function unique();

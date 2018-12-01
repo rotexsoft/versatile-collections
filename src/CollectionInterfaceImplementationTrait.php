@@ -93,6 +93,10 @@ trait CollectionInterfaceImplementationTrait {
      * @param callable $callable method being added
      * @param bool $has_return_val true means $callable returns a value, else false if $callable returns no value
      * 
+     * @used-for: adding-methods-at-runtime
+     * 
+     * @title: Registers a specified `callable` with a specified name to a Collection class, so that the registered callable can be later called as a static method with the specified name on the Collection class or any of its sub-classes.
+     * 
      */
     public static function addStaticMethod(
         $name, 
@@ -114,6 +118,10 @@ trait CollectionInterfaceImplementationTrait {
      * @param callable $callable method being added
      * @param bool $has_return_val true means $callable returns a value, else false if $callable returns no value
      * @param bool $bind_to_this_on_invocation true means $callable will be bound to $this before invocation, else false if $callable should not be explicitly bound to $this before invocation
+     * 
+     * @used-for: adding-methods-at-runtime
+     * 
+     * @title: Registers a specified `callable` with a specified name to a Collection class, so that the registered callable can be later called as an instance method with the specified name on any instance of the Collection class or any of its sub-classes.
      * 
      */
     public static function addMethodForAllInstances(
@@ -138,6 +146,10 @@ trait CollectionInterfaceImplementationTrait {
      * @param callable $callable method being added
      * @param bool $has_return_val true means $callable returns a value, else false if $callable returns no value
      * @param bool $bind_to_this true means $callable will be bound to $this, else false if $callable should not be explicitly bound to $this
+     * 
+     * @used-for: adding-methods-at-runtime
+     * 
+     * @title: Registers a specified `callable` with a specified name to a single instance of a Collection class, so that the registered callable can be later called as an instance method with the specified name on the instance of the Collection class the callable was registered to.
      * 
      * @return $this
      * 
@@ -177,32 +189,49 @@ trait CollectionInterfaceImplementationTrait {
         return $this;
     }
     
-    protected static function getKeyForDynamicMethod($name, array &$methods_array) {
+    protected static function getKeyForDynamicMethod($name, array &$methods_array, $search_parent_class_registration=true) {
         
         if( array_key_exists( static::class.'::'.$name , $methods_array) ) {
             
             return static::class.'::'.$name;
         }
         
-        $parent_class = get_parent_class(static::class);
-
-        while( $parent_class !== false ) {
-
-            if( array_key_exists( $parent_class.'::'.$name , $methods_array) ) {
-
-                return $parent_class.'::'.$name;
-            }
+        if( ((bool)$search_parent_class_registration) === true ) {
             
-            $parent_class = get_parent_class($parent_class);
+            $parent_class = get_parent_class(static::class);
+
+            while( $parent_class !== false ) {
+
+                if( array_key_exists( $parent_class.'::'.$name , $methods_array) ) {
+
+                    return $parent_class.'::'.$name;
+                }
+
+                $parent_class = get_parent_class($parent_class);
+            }
         }
         
         return false;
     }
     
-    public function __call($name, $arguments) {
+    /**
+     * 
+     * @param string $method_name
+     * @param array $arguments
+     * 
+     * @return mixed
+     * 
+     * @used-for: other-operations
+     * 
+     * @title: Tries to call the specified method with the specified arguments and return its return value if it was registered via either `addMethod` or `addMethodForAllInstances` . An exception of type **\BadMethodCallException** is thrown if the method could not be called.
+     * 
+     * @throws \BadMethodCallException
+     * 
+     */
+    public function __call($method_name, $arguments) {
         
-        $key_for_this_instance = static::getKeyForDynamicMethod($name, $this->versatile_collections_methods_for_this_instance);
-        $key_for_all_instances = static::getKeyForDynamicMethod($name, static::$versatile_collections_methods_for_all_instances);
+        $key_for_this_instance = static::getKeyForDynamicMethod($method_name, $this->versatile_collections_methods_for_this_instance, false);
+        $key_for_all_instances = static::getKeyForDynamicMethod($method_name, static::$versatile_collections_methods_for_all_instances);
         
         if ( $key_for_this_instance !== false ) {
             
@@ -236,7 +265,7 @@ trait CollectionInterfaceImplementationTrait {
                 // throw exception, un-callable callable
                 $function = __FUNCTION__;
                 $class = get_class($this);
-                $name_var = var_to_string($name);
+                $name_var = var_to_string($method_name);
                 $msg = "Error [{$class}::{$function}(...)]: Trying to call an un-callable dynamic method named `{$name_var}` on a collection";
                 throw new \BadMethodCallException($msg);
             }
@@ -245,15 +274,29 @@ trait CollectionInterfaceImplementationTrait {
             
             $function = __FUNCTION__;
             $class = get_class($this);
-            $name_var = var_to_string($name);
+            $name_var = var_to_string($method_name);
             $msg = "Error [{$class}::{$function}(...)]: Trying to call a non-existent dynamic method named `{$name_var}` on a collection";
             throw new \BadMethodCallException($msg);
         }
     }
     
-    public static function __callStatic($name, $arguments) {
+    /**
+     * 
+     * @param string $method_name
+     * @param array $arguments
+     * 
+     * @return mixed
+     * 
+     * @used-for: other-operations
+     * 
+     * @title: Tries to call the specified method with the specified arguments and return its return value if it was registered via `addStaticMethod`. An exception of type **\BadMethodCallException** is thrown if the method could not be called.
+     * 
+     * @throws \BadMethodCallException
+     * 
+     */
+    public static function __callStatic($method_name, $arguments) {
         
-        $key_for_static_method = static::getKeyForDynamicMethod($name, static::$versatile_collections_static_methods);
+        $key_for_static_method = static::getKeyForDynamicMethod($method_name, static::$versatile_collections_static_methods);
         
         if( $key_for_static_method !== false ) {
             
@@ -271,7 +314,7 @@ trait CollectionInterfaceImplementationTrait {
             
             $function = __FUNCTION__;
             $class = static::class;
-            $name_var = var_to_string($name);
+            $name_var = var_to_string($method_name);
             $msg = "Error [{$class}::{$function}(...)]: Trying to statically call a non-existent dynamic method named `{$name_var}` on a collection";
             throw new \BadMethodCallException($msg);
         }

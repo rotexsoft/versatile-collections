@@ -20,6 +20,10 @@ class ObjectsCollection implements \VersatileCollections\StrictlyTypedCollection
      * @param string $method_name
      * @param array $arguments
      * 
+     * @used-for: other-operations
+     * 
+     * @title: Tries to call the specified method with the specified arguments and return its return value if it was registered via either `addMethod` or `addMethodForAllInstances` or tries to call the specified method with the specified arguments on each item in the collection and returns an array of return values keyed by each item's key in the collection. An exception of type **\VersatileCollections\Exceptions\InvalidCollectionOperationException** is thrown if the method could not be called.
+     * 
      * @throws \Exception
      * 
      */

@@ -12,6 +12,10 @@ class NumericsCollection extends ScalarsCollection {
      * 
      * @return int|float|null average all of the values in the collection or null if collection is empty
      * 
+     * @used-for: mathematical-operations
+     * 
+     * @title: Returns the average of all of the values(a.k.a items) in the collection or null if collection is empty.
+     * 
      */
     public function average() {
         
@@ -80,6 +84,10 @@ class NumericsCollection extends ScalarsCollection {
      * 
      * @return int|float|null maximum of the values in the collection or null if collection is empty
      * 
+     * @used-for: mathematical-operations
+     * 
+     * @title: Returns the maximum of all of the values(a.k.a items) in the collection or null if collection is empty.
+     * 
      */
     public function max() {
         
@@ -89,6 +97,10 @@ class NumericsCollection extends ScalarsCollection {
     /**
      * 
      * @return int|float|null median of the values in the collection or null if collection is empty
+     * 
+     * @used-for: mathematical-operations
+     * 
+     * @title: Returns the median of all of the values(a.k.a items) in the collection or null if collection is empty.
      * 
      */
     public function median()
@@ -117,6 +129,10 @@ class NumericsCollection extends ScalarsCollection {
      * 
      * @return int|float|null minimum of the values in the collection or null if collection is empty
      * 
+     * @used-for: mathematical-operations
+     * 
+     * @title: Returns the minimum of all of the values(a.k.a items) in the collection or null if collection is empty.
+     * 
      */
     public function min() {
         
@@ -133,6 +149,10 @@ class NumericsCollection extends ScalarsCollection {
      *                    Modal Items in the the collection that are floats like
      *                    `5.0`, `7.0` (i.e point zero) will be returned without
      *                    `.0`, in essence they are returned in integer format.
+     * 
+     * @used-for: mathematical-operations
+     * 
+     * @title: Returns an array of modal values(a.k.a items) in the collection or null if collection is empty.
      * 
      */
     public function mode() {
@@ -175,6 +195,15 @@ class NumericsCollection extends ScalarsCollection {
         return $modal_values;
     }
     
+    /**
+     * 
+     * @return int|float the product of all values in the collection.
+     * 
+     * @used-for: mathematical-operations
+     * 
+     * @title: Returns the product of all of the values(a.k.a items) in the collection or one if collection is empty.
+     * 
+     */
     public function product() {
         
         return array_product($this->versatile_collections_items);
@@ -185,6 +214,10 @@ class NumericsCollection extends ScalarsCollection {
      * Sum of all the values in this collection
      * 
      * @return float|int sum of all the values in this collection or zero if the collection is empty
+     * 
+     * @used-for: mathematical-operations
+     * 
+     * @title: Returns the sum of all of the values(a.k.a items) in the collection or zero if collection is empty.
      * 
      */
     public function sum() {
