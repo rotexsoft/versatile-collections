@@ -189,7 +189,7 @@ being enforced at construct time and item addition time.
 * [Methods Descriptions with Examples](docs/MethodDescriptions.md)
 * [Generic Collections](docs/GenericCollections.md)
 * Strictly Typed Collections
-    * [Arrays Collections](docs/ArraysCollection.md)
+    * [Arrays Collections](docs/ArraysCollection.md): a collection that can only contain [arrays](http://php.net/manual/en/language.types.array.php)
     * [Callables Collections](docs/CallablesCollections.md): a collection that can only contain [callables](http://php.net/manual/en/language.types.callable.php)
     * [Objects Collections](docs/ObjectsCollections.md): a collection that can only contain [objects](http://php.net/manual/en/language.types.object.php) (any kind of object)
     * [Resources Collections](docs/ResourcesCollections.md): a collection that can only contain [resources](http://php.net/manual/en/language.types.resource.php)
