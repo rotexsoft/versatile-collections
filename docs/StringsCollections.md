@@ -1,4 +1,4 @@
-# String Collection
+# Strings Collection
 
 `\VersatileCollections\StringsCollection` is a Collection class that only accepts
 items that are strings.

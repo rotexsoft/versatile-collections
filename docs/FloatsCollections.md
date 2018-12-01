@@ -1,4 +1,4 @@
-# Float Collection
+# Floats Collection
 
 `\VersatileCollections\FloatsCollection` is a Collection class that only accepts
 items that are floats (i.e. floating point numbers).

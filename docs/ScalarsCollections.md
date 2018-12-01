@@ -1,4 +1,4 @@
-# Scalar Collection
+# Scalars Collection
 
 `\VersatileCollections\ScalarsCollection` is a Collection class that only accepts
 items that are scalars (i.e. [booleans](http://php.net/manual/en/language.types.boolean.php), 
@@ -32,4 +32,4 @@ Example Usage:
 
 
 ## Other methods applicable to this Collection class and its descendants:
-* **`unique($strict_comparison=false)`:** returns an array of unique values in the collection
+* [uniqueNonStrict](MethodDescriptions.md#ScalarsCollection-uniqueNonStrict)

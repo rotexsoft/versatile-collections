@@ -1,4 +1,4 @@
-# Object Collection
+# Objects Collection
 
 `\VersatileCollections\ObjectsCollection` is a Collection class that only accepts
 items that are objects (i.e. that are instances of any valid PHP class).

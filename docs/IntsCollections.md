@@ -1,4 +1,4 @@
-# Int Collection
+# Ints Collection
 
 `\VersatileCollections\IntsCollection` is a Collection class that only accepts
 items that are integers.
