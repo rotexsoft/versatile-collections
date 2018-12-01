@@ -19,6 +19,19 @@ Example Usage:
     );
 
     // OR
+    
+    $collection = \VersatileCollections\GenericCollection::makeNew(
+        [
+            1, // integer
+            2.5, // float
+            function() { return 'boo'; }, // callable
+            new StdClass(), // object 
+            tmpfile(), // resource
+            'Hello World!' // string
+        ]
+    );
+
+    // OR
 
     $collection = new \VersatileCollections\GenericCollection();
     $collection[] = 1;
