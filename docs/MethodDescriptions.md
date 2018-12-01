@@ -3632,30 +3632,146 @@ NumericsCollection:
 <div id="NumericsCollection-average"></div>
 
 ### average(): mixed
+Returns the average of all of the values(a.k.a items) in the collection or null if collection is empty.
+
+```php
+<?php
+    $collection = \VersatileCollections\NumericsCollection::makeNew(
+        [1.0, 2.0, 3, 4, 5, 6]
+    );
+
+    var_dump($collection->average()); // === 3.5
+```
+
 ------------------------------------------------------------------------------------------------
 <div id="NumericsCollection-max"></div>
 
 ### max(): mixed
+Returns the maximum of all of the values(a.k.a items) in the collection or null if collection is empty.
+
+```php
+<?php
+    $collection = \VersatileCollections\NumericsCollection::makeNew(
+        [1.0, 2.0, 3, 4, 5, 6]
+    );
+
+    var_dump($collection->max()); // === 6
+```
+
 ------------------------------------------------------------------------------------------------
 <div id="NumericsCollection-median"></div>
 
 ### median(): mixed
+Returns the median of all of the values(a.k.a items) in the collection or null if collection is empty.
+
+```php
+<?php
+    $collection = \VersatileCollections\NumericsCollection::makeNew(
+        [4.0, 5.0, 7, 8, 9, 10]
+    );
+
+    $collection2 = \VersatileCollections\NumericsCollection::makeNew(
+        [20, 3, 5.0, 7, 8, 9, 10.5]
+    );
+
+    // 6 items, average of the sum of the items at index 2 and 
+    // index 3 is the median value when items in collection are
+    //sorted in ascending numeric order
+    var_dump($collection->median()); // === 7.5
+
+    // 7 items, item at index 3 is the median value when
+    // items in collection are sorted in ascending numeric order
+    var_dump($collection2->median()); // === 8
+```
+
 ------------------------------------------------------------------------------------------------
 <div id="NumericsCollection-min"></div>
 
 ### min(): mixed
+Returns the minimum of all of the values(a.k.a items) in the collection or null if collection is empty.
+
+```php
+<?php
+    $collection = \VersatileCollections\NumericsCollection::makeNew(
+        [1.0, 2.0, 3, 4, 5, 6]
+    );
+
+    var_dump($collection->min()); // === 1.0
+```
+
 ------------------------------------------------------------------------------------------------
 <div id="NumericsCollection-mode"></div>
 
 ### mode(): mixed
+Returns an array of modal values(a.k.a items) in the collection or null if collection is empty.
+
+```php
+<?php
+    // each item occurs once
+    $collection = \VersatileCollections\NumericsCollection::makeNew(
+        [10.5, 9, 8, 7, 5.0, 3]
+    );
+    var_dump($collection->mode()); // === [10.5, 9, 8, 7, 5, 3]
+
+    // 10.5 and 3 each occur twice and have the highest occurence rate
+    $collection2 = \VersatileCollections\NumericsCollection::makeNew(
+        [10.5, 9, 8, 7, 5.0, 3, 10.5, 3]
+    );
+    var_dump($collection2->mode()); // === [10.5, 3]
+```
+
 ------------------------------------------------------------------------------------------------
 <div id="NumericsCollection-product"></div>
 
 ### product(): int|float
+Returns the product of all of the values(a.k.a items) in the collection or one if collection is empty.
+
+```php
+<?php
+    $collection = \VersatileCollections\NumericsCollection::makeNew(
+        [100, 2.5]
+    );
+    var_dump($collection->product()); // === 250.0
+
+    $collection2 = \VersatileCollections\NumericsCollection::makeNew(
+        [3.5, 2.5]
+    );
+    var_dump($collection2->product()); // === 8.75
+
+    $collection3 = \VersatileCollections\NumericsCollection::makeNew(
+        [3, 2]
+    );
+    var_dump($collection3->product()); // === 6
+
+    $collection4 = \VersatileCollections\NumericsCollection::makeNew(
+        []
+    );
+    var_dump($collection4->product()); // === 1
+```
+
 ------------------------------------------------------------------------------------------------
 <div id="NumericsCollection-sum"></div>
 
 ### sum(): int|float
+Returns the sum of all of the values(a.k.a items) in the collection or zero if collection is empty.
+
+```php
+<?php
+    $collection = \VersatileCollections\NumericsCollection::makeNew(
+        [4.0, 5.0, 7, 8, 9, 10]
+    );
+    var_dump($collection->sum()); // === 43.0
+
+    $collection2 = \VersatileCollections\NumericsCollection::makeNew(
+        [4.0, 5.0, 7, 8, 9, 10.5]
+    );
+    var_dump($collection2->sum()); // === 43.5
+
+    $collection3 = \VersatileCollections\NumericsCollection::makeNew(
+        []
+    );
+    var_dump($collection3->sum()); // === 0
+```
 
 ------------------------------------------------------------------------------------------------
 <div id="VersatileCollections-ObjectsCollection"></div>
@@ -3665,10 +3781,105 @@ ObjectsCollection:
 <div id="ObjectsCollection-__call"></div>
 
 ### __call($method_name, $arguments): mixed
-    - Invokes \VersatileCollections\CollectionInterface::__call($name, $arguments)
-      if an exception is thrown, tries to call the method on each item in the
-      collection and return an array of return values keyed on each item's 
-      corresponding key.
+Tries to call the specified method with the specified arguments and return its return value if 
+it was registered via either `addMethod` or `addMethodForAllInstances` or tries to call the 
+specified method with the specified arguments on each item in the collection and returns an 
+array of return values keyed by each item's key in the collection. An exception of type 
+**\VersatileCollections\Exceptions\InvalidCollectionOperationException** is thrown 
+if the method could not be called. 
+> You should not have to directly call this method, since it's automatically called by php.
+
+```php
+<?php
+    class TestValueObject {
+        protected $name;
+        protected $age;
+
+        public function __construct($name='', $age='') {
+            $this->age = $age;
+            $this->name = $name;
+        }
+
+        public function getName() { return $this->name; }
+        public function setName($name) { $this->name = $name; }
+
+        public function getAge() { return $this->age; }
+        public function setAge($age) { $this->age = $age; }
+    }
+
+    $collection = \VersatileCollections\ObjectsCollection::makeNew();
+
+    // add items to the collection
+    $collection->item1 = new TestValueObject('Johnny Cash', 50);
+    $collection->item2 = new TestValueObject('Suzzy Something', 23);
+    $collection->item3 = new TestValueObject('Jack Bauer', 43);
+    $collection->item4 = new TestValueObject('Jane Fonda', 55);
+
+    $ages = $collection->getAge(); // causes php to invoke $collection->__call('getAge', [])
+                                   // which under the hood calls getAge() on each object in 
+                                   // $collection and stores each return value in an array
+                                   // and finally returns that array
+
+    var_dump($ages); // === ['item1' => 50, 'item2' => 23, 'item3' => 43, 'item4' => 55]
+
+    $collection->setAge(99); // causes php to invoke $collection->__call('setAge', [99])
+                             // which under the hood calls setAge(99) on each object in 
+                             // $collection and stores each return value in an array
+                             // and finally returns that array. In this case 
+                             // TestValueObject::setAge() does not return any
+                             // value, so we don't care about a return value.
+
+    $ages = $collection->getAge(); // we call getAge again to verify that 
+                                   // the call to setAge above set the age
+                                   // value of each object in the collection to 99
+
+    var_dump($ages); // === ['item1' => 99, 'item2' => 99, 'item3' => 99, 'item4' => 99]
+
+    $collection->addMethod(
+        'getAge', 
+        function() {
+
+            return 'You just called getAge registered via addMethod';
+        }, 
+        true
+    );
+
+    // The example below demonstrates that methods registered via 
+    // addMethod or addMethodForAllInstances on an instance of the
+    // ObjectsCollection class will be called even though a method
+    // with the same name exists in each object inside the collection,
+    // in this case getAge()
+    var_dump($collection->getAge()); // === 'You just called getAge registered via addMethod'
+
+    // We add another method whose name does not conflict
+    // with any of the methods present in the objects in 
+    // the collection.
+    $collection->addMethod(
+        'toUpper', 
+        function() {
+
+            foreach($this as $item) {
+
+                $item->setName( strtoupper($item->getName()) );
+            }
+        }, 
+        true
+    );
+
+    $collection->toUpper(); // triggers the execution of the 'toUpper' method registered above
+    $names = $collection->getName(); // calls the getName method on each object in the collection
+                                     // and returns the names for all the objects in the collection
+                                     // in an array. You will notice that the call to toUpper above
+                                     // caused each name to be capitalized.
+    var_dump($names); // === ['item1'=>'JOHNNY CASH', 'item2'=>'SUZZY SOMETHING', 'item3'=>'JACK BAUER', 'item4'=>'JANE FONDA']
+
+    // Calling a method that does not exist in the collection object or
+    // in the objects in the collection and has not been registered via 
+    // addMethod or addMethodForAllInstances will cause the 
+    // \VersatileCollections\Exceptions\InvalidCollectionOperationException
+    // to be thrown.
+    //$collection->nonExistentMethod();
+```
 
 ------------------------------------------------------------------------------------------------
 <div id="VersatileCollections-ScalarsCollection"></div>
@@ -3678,3 +3889,31 @@ ScalarsCollection:
 <div id="ScalarsCollection-uniqueNonStrict"></div>
 
 ### uniqueNonStrict(): \VersatileCollections\CollectionInterface
+Returns a new collection of unique items from an existing collection. 
+This method uses non-strict comparison for testing uniqueness. 
+The keys are not preserved in the returned collection.
+
+```php
+<?php
+    $empty_collection = \VersatileCollections\ScalarsCollection::makeNew();
+
+    $collection = \VersatileCollections\ScalarsCollection::makeNew();
+    $collection->item1 = "4";
+    $collection->item2 = 5.0;
+    $collection->item3 = 7;
+    $collection->item4 = true;
+    $collection->item5 = false;
+    $collection->item12 = "4";
+    $collection->item22 = 5.0;
+    $collection->item32 = 7;
+    $collection->item42 = true;
+    $collection->item52 = false;
+    $collection->item123 = 4;
+    $collection->item223 = '5.0';
+    $collection->item323 = '7';
+    $collection->item423 = 'true';
+    $collection->item523 = 'false';
+
+    var_dump($empty_collection->uniqueNonStrict()->toArray()); // === []
+    var_dump($collection->uniqueNonStrict()->toArray()); // === ['4', 5.0, 7, false, 'true', 'false']
+```
