@@ -16,6 +16,15 @@ Example Usage:
 
     // OR
 
+    $collection = \VersatileCollections\CallablesCollection::makeNew([
+        function() { return 'boo'; },
+        'strtolower',
+        [\DateTime::class, 'getLastErrors'],
+        [\DateTime::class, 'createFromFormat']
+    ]);
+
+    // OR
+
     $collection = new \VersatileCollections\CallablesCollection();
 
     // lines below should produce no exception since we are injecting callables

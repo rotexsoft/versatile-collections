@@ -12,6 +12,12 @@ Example Usage:
     );
 
     // OR
+    
+    $collection = \VersatileCollections\FloatsCollection::makeNew(
+        [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0]
+    );
+
+    // OR
 
     $collection = new \VersatileCollections\FloatsCollection();
     $collection[] = 4.0;

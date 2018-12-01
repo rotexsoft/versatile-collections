@@ -12,6 +12,12 @@ Example Usage:
     );
 
     // OR
+    
+    $collection = \VersatileCollections\NumericsCollection::makeNew(
+        [1, 2, 3, 4.0, 5.9, 6.7, 7.9]
+    );
+
+    // OR
 
     $collection = new \VersatileCollections\NumericsCollection();
     $collection[] = 4;
@@ -26,5 +32,3 @@ for some calculation.
 
 See [here](MethodDescriptions.md#VersatileCollections-NumericsCollection) for methods 
 specific to this Collection class and its descendants.
-
-

@@ -141,15 +141,15 @@ an instance of **NumericsCollection** (since **FloatsCollection** is a sub-type 
     $item1 = "4";
     $item2 = 5.0;
     $item3 = 7;
-    $collection = new \VersatileCollections\GenericCollection(
-        $item1, $item2, $item3
+    $collection = \VersatileCollections\GenericCollection::makeNew(
+        [$item1, $item2, $item3]
     );
 
     $other_item1 = "114";
     $other_item2 = 35.5;
     $other_item3 = 777;
-    $other_collection = new \VersatileCollections\GenericCollection(
-        $other_item1, $other_item2, $other_item3
+    $other_collection = \VersatileCollections\GenericCollection::makeNew(
+        [$other_item1, $other_item2, $other_item3]
     );
 
     $collection->appendCollection($other_collection);
@@ -160,17 +160,17 @@ an instance of **NumericsCollection** (since **FloatsCollection** is a sub-type 
     ////////////////////////
     // Inheritance example
     ////////////////////////
-    $numeric_collection = new \VersatileCollections\NumericsCollection(
-        1.0, 2.0, 3, 4, 5, 6
+    $numeric_collection = \VersatileCollections\NumericsCollection::makeNew(
+        [1.0, 2.0, 3, 4, 5, 6]
     );
     
     // append a sub-class collection
-    $int_collection = new \VersatileCollections\IntsCollection(8, 9, 10, 11);
+    $int_collection = \VersatileCollections\IntsCollection::makeNew([8, 9, 10, 11]);
     $numeric_collection->appendCollection($int_collection);
     $numeric_collection->toArray(); // === [1.0, 2.0, 3, 4, 5, 6, 8, 9, 10, 11]
 
     // append another sub-class collection
-    $float_collection = new \VersatileCollections\FloatsCollection(8.5, 9.7, 10.8, 11.9);
+    $float_collection = \VersatileCollections\FloatsCollection::makeNew([8.5, 9.7, 10.8, 11.9]);
     $numeric_collection->appendCollection($float_collection);
     $numeric_collection->toArray(); // === [1.0, 2.0, 3, 4, 5, 6, 8, 9, 10, 11, 8.5, 9.7, 10.8, 11.9]
 ```
@@ -192,8 +192,8 @@ but you can append a **float** or an **integer** to an instance of **NumericsCol
     $item1 = 4;
     $item2 = 5.0;
     $item3 = 7;
-    $collection = new \VersatileCollections\NumericsCollection(
-        $item1, $item2, $item3
+    $collection = \VersatileCollections\NumericsCollection::makeNew(
+        [$item1, $item2, $item3]
     );
 
     $collection->appendItem(777); // integer acceptable
@@ -229,7 +229,7 @@ strings or integers otherwise an exception will be thrown.
     $data[] = (object)['id' => 47, 777 => 98, 'edition' => 2, 'title'=>"Foo"];
     $data[] = (object)['id' => 57, 777 => 86, 'edition' => 6, 'title'=>"Goo"];
     $data[] = (object)['id' => 67, 777 => 67, 'edition' => 7, 'title'=>"Hoo"];
-    $collection = new \VersatileCollections\GenericCollection(...$data);
+    $collection = \VersatileCollections\GenericCollection::makeNew($data);
 
     // get a collection of of the values associated with the `title` property
     // of each object in the collection.
@@ -252,7 +252,7 @@ strings or integers otherwise an exception will be thrown.
     $data[] = ['id' => 47, 777 => 98, 'edition' => 2, 'title'=>"Foo"];
     $data[] = ['id' => 57, 777 => 86, 'edition' => 6, 'title'=>"Goo"];
     $data[] = ['id' => 67, 777 => 67, 'edition' => 7, 'title'=>"Hoo"];
-    $collection = new \VersatileCollections\GenericCollection(...$data);
+    $collection = \VersatileCollections\GenericCollection::makeNew($data);
 
     // get a collection of of the values associated with the `title` key
     // of each array in the collection.
@@ -285,8 +285,8 @@ Check if a collection contains an item using strict comparison.
     $item7 = new \ArrayObject();
     $item8 = function(){ return 'Hello World!'; };
 
-    $collection = new \VersatileCollections\GenericCollection(
-        $item1, $item2, $item3, $item4, $item5, $item6, $item7, $item8
+    $collection = \VersatileCollections\GenericCollection::makeNew(
+        [$item1, $item2, $item3, $item4, $item5, $item6, $item7, $item8]
     );
 
     $collection->containsItem($item1); // true
@@ -316,7 +316,7 @@ Check if a collection contains a specified item with the specified key using str
     $item3 = 7;
 
     $collection = 
-        new \VersatileCollections\GenericCollection($item1, $item2, $item3);
+        \VersatileCollections\GenericCollection::makeNew([$item1, $item2, $item3]);
 
     $collection->item1 = ['name'=>'Joe', 'age'=>'10',];
     $collection->item2 = ['name'=>'Jane', 'age'=>'20',];
@@ -348,7 +348,7 @@ Check if all the specified items exist in a collection. Strict comparison is use
     $item5 = ['name'=>'Jane', 'age'=>'20',];
 
     $collection = 
-        new \VersatileCollections\GenericCollection($item1, $item2, $item3);
+        \VersatileCollections\GenericCollection::makeNew([$item1, $item2, $item3]);
 
     $collection->item1 = $item4;
     $collection->item2 = $item5;
@@ -379,7 +379,7 @@ Check if a key exists in a collection.
     $item3 = 7;
 
     $collection = 
-        new \VersatileCollections\GenericCollection($item1, $item2, $item3);
+        \VersatileCollections\GenericCollection::makeNew([$item1, $item2, $item3]);
 
     $collection->item1 = ['name'=>'Joe', 'age'=>'10',];
     $collection->item2 = ['name'=>'Jane', 'age'=>'20',];
@@ -409,7 +409,7 @@ Check if all the specified keys exist in a collection.
     $item3 = 7;
 
     $collection = 
-        new \VersatileCollections\GenericCollection($item1, $item2, $item3);
+        \VersatileCollections\GenericCollection::makeNew([$item1, $item2, $item3]);
 
     $collection->item1 = ['name'=>'Joe', 'age'=>'10',];
     $collection->item2 = ['name'=>'Jane', 'age'=>'20',];
@@ -437,7 +437,7 @@ Returns the number of items in collection.
 ```php
 <?php
     $collection = 
-        new \VersatileCollections\GenericCollection("4", 5.0, 7);
+        \VersatileCollections\GenericCollection::makeNew(["4", 5.0, 7]);
     $collection->count(); // === 3
 
     $collection->item1 = ['name'=>'Joe', 'age'=>'10',];
@@ -591,8 +591,8 @@ method is being invoked on.
 ```php
 <?php
 
-    $collection = new \VersatileCollections\GenericCollection(
-        1, 2, 3, 4, 5, 6
+    $collection = \VersatileCollections\GenericCollection::makeNew(
+        [1, 2, 3, 4, 5, 6]
     );
     
     ////////////////////////////////////////////////////////////////////////////
@@ -652,8 +652,8 @@ Create a new collection consisting of every n-th element.
 `0` represents the position of the first item in the collection.
 ```php
 <?php
-    $collection = new \VersatileCollections\GenericCollection(
-        'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'
+    $collection = \VersatileCollections\GenericCollection::makeNew(
+        ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
     );
 
     // every 4th item starting from the 0-indexed 0th position (actually 1st)
@@ -683,7 +683,7 @@ else `false` if the filtered items should not be removed from the collection thi
 ```php
 <?php
     $collection_of_ints = 
-        new \VersatileCollections\GenericCollection(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+        \VersatileCollections\GenericCollection::makeNew([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
     
     ///////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////
@@ -756,7 +756,7 @@ else `false` if the filtered items should not be removed from the collection thi
 ```php
 <?php
     $collection_of_ints = 
-        new \VersatileCollections\GenericCollection(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+        \VersatileCollections\GenericCollection::makeNew([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
     
     ///////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////
@@ -820,8 +820,8 @@ Retrieves and returns the first item in a collection. See `lastItem()` if you wa
 
 ```php
 <?php
-    $collection = new \VersatileCollections\GenericCollection(
-        'One', 'Two', 'Three', 'Four'
+    $collection = \VersatileCollections\GenericCollection::makeNew(
+        ['One', 'Two', 'Three', 'Four']
     );
     $collection->firstItem(); // === 'One'
 ```
@@ -837,7 +837,7 @@ If the keys in `$keys` do not exist in the collection, an empty collection objec
 ```php
 <?php
 
-    $collection = new \VersatileCollections\GenericCollection();
+    $collection = \VersatileCollections\GenericCollection::makeNew();
     $collection->item1 = ['name'=>'Joe', 'age'=>'10',];
     $collection->item2 = ['name'=>'Jane', 'age'=>'20',];
     $collection->item3 = ['name'=>'Janice', 'age'=>'30',];
@@ -869,7 +869,7 @@ If all the keys in the collection are also in `$keys`, an empty collection objec
 ```php
 <?php
 
-    $collection = new \VersatileCollections\GenericCollection();
+    $collection = \VersatileCollections\GenericCollection::makeNew();
     $collection->item1 = ['name'=>'Joe', 'age'=>'10',];
     $collection->item2 = ['name'=>'Jane', 'age'=>'20',];
     $collection->item3 = ['name'=>'Janice', 'age'=>'30',];
@@ -898,8 +898,8 @@ Get and remove the first item from the collection. NULL is returned if the colle
 ```php
 <?php
         
-    $collection = new \VersatileCollections\GenericCollection(
-        'a', 'b', 'c', 'd'
+    $collection = \VersatileCollections\GenericCollection::makeNew(
+        ['a', 'b', 'c', 'd']
     );
 
     $collection->getAndRemoveFirstItem(); // === 'a'
@@ -927,8 +927,8 @@ Get and remove the last item from the collection. NULL is returned if the collec
 ```php
 <?php
         
-    $collection = new \VersatileCollections\GenericCollection(
-        'a', 'b', 'c', 'd'
+    $collection = \VersatileCollections\GenericCollection::makeNew(
+        ['a', 'b', 'c', 'd']
     );
 
     $collection->getAndRemoveLastItem(); // === 'd'
@@ -1072,7 +1072,7 @@ a collection, but you should not have to.
 ```php
 <?php
 
-    $collection = new \VersatileCollections\IntsCollection(1,2,3,4,5,6,7);
+    $collection = \VersatileCollections\IntsCollection::makeNew([1,2,3,4,5,6,7]);
 
     // Because of getIterator() you can loop through a collection object using
     // a foreach loop as illustrated below below:
@@ -1309,7 +1309,7 @@ Return true if there are one or more items in the collection or false otherwise.
 ```php
 <?php
 
-    $collection = new \VersatileCollections\GenericCollection();
+    $collection = \VersatileCollections\GenericCollection::makeNew();
     $collection->isEmpty(); // === true
 
     $collection = \VersatileCollections\GenericCollection::makeNew(
@@ -1326,8 +1326,8 @@ Retrieves and returns the last item in a collection. See `firstItem()` if you wa
 
 ```php
 <?php
-    $collection = new \VersatileCollections\GenericCollection(
-        'One', 'Two', 'Three', 'Four'
+    $collection = \VersatileCollections\GenericCollection::makeNew(
+        ['One', 'Two', 'Three', 'Four']
     );
     $collection->lastItem(); // === 'Four'
 ```
@@ -1343,7 +1343,7 @@ A negative integer value will be converted to zero.
 ```php
 <?php
 
-    $collection = new \VersatileCollections\GenericCollection();
+    $collection = \VersatileCollections\GenericCollection::makeNew();
     $collection->item1 = ['name'=>'Joe', 'age'=>'10',];
     $collection->item2 = ['name'=>'Jane', 'age'=>'20',];
     $collection->item3 = ['name'=>'Janice', 'age'=>'30',];
@@ -1365,7 +1365,7 @@ A negative integer value will be converted to zero.
     //  ]
     
     // reset collection to initial state
-    $collection = new \VersatileCollections\GenericCollection();
+    $collection = \VersatileCollections\GenericCollection::makeNew();
     $collection->item1 = ['name'=>'Joe', 'age'=>'10',];
     $collection->item2 = ['name'=>'Jane', 'age'=>'20',];
     $collection->item3 = ['name'=>'Janice', 'age'=>'30',];
@@ -1437,7 +1437,7 @@ $callback should refer to the collection object this method is being invoked on.
 ```php
 <?php
     $int_collection = 
-        new \VersatileCollections\IntsCollection(1, 2, 3, 4, 5);
+        \VersatileCollections\IntsCollection::makeNew([1, 2, 3, 4, 5]);
 
     $multiplied = $int_collection->map(
         function ($key, $item) {
@@ -1460,7 +1460,7 @@ $callback should refer to the collection object this method is being invoked on.
     $multiplied->toArray(); // === [5, 10, 15, 20, 25])
 
     // preserved keys
-    $int_collection = new \VersatileCollections\IntsCollection();
+    $int_collection = \VersatileCollections\IntsCollection::makeNew();
     $int_collection[5] = 1;
     $int_collection[6] = 2;
     $int_collection[7] = 3;
@@ -1656,8 +1656,8 @@ in the callback's signature is the collection object this
 
 ```php
 <?php
-    $collection = new \VersatileCollections\GenericCollection(
-        'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'
+    $collection = \VersatileCollections\GenericCollection::makeNew(
+        ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
     );
 
     $counter = function($collection) { return $collection->count(); };
@@ -1745,8 +1745,8 @@ in the callback's signature is the collection object this
     $mode = 0;
     $product = 0;
     $sum = 0;
-    $collection = new \VersatileCollections\IntsCollection(
-        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 2
+    $collection = \VersatileCollections\IntsCollection::makeNew(
+        [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 2]
     );
 
     $collection
@@ -1822,15 +1822,15 @@ an instance of **NumericsCollection** (since **FloatsCollection** is a sub-type 
     $item1 = "4";
     $item2 = 5.0;
     $item3 = 7;
-    $collection = new \VersatileCollections\GenericCollection(
-        $item1, $item2, $item3
+    $collection = \VersatileCollections\GenericCollection::makeNew(
+        [$item1, $item2, $item3]
     );
 
     $other_item1 = "114";
     $other_item2 = 35.5;
     $other_item3 = 777;
-    $other_collection = new \VersatileCollections\GenericCollection(
-        $other_item1, $other_item2, $other_item3
+    $other_collection = \VersatileCollections\GenericCollection::makeNew(
+        [$other_item1, $other_item2, $other_item3]
     );
     $collection->prependCollection($other_collection);
 
@@ -1840,17 +1840,17 @@ an instance of **NumericsCollection** (since **FloatsCollection** is a sub-type 
     ////////////////////////
     // Inheritance example
     ////////////////////////
-    $numeric_collection = new \VersatileCollections\NumericsCollection(
-        1.0, 2.0, 3, 4, 5, 6
+    $numeric_collection = \VersatileCollections\NumericsCollection::makeNew(
+        [1.0, 2.0, 3, 4, 5, 6]
     );
     
     // append a sub-class collection
-    $int_collection = new \VersatileCollections\IntsCollection(8, 9, 10, 11);
+    $int_collection = \VersatileCollections\IntsCollection::makeNew([8, 9, 10, 11]);
     $numeric_collection->prependCollection($int_collection);
     $numeric_collection->toArray(); // === [8, 9, 10, 11, 1.0, 2.0, 3, 4, 5, 6]
 
     // append another sub-class collection
-    $float_collection = new \VersatileCollections\FloatsCollection(8.5, 9.7, 10.8, 11.9);
+    $float_collection = \VersatileCollections\FloatsCollection::makeNew([8.5, 9.7, 10.8, 11.9]);
     $numeric_collection->prependCollection($float_collection);
     $numeric_collection->toArray(); // === [8.5, 9.7, 10.8, 11.9, 8, 9, 10, 11, 1.0, 2.0, 3, 4, 5, 6]
 ```
@@ -1869,7 +1869,7 @@ but you can prepend a **float** or an **integer** to an instance of **NumericsCo
 
 ```php
 <?php 
-    $collection = new \VersatileCollections\NumericsCollection(4, 5.0, 7);
+    $collection = \VersatileCollections\NumericsCollection::makeNew([4, 5.0, 7]);
     $collection->prependItem(777); // integer acceptable
     $collection->prependItem(7.5); // float acceptable
     //$collection->prependItem('7.5'); // string not acceptable
@@ -1878,8 +1878,8 @@ but you can prepend a **float** or an **integer** to an instance of **NumericsCo
     //////////////////////////////////////
     // More Examples:
     /////////////////////////////////////
-    $numeric_collection = new \VersatileCollections\NumericsCollection(
-        1.9, 2.9, 3, 4, 5, 6
+    $numeric_collection = \VersatileCollections\NumericsCollection::makeNew(
+        [1.9, 2.9, 3, 4, 5, 6]
     );
     $numeric_collection->toArray(); // === [ 0=>1.9, 1=>2.9, 2=>3, 3=>4, 4=>5, 5=>6 ]
 
@@ -1905,7 +1905,7 @@ A default value will be returned if the specified key does not exist in the coll
 
 ```php
 <?php 
-    $collection = new \VersatileCollections\GenericCollection();
+    $collection = \VersatileCollections\GenericCollection::makeNew();
     $collection['item1'] = 22;
     $collection['item2'] = 23;
     $collection['item3'] = 24;
@@ -1943,7 +1943,7 @@ If the key already exists in the collection, its value will be updated with `$va
 
 ```php
 <?php 
-    $collection = new \VersatileCollections\GenericCollection();
+    $collection = \VersatileCollections\GenericCollection::makeNew();
     $collection->toArray(); // === []
     
     $collection->put('item1', 12);
@@ -2029,7 +2029,7 @@ or as a final result in case the collection is empty.
 ```php
 <?php
     $int_collection = 
-        new \VersatileCollections\IntsCollection(1, 2, 3);
+        \VersatileCollections\IntsCollection::makeNew([1, 2, 3]);
 
     $sum = $int_collection->reduce(
         function ($carry, $item) {
@@ -2055,7 +2055,7 @@ The callback function will have access to the key for each item.
 ```php
 <?php
     $int_collection = 
-        new \VersatileCollections\IntsCollection(1, 2, 3);
+        \VersatileCollections\IntsCollection::makeNew([1, 2, 3]);
 
     $sum = $int_collection->reduceWithKeyAccess(
         function ($carry, $item, $key) {
@@ -2138,8 +2138,8 @@ or `false` if the given value is not found in the collection.
 
 ```php
 <?php
-    $collection = new \VersatileCollections\GenericCollection(
-        'blue', 'red', 'green', 'red', 1, 'blue', '2', 1
+    $collection = \VersatileCollections\GenericCollection::makeNew(
+        ['blue', 'red', 'green', 'red', 1, 'blue', '2', 1]
     );
     
     ////////////////////////////////////////////
@@ -2187,8 +2187,8 @@ It should return true if a `$key` should be returned or false otherwise.
 
 ```php
 <?php
-    $collection = new \VersatileCollections\GenericCollection(
-        'blue', 'red', 'green', 'red', 1, 'blue', '2', 1
+    $collection = \VersatileCollections\GenericCollection::makeNew(
+        ['blue', 'red', 'green', 'red', 1, 'blue', '2', 1]
     );
 
     $object_searcher = function($key, $item) {
@@ -2229,8 +2229,8 @@ if successful or `false` if the given value is not found in the collection.
 
 ```php
 <?php
-    $collection = new \VersatileCollections\GenericCollection(
-        'blue', 'red', 'green', 'red', 1, 'blue', '2', 1
+    $collection = \VersatileCollections\GenericCollection::makeNew(
+        ['blue', 'red', 'green', 'red', 1, 'blue', '2', 1]
     );
     
     ////////////////////////////////////////////
@@ -2275,7 +2275,7 @@ does not exist in one or more array(s) / object(s) in the collection.
 
 ```php
 <?php
-    $collection = new \VersatileCollections\GenericCollection();
+    $collection = \VersatileCollections\GenericCollection::makeNew();
     $collection->item1 = [ 'name'=>'Joe', 'age'=>'10' ];
     $collection->item2 = [ 'name'=>'Jane', 'age'=>'20' ];
     $collection->item3 = (object)[ 'name'=>'Janice', 'age'=>'30' ]; // instance of StdClass
@@ -2311,7 +2311,7 @@ new collection returned should have sequential integer keys starting at zero.
 
 ```php
 <?php
-    $collection = new \VersatileCollections\GenericCollection(1, 2, 3, 4, 5);
+    $collection = \VersatileCollections\GenericCollection::makeNew([1, 2, 3, 4, 5]);
     
     /////////////////////////////////////////////////////////////////
     // NOTE: results will always differ for each call to this method
@@ -2375,30 +2375,30 @@ See **\VersatileCollections\SortType::$valid_sort_types** for available sort typ
 ```php
 <?php
     $sorted_collection = 
-        (new \VersatileCollections\GenericCollection(5, 3, 1, 2, 4))->sort();
+        (\VersatileCollections\GenericCollection::makeNew([5, 3, 1, 2, 4]))->sort();
     $sorted_collection->toArray(); // === [ 2=>1, 3=>2, 1=>3, 4=>4, 0=>5 ]
 
     $sorted_collection = 
-        (new \VersatileCollections\GenericCollection(-1, -3, -2, -4, -5, 0, 5, 3, 1, 2, 4))
+        (\VersatileCollections\GenericCollection::makeNew([-1, -3, -2, -4, -5, 0, 5, 3, 1, 2, 4]))
             ->sort();
     $sorted_collection->toArray(); 
         // === [ 4=>-5, 3=>-4, 1=>-3, 2=>-2, 0=>-1, 5=>0, 8=>1, 9=>2, 7=>3, 10=>4, 6=>5 ]
 
     $sorted_collection = 
-        (new \VersatileCollections\GenericCollection('foo', 'bar-10', 'bar-1'))->sort();
+        (\VersatileCollections\GenericCollection::makeNew(['foo', 'bar-10', 'bar-1']))->sort();
     $sorted_collection->toArray(); // === [ 2=>'bar-1', 1=>'bar-10', 0=>'foo' ]
 
     $sorted_collection = 
-        (new \VersatileCollections\GenericCollection("orange2", "Orange3", "Orange1", "orange20"))
+        (\VersatileCollections\GenericCollection::makeNew(["orange2", "Orange3", "Orange1", "orange20"]))
             ->sort(null, new \VersatileCollections\SortType((SORT_NATURAL | SORT_FLAG_CASE)));
     $sorted_collection->toArray(); // === [ 2=>'Orange1', 0=>'orange2', 1=>'Orange3', 3=>'orange20' ]
 
-    $collection = new \VersatileCollections\GenericCollection(
+    $collection = \VersatileCollections\GenericCollection::makeNew([
         (object)[ 'name'=>'Johnny Cash', 'age'=>50 ],
         (object)[ 'name'=>'Suzzie Cash', 'age'=>23 ],
         (object)[ 'name'=>'Jacky Bauer', 'age'=>43 ],
         (object)[ 'name'=>'Janet Fonda', 'age'=>55 ]
-    );
+    ]);
     $sorted_collection = $collection->sort();
     // $sorted_collection->toArray() contains:
     //  [ 
@@ -2625,30 +2625,30 @@ See **\VersatileCollections\SortType::$valid_sort_types** for available sort typ
 ```php
 <?php
     $sorted_collection = 
-        (new \VersatileCollections\GenericCollection(5, 3, 1, 2, 4))->sortMe();
+        (\VersatileCollections\GenericCollection::makeNew([5, 3, 1, 2, 4]))->sortMe();
     $sorted_collection->toArray(); // === [ 2=>1, 3=>2, 1=>3, 4=>4, 0=>5 ]
 
     $sorted_collection = 
-        (new \VersatileCollections\GenericCollection(-1, -3, -2, -4, -5, 0, 5, 3, 1, 2, 4))
+        (\VersatileCollections\GenericCollection::makeNew([-1, -3, -2, -4, -5, 0, 5, 3, 1, 2, 4]))
             ->sortMe();
     $sorted_collection->toArray(); 
         // === [ 4=>-5, 3=>-4, 1=>-3, 2=>-2, 0=>-1, 5=>0, 8=>1, 9=>2, 7=>3, 10=>4, 6=>5 ]
 
     $sorted_collection = 
-        (new \VersatileCollections\GenericCollection('foo', 'bar-10', 'bar-1'))->sortMe();
+        (\VersatileCollections\GenericCollection::makeNew(['foo', 'bar-10', 'bar-1']))->sortMe();
     $sorted_collection->toArray(); // === [ 2=>'bar-1', 1=>'bar-10', 0=>'foo' ]
 
     $sorted_collection = 
-        (new \VersatileCollections\GenericCollection("orange2", "Orange3", "Orange1", "orange20"))
+        (\VersatileCollections\GenericCollection::makeNew(["orange2", "Orange3", "Orange1", "orange20"]))
             ->sortMe(null, new \VersatileCollections\SortType((SORT_NATURAL | SORT_FLAG_CASE)));
     $sorted_collection->toArray(); // === [ 2=>'Orange1', 0=>'orange2', 1=>'Orange3', 3=>'orange20' ]
 
-    $collection = new \VersatileCollections\GenericCollection(
+    $collection = \VersatileCollections\GenericCollection::makeNew([
         (object)[ 'name'=>'Johnny Cash', 'age'=>50 ],
         (object)[ 'name'=>'Suzzie Cash', 'age'=>23 ],
         (object)[ 'name'=>'Jacky Bauer', 'age'=>43 ],
         (object)[ 'name'=>'Janet Fonda', 'age'=>55 ]
-    );
+    ]);
     $collection->sortMe();
     // $collection->toArray() contains:
     //  [ 
@@ -3421,7 +3421,7 @@ all instances.
 
 ```php
 <?php
-    $collection_obj = new \VersatileCollections\GenericCollection();
+    $collection_obj = \VersatileCollections\GenericCollection::makeNew();
 
     $method_name = 'getCount'; // name of the method you are adding / registering
     $method = function(){ return $this->count(); }; // method implementation
@@ -3462,7 +3462,7 @@ all instances.
 
 ```php
 <?php
-    $collection_obj = new \VersatileCollections\GenericCollection();
+    $collection_obj = \VersatileCollections\GenericCollection::makeNew();
 
     $method_name = 'getBlah'; // name of the method you are adding
     $method = function(){ return 'blah'; }; // method implementation
@@ -3484,7 +3484,7 @@ all instances.
     // will override the implementation of the dynamic instance method registered at the parent
     // class level.
 
-    $parent_collection_object = new \VersatileCollections\ScalarsCollection(1, 2);
+    $parent_collection_object = \VersatileCollections\ScalarsCollection::makeNew([1, 2]);
     
     // add to parent class
     \VersatileCollections\ScalarsCollection::addMethodForAllInstances(
@@ -3498,7 +3498,7 @@ all instances.
     $parent_collection_object->getBlah(); // will return the string
                                           // 'blah from ScalarsCollection with 2 items'
 
-    $child_collection_object = new \VersatileCollections\StringsCollection('1', '2', '3');
+    $child_collection_object = \VersatileCollections\StringsCollection::makeNew(['1', '2', '3']);
         
     // invoke from child class
     $child_collection_object->getBlah(); // will return the string

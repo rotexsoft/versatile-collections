@@ -15,6 +15,15 @@ Example Usage:
     );
 
     // OR
+    
+    $collection = \VersatileCollections\ResourcesCollection::makeNew([
+        tmpfile(), 
+        tmpfile(), 
+        tmpfile(), 
+        tmpfile()
+    ]);
+
+    // OR
 
     $collection = new \VersatileCollections\ResourcesCollection();
     $collection[] = tmpfile();

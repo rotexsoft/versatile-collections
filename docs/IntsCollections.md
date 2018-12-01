@@ -12,6 +12,12 @@ Example Usage:
     );
 
     // OR
+    
+    $collection = \VersatileCollections\IntsCollection::makeNew(
+        [1, 2, 3, 4, 5, 6, 7]
+    );
+
+    // OR
 
     $collection = new \VersatileCollections\IntsCollection();
     $collection[] = 4;

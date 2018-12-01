@@ -15,6 +15,15 @@ Example Usage:
     );
 
     // OR
+    
+    $collection = \VersatileCollections\ObjectsCollection::makeNew([
+        new stdClass(), 
+        new \DateTime('2000-01-01'), 
+        new \PDO('sqlite::memory:'), 
+        new \ArrayObject()
+    ]);
+
+    // OR
 
     $collection = new \VersatileCollections\ObjectsCollection();
     $collection[] = new stdClass();

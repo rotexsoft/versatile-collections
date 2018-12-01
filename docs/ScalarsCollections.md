@@ -21,6 +21,16 @@ Example Usage:
     );
 
     // OR
+    
+    $collection = \VersatileCollections\ScalarsCollection::makeNew([
+        1, // integer
+        2.5, // float
+        true, // boolean
+        false, // boolean
+        'Hello World!' // string 
+    ]);
+
+    // OR
 
     $collection = new \VersatileCollections\ScalarsCollection();
     $collection[] = 1;
