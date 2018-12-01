@@ -3871,7 +3871,8 @@ if the method could not be called.
                                      // and returns the names for all the objects in the collection
                                      // in an array. You will notice that the call to toUpper above
                                      // caused each name to be capitalized.
-    var_dump($names); // === ['item1'=>'JOHNNY CASH', 'item2'=>'SUZZY SOMETHING', 'item3'=>'JACK BAUER', 'item4'=>'JANE FONDA']
+    var_dump($names); 
+    // === ['item1'=>'JOHNNY CASH', 'item2'=>'SUZZY SOMETHING', 'item3'=>'JACK BAUER', 'item4'=>'JANE FONDA']
 
     // Calling a method that does not exist in the collection object or
     // in the objects in the collection and has not been registered via 
