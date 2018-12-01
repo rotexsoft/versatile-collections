@@ -4,6 +4,8 @@ use \VersatileCollections\ObjectsCollection;
 use \VersatileCollections\StringsCollection;
 
 $class = new \ReflectionClass(\VersatileCollections\CollectionInterface::class);
+$class_name_parts = explode('\\', $class->getName());
+$class_name_without_namespace = array_pop($class_name_parts);
 
 // get an array of \ReflectionMethod objects for the public methods in 
 // \VersatileCollections\CollectionInterface
@@ -15,7 +17,7 @@ $interface_methods_collection =
 
 // A callback that accepts a $collection of strings (in this case method names)
 // and generates a mark down table with 3 columns from the collection.
-$generateMarkDownTableFromStringCollectionOfMethodNames = function($collection) {
+$generateMarkDownTableFromStringCollectionOfMethodNames = function($collection) use ($class_name_without_namespace) {
 
     // We want to generate a markdown table with three columns
     // let's calculate the maximum amount of items for each column.
@@ -48,17 +50,17 @@ $generateMarkDownTableFromStringCollectionOfMethodNames = function($collection) 
     $max_width_of_1st_column = $collection_of_1st_col_items->reduce(
         $max_width_calculator,
         -1 // Initial value of $carry (a negative length, which no string can possibly have)
-    );
+    ) + strlen(''.$class_name_without_namespace);
 
     $max_width_of_2nd_column = $collection_of_2nd_col_items->reduce(
         $max_width_calculator,
         -1 // start with a negative length, which no string can possibly have  
-    );
+    ) + strlen(''.$class_name_without_namespace);
 
     $max_width_of_3rd_column = $collection_of_3rd_col_items->reduce(
         $max_width_calculator,
         -1 // start with a negative length, which no string can possibly have 
-    );
+    ) + strlen(''.$class_name_without_namespace);
 
     $mark_down_table = ''.PHP_EOL;
 
@@ -73,10 +75,10 @@ $generateMarkDownTableFromStringCollectionOfMethodNames = function($collection) 
     $mark_down_table .= '|---'. str_repeat(' ', $max_width_of_3rd_column - 3);// column 3
     $mark_down_table .= '|'. PHP_EOL; // end row
 
-    $generate_cell_content = function($current_method_name, $max_width_of_column) {
+    $generate_cell_content = function($current_method_name, $max_width_of_column)use($class_name_without_namespace) {
 
         $toc_link_for_column = 
-            "[{$current_method_name}](#{$current_method_name})";
+            "[{$current_method_name}](#{$class_name_without_namespace}-{$current_method_name})";
             
         $num_spaces_at_cell_end = 
             ($max_width_of_column - strlen($toc_link_for_column));
@@ -133,7 +135,7 @@ $generateMarkDownTableFromStringCollectionOfMethodNames = function($collection) 
 
     return $mark_down_table.PHP_EOL;
     
-}; // function($collection)
+}; // $generateMarkDownTableFromStringCollectionOfMethodNames = function($collection)
 
 $mark_down_table_of_contents = 
     $interface_methods_collection->pipeAndReturnCallbackResult(
