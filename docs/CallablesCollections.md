@@ -28,12 +28,12 @@ Example Usage:
     $collection = new \VersatileCollections\CallablesCollection();
 
     // lines below should produce no exception since we are injecting callables
-    $collection->item1 = function() {
+    $collection[] = function() {
         return 'boo';
     };
-    $collection->item2 = 'strtolower';
-    $collection->item3 = [\DateTime::class, 'getLastErrors'];
-    $collection->item4 = [\DateTime::class, 'createFromFormat'];
+    $collection[] = 'strtolower';
+    $collection[] = [\DateTime::class, 'getLastErrors'];
+    $collection[] = [\DateTime::class, 'createFromFormat'];
 ```
 
 A couple good use-cases for this type of collection would be for implementing a 
