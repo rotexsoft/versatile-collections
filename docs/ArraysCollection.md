@@ -19,6 +19,6 @@ Example Usage:
 ```
 
 A good use-case for this type of collection would be for wrapping records
-returned by PDOStatement::fetchAll(), in order to be able to take advantage 
+returned by **`PDOStatement::fetchAll()`**, in order to be able to take advantage 
 of whichever ArraysCollection features (like filtering, mapping, reduction,
 shuffling, sorting, etc.) you may want to use to manipulate the records.
