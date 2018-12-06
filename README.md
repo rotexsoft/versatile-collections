@@ -198,6 +198,7 @@ being enforced at construct time and item addition time.
             * [Floats Collections](docs/FloatsCollections.md): a collection that can only contain [floats](http://php.net/manual/en/language.types.float.php)
             * [Ints Collections](docs/IntsCollections.md): a collection that can only contain [integers](http://php.net/manual/en/language.types.integer.php)
         * [Strings Collections](docs/StringsCollections.md): a collection that can only contain [strings](http://php.net/manual/en/language.types.string.php)
+* [Laravel Collection Methods Equivalence](docs/LaravelMethodsEquivalence.md)
 
 * Please submit an issue or a pull request if you find any issues with the documentation.
 

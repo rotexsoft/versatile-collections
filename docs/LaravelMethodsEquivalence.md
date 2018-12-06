@@ -1,12 +1,14 @@
-|Laravel 5.7 Collection Methods	|Versatile Collection Equivalent(s)
+# Laravel Collection Methods Equivalence
+
+|Laravel Collection Methods                             |Versatile Collection Equivalent(s)
 |---							|---
 |all							|toArray
 |average						|NumericsCollection::average, `$coll->getAsNewType(\VersatileCollections\NumericsCollection::class)->average();` where `$coll` is an instance of CollectionInterface containing integers and / or floats.
 |avg							|See NumericsCollection::average above
 |chunk							|getCollectionsOfSizeN, or iterator_to_array( yieldCollectionsOfSizeN )
-|collapse						|Not implemented, see spreadsheet for alternative snippet
-|combine						|Not implemented, see spreadsheet for alternative snippet	
-|concat							|appendCollection() or appendItem() depending on the use case, see spreadsheet for snippet
+|collapse						|Not implemented, see [below](#laravel-collection-method-collapse) for alternative snippet
+|combine						|Not implemented, see [below](#laravel-collection-method-combine) for alternative snippet	
+|concat							|appendCollection() or appendItem() depending on the use case, see [below](#laravel-collection-method-concat) for snippet
 |contains						|no non-strict version for now
 |containsStrict                                         |containsItem, containsItems, containsKey, containsKeys & containsItemWithKey 
 |count							|count
@@ -25,7 +27,7 @@
 |firstWhere						|filterFirstN
 |flatMap						|Not implemented, maybe in a later version
 |flatten						|Not implemented, maybe in a later version
-|flip							|Not implemented, see spreadsheet for alternative snippet
+|flip							|Not implemented, see [below](#laravel-collection-method-flip) for alternative snippet
 |forget							|removeAll
 |forPage						|paginate
 |get							|getIfExists
@@ -39,8 +41,8 @@
 |keyBy							|Not Implemented, Does not make sense for ScalarCollection and its sub-classes.
 |keys							|getKeys
 |last							|lastItem. Can do $coll->reverse()->filterFirstN() to emulate last() with callback
-|macro							|addMethod, addMethodForAllInstances & addStaticMethod
-|make							|makeNew
+|static macro                                           |addMethod, static addMethodForAllInstances & static addStaticMethod
+|static make                                            |static makeNew
 |map							|map
 |mapInto						|Not Implemented, may implement if there is enough demand or if a pull request is submitted
 |mapSpread						|Not Implemented, may implement if there is enough demand or if a pull request is submitted
@@ -79,7 +81,7 @@
 |sum							|NumericsCollection::sum, `$coll->getAsNewType(\VersatileCollections\NumericsCollection::class)->sum();` where `$coll` is an instance of CollectionInterface containing integers and / or floats.
 |take							|take
 |tap							|tap
-|times							|Not Implemented, may implement if there is enough demand or if a pull request is submitted
+|static times						|Not Implemented, may implement if there is enough demand or if a pull request is submitted
 |toArray						|toArray. Just returns underlying array, no traversal of items to process them before returning.
 |toJson							|Not Implemented, may implement if there is enough demand or if a pull request is submitted
 |transform						|transform
@@ -87,7 +89,7 @@
 |unique							|ScalarsCollection::uniqueNonStrict
 |uniqueStrict                                           |unique
 |unless							|whenFalse		
-|unwrap							|Same as toArray() on an instance
+|static unwrap						|Same as toArray() on an instance
 |values							|getItems
 |when							|whenTrue
 |where							|Not implemented, will be implemented in a later version
@@ -97,5 +99,100 @@
 |whereInstanceOf                                        |Not implemented, will be implemented in a later version	
 |whereNotIn						|Not implemented, will be implemented in a later version
 |whereNotInStrict                                       |Not implemented, will be implemented in a later version
-|wrap							|Not Implemented, may implement if there is enough demand or if a pull request is submitted	
+|static wrap						|Not Implemented, may implement if there is enough demand or if a pull request is submitted	
 |zip							|Not Implemented, may implement if there is enough demand or if a pull request is submitted
+
+------------------------------------------------------------------------------------------------
+<div id="laravel-collection-method-collapse"></div>
+
+## Collapse Alternative:
+
+```php
+<?php 
+    collect([[1, 2, 3], [4, 5, 6], [7, 8, 9]])->collapse();
+
+    // equivalent to
+
+    \VersatileCollections\GenericCollection::makeNew([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+        ->reduce(
+            function($carry , $item) {
+
+                foreach($item as $val) {
+
+                    $carry[] = $val;
+                }
+                return $carry;
+            }, 
+            \VersatileCollections\GenericCollection::makeNew()
+        );
+```
+
+------------------------------------------------------------------------------------------------
+<div id="laravel-collection-method-combine"></div>
+
+## Combine Alternative:
+
+```php
+<?php 
+    collect(['name', 'age'])->combine(['George', 29]);
+
+    // equivalent to
+
+    $vals = ['George', 29];
+    \VersatileCollections\GenericCollection::makeNew(['name', 'age'])
+        ->reduce(
+            function($carry , $item) use (&$vals) {
+
+                $carry[$item] = array_shift($vals);
+                
+                return $carry;
+            }, 
+            \VersatileCollections\GenericCollection::makeNew()
+        );
+```
+
+------------------------------------------------------------------------------------------------
+<div id="laravel-collection-method-concat"></div>
+
+## Concat Alternative:
+
+```php
+<?php 
+    collect(['John Doe'])
+        ->concat(['Jane Doe'])
+        ->concat(['name' => 'Johnny Doe'])
+        ->all();
+
+    // equivalent to
+
+    \VersatileCollections\GenericCollection::makeNew(['John Doe'])
+        ->appendCollection(
+            \VersatileCollections\GenericCollection::makeNew(['Jane Doe'])
+        )
+        ->appendCollection(
+            \VersatileCollections\GenericCollection::makeNew(['name' => 'Johnny Doe'])
+        )
+        ->toArray();
+```
+
+------------------------------------------------------------------------------------------------
+<div id="laravel-collection-method-flip"></div>
+
+## Flip Alternative:
+
+```php
+<?php 
+    $collection = collect(['name' => 'taylor', 'framework' => 'laravel']);
+
+    $flipped = $collection->flip();
+
+    // equivalent to
+
+    $collection = \VersatileCollections\GenericCollection::makeNew(
+        ['name' => 'taylor', 'framework' => 'laravel']
+    );
+
+    $flipped = \VersatileCollections\GenericCollection::makeNew(
+            array_flip($collection->toArray())
+    );
+```
