@@ -9,6 +9,12 @@ RecordSet objects for housing database records, a bag of http cookies, or techni
 items that can be looped over and whose items can each be accessed using array-access syntax or object
 property syntax.
 
+You can:
+* use one of the provided Collection classes directly in your application(s)
+* or include one or more of the provided Collection classes within an existing class in your application and expose features you want (Composition)
+* or extend one or more of the the provided Collection classes (Inheritance) and then use those extended classes in your application(s)
+* or just implement one or more of the Collection Interfaces and use the corresponding trait (Contract fulfillment)
+
 This package provides optional strict-typing of collection items and strives for 100 % unit-test coverage.
 
 ![Collection Classes](versatile-collections.svg)
