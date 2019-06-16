@@ -17,7 +17,7 @@ namespace {
 
             if( $array === [] ) { return null; }
 
-            return array_key_first(array_slice($array, -1));
+            return array_key_first(array_slice($array, -1, null, true));
         }
     }
 } // namespace
@@ -329,5 +329,11 @@ namespace VersatileCollections {
 
         $line_breaker = (php_sapi_name() === 'cli') ? PHP_EOL : '<br>';
         echo var_to_string($var). $line_breaker . $line_breaker;
+    }
+    
+    function is_running_on_php_71_or_greater() {
+        
+        return ((int)PHP_MAJOR_VERSION) >= 7 
+            && ((int)PHP_MINOR_VERSION) >= 1;
     }
 } // namespace VersatileCollections
