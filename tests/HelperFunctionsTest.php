@@ -7,7 +7,6 @@ use function VersatileCollections\get_object_property_value;
 
 class HelperFunctionsTest extends \PHPUnit\Framework\TestCase {
     
-    
     protected function setUp() { 
         
         parent::setUp();
@@ -342,5 +341,32 @@ class HelperFunctionsTest extends \PHPUnit\Framework\TestCase {
         
         // Get the captured output and close the buffer and return the captured output
         return ob_get_clean();
+    }
+    
+    
+    public function testThat_array_key_first_WorksAsExpected() {
+        
+        $arr = [];
+        $arr1 = ['One', 'Two', 'Three', 'Four'];
+        $arr2 = ['a'=>'One', 'Two', 'Three', 'Four'];
+        $arr3 = ['z'=>'One', 'Two', 'Three', 'Four'];
+                
+        $this->assertEquals(array_key_first($arr), null);
+        $this->assertEquals(array_key_first($arr1), 0);
+        $this->assertEquals(array_key_first($arr2), 'a');
+        $this->assertEquals(array_key_first($arr3), 'z');
+    }
+    
+    public function testThat_array_key_last_WorksAsExpected() {
+        
+        $arr = [];
+        $arr1 = ['One', 'Two', 'Three', 'Four'];
+        $arr2 = ['One', 'Two', 'Three', 'a'=>'Four'];
+        $arr3 = ['One', 'Two', 'Three', 'z'=>'Four'];
+                
+        $this->assertEquals(array_key_last($arr), null);
+        $this->assertEquals(array_key_last($arr1), 3);
+        $this->assertEquals(array_key_last($arr2), 'a');
+        $this->assertEquals(array_key_last($arr3), 'z');
     }
 }

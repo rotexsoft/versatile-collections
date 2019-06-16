@@ -490,7 +490,7 @@ trait CollectionInterfaceImplementationTrait {
         
         if( $this->count() <= 0 ) { return null; }
         
-        return reset($this->versatile_collections_items);
+        return $this->versatile_collections_items[array_key_first($this->versatile_collections_items)];
     }
     
     /**
@@ -501,11 +501,8 @@ trait CollectionInterfaceImplementationTrait {
     public function lastItem(){
         
         if( $this->count() <= 0 ) { return null; }
-        
-        $last = end($this->versatile_collections_items);
-        reset($this->versatile_collections_items);
-        
-        return $last;
+                
+        return $this->versatile_collections_items[array_key_last($this->versatile_collections_items)];
     }
     
     /**
