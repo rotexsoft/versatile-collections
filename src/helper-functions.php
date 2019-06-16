@@ -5,7 +5,7 @@ namespace {
 
         function array_key_first(array $array) {
 
-            if( $array === [] ) { return NULL; }
+            if( $array === [] ) { return null; }
 
             foreach($array as $key => $_) { return $key; }
         }
