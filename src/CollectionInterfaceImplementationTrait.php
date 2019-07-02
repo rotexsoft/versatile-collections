@@ -182,21 +182,11 @@ trait CollectionInterfaceImplementationTrait {
         if( static::validateMethodName($name, __FUNCTION__, get_class($this)) ) {
             
             if( ((bool)$bind_to_this) ) {
-                
-                $new_callable = @\Closure::bind($callable, $this);
-                
-                if( $new_callable instanceof \Closure ) {
-                    
-                    $callable = $new_callable;
-                    
-                } else {
 
-                    $function = __FUNCTION__;
-                    $class = get_class($this);
-                    $msg = "Error [{$class}::{$function}(...)]: Could not bind \$this to the supplied callable"
-                        . PHP_EOL . " `\$callable`: " . var_to_string($callable);
-                    throw new \InvalidArgumentException($msg);
-                }
+                $callable = Utils::bindObjectAndScopeToClosure(
+                    Utils::getClosureFromCallable($callable), 
+                    $this
+                );
             }
             
             $this->versatile_collections_methods_for_this_instance[ static::class.'::'. $name] = [
@@ -267,26 +257,17 @@ trait CollectionInterfaceImplementationTrait {
             
             if( ((bool)static::$versatile_collections_methods_for_all_instances[$key_for_all_instances]['bind_to_this_on_invocation']) ) {
                 
-                $new_callable = @\Closure::bind($new_callable, $this);
+                $new_callable = Utils::bindObjectAndScopeToClosure(
+                    Utils::getClosureFromCallable($new_callable), 
+                    $this
+                );
             }
-            
-            if( $new_callable instanceof \Closure ) {
-            
-                $result = call_user_func_array($new_callable, $arguments);
 
-                if( static::$versatile_collections_methods_for_all_instances[$key_for_all_instances]['has_return_val'] ) {
+            $result = call_user_func_array($new_callable, $arguments);
 
-                    return $result;
-                }
-                
-            } else {
-                
-                // throw exception, un-callable callable
-                $function = __FUNCTION__;
-                $class = get_class($this);
-                $name_var = var_to_string($method_name);
-                $msg = "Error [{$class}::{$function}(...)]: Trying to call an un-callable dynamic method named `{$name_var}` on a collection";
-                throw new \BadMethodCallException($msg);
+            if( static::$versatile_collections_methods_for_all_instances[$key_for_all_instances]['has_return_val'] ) {
+
+                return $result;
             }
             
         } else {
@@ -591,20 +572,10 @@ trait CollectionInterfaceImplementationTrait {
         
         if( $bind_callback_to_this === true ) {
             
-            $new_callback = @\Closure::bind($filterer, $this);
-
-            if( is_null($new_callback) || !($new_callback instanceof \Closure) ) {
-
-                $function = __FUNCTION__;
-                $class = get_class($this);
-                $msg = "Error [{$class}::{$function}(...)]: Could not bind \$this to the supplied callable"
-                    . PHP_EOL . " `\$filterer`: " . var_to_string($filterer);
-                throw new \InvalidArgumentException($msg);
-
-            } else {
-
-                $filterer = $new_callback;
-            }
+            $filterer = Utils::bindObjectAndScopeToClosure(
+                Utils::getClosureFromCallable($filterer), 
+                $this
+            );
         }
         
         $filtered_items = static::makeNew();
@@ -660,20 +631,10 @@ trait CollectionInterfaceImplementationTrait {
         
         if( $bind_callback_to_this === true ) {
             
-            $new_callback = @\Closure::bind($transformer, $this);
-
-            if( is_null($new_callback) || !($new_callback instanceof \Closure) ) {
-
-                $function = __FUNCTION__;
-                $class = get_class($this);
-                $msg = "Error [{$class}::{$function}(...)]: Could not bind \$this to the supplied callable"
-                    . PHP_EOL . " `\$transformer`: " . var_to_string($transformer);
-                throw new \InvalidArgumentException($msg);
-
-            } else {
-
-                $transformer = $new_callback;
-            }
+            $transformer = Utils::bindObjectAndScopeToClosure(
+                Utils::getClosureFromCallable($transformer), 
+                $this
+            );
         }
         
         foreach ( $this->versatile_collections_items as $key => $item ) {
@@ -1129,20 +1090,10 @@ trait CollectionInterfaceImplementationTrait {
     ) {
         if( $bind_callback_to_this === true ) {
             
-            $new_callback = @\Closure::bind($callback, $this);
-
-            if( is_null($new_callback) || !($new_callback instanceof \Closure) ) {
-
-                $function = __FUNCTION__;
-                $class = get_class($this);
-                $msg = "Error [{$class}::{$function}(...)]: Could not bind \$this to the supplied callable"
-                    . PHP_EOL . " `\$callback`: " . var_to_string($callback);
-                throw new \InvalidArgumentException($msg);
-
-            } else {
-
-                $callback = $new_callback;
-            }
+            $callback = Utils::bindObjectAndScopeToClosure(
+                Utils::getClosureFromCallable($callback), 
+                $this
+            );
         }
         
         foreach ($this->versatile_collections_items as $key => $item) {
@@ -1166,20 +1117,10 @@ trait CollectionInterfaceImplementationTrait {
     ) {    
         if( $bind_callback_to_this === true ) {
             
-            $new_callback = @\Closure::bind($callback, $this);
-
-            if( is_null($new_callback) || !($new_callback instanceof \Closure) ) {
-
-                $function = __FUNCTION__;
-                $class = get_class($this);
-                $msg = "Error [{$class}::{$function}(...)]: Could not bind \$this to the supplied callable"
-                    . PHP_EOL . " `\$callback`: " . var_to_string($callback);
-                throw new \InvalidArgumentException($msg);
-
-            } else {
-
-                $callback = $new_callback;
-            }
+            $callback = Utils::bindObjectAndScopeToClosure(
+                Utils::getClosureFromCallable($callback), 
+                $this
+            );
         }
         
         $new_collection = static::makeNew();
@@ -2495,20 +2436,10 @@ trait CollectionInterfaceImplementationTrait {
         
         if( $bind_callback_to_this === true ) {
             
-            $new_callback = @\Closure::bind($callback, $this);
-
-            if( is_null($new_callback) || !($new_callback instanceof \Closure) ) {
-
-                $function = __FUNCTION__;
-                $class = get_class($this);
-                $msg = "Error [{$class}::{$function}(...)]: Could not bind \$this to the supplied callable"
-                    . PHP_EOL . " `\$callback`: " . var_to_string($callback);
-                throw new \InvalidArgumentException($msg);
-
-            } else {
-
-                $callback = $new_callback;
-            }
+            $callback = Utils::bindObjectAndScopeToClosure(
+                Utils::getClosureFromCallable($callback), 
+                $this
+            );
         }
         
         return $this->reduceWithKeyAccess(

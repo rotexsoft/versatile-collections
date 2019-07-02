@@ -458,12 +458,7 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
             $collection_of_ints->toArray(), [0=>1, 2=>3, 4=>5, 6=>7, 8=>9]
         );
     }
-    
-    /**
-     * 
-     * @expectedException \InvalidArgumentException
-     * 
-     */
+
     public function testThatFilterFirstN_WorksAsExpected() {
         
         $collection_of_ints = 
@@ -547,22 +542,21 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(
             $collection_of_ints->toArray(), [ 0=>1,  9=>10]
         );
-        
-        // exception will be thrown because we are trying to
-        // bind a non-closure callable to $this
-        $collection_of_ints_except_first_and_last_items->filterFirstN('is_null', null, false, true, false);
+
+        // no items matching filter strcmp, because it never returns true only 
+        // integers >0, 0 or <0
+        $this->assertEquals(
+            $collection_of_ints->filterFirstN('strcmp', null, false, true, false)
+                               ->count(), 
+            0
+        );
     }
-    
-    /**
-     * 
-     * @expectedException \InvalidArgumentException
-     * 
-     */
+
     public function testThatTransformWorksAsExpected() {
         
         $collection_of_ints = 
             new \BaseCollectionTestImplementation(2, 4, 6, 8);
-        
+
         $collection_of_ints->transform(
             
             function($key, $item) {
@@ -586,21 +580,20 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
                 return $item * $this->count();
             }    
         );
-        
+
         $this->assertEquals(
             $collection_of_ints->toArray(), [8, 16, 24, 32]
         );
-        
-        // exception will be thrown because we are trying to
-        // bind a non-closure callable to $this
-        $collection_of_ints->transform('strtolower', true);
+
+        // Exception will not be thrown even though we are trying to
+        // bind a non-closure callable to $this. The callable is converted
+        // to a Closure under the hood, though binding it to $this has no
+        // effect in this case.
+        $this->assertEquals(
+            $collection_of_ints->transform('strcmp', true)->count(), 4
+        );
     }
-    
-    /**
-     * 
-     * @expectedException \InvalidArgumentException
-     * 
-     */
+
     public function testThatEachWorksAsExpected() {
         
         $numeric_collection = new \VersatileCollections\NumericsCollection(
@@ -649,18 +642,20 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         
         $this->assertSame($return_val_from_each, $numeric_collection);
         
-        // exception will be thrown because we are trying to
-        // bind a non-closure callable to $this
-        $numeric_collection->each(
-            'strtolower', false, true        
+        // Exception will not be thrown even though we are trying to
+        // bind a non-closure callable to $this. The callable is converted
+        // to a Closure under the hood, though binding it to $this has no
+        // effect in this case.
+        $this->assertSame(
+            $numeric_collection,
+            $numeric_collection->each('strcmp', false, true)
+        );
+        $this->assertEquals(
+            $numeric_collection->toArray(),
+            $numeric_collection->each('strcmp', false, true)->toArray()
         );
     }
-    
-    /**
-     * 
-     * @expectedException \InvalidArgumentException
-     * 
-     */
+
     public function testThatMapWorksAsExpected() {
         
         $int_collection = new \VersatileCollections\IntsCollection(1, 2, 3, 4, 5);
@@ -700,9 +695,14 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         );
         $this->assertEquals($multiplied->toArray(), [5=>5, 6=>10, 7=>15, 8=>20, 9=>25]);
         
-        // exception will be thrown because we are trying to
-        // bind a non-closure callable to $this
-        $int_collection->map('strtolower', true, true);
+        // Exception will not be thrown even though we are trying to
+        // bind a non-closure callable to $this. The callable is converted
+        // to a Closure under the hood, though binding it to $this has no
+        // effect in this case.
+        $this->assertEquals(
+            $int_collection->map('strcmp', true, true)->toArray(), 
+            [5=>4, 6=>4, 7=>4, 8=>4, 9=>4]
+        );
     }
     
     public function testThatToArrayWorksAsExpected() {
@@ -1919,9 +1919,6 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         );
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testThatAddMethodWorksAsExpected() {
         
         $collection = new \BaseCollectionTestImplementation();
@@ -1981,7 +1978,9 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
             $method
         );
         
-        //try binding a non-closure callable to this should generate exception
+        //try binding a non-closure callable to $this should
+        //not generate exception. It will be internally converted
+        //to a closure with $this bound to it but of no effect.
         $collection->addMethod(
             'strToLower', 'strtolower', true, true
         ); 
@@ -4374,11 +4373,7 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         
         $c->paginate([], [])->toArray();
     }
-    
-    
-    /**
-     * @expectedException \BadMethodCallException
-     */
+
     public function testThat__CallWorksAsExpected2() {
         
         \VersatileCollections\GenericCollection::addMethodForAllInstances(
@@ -4394,8 +4389,10 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         $collection[] = 'Jack Bauer';
         $collection[] = 'Jane Fonda';
         
-        // binding non-closure callable to $this will generate exception
-        $collection->toUpper();
+        //try binding a non-closure callable to $this should
+        //not generate exception. It will be internally converted
+        //to a closure with $this bound to it but of no effect.
+        $this->assertTrue($collection->toUpper('Johnny Cash') === 'JOHNNY CASH');
     }
     
     /**
@@ -4593,10 +4590,7 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         // allow for case insensitive difference
         $this->assertEquals(['b' => 'brown', 'c' => 'blue', 'red'], $c1->diffAssocUsing($c2->toArray(), 'strcasecmp')->toArray());
     }
-    
-    /**
-     * @expectedException \InvalidArgumentException
-     */
+
     public function testAllSatisfyConditions() {
 	
         $c = \VersatileCollections\GenericCollection::makeNew([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
@@ -4636,9 +4630,21 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
             )
         );
         
-        // use non-closure callback and try binding to $this which should throw exception
-        $c->allSatisfyConditions(
-            [ \TestValueObject2::class, 'isItemGreaterThan11' ]
+        // use non-closure callback and try binding to $this which should 
+        // also not throw exception
+        $this->assertFalse(
+            $c->allSatisfyConditions(
+                'TestValueObject2_IsItemGreaterThan11'
+            )
+        );
+        
+        $c2 = \VersatileCollections\GenericCollection::makeNew(
+            [12, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+        );
+        $this->assertTrue(
+            $c2->allSatisfyConditions(
+                'TestValueObject2_IsItemGreaterThan11'
+            )
         );
     }
     

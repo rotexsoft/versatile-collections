@@ -22,3 +22,8 @@ class TestValueObject2 {
         return $item > 11;
     }
 }
+
+function TestValueObject2_IsItemGreaterThan11($key, $item) {
+     
+    return \TestValueObject2::isItemGreaterThan11($key, $item);
+}
