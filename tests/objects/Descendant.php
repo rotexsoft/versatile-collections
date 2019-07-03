@@ -16,7 +16,7 @@ class Descendant extends Ancestor {
         echo 'Hello ', $name, "\n";
     }
     
-    public function echo($param) {
+    public function echoOut($param) {
         
         echo $param;
     }

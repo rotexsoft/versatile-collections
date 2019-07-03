@@ -24,7 +24,7 @@ class UtilsTest extends \PHPUnit\Framework\TestCase{
         ); // static method call on a class
         
         $this->assertTrue(
-            Utils::getClosureFromCallable([ (new \Descendant() ), 'echo']) instanceof \Closure    
+            Utils::getClosureFromCallable([ (new \Descendant() ), 'echoOut']) instanceof \Closure    
         ); // instance method call on a class instance
         
         $this->assertTrue(
@@ -63,7 +63,7 @@ class UtilsTest extends \PHPUnit\Framework\TestCase{
         ); // static method call on a class
         
         $this->assertTrue(
-            Utils::getClosureFromCallable([ (new \Descendant() ), 'echo']) instanceof \Closure    
+            Utils::getClosureFromCallable([ (new \Descendant() ), 'echoOut']) instanceof \Closure    
         ); // instance method call on a class instance
         
         $this->assertTrue(
