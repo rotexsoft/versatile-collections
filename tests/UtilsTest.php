@@ -47,11 +47,6 @@ class UtilsTest extends \PHPUnit\Framework\TestCase{
         ); // anonymous function a.k.a Closure
     }
 
-    /**
-     * 
-     * @expectedException \InvalidArgumentException
-     * 
-     */
     public function testThatBindObjectAndScopeToClosureWorksAsExpected() {
         
         $this->assertTrue(
@@ -85,11 +80,18 @@ class UtilsTest extends \PHPUnit\Framework\TestCase{
             Utils::bindObjectAndScopeToClosure($anon_func, $this) instanceof \Closure    
         ); // anonymous function a.k.a Closure
         
-        // Code should generate Exception: binding $this to a static Closure
-        Utils::bindObjectAndScopeToClosure(
-            Utils::getClosureFromCallable([\Ancestor::class, 'who']), 
-            $this
-        );
+        if( 
+            (PHP_MAJOR_VERSION === 7 && PHP_MINOR_VERSION >=1)
+            || PHP_MAJOR_VERSION > 7
+        ) {
+            $this->expectException(\InvalidArgumentException::class);
+            
+            // Code should generate Exception: binding $this to a static Closure
+            Utils::bindObjectAndScopeToClosure(
+                Utils::getClosureFromCallable([\Ancestor::class, 'who']), 
+                $this
+            );
+        }
     }
     
     public function testThatGetExceptionAsStrWorksAsExpected() {
