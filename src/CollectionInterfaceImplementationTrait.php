@@ -181,7 +181,7 @@ trait CollectionInterfaceImplementationTrait {
     ) {
         if( static::validateMethodName($name, __FUNCTION__, get_class($this)) ) {
             
-            if( ((bool)$bind_to_this) ) {
+            if( ((bool)$bind_to_this) && Utils::canReallyBind($callable) ) {
 
                 $callable = Utils::bindObjectAndScopeToClosure(
                     Utils::getClosureFromCallable($callable), 
@@ -255,7 +255,10 @@ trait CollectionInterfaceImplementationTrait {
             
             $new_callable = static::$versatile_collections_methods_for_all_instances[$key_for_all_instances]['method'];
             
-            if( ((bool)static::$versatile_collections_methods_for_all_instances[$key_for_all_instances]['bind_to_this_on_invocation']) ) {
+            if( 
+                ((bool)static::$versatile_collections_methods_for_all_instances[$key_for_all_instances]['bind_to_this_on_invocation'])
+                && Utils::canReallyBind($new_callable)    
+            ) {
                 
                 $new_callable = Utils::bindObjectAndScopeToClosure(
                     Utils::getClosureFromCallable($new_callable), 
@@ -570,7 +573,7 @@ trait CollectionInterfaceImplementationTrait {
      */
     public function filterFirstN(callable $filterer, $max_number_of_filtered_items_to_return =null, $copy_keys=false, $bind_callback_to_this=true, $remove_filtered_items=false) {
         
-        if( $bind_callback_to_this === true ) {
+        if( $bind_callback_to_this === true && Utils::canReallyBind($filterer) ) {
             
             $filterer = Utils::bindObjectAndScopeToClosure(
                 Utils::getClosureFromCallable($filterer), 
@@ -629,7 +632,7 @@ trait CollectionInterfaceImplementationTrait {
      */
     public function transform(callable $transformer, $bind_callback_to_this=true) {
         
-        if( $bind_callback_to_this === true ) {
+        if( $bind_callback_to_this === true && Utils::canReallyBind($transformer) ) {
             
             $transformer = Utils::bindObjectAndScopeToClosure(
                 Utils::getClosureFromCallable($transformer), 
@@ -1088,7 +1091,7 @@ trait CollectionInterfaceImplementationTrait {
     public function each(
         callable $callback, $termination_value=false, $bind_callback_to_this=true
     ) {
-        if( $bind_callback_to_this === true ) {
+        if( $bind_callback_to_this === true && Utils::canReallyBind($callback) ) {
             
             $callback = Utils::bindObjectAndScopeToClosure(
                 Utils::getClosureFromCallable($callback), 
@@ -1115,7 +1118,7 @@ trait CollectionInterfaceImplementationTrait {
     public function map(
         callable $callback, $preserve_keys = true, $bind_callback_to_this=true
     ) {    
-        if( $bind_callback_to_this === true ) {
+        if( $bind_callback_to_this === true && Utils::canReallyBind($callback) ) {
             
             $callback = Utils::bindObjectAndScopeToClosure(
                 Utils::getClosureFromCallable($callback), 
@@ -2434,7 +2437,7 @@ trait CollectionInterfaceImplementationTrait {
      */
     public function allSatisfyConditions(callable $callback, $bind_callback_to_this=true) {
         
-        if( $bind_callback_to_this === true ) {
+        if( $bind_callback_to_this === true && Utils::canReallyBind($callback)) {
             
             $callback = Utils::bindObjectAndScopeToClosure(
                 Utils::getClosureFromCallable($callback), 

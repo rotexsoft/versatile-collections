@@ -70,4 +70,9 @@ class Utils {
         
         return $message;
     }
+    
+    public static function canReallyBind(callable $callback) {
+        
+        return PHP_MAJOR_VERSION >= 7 || (PHP_MAJOR_VERSION === 5 && $callback instanceof \Closure);
+    }
 }
