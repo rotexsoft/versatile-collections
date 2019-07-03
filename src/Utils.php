@@ -10,6 +10,11 @@ class Utils {
 
     public static function getClosureFromCallable(callable $callable) {
 
+        if( $callable instanceof \Closure) {
+            
+            return $callable;
+        }
+        
         if(method_exists(\Closure::class, 'fromCallable')) {
             return \Closure::fromCallable($callable);
         }
