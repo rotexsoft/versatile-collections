@@ -10,7 +10,7 @@ class Utils {
 
     public static function getClosureFromCallable(callable $callable) {
 
-        if( $callable instanceof \Closure) {
+        if($callable instanceof \Closure) {
             
             return $callable;
         }
@@ -24,11 +24,11 @@ class Utils {
         };
     }
 
-    public static function bindObjectAndScopeToClosure(\Closure $closure, $newthis, $newscope = "static") {
+    public static function bindObjectAndScopeToClosure(\Closure $closure, $newthis) {
 
         try {
             
-            $new_closure = \Closure::bind($closure, $newthis, $newscope);
+            $new_closure = \Closure::bind($closure, $newthis);
             
             return $new_closure;
             
