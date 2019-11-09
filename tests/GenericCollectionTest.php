@@ -695,10 +695,20 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         $string_keys_and_vals_collection['2'] = '4';
         $string_keys_and_vals_collection['1'] = '5';
 
-        $this->assertEquals(
-            $string_keys_and_vals_collection->map('strcmp', true, true)->toArray(), 
-            [ '5' => 1, '4' => 1, '3' => 0, '2' => -1, '1' => -1, ]
-        );
+        if( PHP_OS_FAMILY === 'Windows' ) {
+            
+            $this->assertEquals(
+                $string_keys_and_vals_collection->map('strcmp', true, true)->toArray(), 
+                [ '5' => 1, '4' => 1, '3' => 0, '2' => -1, '1' => -1, ]
+            );
+            
+        } else {
+            
+            $this->assertEquals(
+                $string_keys_and_vals_collection->map('strcmp', true, true)->toArray(), 
+                [ '5' => 4, '4' => 2, '3' => 0, '2' => -2, '1' => -4, ]
+            );
+        }
     }
     
     public function testThatToArrayWorksAsExpected() {
