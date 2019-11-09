@@ -94,6 +94,6 @@ class ObjectsCollection implements \VersatileCollections\StrictlyTypedCollection
     
     public function getType() {
         
-        return 'object';
+        return $this->isEmpty()? 'object' : get_class($this->firstItem());
     }
 }
