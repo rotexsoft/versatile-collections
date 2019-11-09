@@ -6,14 +6,11 @@
  */
 class CustomStrictlyTypedCollectionTest extends \PHPUnit\Framework\TestCase {
     
-    protected function setUp() { 
+    protected function setUp(): void { 
         
         parent::setUp();
     }
     
-    /**
-     * @expectedException \VersatileCollections\Exceptions\InvalidItemException
-     */
     public function testThatOnlyTestValueObjectsCanBeInjectedIntoCollection() {
         
         $collection = new \TestValueObjectsCollection(
@@ -36,15 +33,15 @@ class CustomStrictlyTypedCollectionTest extends \PHPUnit\Framework\TestCase {
         $collection[] = new TestValueObject('Jane Fonda', 1559);
         
         $this->assertEquals($collection->count(), 12);
+        
+        $this->expectException(\VersatileCollections\Exceptions\InvalidItemException::class);
+        
         // var_dump($collection->toArray());
         // line below should produce an exception since we are injecting
         // a non-object
         $collection->item5 = [];
     }
-    
-    /**
-     * @expectedException \VersatileCollections\Exceptions\InvalidItemException
-     */
+
     public function testThatOnlyTestValueObjectsCanBeInjectedIntoCollection2() {
         
         $collection = new \TestValueObjectsCollection(
@@ -53,14 +50,14 @@ class CustomStrictlyTypedCollectionTest extends \PHPUnit\Framework\TestCase {
             new TestValueObject('Jack Bauer', 43),
             new TestValueObject('Jane Fonda', 55)
         );
+        
+        $this->expectException(\VersatileCollections\Exceptions\InvalidItemException::class);
+        
         // line below should produce an exception since we are injecting
         // a non-object
         $collection[] = [];
     }
-    
-    /**
-     * @expectedException \VersatileCollections\Exceptions\InvalidItemException
-     */
+
     public function testThatOnlyTestValueObjectsCanBeInjectedIntoCollection3() {
         
         $collection = new \TestValueObjectsCollection(
@@ -69,6 +66,9 @@ class CustomStrictlyTypedCollectionTest extends \PHPUnit\Framework\TestCase {
             new TestValueObject('Jack Bauer', 43),
             new TestValueObject('Jane Fonda', 55)
         );
+        
+        $this->expectException(\VersatileCollections\Exceptions\InvalidItemException::class);
+        
         // line below should produce an exception since we are injecting
         // a non-object
         $collection['item5'] = [];
@@ -136,9 +136,6 @@ class CustomStrictlyTypedCollectionTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals($sum_of_ages_and_keys_plus_ten, 187);
     }
     
-    /**
-     * @expectedException \VersatileCollections\Exceptions\InvalidItemException
-     */
     public function testThatTransformWorksAsExpected() {
         
         $collection = new \TestValueObjectsCollection(
@@ -157,8 +154,10 @@ class CustomStrictlyTypedCollectionTest extends \PHPUnit\Framework\TestCase {
         
         foreach ($collection as $item) {
             
-            $this->assertContains(':Transformed', $item->getName());
+            $this->assertStringContainsString(':Transformed', $item->getName());
         }
+        
+        $this->expectException(\VersatileCollections\Exceptions\InvalidItemException::class);
         
         // transformer that returns wrong type should throw exception
         $collection->transform(
@@ -169,9 +168,6 @@ class CustomStrictlyTypedCollectionTest extends \PHPUnit\Framework\TestCase {
         );
     }
     
-    /**
-     * @expectedException \VersatileCollections\Exceptions\InvalidCollectionOperationException
-     */
     public function testThatAppendCollectionWorksAsExpected() {
                 
         $collection = new \TestValueObjectsCollection(
@@ -194,6 +190,8 @@ class CustomStrictlyTypedCollectionTest extends \PHPUnit\Framework\TestCase {
             $other_item1, $other_item2, $other_item3, $other_item4, 
             $other_item5, $other_item6, $other_item7, $other_item8
         );
+        
+        $this->expectException(\VersatileCollections\Exceptions\InvalidCollectionOperationException::class);
         
         $collection->appendCollection($other_collection);
     }
@@ -235,9 +233,6 @@ class CustomStrictlyTypedCollectionTest extends \PHPUnit\Framework\TestCase {
         );
     }
     
-    /**
-     * @expectedException \VersatileCollections\Exceptions\InvalidCollectionOperationException
-     */
     public function testThatPrependCollectionWorksAsExpected() {
                 
         $collection = new \TestValueObjectsCollection(
@@ -260,6 +255,8 @@ class CustomStrictlyTypedCollectionTest extends \PHPUnit\Framework\TestCase {
             $other_item1, $other_item2, $other_item3, $other_item4, 
             $other_item5, $other_item6, $other_item7, $other_item8
         );
+        
+        $this->expectException(\VersatileCollections\Exceptions\InvalidCollectionOperationException::class);
         
         $collection->prependCollection($other_collection);
     }
@@ -300,10 +297,7 @@ class CustomStrictlyTypedCollectionTest extends \PHPUnit\Framework\TestCase {
             [$other_item1, $other_item2, $other_item3, $other_item4, $item1, $item2, $item3, $item4, ]
         );
     }
-    
-    /**
-     * @expectedException \VersatileCollections\Exceptions\InvalidItemException
-     */
+
     public function testThatMergeCollectionWorksAsExpected() {
                 
         $collection = new \TestValueObjectsCollection(
@@ -326,6 +320,8 @@ class CustomStrictlyTypedCollectionTest extends \PHPUnit\Framework\TestCase {
             $other_item1, $other_item2, $other_item3, $other_item4, 
             $other_item5, $other_item6, $other_item7, $other_item8
         ];
+        
+        $this->expectException(\VersatileCollections\Exceptions\InvalidItemException::class);
         
         // should generate exception since one or more item(s) 
         // not of type `TestValueObject` are present in $other_collection
@@ -453,10 +449,7 @@ class CustomStrictlyTypedCollectionTest extends \PHPUnit\Framework\TestCase {
         
         $this->assertNotSame($collection, $merged_collection);
     }
-    
-    /**
-     * @expectedException \VersatileCollections\Exceptions\InvalidItemException
-     */
+
     public function testThatMergeMeWithCollectionWorksAsExpected() {
                 
         $collection = new \TestValueObjectsCollection(
@@ -479,6 +472,8 @@ class CustomStrictlyTypedCollectionTest extends \PHPUnit\Framework\TestCase {
             $other_item1, $other_item2, $other_item3, $other_item4, 
             $other_item5, $other_item6, $other_item7, $other_item8
         ];
+        
+        $this->expectException(\VersatileCollections\Exceptions\InvalidItemException::class);
         
         // should generate exception since one or more item(s) 
         // not of type `TestValueObject` are present in $other_collection
@@ -567,10 +562,7 @@ class CustomStrictlyTypedCollectionTest extends \PHPUnit\Framework\TestCase {
             [ $other_item1, $other_item2, $other_item3, $other_item4, $item5, $item6 ]
         );
     }
-    
-    /**
-     * @expectedException \VersatileCollections\Exceptions\InvalidItemException
-     */
+
     public function testThatAppendItemWorksAsExpected() {
                 
         $collection = new \TestValueObjectsCollection(
@@ -580,6 +572,7 @@ class CustomStrictlyTypedCollectionTest extends \PHPUnit\Framework\TestCase {
             new TestValueObject('Jane Fonda', 55)
         );
                 
+        $this->expectException(\VersatileCollections\Exceptions\InvalidItemException::class);
         $other_item1 = "4";
         $collection->appendItem($other_item1);
     }
@@ -663,10 +656,7 @@ class CustomStrictlyTypedCollectionTest extends \PHPUnit\Framework\TestCase {
         // test return $this 
         $this->assertSame($collection->push($other_item1) , $collection);
     }
-    
-    /**
-     * @expectedException \VersatileCollections\Exceptions\InvalidItemException
-     */
+
     public function testThatPrependItemWorksAsExpected() {
                 
         $collection = new \TestValueObjectsCollection(
@@ -676,13 +666,11 @@ class CustomStrictlyTypedCollectionTest extends \PHPUnit\Framework\TestCase {
             new TestValueObject('Jane Fonda', 55)
         );
                 
+        $this->expectException(\VersatileCollections\Exceptions\InvalidItemException::class);
         $other_item1 = "4";
         $collection->prependItem($other_item1);
     }
-    
-    /**
-     * @expectedException \VersatileCollections\Exceptions\InvalidKeyException
-     */
+
     public function testThatPrependItemWorksAsExpected2() {
                 
         $collection = new \TestValueObjectsCollection(
@@ -692,6 +680,7 @@ class CustomStrictlyTypedCollectionTest extends \PHPUnit\Framework\TestCase {
             new TestValueObject('Jane Fonda', 55)
         );
                 
+        $this->expectException(\VersatileCollections\Exceptions\InvalidKeyException::class);
         $other_item1 = new TestValueObject('Joe Blow', 35);
         $collection->prependItem($other_item1, 3.0); // non-string & non-int key
     }
@@ -735,10 +724,7 @@ class CustomStrictlyTypedCollectionTest extends \PHPUnit\Framework\TestCase {
             [  $other_item5, $other_item4, 'custom_key'=>$other_item3, $other_item2, $other_item1, $item1, $item2, $item3, $item4, ]
         );
     }
-    
-    /**
-     * @expectedException \VersatileCollections\Exceptions\InvalidItemException
-     */
+
     public function testUnionWithMe() {
         
         $item1 = new TestValueObject('Johnny Cash', 50);
@@ -772,6 +758,8 @@ class CustomStrictlyTypedCollectionTest extends \PHPUnit\Framework\TestCase {
         
         // test return $this
         $this->assertSame($unioned_1, $collection);
+        
+        $this->expectException(\VersatileCollections\Exceptions\InvalidItemException::class);
         
         // Exception will occur when unioning with one or more items of the wrong type
         $collection->unionMeWith( ['item of wrong type', $item2, []] );

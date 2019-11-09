@@ -4,7 +4,7 @@ use function VersatileCollections\dump_var;
 class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
     
     
-    protected function setUp() { 
+    protected function setUp(): void { 
         
         parent::setUp();
     }
@@ -308,10 +308,7 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(isset($collection->item2), true);
         $this->assertEquals(isset($collection->item3), true);
     }
-    
-    /**
-     * @expectedException \VersatileCollections\Exceptions\NonExistentItemException
-     */
+
     public function testThat__GetWorksAsExpected() {
         
         $collection = new \BaseCollectionTestImplementation( );
@@ -328,13 +325,11 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals($collection->__get('item2'), 'Two');
         $this->assertEquals($collection->__get('item3'), 'Three');
         
+        $this->expectException(\VersatileCollections\Exceptions\NonExistentItemException::class);
         // this should trigger an Exception
         $collection->__get('item5');
     }
-    
-    /**
-     * @expectedException \VersatileCollections\Exceptions\NonExistentItemException
-     */
+
     public function testThatOffsetGetWorksAsExpected() {
         
         $collection = new \BaseCollectionTestImplementation( );
@@ -351,13 +346,11 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals($collection->offsetGet('item2'), 'Two');
         $this->assertEquals($collection->offsetGet('item3'), 'Three');
         
+        $this->expectException(\VersatileCollections\Exceptions\NonExistentItemException::class);
         // this should trigger an Exception
         $collection->offsetGet('item5');
     }
     
-    /**
-     * @expectedException \VersatileCollections\Exceptions\NonExistentItemException
-     */
     public function testThatOffsetUnsetWorksAsExpected() {
         
         $collection = new \BaseCollectionTestImplementation();
@@ -367,13 +360,11 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         
         $collection->offsetUnset('item1');
         
+        $this->expectException(\VersatileCollections\Exceptions\NonExistentItemException::class);
         // this should trigger an Exception
         $collection->item1;
     }
-    
-    /**
-     * @expectedException \VersatileCollections\Exceptions\NonExistentItemException
-     */
+
     public function testThat__UnsetWorksAsExpected() {
         
         $collection = new \BaseCollectionTestImplementation();
@@ -383,13 +374,11 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         
         $collection->__unset('item1');
         
+        $this->expectException(\VersatileCollections\Exceptions\NonExistentItemException::class);
         // this should trigger an Exception
         $collection->item1;
     }
-    
-    /**
-     * @expectedException \VersatileCollections\Exceptions\NonExistentItemException
-     */
+
     public function testThat__UnsetWorksAsExpected2() {
         
         $collection = new \BaseCollectionTestImplementation();
@@ -399,13 +388,12 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         
         unset($collection['item1']);
         
+        $this->expectException(\VersatileCollections\Exceptions\NonExistentItemException::class);
+        
         // this should trigger an Exception
         $collection->item1;
     }
-    
-    /**
-     * @expectedException \VersatileCollections\Exceptions\NonExistentItemException
-     */
+
     public function testThat__UnsetWorksAsExpected3() {
         
         $collection = new \BaseCollectionTestImplementation();
@@ -414,6 +402,7 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         $collection->item3 = 'Three';
         
         unset($collection->item1);
+        $this->expectException(\VersatileCollections\Exceptions\NonExistentItemException::class);
         
         // this should trigger an Exception
         $collection->item1;
@@ -699,9 +688,16 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         // bind a non-closure callable to $this. The callable is converted
         // to a Closure under the hood, though binding it to $this has no
         // effect in this case.
+        $string_keys_and_vals_collection = new \VersatileCollections\GenericCollection();
+        $string_keys_and_vals_collection['5'] = '1';
+        $string_keys_and_vals_collection['4'] = '2';
+        $string_keys_and_vals_collection['3'] = '3';
+        $string_keys_and_vals_collection['2'] = '4';
+        $string_keys_and_vals_collection['1'] = '5';
+
         $this->assertEquals(
-            $int_collection->map('strcmp', true, true)->toArray(), 
-            [5=>4, 6=>4, 7=>4, 8=>4, 9=>4]
+            $string_keys_and_vals_collection->map('strcmp', true, true)->toArray(), 
+            [ '5' => 1, '4' => 1, '3' => 0, '2' => -1, '1' => -1, ]
         );
     }
     
@@ -1059,30 +1055,23 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
             [ 67=>67, 86=>86, 85=>85, 98=>98 ]
         ); // int, int
     }
-    
-    /**
-     * @expectedException \InvalidArgumentException
-     */
+
     public function testThatColumnWithNonStringAndNonIntColumnKeyWorksAsExpected() {
 
+        $this->expectException(\InvalidArgumentException::class);
         $data = [];
         $collection = new \VersatileCollections\GenericCollection(...$data);
         $collection->column([]);
     }
-    
-    /**
-     * @expectedException \InvalidArgumentException
-     */
+
     public function testThatColumnWithNonStringAndNonIntIndexKeyWorksAsExpected() {
 
+        $this->expectException(\InvalidArgumentException::class);
         $data = [];
         $collection = new \VersatileCollections\GenericCollection(...$data);
         $collection->column('some_key',[]);
     }
-    
-    /**
-     * @expectedException \RuntimeException
-     */
+
     public function testThatColumnOnCollectionWithOneOrMoreNonArrayAndNonObjectItemsWorksAsExpected() {
 
         $data = [];
@@ -1095,13 +1084,11 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         $data[] = true;
         $data[] = ['id' => 67, 'volume' => 67, 'edition' => 7, 'title'=>"Hoo"];
         
+        $this->expectException(\RuntimeException::class);
         $collection = new \VersatileCollections\GenericCollection(...$data);
         $collection->column('title');
     }
-    
-    /**
-     * @expectedException \RuntimeException
-     */
+
     public function testThatColumnOnCollectionOfArraysWithOneOrMoretItemsWithoutStringColumnKeyWorksAsExpected() {
 
         $data = [];
@@ -1112,13 +1099,11 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         $data[] = ['id' => 57, 'volume' => 86, 'edition' => 6, 'title'=>"Goo"];
         $data[] = ['id' => 67, 'volume' => 67, 'edition' => 7, 'title'=>"Hoo"];
         
+        $this->expectException(\RuntimeException::class);
         $collection = new \VersatileCollections\GenericCollection(...$data);
         $collection->column('title2');
     }
-    
-    /**
-     * @expectedException \RuntimeException
-     */
+
     public function testThatColumnOnCollectionOfArrayAccessObjectsWithOneOrMoretItemsWithoutStringColumnKeyWorksAsExpected() {
 
         $data = [];
@@ -1129,13 +1114,11 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         $data[] = \VersatileCollections\GenericCollection::makeNew(['id' => 57, 'volume' => 86, 'edition' => 6, 'title'=>"Goo"]);
         $data[] = \VersatileCollections\GenericCollection::makeNew(['id' => 67, 'volume' => 67, 'edition' => 7, 'title'=>"Hoo"]);
         
+        $this->expectException(\RuntimeException::class);
         $collection = new \VersatileCollections\GenericCollection(...$data);
         $collection->column('title2');
     }
-    
-    /**
-     * @expectedException \RuntimeException
-     */
+
     public function testThatColumnOnCollectionOfArraysWithOneOrMoretItemsWithoutIntColumnKeyWorksAsExpected() {
 
         $data = [];
@@ -1146,13 +1129,11 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         $data[] = ['id' => 57, 'volume' => 86, 'edition' => 6, 'title'=>"Goo", 55=>57];
         $data[] = ['id' => 67, 'volume' => 67, 'edition' => 7, 'title'=>"Hoo", 55=>67];
         
+        $this->expectException(\RuntimeException::class);
         $collection = new \VersatileCollections\GenericCollection(...$data);
         $collection->column(99);
     }
-    
-    /**
-     * @expectedException \RuntimeException
-     */
+
     public function testThatColumnOnCollectionOfArrayAccessObjectsWithOneOrMoretItemsWithoutIntColumnKeyWorksAsExpected() {
 
         $data = [];
@@ -1163,13 +1144,11 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         $data[] = \VersatileCollections\GenericCollection::makeNew(['id' => 57, 'volume' => 86, 'edition' => 6, 'title'=>"Goo"]);
         $data[] = \VersatileCollections\GenericCollection::makeNew(['id' => 67, 'volume' => 67, 'edition' => 7, 'title'=>"Hoo"]);
         
+        $this->expectException(\RuntimeException::class);
         $collection = new \VersatileCollections\GenericCollection(...$data);
         $collection->column(99);
     }
-    
-    /**
-     * @expectedException \RuntimeException
-     */
+
     public function testThatColumnOnCollectionOfArraysWithOneOrMoretItemsWithoutNonNullStringIndexKeyWorksAsExpected() {
 
         $data = [];
@@ -1180,13 +1159,11 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         $data[] = ['id' => 57, 'volume' => 86, 'edition' => 6, 'title'=>"Goo"];
         $data[] = ['id' => 67, 'volume' => 67, 'edition' => 7, 'title'=>"Hoo"];
         
+        $this->expectException(\RuntimeException::class);
         $collection = new \VersatileCollections\GenericCollection(...$data);
         $collection->column('title', 'id2');
     }
-    
-    /**
-     * @expectedException \RuntimeException
-     */
+
     public function testThatColumnOnCollectionOfArrayAccessObjectsWithOneOrMoretItemsWithoutNonNullStringIndexKeyWorksAsExpected() {
 
         $data = [];
@@ -1197,13 +1174,11 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         $data[] = \VersatileCollections\GenericCollection::makeNew(['id' => 57, 'volume' => 86, 'edition' => 6, 'title'=>"Goo"]);
         $data[] = \VersatileCollections\GenericCollection::makeNew(['id' => 67, 'volume' => 67, 'edition' => 7, 'title'=>"Hoo"]);
         
+        $this->expectException(\RuntimeException::class);
         $collection = new \VersatileCollections\GenericCollection(...$data);
         $collection->column('title', 'id2');
     }
-    
-    /**
-     * @expectedException \RuntimeException
-     */
+
     public function testThatColumnOnCollectionOfArraysWithOneOrMoretItemsWithoutNonNullIntIndexKeyWorksAsExpected() {
 
         $data = [];
@@ -1214,13 +1189,11 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         $data[] = ['id' => 57, 'volume' => 86, 'edition' => 6, 'title'=>"Goo"];
         $data[] = ['id' => 67, 'volume' => 67, 'edition' => 7, 'title'=>"Hoo"];
         
+        $this->expectException(\RuntimeException::class);
         $collection = new \VersatileCollections\GenericCollection(...$data);
         $collection->column('title', 99);
     }
-    
-    /**
-     * @expectedException \RuntimeException
-     */
+
     public function testThatColumnOnCollectionOfArrayAccessObjectsWithOneOrMoretItemsWithoutNonNullIntIndexKeyWorksAsExpected() {
 
         $data = [];
@@ -1231,13 +1204,11 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         $data[] = \VersatileCollections\GenericCollection::makeNew(['id' => 57, 'volume' => 86, 'edition' => 6, 'title'=>"Goo"]);
         $data[] = \VersatileCollections\GenericCollection::makeNew(['id' => 67, 'volume' => 67, 'edition' => 7, 'title'=>"Hoo"]);
         
+        $this->expectException(\RuntimeException::class);
         $collection = new \VersatileCollections\GenericCollection(...$data);
         $collection->column('title', 99);
     }
-    
-    /**
-     * @expectedException \RuntimeException
-     */
+
     public function testThatColumnOnCollectionOfArraysWithOneOrMoretItemsWithNonStringAndNonIntValueForANonNullIndexKeyWorksAsExpected() {
 
         $data = [];
@@ -1248,13 +1219,11 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         $data[] = ['id' => 57, 'volume' => 86, 'edition' => 6, 'title'=>"Goo"];
         $data[] = ['id' => 67, 'volume' => 67, 'edition' => 7, 'title'=>"Hoo"];
         
+        $this->expectException(\RuntimeException::class);
         $collection = new \VersatileCollections\GenericCollection(...$data);
         $collection->column('title', 'id');
     }
-    
-    /**
-     * @expectedException \RuntimeException
-     */
+
     public function testThatColumnOnCollectionOfArrayAccessObjectsWithOneOrMoretItemsWithNonStringAndNonIntValueForANonNullIndexKeyWorksAsExpected() {
 
         $data = [];
@@ -1265,13 +1234,11 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         $data[] = \VersatileCollections\GenericCollection::makeNew(['id' => 57, 'volume' => 86, 'edition' => 6, 'title'=>"Goo"]);
         $data[] = \VersatileCollections\GenericCollection::makeNew(['id' => 67, 'volume' => 67, 'edition' => 7, 'title'=>"Hoo"]);
         
+        $this->expectException(\RuntimeException::class);
         $collection = new \VersatileCollections\GenericCollection(...$data);
         $collection->column('title', 'id');
     }
-    
-    /**
-     * @expectedException \RuntimeException
-     */
+
     public function testThatColumnOnCollectionOfMagicMethodObjectsWithOneOrMoretItemsWithNonStringAndNonIntValueForANonNullStringIndexKeyWorksAsExpected() {
 
         $data = [];
@@ -1282,13 +1249,11 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         $data[] = (new TestValueObject())->setData(['id' => 57, 'volume' => 86, 'edition' => 6, 'title'=>"Goo"]);
         $data[] = (new TestValueObject())->setData(['id' => 67, 'volume' => 67, 'edition' => 7, 'title'=>"Hoo"]);
         
+        $this->expectException(\RuntimeException::class);
         $collection = new \VersatileCollections\GenericCollection(...$data);
         $collection->column('title', 'id');
     }
-    
-    /**
-     * @expectedException \RuntimeException
-     */
+
     public function testThatColumnOnCollectionOfNonMagicMethodObjectsWithOneOrMoretItemsWithNonStringAndNonIntValueForANonNullStringIndexKeyWorksAsExpected() {
 
         $data = [];
@@ -1299,13 +1264,11 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         $data[] = (object)['id' => 57, 'volume' => 86, 'edition' => 6, 'title'=>"Goo"];
         $data[] = (object)['id' => 67, 'volume' => 67, 'edition' => 7, 'title'=>"Hoo"];
         
+        $this->expectException(\RuntimeException::class);
         $collection = new \VersatileCollections\GenericCollection(...$data);
         $collection->column('title', 'id');
     }
-    
-    /**
-     * @expectedException \RuntimeException
-     */
+
     public function testThatColumnOnCollectionOfMagicMethodObjectsWithOneOrMoretItemsWithNonStringAndNonIntValueForANonNullIntIndexKeyWorksAsExpected() {
 
         $data = [];
@@ -1316,13 +1279,11 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         $data[] = (new TestValueObject())->setData(['id' => 57, 777 => 86, 'edition' => 6, 'title'=>"Goo"]);
         $data[] = (new TestValueObject())->setData(['id' => 67, 777 => 67, 'edition' => 7, 'title'=>"Hoo"]);
         
+        $this->expectException(\RuntimeException::class);
         $collection = new \VersatileCollections\GenericCollection(...$data);
         $collection->column('title', 777);
     }
-    
-    /**
-     * @expectedException \RuntimeException
-     */
+
     public function testThatColumnOnCollectionOfNonMagicMethodObjectsWithOneOrMoretItemsWithNonStringAndNonIntValueForANonNullIntIndexKeyWorksAsExpected() {
 
         $data = [];
@@ -1333,13 +1294,11 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         $data[] = (object)['id' => 57, 777 => 86, 'edition' => 6, 'title'=>"Goo"];
         $data[] = (object)['id' => 67, 777 => 67, 'edition' => 7, 'title'=>"Hoo"];
         
+        $this->expectException(\RuntimeException::class);
         $collection = new \VersatileCollections\GenericCollection(...$data);
         $collection->column('title', 777);
     }
-    
-    /**
-     * @expectedException \RuntimeException
-     */
+
     public function testThatColumnOnCollectionOfMagicMethodObjectsWithNonExistentNonNullIndexKeyWorksAsExpected() {
 
         $data = [];
@@ -1350,13 +1309,11 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         $data[] = (new TestValueObject())->setData(['id' => 57, 777 => 86, 'edition' => 6, 'title'=>"Goo"]);
         $data[] = (new TestValueObject())->setData(['id' => 67, 777 => 67, 'edition' => 7, 'title'=>"Hoo"]);
         
+        $this->expectException(\RuntimeException::class);
         $collection = new \VersatileCollections\GenericCollection(...$data);
         $collection->column('title', 'id2');
     }
-    
-    /**
-     * @expectedException \RuntimeException
-     */
+
     public function testThatColumnOnCollectionOfNonMagicMethodObjectsWithNonExistentNonNullIndexKeyWorksAsExpected() {
 
         $data = [];
@@ -1367,13 +1324,11 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         $data[] = (object)['id' => 57, 777 => 86, 'edition' => 6, 'title'=>"Goo"];
         $data[] = (object)['id' => 67, 777 => 67, 'edition' => 7, 'title'=>"Hoo"];
         
+        $this->expectException(\RuntimeException::class);
         $collection = new \VersatileCollections\GenericCollection(...$data);
         $collection->column('title', 'id2');
     }
-    
-    /**
-     * @expectedException \RuntimeException
-     */
+
     public function testThatColumnOnCollectionOfMagicMethodObjectsWithNonExistentColumnKeyWorksAsExpected() {
 
         $data = [];
@@ -1384,13 +1339,11 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         $data[] = (new TestValueObject())->setData(['id' => 57, 777 => 86, 'edition' => 6, 'title'=>"Goo"]);
         $data[] = (new TestValueObject())->setData(['id' => 67, 777 => 67, 'edition' => 7, 'title'=>"Hoo"]);
         
+        $this->expectException(\RuntimeException::class);
         $collection = new \VersatileCollections\GenericCollection(...$data);
         $collection->column('title2', 'id');
     }
-    
-    /**
-     * @expectedException \RuntimeException
-     */
+
     public function testThatColumnOnCollectionOfNonMagicMethodObjectsWithNonExistentColumnKeyWorksAsExpected() {
 
         $data = [];
@@ -1401,13 +1354,11 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         $data[] = (object)['id' => 57, 777 => 86, 'edition' => 6, 'title'=>"Goo"];
         $data[] = (object)['id' => 67, 777 => 67, 'edition' => 7, 'title'=>"Hoo"];
         
+        $this->expectException(\RuntimeException::class);
         $collection = new \VersatileCollections\GenericCollection(...$data);
         $collection->column('title2', 'id');
     }
-    
-    /**
-     * @expectedException \RuntimeException
-     */
+
     public function testThatColumnOnCollectionOfMagicMethodObjectsWithNonExistentColumnKeyAndNonNullIndexKeyWorksAsExpected() {
 
         $data = [];
@@ -1418,13 +1369,11 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         $data[] = (new TestValueObject())->setData(['id' => 57, 777 => 86, 'edition' => 6, 'title'=>"Goo"]);
         $data[] = (new TestValueObject())->setData(['id' => 67, 777 => 67, 'edition' => 7, 'title'=>"Hoo"]);
         
+        $this->expectException(\RuntimeException::class);
         $collection = new \VersatileCollections\GenericCollection(...$data);
         $collection->column('title2', 'id2');
     }
-    
-    /**
-     * @expectedException \RuntimeException
-     */
+
     public function testThatColumnOnCollectionOfNonMagicMethodObjectsWithNonExistentColumnKeyAndNonNullIndexKeyWorksAsExpected() {
 
         $data = [];
@@ -1435,6 +1384,7 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         $data[] = (object)['id' => 57, 777 => 86, 'edition' => 6, 'title'=>"Goo"];
         $data[] = (object)['id' => 67, 777 => 67, 'edition' => 7, 'title'=>"Hoo"];
         
+        $this->expectException(\RuntimeException::class);
         $collection = new \VersatileCollections\GenericCollection(...$data);
         $collection->column('title2', 'id2');
     }
@@ -1725,10 +1675,7 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals( [3=>4], array_shift($collections)->toArray() );
         $this->assertEquals( [4=>5], array_shift($collections)->toArray() );
     }
-    
-    /**
-     * @expectedException \InvalidArgumentException
-     */
+
     public function testThatMakeAllKeysNumericWorksAsExpected() {
 
         $collection = new \BaseCollectionTestImplementation( );
@@ -1779,6 +1726,7 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals($collection[778], $item2);
         $this->assertEquals($collection[779], $item3);
         
+        $this->expectException(\InvalidArgumentException::class);
         // throw exception for non-int arg
         $collection->makeAllKeysNumeric([]);
     }
@@ -1791,26 +1739,22 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
             $collection->validateMethodNamePublic('newMethod', __FUNCTION__)
         );
     }
-    
-    /**
-     * @expectedException \InvalidArgumentException
-     */
+
     public function testThatValidateMethodNameWorksAsExpected2() {
         
         $collection = new \BaseCollectionTestImplementation();
+        $this->expectException(\InvalidArgumentException::class);
                 
         // This should trigger an Exception because we are
         // passing a non-string (in this case an array)
         // as the method name
         $collection->validateMethodNamePublic([], __FUNCTION__);
     }
-    
-    /**
-     * @expectedException \InvalidArgumentException
-     */
+
     public function testThatValidateMethodNameWorksAsExpected3() {
         
         $collection = new \BaseCollectionTestImplementation();
+        $this->expectException(\InvalidArgumentException::class);
                 
         // This should trigger an Exception because we are
         // passing a string that is not valid for a method
@@ -1818,26 +1762,22 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         // name.
         $collection->validateMethodNamePublic('!badMethodName', __FUNCTION__);
     }
-    
-    /**
-     * @expectedException \VersatileCollections\Exceptions\AddConflictingMethodException
-     */
+
     public function testThatValidateMethodNameWorksAsExpected4() {
         
         $collection = new \BaseCollectionTestImplementation();
+        $this->expectException(\VersatileCollections\Exceptions\AddConflictingMethodException::class);
                 
         // This should trigger an Exception because we are
         // trying to validate the name of an instance method 
         // that exists in the collection class.
         $collection->validateMethodNamePublic('each', __FUNCTION__);
     }
-    
-    /**
-     * @expectedException \VersatileCollections\Exceptions\AddConflictingMethodException
-     */
+
     public function testThatValidateMethodNameWorksAsExpected5() {
         
         $collection = new \BaseCollectionTestImplementation();
+        $this->expectException(\VersatileCollections\Exceptions\AddConflictingMethodException::class);
                 
         // This should trigger an Exception because we are
         // trying to validate the name of a static method 
@@ -2122,10 +2062,7 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         $this->assertSame( $collection->put('item4',35), $collection);
         $this->assertSame( $collection->offsetGet('item4'), 35);
     }
-    
-    /**
-     * @expectedException \LengthException
-     */
+
     public function testThatRandomKeyWorksAsExpected() {
         
         $collection = new \BaseCollectionTestImplementation(
@@ -2158,14 +2095,12 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         
         $this->assertFalse($all_random_keys_equal);
 
+        $this->expectException(\LengthException::class);
         // Should throw a \LengthException. 
         // Can't get a random key from an empty collection.
         \BaseCollectionTestImplementation::makeNew()->randomKey();
     }
-    
-    /**
-     * @expectedException \LengthException
-     */
+
     public function testThatRandomKeysWorksAsExpected() {
         
         $collection = new \BaseCollectionTestImplementation(
@@ -2201,41 +2136,33 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         
         $this->assertFalse($all_random_keys_collections_of_same_length_are_equal);
 
+        $this->expectException(\LengthException::class);
         // Should throw a \LengthException. 
         // Can't get a random keys from an empty collection.
         \BaseCollectionTestImplementation::makeNew()->randomKeys();
     }
-    
-    /**
-     * @expectedException \InvalidArgumentException
-     */
+
     public function testThatRandomKeysWorksAsExpected2() {
         
+        $this->expectException(\InvalidArgumentException::class);
         \BaseCollectionTestImplementation::makeNew([1, 2])
                                 ->randomKeys("Invalid Length Data Type");
     }
-    
-    /**
-     * @expectedException \InvalidArgumentException
-     */
+
     public function testThatRandomKeysWorksAsExpected3() {
         
+        $this->expectException(\InvalidArgumentException::class);
         // requesting more random keys than collection size
         \BaseCollectionTestImplementation::makeNew([1, 2])->randomKeys(5);
     }
-    
-    /**
-     * @expectedException \LengthException
-     */
+
     public function testThatRandomKeysWorksAsExpected4() {
         
+        $this->expectException(\LengthException::class);
         // requesting random keys from an empty collection
         \BaseCollectionTestImplementation::makeNew()->randomKeys(5);
     }
-    
-    /**
-     * @expectedException \LengthException
-     */
+
     public function testThatRandomItemWorksAsExpected() {
         
         $collection = new \BaseCollectionTestImplementation(
@@ -2268,14 +2195,12 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         
         $this->assertFalse($all_random_items_equal);
 
+        $this->expectException(\LengthException::class);
         // Should throw a \LengthException. 
         // Can't get a random item from an empty collection.
         \BaseCollectionTestImplementation::makeNew()->randomItem();
     }
-    
-    /**
-     * @expectedException \LengthException
-     */
+
     public function testThatRandomItemsWorksAsExpected() {
         
         $collection = new \BaseCollectionTestImplementation(
@@ -2325,33 +2250,30 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
             $this->assertTrue($collection2[$key] === $random_item);
         }
         
+        $this->expectException(\LengthException::class);
+        
         // Should throw a \LengthException. 
         // Can't get a random key from an empty collection.
         \BaseCollectionTestImplementation::makeNew()->randomItems();
     }
-    
-    /**
-     * @expectedException \InvalidArgumentException
-     */
+
     public function testThatRandomItemsWorksAsExpected2() {
         
+        $this->expectException(\InvalidArgumentException::class);
         \BaseCollectionTestImplementation::makeNew([1, 2])
                                 ->randomItems("Invalid Length Data Type");
     }
-    
-    /**
-     * @expectedException \InvalidArgumentException
-     */
+
     public function testThatRandomItemsWorksAsExpected3() {
         
+        $this->expectException(\InvalidArgumentException::class);
         // requesting more random keys than collection size
         \BaseCollectionTestImplementation::makeNew([1, 2])->randomItems(5);
     }
-    
-    /**
-     * @expectedException \LengthException
-     */
+
     public function testThatRandomItemsWorksAsExpected4() {
+        
+        $this->expectException(\LengthException::class);
         
         // requesting random keys from an empty collection
         \BaseCollectionTestImplementation::makeNew()->randomItems(5);
@@ -2420,10 +2342,7 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         $this->assertSame( $collection->searchAllByVal('2', true), [6]); // found at $collection[6]
         $this->assertSame( $collection->searchAllByVal(2, true), false); // not found
     }
-    
-    /**
-     * @expectedException \RuntimeException
-     */
+
     public function testThatSearchByCallbackWorksAsExpected() {
         
         $collection = new \BaseCollectionTestImplementation(
@@ -2467,6 +2386,8 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
             
             return true;
         };
+        
+        $this->expectException(\RuntimeException::class);
         
         // exception will be thrown
         $collection->searchByCallback($throw_exception_if_this_is_not_set, false); 
@@ -2522,30 +2443,24 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
             $collection->containsKeys($shuffled_collection->getKeys()->toArray())
         );
     }
-    
-    /**
-     * @expectedException \InvalidArgumentException
-     */
+
     public function testSliceExceptionOffset()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $collection = \VersatileCollections\GenericCollection::makeNew([1, 2, 3, 4, 5, 6, 7, 8]);
         $collection->slice([]); // exception should be generated
     }
-    
-    /**
-     * @expectedException \InvalidArgumentException
-     */
+
     public function testSliceExceptionLength()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $collection = \VersatileCollections\GenericCollection::makeNew([1, 2, 3, 4, 5, 6, 7, 8]);
         $collection->slice(-3,[]); // exception should be generated
     }
-    
-    /**
-     * @expectedException \InvalidArgumentException
-     */
+
     public function testSliceExceptionOffsetAndLength()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $collection = \VersatileCollections\GenericCollection::makeNew([1, 2, 3, 4, 5, 6, 7, 8]);
         $collection->slice([],[]); // exception should be generated
     }
@@ -2611,30 +2526,24 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(['foo', 'bar'], $data->toArray());
         $this->assertEquals(['baz'], $cut->toArray());
     }
-    
-    /**
-     * @expectedException \InvalidArgumentException
-     */
+
     public function testSpliceExceptionOffset()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $collection = \VersatileCollections\GenericCollection::makeNew([1, 2, 3, 4, 5, 6, 7, 8]);
         $collection->splice([]); // exception should be generated
     }
-    
-    /**
-     * @expectedException \InvalidArgumentException
-     */
+
     public function testSpliceExceptionLength()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $collection = \VersatileCollections\GenericCollection::makeNew([1, 2, 3, 4, 5, 6, 7, 8]);
         $collection->splice(-3,[]); // exception should be generated
     }
-    
-    /**
-     * @expectedException \InvalidArgumentException
-     */
+
     public function testSpliceExceptionOffsetAndLength()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $collection = \VersatileCollections\GenericCollection::makeNew([1, 2, 3, 4, 5, 6, 7, 8]);
         $collection->splice([],[]); // exception should be generated
     }
@@ -2845,10 +2754,7 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
             $sorted_collection->toArray() 
         );
     }
-    
-    /**
-     * @expectedException \RuntimeException
-     */
+
     public function testThatSortByMultipleFieldsWorksAsExpected() {
 
         ////////////////////////////////////////////////////////////////////////
@@ -3140,13 +3046,12 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         ////////////////////////////////////////////////////////////////////////////////////
         $collection_of_wrong_types = new \VersatileCollections\GenericCollection(...[1,2,3]);
         
+        $this->expectException(\RuntimeException::class);
+        
         // Can't multi sort collection of non-arrays or ArrayAccess objects
         $collection_of_wrong_types->sortByMultipleFields($sort_param);
     }
-    
-    /**
-     * @expectedException \InvalidArgumentException
-     */
+
     public function testThatSortByMultipleFieldsWithNoArgsWorksAsExpected() {
 
         $data = [];
@@ -3156,6 +3061,8 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         $data[3] = [ 'volume' => 86, 'edition' => 1 ];
 
         $collection = new \VersatileCollections\GenericCollection(...$data);
+        
+        $this->expectException(\InvalidArgumentException::class);
         
         // Exception should be thrown if no sort param supplied
         $collection->sortByMultipleFields();
@@ -3386,10 +3293,7 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         // test that $this was returned
         $this->assertTrue($sorted_collection === $collection);
     }
-    
-    /**
-     * @expectedException \RuntimeException
-     */
+
     public function testThatSortMeByMultipleFieldsWorksAsExpected() {
 
         $data = [];
@@ -3504,13 +3408,12 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         
         $collection_of_wrong_types = new \VersatileCollections\GenericCollection(...[1,2,3]);
         
+        $this->expectException(\RuntimeException::class);
+        
         // Can't multi sort collection of non-arrays or ArrayAccess objects
         $collection_of_wrong_types->sortMeByMultipleFields($sort_param);
     }
-    
-    /**
-     * @expectedException \InvalidArgumentException
-     */
+
     public function testThatSortMeByMultipleFieldsWithNoArgsWorksAsExpected() {
 
         $data = [];
@@ -3520,6 +3423,8 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         $data[3] = [ 'volume' => 86, 'edition' => 1 ];
 
         $collection = new \VersatileCollections\GenericCollection(...$data);
+        
+        $this->expectException(\InvalidArgumentException::class);
         
         // Exception should be thrown if no sort param supplied
         $collection->sortMeByMultipleFields();
@@ -3619,10 +3524,7 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
             [ 6=>7 ]
         );
     }
-    
-    /**
-     * @expectedException \InvalidArgumentException
-     */
+
     public function testThatSplitWithNonIntNumberOfGroupsWorksAsExpected() {
 
         $data = [];
@@ -3633,13 +3535,12 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
 
         $collection = new \VersatileCollections\GenericCollection(...$data);
         
+        $this->expectException(\InvalidArgumentException::class);
+        
         // Exception should be thrown
         $collection->split('Invalid Data Type for Number of Groups');
     }
-    
-    /**
-     * @expectedException \InvalidArgumentException
-     */
+
     public function testThatSplitWithNumberOfGroupsLargerThanCollectionSizeWorksAsExpected() {
 
         $data = [];
@@ -3650,13 +3551,12 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
 
         $collection = new \VersatileCollections\GenericCollection(...$data);
         
+        $this->expectException(\InvalidArgumentException::class);
+        
         // Exception should be thrown
         $collection->split(7);
     }
-    
-    /**
-     * @expectedException \InvalidArgumentException
-     */
+
     public function testThatSplitWithNumberOfGroupsLessThanZeroWorksAsExpected() {
 
         $data = [];
@@ -3667,13 +3567,12 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
 
         $collection = new \VersatileCollections\GenericCollection(...$data);
         
+        $this->expectException(\InvalidArgumentException::class);
+        
         // Exception should be thrown
         $collection->split(-7);
     }
-    
-    /**
-     * @expectedException \InvalidArgumentException
-     */
+
     public function testTake() {
         
         $data = new \VersatileCollections\GenericCollection(...['taylor', 'dayle', 'shawn']);
@@ -3682,6 +3581,7 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         
         $this->assertTrue($data->take(0)->isEmpty());
         
+        $this->expectException(\InvalidArgumentException::class);
         $data->take([]); // should throw exception
     }
     
@@ -4092,138 +3992,108 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
             $new->count()
         );
     }
-    
-    /**
-     * @expectedException \VersatileCollections\Exceptions\InvalidItemException
-     */
+
     public function testGetAsNewTypeGenericCollectionOfNonArraysToArraysCollection() {
         
+        $this->expectException(\VersatileCollections\Exceptions\InvalidItemException::class);
         \VersatileCollections\GenericCollection::makeNew([1, 2, 3, 4, 5])
                 ->getAsNewType(\VersatileCollections\ArraysCollection::class);
     }
-    
-    /**
-     * @expectedException \VersatileCollections\Exceptions\InvalidItemException
-     */
+
     public function testGetAsNewTypeGenericCollectionOfNonCallablesToCallablesCollection() {
         
+        $this->expectException(\VersatileCollections\Exceptions\InvalidItemException::class);
         \VersatileCollections\GenericCollection::makeNew([1, 2, 3, 4, 5])
                 ->getAsNewType(\VersatileCollections\CallablesCollection::class);
     }
-    
-    /**
-     * @expectedException \VersatileCollections\Exceptions\InvalidItemException
-     */
+
     public function testGetAsNewTypeGenericCollectionOfNonFloatsToFloatsCollection() {
         
+        $this->expectException(\VersatileCollections\Exceptions\InvalidItemException::class);
         \VersatileCollections\GenericCollection::makeNew([1, 2, 3, 4, 5])
                 ->getAsNewType(\VersatileCollections\FloatsCollection::class);
     }
-    
-    /**
-     * @expectedException \VersatileCollections\Exceptions\InvalidItemException
-     */
+
     public function testGetAsNewTypeGenericCollectionOfNonObjectsToObjectsCollection() {
         
+        $this->expectException(\VersatileCollections\Exceptions\InvalidItemException::class);
         \VersatileCollections\GenericCollection::makeNew([1, 2, 3, 4, 5])
                 ->getAsNewType(\VersatileCollections\ObjectsCollection::class);
     }
-    
-    /**
-     * @expectedException \VersatileCollections\Exceptions\InvalidItemException
-     */
+
     public function testGetAsNewTypeGenericCollectionOfNonResourcesToResourcesCollection() {
         
+        $this->expectException(\VersatileCollections\Exceptions\InvalidItemException::class);
         \VersatileCollections\GenericCollection::makeNew([1, 2, 3, 4, 5])
                 ->getAsNewType(\VersatileCollections\ResourcesCollection::class);
     }
-    
-    /**
-     * @expectedException \VersatileCollections\Exceptions\InvalidItemException
-     */
+
     public function testGetAsNewTypeGenericCollectionOfNonStringsToStringsCollection() {
         
+        $this->expectException(\VersatileCollections\Exceptions\InvalidItemException::class);
         \VersatileCollections\GenericCollection::makeNew([1, 2, 3, 4, 5])
                 ->getAsNewType(\VersatileCollections\StringsCollection::class);
     }
-    
-    /**
-     * @expectedException \VersatileCollections\Exceptions\InvalidItemException
-     */
+
     public function testGetAsNewTypeIntsCollectionToArraysCollection() {
         
+        $this->expectException(\VersatileCollections\Exceptions\InvalidItemException::class);
         \VersatileCollections\IntsCollection::makeNew([1, 2, 3, 4, 5])
                 ->getAsNewType(\VersatileCollections\ArraysCollection::class);
     }
-    
-    /**
-     * @expectedException \VersatileCollections\Exceptions\InvalidItemException
-     */
+
     public function testGetAsNewTypeIntsCollectionToCallablesCollection() {
         
+        $this->expectException(\VersatileCollections\Exceptions\InvalidItemException::class);
         \VersatileCollections\IntsCollection::makeNew([1, 2, 3, 4, 5])
                 ->getAsNewType(\VersatileCollections\CallablesCollection::class);
     }
-    
-    /**
-     * @expectedException \VersatileCollections\Exceptions\InvalidItemException
-     */
+
     public function testGetAsNewTypeIntsCollectionToFloatsCollection() {
         
+        $this->expectException(\VersatileCollections\Exceptions\InvalidItemException::class);
         \VersatileCollections\IntsCollection::makeNew([1, 2, 3, 4, 5])
                 ->getAsNewType(\VersatileCollections\FloatsCollection::class);
     }
-    
-    /**
-     * @expectedException \VersatileCollections\Exceptions\InvalidItemException
-     */
+
     public function testGetAsNewTypeIntsCollectionToObjectsCollection() {
         
+        $this->expectException(\VersatileCollections\Exceptions\InvalidItemException::class);
         \VersatileCollections\IntsCollection::makeNew([1, 2, 3, 4, 5])
                 ->getAsNewType(\VersatileCollections\ObjectsCollection::class);
     }
-    
-    /**
-     * @expectedException \VersatileCollections\Exceptions\InvalidItemException
-     */
+
     public function testGetAsNewTypeIntsCollectionToResourcesCollection() {
         
+        $this->expectException(\VersatileCollections\Exceptions\InvalidItemException::class);
         \VersatileCollections\IntsCollection::makeNew([1, 2, 3, 4, 5])
                 ->getAsNewType(\VersatileCollections\ResourcesCollection::class);
     }
-    
-    /**
-     * @expectedException \VersatileCollections\Exceptions\InvalidItemException
-     */
+
     public function testGetAsNewTypeIntsCollectionToStringsCollection() {
         
+        $this->expectException(\VersatileCollections\Exceptions\InvalidItemException::class);
         \VersatileCollections\IntsCollection::makeNew([1, 2, 3, 4, 5])
                 ->getAsNewType(\VersatileCollections\StringsCollection::class);
     }
-    
-    /**
-     * @expectedException \InvalidArgumentException
-     */
+
     public function testGetAsNewTypeWithNonStringAndNonObjectArg() {
         
+        $this->expectException(\InvalidArgumentException::class);
         \VersatileCollections\IntsCollection::makeNew([1, 2, 3, 4, 5])
                 ->getAsNewType([]);
     }
-    
-    /**
-     * @expectedException \InvalidArgumentException
-     */
+
     public function testGetAsNewTypeWithStringNonCollectionInterfaceSubClassArg() {
         
+        $this->expectException(\InvalidArgumentException::class);
         \VersatileCollections\IntsCollection::makeNew([1, 2, 3, 4, 5])
                 ->getAsNewType('Yay');
     }
-    
-    /**
-     * @expectedException \InvalidArgumentException
-     */
+
     public function testGetAsNewTypeWithObjectNonCollectionInterfaceSubClassArg() {
         
+        $this->expectException(\InvalidArgumentException::class);
         \VersatileCollections\IntsCollection::makeNew([1, 2, 3, 4, 5])
                 ->getAsNewType(new stdClass());
     }
@@ -4337,36 +4207,30 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         // requesting a 5th page should return an empty collection
         $this->assertEquals([], $c->paginate(5, 2)->toArray()); 
     }
-    
-    /**
-     * @expectedException \InvalidArgumentException
-     */
+
     public function testPaginateNonIntPageNumberException() {
         
+        $this->expectException(\InvalidArgumentException::class);
         $c = new \BaseCollectionTestImplementation(
                 ...[ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h' ]
             );
         
         $c->paginate([], 2)->toArray();
     }
-    
-    /**
-     * @expectedException \InvalidArgumentException
-     */
+
     public function testPaginateNonIntNumberOfItemsPerPageException() {
         
+        $this->expectException(\InvalidArgumentException::class);
         $c = new \BaseCollectionTestImplementation(
                 ...[ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h' ]
             );
         
         $c->paginate(1, [])->toArray();
     }
-    
-    /**
-     * @expectedException \InvalidArgumentException
-     */
+
     public function testPaginateNonIntPageNumberAndNonIntNumberOfItemsPerPageException() {
         
+        $this->expectException(\InvalidArgumentException::class);
         $c = new \BaseCollectionTestImplementation(
                 ...[ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h' ]
             );
@@ -4394,10 +4258,7 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         //to a closure with $this bound to it but of no effect.
         $this->assertTrue($collection->toUpper('Johnny Cash') === 'JOHNNY CASH');
     }
-    
-    /**
-     * @expectedException \BadMethodCallException
-     */
+
     public function testThat__CallWorksAsExpected() {
         
         // add to parent class
@@ -4487,12 +4348,10 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         $this->assertContains('JACK BAUER via addMethod', $upperred_items);
         $this->assertContains('JANE FONDA via addMethod', $upperred_items);
         
+        $this->expectException(\BadMethodCallException::class);
         $collection->nonExistentMethod();
     }
-    
-    /**
-     * @expectedException \BadMethodCallException
-     */
+
     public function testThat__CallStaticWorksAsExpected() {
         
         // add to parent class
@@ -4526,6 +4385,7 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         
         $this->assertEquals('toUpper via addStaticMethod'. \BaseCollectionTestImplementation::class, $result);
 
+        $this->expectException(\BadMethodCallException::class);
         \BaseCollectionTestImplementation::nonExistentMethod();
     }
     

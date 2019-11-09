@@ -6,13 +6,13 @@
  */
 class ArraysCollectionTest extends \PHPUnit\Framework\TestCase{
     
-    protected function setUp() { 
+    protected function setUp(): void { 
         
         parent::setUp();
     }
     
     /**
-     * @expectedException \VersatileCollections\Exceptions\InvalidItemException
+     * 
      */
     public function testThatOnlyArraysCanBeInjectedIntoCollection() {
         
@@ -34,6 +34,8 @@ class ArraysCollectionTest extends \PHPUnit\Framework\TestCase{
         );
         
         $this->assertEquals($collection->count(), 4);
+        
+        $this->expectException(\VersatileCollections\Exceptions\InvalidItemException::class);
         
         // line below should produce an exception since we are injecting
         // a non-array

@@ -6,24 +6,20 @@
  */
 class MultiSortParametersTest extends \PHPUnit\Framework\TestCase {
     
-    protected function setUp() { 
+    protected function setUp(): void { 
         
         parent::setUp();
     }
-    
-    /**
-     * @expectedException \VersatileCollections\Exceptions\MissingMultiSortParameterFieldName
-     */
+
     public function testThatConstructorWithFieldNameEmptyStringWorksAsExpected() {
         
+        $this->expectException(\VersatileCollections\Exceptions\MissingMultiSortParameterFieldName::class);
         $sort_param = new \VersatileCollections\MultiSortParameters('');
     }
-    
-    /**
-     * @expectedException \VersatileCollections\Exceptions\InvalidMultiSortParameterException
-     */
+
     public function testThatConstructorWithNonStringFieldNameWorksAsExpected() {
         
+        $this->expectException(\VersatileCollections\Exceptions\InvalidMultiSortParameterException::class);
         $sort_param = new \VersatileCollections\MultiSortParameters([]);
     }
 
@@ -48,20 +44,16 @@ class MultiSortParametersTest extends \PHPUnit\Framework\TestCase {
         $this->assertTrue(in_array($sort_param->getSortDirection(), \VersatileCollections\MultiSortParameters::getValidSortDirections()));
         $this->assertTrue(in_array($sort_param->getSortType(), \VersatileCollections\MultiSortParameters::getValidSortTypes()));
     }
-    
-    /**
-     * @expectedException \VersatileCollections\Exceptions\InvalidMultiSortParameterException
-     */
+
     public function testThatConstructorWithStringFieldNameAndInvalidSortTypeWorksAsExpected() {
         
+        $this->expectException(\VersatileCollections\Exceptions\InvalidMultiSortParameterException::class);
         $sort_param = new \VersatileCollections\MultiSortParameters('Jack', SORT_DESC, new ArrayObject() );
     }
-    
-    /**
-     * @expectedException \VersatileCollections\Exceptions\InvalidMultiSortParameterException
-     */
+
     public function testThatConstructorWithStringFieldNameAndInvalidSortDirectionWorksAsExpected() {
         
+        $this->expectException(\VersatileCollections\Exceptions\InvalidMultiSortParameterException::class);
         $sort_param = new \VersatileCollections\MultiSortParameters('Jack', new ArrayObject() );
     }
     

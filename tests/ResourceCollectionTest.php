@@ -6,14 +6,11 @@
  */
 class ResourcesCollectionTest extends \PHPUnit\Framework\TestCase {
     
-    protected function setUp() { 
+    protected function setUp(): void { 
         
         parent::setUp();
     }
-    
-    /**
-     * @expectedException \VersatileCollections\Exceptions\InvalidItemException
-     */
+
     public function testThatOnlyResourcesCanBeInjectedIntoCollection() {
         
         $collection = new \VersatileCollections\ResourcesCollection();
@@ -37,6 +34,7 @@ class ResourcesCollectionTest extends \PHPUnit\Framework\TestCase {
             fclose($item); // clean-up
         }
         
+        $this->expectException(\VersatileCollections\Exceptions\InvalidItemException::class);
         // line below should produce an exception since we are injecting
         // a non-resource
         $collection->item5 = [];

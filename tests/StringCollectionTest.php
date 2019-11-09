@@ -6,14 +6,11 @@
  */
 class StringsCollectionTest extends \PHPUnit\Framework\TestCase {
     
-    protected function setUp() { 
+    protected function setUp(): void { 
         
         parent::setUp();
     }
-    
-    /**
-     * @expectedException \VersatileCollections\Exceptions\InvalidItemException
-     */
+
     public function testThatOnlyStringsCanBeInjectedIntoCollection() {
         
         $collection = new \VersatileCollections\StringsCollection();
@@ -31,6 +28,7 @@ class StringsCollectionTest extends \PHPUnit\Framework\TestCase {
         );
         
         $this->assertEquals($collection->count(), 7);
+        $this->expectException(\VersatileCollections\Exceptions\InvalidItemException::class);
         
         // line below should produce an exception since we are injecting
         // a non-string

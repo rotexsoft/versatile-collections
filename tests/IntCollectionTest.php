@@ -6,14 +6,11 @@
  */
 class IntsCollectionTest extends \PHPUnit\Framework\TestCase {
     
-    protected function setUp() { 
+    protected function setUp(): void { 
         
         parent::setUp();
     }
-    
-    /**
-     * @expectedException \VersatileCollections\Exceptions\InvalidItemException
-     */
+
     public function testThatOnlyIntsCanBeInjectedIntoCollection() {
         
         $collection = new \VersatileCollections\IntsCollection();
@@ -32,6 +29,7 @@ class IntsCollectionTest extends \PHPUnit\Framework\TestCase {
         
         $this->assertEquals($collection->count(), 7);
         
+        $this->expectException(\VersatileCollections\Exceptions\InvalidItemException::class);
         // line below should produce an exception since we are injecting
         // a non-int
         $collection->item5 = 'boo';

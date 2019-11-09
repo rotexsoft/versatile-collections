@@ -7,14 +7,11 @@ use function VersatileCollections\get_object_property_value;
 
 class HelperFunctionsTest extends \PHPUnit\Framework\TestCase {
     
-    protected function setUp() { 
+    protected function setUp(): void { 
         
         parent::setUp();
     }
-    
-    /**
-     * @expectedException \LengthException
-     */
+
     public function testThat_random_array_key_WorksAsExpected() {
         
         $array = ['blue', 'red', 'green', 'a'=>'red', 1, 'b' => 'blue', '2'];
@@ -45,14 +42,13 @@ class HelperFunctionsTest extends \PHPUnit\Framework\TestCase {
         
         $this->assertFalse($all_random_keys_equal);
 
+        $this->expectException(\LengthException::class);
+        
         // Should throw a \LengthException. 
         // Can't get a random key from an empty array.
         random_array_key([]);
     }
-    
-    /**
-     * @expectedException \LengthException
-     */
+
     public function testThat_random_array_keys_WorksAsExpected() {
         
         $array = ['blue', 'red', 'green', 'a'=>'red', 1, 'b' => 'blue', '2'];
@@ -113,33 +109,29 @@ class HelperFunctionsTest extends \PHPUnit\Framework\TestCase {
         
         $this->assertFalse($all_random_keys_collections_of_same_length_are_equal);
 
+        $this->expectException(\LengthException::class);
+        
         // Should throw a \LengthException. 
         // Can't get a random keys from an empty collection.
         random_array_keys([]);
     }
-    
-    /**
-     * @expectedException \InvalidArgumentException
-     */
+
     public function testThat_random_array_keys_WorksAsExpected2() {
         
+        $this->expectException(\InvalidArgumentException::class);
         random_array_keys([1, 2], "Invalid Length Data Type");
     }
-    
-    /**
-     * @expectedException \InvalidArgumentException
-     */
+
     public function testThat_random_array_keys_WorksAsExpected3() {
         
+        $this->expectException(\InvalidArgumentException::class);
         // requesting more random keys than array size
         random_array_keys([1, 2], 5);
     }
-    
-    /**
-     * @expectedException \LengthException
-     */
+
     public function testThat_random_array_keys_WorksAsExpected4() {
         
+        $this->expectException(\LengthException::class);
         // requesting random keys from an empty array
         random_array_keys([], 5);
     }
@@ -194,28 +186,22 @@ class HelperFunctionsTest extends \PHPUnit\Framework\TestCase {
         $this->assertTrue( object_has_property($obj_real_and_dynamic_props_and_no_magic_methods, 'dynamic_property2') ); // dynamically assigned property
         $this->assertFalse( object_has_property($obj_real_and_dynamic_props_and_no_magic_methods, 'non_existent_property') ); // non-existent property
     }
-    
-    /**
-     * @expectedException \InvalidArgumentException
-     */
+
     public function testThat_object_has_property_WithNonObjectFirstArgWorksAsExpected() {
         
+        $this->expectException(\InvalidArgumentException::class);
         object_has_property([], 'id');
     }
-    
-    /**
-     * @expectedException \InvalidArgumentException
-     */
+
     public function testThat_object_has_property_WithNonStringNonIntSecondArgWorksAsExpected() {
         
+        $this->expectException(\InvalidArgumentException::class);
         object_has_property((new stdClass()), []);
     }
-    
-    /**
-     * @expectedException \InvalidArgumentException
-     */
+
     public function testThat_object_has_property_WithNonObjectFirstArgAndNonStringNonIntSecondArgWorksAsExpected() {
         
+        $this->expectException(\InvalidArgumentException::class);
         object_has_property([], []);
     }
     
@@ -273,52 +259,42 @@ class HelperFunctionsTest extends \PHPUnit\Framework\TestCase {
         $this->assertSame( get_object_property_value($obj_real_and_dynamic_props_and_no_magic_methods, 'dynamic_property1'), 'dynamic_property1' ); // dynamically assigned property
         $this->assertSame( get_object_property_value($obj_real_and_dynamic_props_and_no_magic_methods, 'dynamic_property2'), 'dynamic_property2' ); // dynamically assigned property
     }
-    
-    /**
-     * @expectedException \RuntimeException
-     */
+
     public function testThatNonIntendedProtectedPropertyAccessVia_get_object_property_value_WorksAsExpected() {
         
+        $this->expectException(\RuntimeException::class);
         $obj_protected_and_private_props_and_no_magic_methods = new TestValueObject2('John Doe', 47);
         
         // accessing the protected property without passing true as the fourth
         // argument to get_object_property_value() below should throw an exception
         get_object_property_value($obj_protected_and_private_props_and_no_magic_methods, 'protected_field');
     }
-    
-    /**
-     * @expectedException \RuntimeException
-     */
+
     public function testThatNonIntendedPrivatePropertyAccessVia_get_object_property_value_WorksAsExpected() {
         
+        $this->expectException(\RuntimeException::class);
         $obj_protected_and_private_props_and_no_magic_methods = new TestValueObject2('John Doe', 47);
         
         // accessing the private property without passing true as the fourth
         // argument to get_object_property_value() below should throw an exception
         get_object_property_value($obj_protected_and_private_props_and_no_magic_methods, 'private_field');
     }
-    
-    /**
-     * @expectedException \InvalidArgumentException
-     */
+
     public function testThat_get_object_property_value_WithNonObjectFirstArgWorksAsExpected() {
         
+        $this->expectException(\InvalidArgumentException::class);
         get_object_property_value([], 'id');
     }
-    
-    /**
-     * @expectedException \InvalidArgumentException
-     */
+
     public function testThat_get_object_property_value_WithNonStringNonIntSecondArgWorksAsExpected() {
         
+        $this->expectException(\InvalidArgumentException::class);
         get_object_property_value((new stdClass()), []);
     }
-    
-    /**
-     * @expectedException \InvalidArgumentException
-     */
+
     public function testThat_get_object_property_value_WithNonObjectFirstArgAndNonStringNonIntSecondArgWorksAsExpected() {
         
+        $this->expectException(\InvalidArgumentException::class);
         get_object_property_value([], []);
     }
     
@@ -328,8 +304,8 @@ class HelperFunctionsTest extends \PHPUnit\Framework\TestCase {
             "\\VersatileCollections\\dump_var", [['Hello World!', 'Boo']]
         );
         
-        $this->assertContains('Hello World!', $result);
-        $this->assertContains('Boo', $result);
+        $this->assertStringContainsString('Hello World!', $result);
+        $this->assertStringContainsString('Boo', $result);
     }
     
     protected function execFuncAndReturnBufferedOutput(callable $func, array $args=[]) {

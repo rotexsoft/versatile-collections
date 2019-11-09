@@ -8,7 +8,7 @@ use VersatileCollections\Utils;
  */
 class UtilsTest extends \PHPUnit\Framework\TestCase{
     
-    protected function setUp() { 
+    protected function setUp(): void { 
         
         parent::setUp();
     }
@@ -102,14 +102,14 @@ class UtilsTest extends \PHPUnit\Framework\TestCase{
         
         $ex_as_str = Utils::getExceptionAsStr($e3);
 
-        $this->assertContains('187', $ex_as_str);
-        $this->assertContains('Base Thrown', $ex_as_str);
-        $this->assertContains('777', $ex_as_str);
-        $this->assertContains('AncestorException', $ex_as_str);
-        $this->assertContains('Ancestor Thrown', $ex_as_str);
-        $this->assertContains('911', $ex_as_str);
-        $this->assertContains('DescendantException', $ex_as_str);
-        $this->assertContains('Descendant Thrown', $ex_as_str);
+        $this->assertStringContainsString('187', $ex_as_str);
+        $this->assertStringContainsString('Base Thrown', $ex_as_str);
+        $this->assertStringContainsString('777', $ex_as_str);
+        $this->assertStringContainsString('AncestorException', $ex_as_str);
+        $this->assertStringContainsString('Ancestor Thrown', $ex_as_str);
+        $this->assertStringContainsString('911', $ex_as_str);
+        $this->assertStringContainsString('DescendantException', $ex_as_str);
+        $this->assertStringContainsString('Descendant Thrown', $ex_as_str);
     }
 }
 

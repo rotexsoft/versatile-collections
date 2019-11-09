@@ -6,14 +6,11 @@
  */
 class ObjectsCollectionTest extends \PHPUnit\Framework\TestCase {
     
-    protected function setUp() { 
+    protected function setUp(): void { 
         
         parent::setUp();
     }
-    
-    /**
-     * @expectedException \VersatileCollections\Exceptions\InvalidItemException
-     */
+
     public function testThatOnlyObjectsCanBeInjectedIntoCollection() {
         
         $collection = new \VersatileCollections\ObjectsCollection();
@@ -39,14 +36,12 @@ class ObjectsCollectionTest extends \PHPUnit\Framework\TestCase {
         
         $this->assertEquals($collection->count(), 4);
         
+        $this->expectException(\VersatileCollections\Exceptions\InvalidItemException::class);
         // line below should produce an exception since we are injecting
         // a non-object
         $collection->item5 = [];
     }
-    
-    /**
-     * @expectedException \VersatileCollections\Exceptions\InvalidCollectionOperationException
-     */
+
     public function testThat__CallWorksAsExpected() {
         
         $collection = new \VersatileCollections\ObjectsCollection();
@@ -83,6 +78,7 @@ class ObjectsCollectionTest extends \PHPUnit\Framework\TestCase {
         $names = $collection->getName();
         $this->assertEquals($names, ['item1' => 'JOHNNY CASH', 'item2' => 'SUZZY SOMETHING', 'item3' => 'JACK BAUER', 'item4' => 'JANE FONDA']);
         
+        $this->expectException(\VersatileCollections\Exceptions\InvalidCollectionOperationException::class);
         $collection->nonExistentMethod();
     }
 }

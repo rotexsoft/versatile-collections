@@ -6,7 +6,7 @@
  */
 class NumericsCollectionTest extends \PHPUnit\Framework\TestCase {
     
-    protected function setUp() { 
+    protected function setUp(): void { 
         
         parent::setUp();
     }
@@ -195,10 +195,7 @@ class NumericsCollectionTest extends \PHPUnit\Framework\TestCase {
         
         $this->assertEquals($collection->sum(), 43.5);
     }
-    
-    /**
-     * @expectedException \VersatileCollections\Exceptions\InvalidItemException
-     */
+
     public function testThatOnlyNumericsCanBeInjectedIntoCollection() {
         
         $collection = new \VersatileCollections\NumericsCollection();
@@ -217,15 +214,12 @@ class NumericsCollectionTest extends \PHPUnit\Framework\TestCase {
         );
         
         $this->assertEquals($collection->count(), 7);
-        
+        $this->expectException(\VersatileCollections\Exceptions\InvalidItemException::class);
         // line below should produce an exception since we are injecting
         // a non-numeric scalar
         $collection->item5 = true;
     }
-    
-    /**
-     * @expectedException \VersatileCollections\Exceptions\InvalidItemException
-     */
+
     public function testThatOnlyNumericsCanBeInjectedIntoCollection2() {
         
         $collection = new \VersatileCollections\NumericsCollection();
@@ -237,7 +231,7 @@ class NumericsCollectionTest extends \PHPUnit\Framework\TestCase {
         );
         
         $this->assertEquals($collection->count(), 7);
-        
+        $this->expectException(\VersatileCollections\Exceptions\InvalidItemException::class);
         // line below should produce an exception since we are injecting
         // a non-numeric scalar
         $collection->item5 = 'true';
