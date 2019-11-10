@@ -12,9 +12,9 @@
 New PHP 7.0 - 7.2 Features for Versatile Collections PHP 7.2+
 ===============================================================
 - https://gist.github.com/rotexdegba/2e04245570810ff05f571ab95cc4c728 new stuff in PHP 7.X
-- Bump PHPunit to version 8
 - Use Scalar type definitions in method parameters and return signature and get rid of code formerly used to check types (and the exceptions thrown when types are wrong)
     - Update unit test expecting those exceptions to no longer do so where appropriate they should expect \TypeError in those cases I guess
+- Add declare strict types at the top of the different classes
 - The spaceship operator is used for comparing two expressions. It returns -1, 0 or 1 when $a is respectively less than, equal to, or greater than $b. 
     - use where reasonable
 - Use anonymous classes where reasonable

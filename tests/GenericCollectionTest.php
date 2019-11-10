@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 use function VersatileCollections\dump_var;
 
 class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
@@ -908,6 +909,9 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals($collection->getIfExists(0), ['name'=>'Joe', 'age'=>'10',]);
         $this->assertEquals($collection->getIfExists(1), ['name'=>'Jane', 'age'=>'20',]);
         $this->assertEquals($collection->getIfExists(2), null);
+        
+        $this->expectException(\InvalidArgumentException::class);
+        $collection->getIfExists(['non int or string first argument']);
     }
     
     public function testThatColumnWorksAsExpected() {

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 namespace {
     
     if( !function_exists('array_key_first') ) {
@@ -67,6 +68,7 @@ namespace VersatileCollections {
             throw new \InvalidArgumentException($msg); 
         }
 
+        $property = ''.$property;
         $return_val = $default_val;
 
         if( object_has_property($obj, $property) ) {
@@ -147,6 +149,8 @@ namespace VersatileCollections {
             . " String or Int expected as second argument, `$property_type` given.";
             throw new \InvalidArgumentException($msg); 
         }
+        
+        $property = ''.$property;
 
         return (
                     property_exists($obj, $property) // check if property is public, protected or private

@@ -323,22 +323,22 @@ trait CollectionInterfaceImplementationTrait {
         }
     }
     
-    public function __get($key) {
+    public function __get(string $key) {
         
         return $this->offsetGet($key);
     }
     
-    public function __isset($key) {
+    public function __isset(string $key) {
         
         return $this->offsetExists($key);
     }
     
-    public function __set($key, $val) {
+    public function __set(string $key, $val) {
         
         $this->offsetSet($key, $val);
     }
     
-    public function __unset($key) {
+    public function __unset(string $key) {
         
         $this->offsetUnset($key);
     }
@@ -348,7 +348,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::makeNew()
      * 
      */
-    public static function makeNew(array $items=[], $preserve_keys=true) {
+    public static function makeNew(array $items=[], bool $preserve_keys=true): \VersatileCollections\CollectionInterface {
 
         if ($preserve_keys === true) {
        
@@ -375,7 +375,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::offsetExists()
      * 
      */
-    public function offsetExists($key) {
+    public function offsetExists($key): bool {
         
         return array_key_exists($key, $this->versatile_collections_items);
     }
@@ -402,7 +402,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::offsetSet()
      * 
      */
-    public function offsetSet($key, $val) {
+    public function offsetSet($key, $val): void {
         
         if(is_null($key) ) {
             
@@ -419,7 +419,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::offsetUnset()
      * 
      */
-    public function offsetUnset($key) {
+    public function offsetUnset($key): void {
         
         $this->versatile_collections_items[$key] = null;
         unset($this->versatile_collections_items[$key]);
@@ -430,7 +430,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::toArray()
      * 
      */
-    public function toArray() {
+    public function toArray(): array {
 
         return $this->versatile_collections_items;
     }
@@ -440,7 +440,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::getIterator()
      * 
      */
-    public function getIterator() {
+    public function getIterator(): \Iterator {
 
         return new \ArrayIterator($this->versatile_collections_items);
     }
@@ -450,7 +450,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::count()
      * 
      */
-    public function count() {
+    public function count(): int {
         
         return count($this->versatile_collections_items);
     }
@@ -494,7 +494,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::getKeys()
      * 
      */
-    public function getKeys() {
+    public function getKeys(): \VersatileCollections\GenericCollection {
         
         return \VersatileCollections\GenericCollection::makeNew( array_keys($this->versatile_collections_items) );
     }
@@ -504,7 +504,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::setValForEachItem()
      * 
      */
-    public function setValForEachItem($field_name, $field_val, $add_field_if_not_present=false) {
+    public function setValForEachItem(string $field_name, $field_val, bool $add_field_if_not_present=false): \VersatileCollections\CollectionInterface {
         
         foreach ($this->versatile_collections_items as &$item) {
             
@@ -561,7 +561,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::filterAll()
      * 
      */
-    public function filterAll(callable $filterer, $copy_keys=false, $bind_callback_to_this=true, $remove_filtered_items=false) {
+    public function filterAll(callable $filterer, bool $copy_keys=false, bool $bind_callback_to_this=true, bool $remove_filtered_items=false): \VersatileCollections\CollectionInterface {
                 
         return $this->filterFirstN($filterer, $this->count(), $copy_keys, $bind_callback_to_this, $remove_filtered_items);
     }
@@ -571,7 +571,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::filterFirstN()
      * 
      */
-    public function filterFirstN(callable $filterer, $max_number_of_filtered_items_to_return =null, $copy_keys=false, $bind_callback_to_this=true, $remove_filtered_items=false) {
+    public function filterFirstN(callable $filterer, ?int $max_number_of_filtered_items_to_return =null, bool $copy_keys=false, bool $bind_callback_to_this=true, bool $remove_filtered_items=false): \VersatileCollections\CollectionInterface {
         
         if( $bind_callback_to_this === true && Utils::canReallyBind($filterer) ) {
             
@@ -630,7 +630,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::transform()
      * 
      */
-    public function transform(callable $transformer, $bind_callback_to_this=true) {
+    public function transform(callable $transformer, bool $bind_callback_to_this=true): \VersatileCollections\CollectionInterface {
         
         if( $bind_callback_to_this === true && Utils::canReallyBind($transformer) ) {
             
@@ -684,7 +684,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::reverse()
      * 
      */
-    public function reverse() {
+    public function reverse(): \VersatileCollections\CollectionInterface {
         
         return static::makeNew(
             array_reverse($this->versatile_collections_items, true)
@@ -696,7 +696,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::reverseMe()
      * 
      */
-    public function reverseMe() {
+    public function reverseMe(): \VersatileCollections\CollectionInterface {
         
         $this->versatile_collections_items = 
             array_reverse($this->versatile_collections_items, true);
@@ -743,7 +743,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::isEmpty()
      * 
      */
-    public function isEmpty() {
+    public function isEmpty(): bool {
         
         return ($this->count() <= 0);
     }
@@ -755,6 +755,17 @@ trait CollectionInterfaceImplementationTrait {
      */
     public function getIfExists($key, $default_value=null) {
         
+        if( !is_int($key) && !is_string($key) ) {
+            
+            $function = __FUNCTION__;
+            $class = get_class($this);
+            $key_type = gettype($key);
+            $msg = "Error [{$class}::{$function}(...)]:"
+            . " You must specify an integer or string as the \$key parameter."
+            . " You supplied a(n) `{$key_type}` with a value of: ". var_to_string($key);
+            throw new \InvalidArgumentException($msg); 
+        }
+        
         return array_key_exists($key, $this->versatile_collections_items) 
                 ?  $this->versatile_collections_items[$key] : $default_value;
     }
@@ -764,7 +775,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::containsItem()
      * 
      */
-    public function containsItem($item) {
+    public function containsItem($item): bool {
         
         return in_array($item, $this->versatile_collections_items, true);
     }
@@ -774,7 +785,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::containsKey()
      * 
      */
-    public function containsKey($key) {
+    public function containsKey($key): bool {
         
         if( !is_int($key) && !is_string($key) ) {
             
@@ -789,7 +800,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::containsItemWithKey()
      * 
      */
-    public function containsItemWithKey($key, $item) {
+    public function containsItemWithKey($key, $item): bool {
         
         if( !is_int($key) && !is_string($key) ) {
             
@@ -805,7 +816,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::containsItems()
      * 
      */
-    public function containsItems(array $items) {
+    public function containsItems(array $items): bool {
         
         $all_items_exist = count($items) > 0;
         
@@ -827,7 +838,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::containsKeys()
      * 
      */
-    public function containsKeys(array $keys) {
+    public function containsKeys(array $keys): bool {
         
         $all_keys_exist = count($keys) > 0;
         
@@ -849,7 +860,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::appendCollection()
      * 
      */
-    public function appendCollection(CollectionInterface $other) {
+    public function appendCollection(CollectionInterface $other): \VersatileCollections\CollectionInterface {
         
         if( ! $other->isEmpty() ) {
             
@@ -867,7 +878,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::appendItem()
      * 
      */
-    public function appendItem($item) {
+    public function appendItem($item): \VersatileCollections\CollectionInterface {
         
         $this[] = $item;
         
@@ -920,7 +931,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::prependCollection()
      * 
      */
-    public function prependCollection(CollectionInterface $other) {
+    public function prependCollection(CollectionInterface $other): \VersatileCollections\CollectionInterface {
         
         if( ! $other->isEmpty() ) {
             

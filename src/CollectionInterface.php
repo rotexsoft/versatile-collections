@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 namespace VersatileCollections;
 
 /**
@@ -45,7 +46,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @title: Creates a new collection from an array of items. Items must be rightly typed if collection class is strictly typed.
      * 
      */
-    public static function makeNew(array $items=[], $preserve_keys=true);
+    public static function makeNew(array $items=[], bool $preserve_keys=true): \VersatileCollections\CollectionInterface;
     
     /**
      * 
@@ -60,7 +61,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @title: Retrieves an item associated with a specified key in the collection.
      * 
      */
-    public function __get($key);
+    public function __get(string $key);
     
     /**
      * 
@@ -75,7 +76,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @title: Checks if an item with a specified key exists in the collection.
      * 
      */
-    public function __isset($key);
+    public function __isset(string $key);
     
     /**
      * 
@@ -92,7 +93,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @title: Adds an item with a specified key to the collection.
      * 
      */
-    public function __set($key, $val);
+    public function __set(string $key, $val);
     
     /**
      * 
@@ -107,13 +108,13 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @title: Removes an item associated with the specified key from the collection.
      * 
      */
-    public function __unset($key);
+    public function __unset(string $key);
     
     /**
      * 
      * ArrayAccess: does the requested key exist?
      * 
-     * @param string $key The requested key.
+     * @param mixed $key The requested key.
      * 
      * @return bool
      * 
@@ -122,13 +123,13 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @title: Checks if an item with a specified key exists in the collection.
      * 
      */
-    public function offsetExists($key);
+    public function offsetExists($key): bool;
     
     /**
      * 
      * ArrayAccess: get a key's value.
      * 
-     * @param string $key The requested key.
+     * @param mixed $key The requested key.
      * 
      * @return mixed
      * 
@@ -143,9 +144,9 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * 
      * ArrayAccess: set a key's value.
      * 
-     * @param string $key The requested key.
+     * @param mixed $key The requested key.
      * 
-     * @param string $val The value to set it to.
+     * @param mixed $val The value to set it to.
      * 
      * @return void
      * 
@@ -154,13 +155,13 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @title: Adds an item with a specified key to the collection.
      * 
      */
-    public function offsetSet($key, $val);
+    public function offsetSet($key, $val): void;
     
     /**
      * 
      * ArrayAccess: unset a key.
      * 
-     * @param string $key The requested key.
+     * @param mixed $key The requested key.
      * 
      * @return void
      * 
@@ -169,7 +170,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @title: Removes an item associated with the specified key from the collection.
      * 
      */
-    public function offsetUnset($key);
+    public function offsetUnset($key): void;
     
     /**
      * 
@@ -180,7 +181,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @title: Returns all items in the collection and their corresponding keys in an array.
      * 
      */
-    public function toArray();
+    public function toArray(): array;
     
     /**
      * 
@@ -191,7 +192,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @title: Returns an Iterator object that can be used to iterate through the collection.
      * 
      */
-    public function getIterator();
+    public function getIterator(): \Iterator;
     
     /**
      * 
@@ -202,7 +203,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @title: Returns the number of items in the collection.
      * 
      */
-    public function count();
+    public function count(): int;
     
     ////////////////////////////////////////////////////////////////////////////
     ////////// OTHER COLLECTION METHODS ////////////////////////////////////////
@@ -242,7 +243,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @title: Returns a new instance of **`\VersatileCollections\GenericCollection`** containing all the keys in the original collection.
      * 
      */
-    public function getKeys();
+    public function getKeys(): \VersatileCollections\GenericCollection;
     
     /**
      * 
@@ -261,7 +262,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @title: Sets the specified field in each array or object in the collection to a specified value.
      * 
      */
-    public function setValForEachItem($field_name, $field_val, $add_field_if_not_present=false);
+    public function setValForEachItem(string $field_name, $field_val, bool $add_field_if_not_present=false): \VersatileCollections\CollectionInterface;
     
     /**
      * 
@@ -291,7 +292,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @title: Filters out items in the collection via a callback function and returns filtered items in a new collection.
      * 
      */
-    public function filterAll(callable $filterer, $copy_keys=false, $bind_callback_to_this=true, $remove_filtered_items=false);
+    public function filterAll(callable $filterer, bool $copy_keys=false, bool $bind_callback_to_this=true, bool $remove_filtered_items=false): \VersatileCollections\CollectionInterface;
     
     /**
      * 
@@ -323,7 +324,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @title: Filters out the first N items in the collection via a callback function and returns filtered items in a new collection.
      * 
      */
-    public function filterFirstN(callable $filterer, $max_number_of_filtered_items_to_return=null, $copy_keys=false, $bind_callback_to_this=true, $remove_filtered_items=false);
+    public function filterFirstN(callable $filterer, ?int $max_number_of_filtered_items_to_return=null, bool $copy_keys=false, bool $bind_callback_to_this=true, bool $remove_filtered_items=false): \VersatileCollections\CollectionInterface;
     
     /**
      * 
@@ -345,7 +346,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @title: Transforms each item in the collection via a callback function.
      * 
      */
-    public function transform(callable $transformer, $bind_callback_to_this=true);
+    public function transform(callable $transformer, bool $bind_callback_to_this=true): \VersatileCollections\CollectionInterface;
     
     /**
      * 
@@ -400,7 +401,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @title: Reverses the order of items in the collection and returns the reversed items in a new collection.
      * 
      */
-    public function reverse();
+    public function reverse(): \VersatileCollections\CollectionInterface;
     
     /**
      * 
@@ -413,7 +414,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @title: Reverses the order of items in the collection. Original collection is modified.
      * 
      */
-    public function reverseMe();
+    public function reverseMe(): \VersatileCollections\CollectionInterface;
     
     /**
      * 
@@ -426,7 +427,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @title: Returns true if there are one or more items in the collection or false otherwise.
      * 
      */
-    public function isEmpty();
+    public function isEmpty(): bool;
     
     /**
      * 
@@ -457,7 +458,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @title: Checks if a collection contains a specified item (using strict comparison).
      * 
      */
-    public function containsItem($item);
+    public function containsItem($item): bool;
     
     /**
      * 
@@ -474,7 +475,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @title: Checks if a collection contains a specified item (using strict comparison) together with the specified key.
      * 
      */
-    public function containsItemWithKey($key, $item);
+    public function containsItemWithKey($key, $item): bool;
     
     /**
      * 
@@ -490,7 +491,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @title: Checks if a collection contains all specified items (using strict comparison for each comparison).
      * 
      */
-    public function containsItems(array $items);
+    public function containsItems(array $items): bool;
     
     /**
      * 
@@ -505,7 +506,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @title: Checks if a collection contains a specified key.
      *  
      */
-    public function containsKey($key);
+    public function containsKey($key): bool;
     
     /**
      * 
@@ -520,7 +521,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @title: Checks if a collection contains all specified keys.
      * 
      */
-    public function containsKeys(array $keys);
+    public function containsKeys(array $keys): bool;
     
     /**
      * 
@@ -536,7 +537,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @title: Appends all items from a specified collection to the end of a collection. Note that appended items will be assigned numeric keys.
      * 
      */
-    public function appendCollection(CollectionInterface $other);
+    public function appendCollection(CollectionInterface $other): \VersatileCollections\CollectionInterface;
     
     /**
      * 
@@ -551,7 +552,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @title: Appends a specified item to the end of a collection.
      * 
      */
-    public function appendItem($item);
+    public function appendItem($item): \VersatileCollections\CollectionInterface;
     
     /**
      * 
@@ -567,7 +568,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @title: Prepends all items from a specified collection to the front of a collection.
      * 
      */
-    public function prependCollection(CollectionInterface $other);
+    public function prependCollection(CollectionInterface $other): \VersatileCollections\CollectionInterface;
     
     /**
      * 

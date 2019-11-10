@@ -51,7 +51,7 @@ trait StrictlyTypedCollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::appendCollection()
      * 
      */
-    public function appendCollection(CollectionInterface $other) {
+    public function appendCollection(CollectionInterface $other): \VersatileCollections\CollectionInterface {
         
         if( 
             get_class($this) !== get_class($other)
@@ -97,7 +97,7 @@ trait StrictlyTypedCollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::offsetSet()
      * 
      */
-    public function offsetSet($key, $val) {
+    public function offsetSet($key, $val): void {
         
         $this->isRightTypeOrThrowInvalidTypeException($val, __FUNCTION__);
         
@@ -109,7 +109,7 @@ trait StrictlyTypedCollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::prependCollection()
      * 
      */
-    public function prependCollection(CollectionInterface $other) {
+    public function prependCollection(CollectionInterface $other): \VersatileCollections\CollectionInterface {
         
         if( 
             get_class($this) !== get_class($other)

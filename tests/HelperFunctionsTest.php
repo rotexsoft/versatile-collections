@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 use function VersatileCollections\random_array_key;
 use function VersatileCollections\random_array_keys;
 use function VersatileCollections\object_has_property;
