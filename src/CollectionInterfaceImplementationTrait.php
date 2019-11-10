@@ -237,7 +237,7 @@ trait CollectionInterfaceImplementationTrait {
      * @throws \BadMethodCallException
      * 
      */
-    public function __call($method_name, $arguments) {
+    public function __call(string $method_name, array $arguments=[]) {
         
         $key_for_this_instance = static::getKeyForDynamicMethod($method_name, $this->versatile_collections_methods_for_this_instance, false);
         $key_for_all_instances = static::getKeyForDynamicMethod($method_name, static::$versatile_collections_methods_for_all_instances);
@@ -279,7 +279,7 @@ trait CollectionInterfaceImplementationTrait {
             $class = get_class($this);
             $name_var = var_to_string($method_name);
             $msg = "Error [{$class}::{$function}(...)]: Trying to call a non-existent dynamic method named `{$name_var}` on a collection";
-            throw new \BadMethodCallException($msg);
+            throw new \VersatileCollections\Exceptions\BadMethodCallException($msg);
         }
     }
     
@@ -474,7 +474,7 @@ trait CollectionInterfaceImplementationTrait {
         
         if( $this->count() <= 0 ) { return null; }
         
-        return $this->versatile_collections_items[array_key_first($this->versatile_collections_items)];
+        return $this->versatile_collections_items[Utils::array_key_first($this->versatile_collections_items)];
     }
     
     /**
@@ -709,29 +709,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::slice()
      * 
      */
-    public function slice($offset, $length = null) {
-        
-        if( !is_int($offset) ) {
-            
-            $function = __FUNCTION__;
-            $class = get_class($this);
-            $offset_type = gettype($offset);
-            $msg = "Error [{$class}::{$function}(...)]:"
-            . " You must specify a valid integer as the offset."
-            . " You supplied a(n) `{$offset_type}` with a value of: ". var_to_string($offset);
-            throw new \InvalidArgumentException($msg); 
-        }
-        
-        if( !is_null($length) && !is_int($length) ) {
-            
-            $function = __FUNCTION__;
-            $class = get_class($this);
-            $length_type = gettype($length);
-            $msg = "Error [{$class}::{$function}(...)]:"
-            . " You must specify a valid integer as the length."
-            . " You supplied a(n) `{$length_type}` with a value of: ". var_to_string($length);
-            throw new \InvalidArgumentException($msg); 
-        }
+    public function slice(int $offset, ?int $length = null): \VersatileCollections\CollectionInterface {
         
         return static::makeNew(
             array_slice($this->versatile_collections_items, $offset, $length, true)
@@ -890,7 +868,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::mergeWith()
      * 
      */
-    public function mergeWith(array $items) {
+    public function mergeWith(array $items): \VersatileCollections\CollectionInterface {
         
         $copy = $this->versatile_collections_items;
         $merged_items = static::makeNew($copy);
@@ -912,7 +890,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::mergeMeWith()
      * 
      */
-    public function mergeMeWith(array $items) {
+    public function mergeMeWith(array $items): \VersatileCollections\CollectionInterface {
         
         if( count($items) > 0 ) {
             
@@ -946,7 +924,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::prependItem()
      * 
      */
-    public function prependItem($item, $key=null) {
+    public function prependItem($item, $key=null): \VersatileCollections\CollectionInterface {
         
         if( is_null($key) ) {
             
@@ -975,19 +953,20 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::getCollectionsOfSizeN()
      * 
      */
-    public function getCollectionsOfSizeN($max_size_of_each_collection=1) {
+    public function getCollectionsOfSizeN(int $max_size_of_each_collection=1): \VersatileCollections\CollectionInterface {
         
         if(
-            ((int)$max_size_of_each_collection) > $this->count()
-            || ((int)$max_size_of_each_collection) < 0
-            || !is_numeric($max_size_of_each_collection)
+            $max_size_of_each_collection > $this->count()
         ) {
+            $max_size_of_each_collection = $this->count();
+            
+        } else if( $max_size_of_each_collection <= 0 ) {
+            
             $max_size_of_each_collection = 1;
         }
         
         $collections = \VersatileCollections\GenericCollection::makeNew();
         $current_batch = static::makeNew();
-        $result = [];
         $counter = 0;
         
         foreach ($this->versatile_collections_items as $key=>$item) {
@@ -1016,23 +995,19 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::yieldCollectionsOfSizeN()
      * 
      */
-    public function yieldCollectionsOfSizeN($max_size_of_each_collection=1) {
+    public function yieldCollectionsOfSizeN(int $max_size_of_each_collection=1): \Generator {
         
         if(
-            ((int)$max_size_of_each_collection) > $this->count()
-            || ((int)$max_size_of_each_collection) < 0
-            || !is_numeric($max_size_of_each_collection)
+            $max_size_of_each_collection > $this->count()
         ) {
+            $max_size_of_each_collection = $this->count();
+            
+        } else if( $max_size_of_each_collection <= 0 ) {
+            
             $max_size_of_each_collection = 1;
-            
-        } else if( is_float($max_size_of_each_collection) ) {
-            
-            $max_size_of_each_collection = 
-                (int)$max_size_of_each_collection;
         }
         
         $current_batch = static::makeNew();
-        $result = [];
         $counter = 0;
         
         foreach ($this->versatile_collections_items as $key=>$item) {
@@ -1059,19 +1034,8 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::makeAllKeysNumeric()
      * 
      */
-    public function makeAllKeysNumeric($starting_key=0) {
-        
-        if( !is_int($starting_key) ) {
-            
-            $function = __FUNCTION__;
-            $class = get_class($this);
-            $starting_key_type = gettype($starting_key);
-            $msg = "Error [{$class}::{$function}(...)]:"
-            . " You must specify an integer or string as the \$starting_key parameter."
-            . " You supplied a(n) `{$starting_key_type}` with a value of: ". var_to_string($starting_key);
-            throw new \InvalidArgumentException($msg); 
-        }
-        
+    public function makeAllKeysNumeric(int $starting_key=0): \VersatileCollections\CollectionInterface {
+               
         if( $starting_key < 0 ) {
             
             $starting_key = 0;
@@ -1100,8 +1064,9 @@ trait CollectionInterfaceImplementationTrait {
      * 
      */
     public function each(
-        callable $callback, $termination_value=false, $bind_callback_to_this=true
-    ) {
+        callable $callback, $termination_value=false, bool $bind_callback_to_this=true
+    ): \VersatileCollections\CollectionInterface {
+        
         if( $bind_callback_to_this === true && Utils::canReallyBind($callback) ) {
             
             $callback = Utils::bindObjectAndScopeToClosure(
@@ -1127,8 +1092,8 @@ trait CollectionInterfaceImplementationTrait {
      * 
      */
     public function map(
-        callable $callback, $preserve_keys = true, $bind_callback_to_this=true
-    ) {    
+        callable $callback, bool $preserve_keys = true, bool $bind_callback_to_this=true
+    ): \VersatileCollections\CollectionInterface {    
         if( $bind_callback_to_this === true && Utils::canReallyBind($callback) ) {
             
             $callback = Utils::bindObjectAndScopeToClosure(
@@ -1164,7 +1129,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::everyNth()
      * 
      */
-    public function everyNth($n, $position_of_first_nth_item = 0) {
+    public function everyNth(int $n, int $position_of_first_nth_item = 0): \VersatileCollections\CollectionInterface {
         
         $new = static::makeNew();
         $iteration_counter = 0;
@@ -1197,7 +1162,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::pipeAndReturnSelf()
      * 
      */
-    public function pipeAndReturnSelf(callable $callback) {
+    public function pipeAndReturnSelf(callable $callback): \VersatileCollections\CollectionInterface {
         
         $callback($this);
         
@@ -1209,7 +1174,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::tap()
      * 
      */
-    public function tap(callable $callback) {
+    public function tap(callable $callback): \VersatileCollections\CollectionInterface {
         
         $callback(static::makeNew($this->versatile_collections_items));
 
@@ -1255,7 +1220,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::push()
      * 
      */
-    public function push($item) {
+    public function push($item): \VersatileCollections\CollectionInterface {
         
         return $this->appendItem($item);
     }
@@ -1265,7 +1230,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::put()
      * 
      */
-    public function put($key, $value) {
+    public function put($key, $value): \VersatileCollections\CollectionInterface {
         
         $this->offsetSet($key, $value);
         
@@ -1313,7 +1278,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::randomKeys()
      * 
      */
-    public function randomKeys($number = 1) {
+    public function randomKeys(int $number = 1): \VersatileCollections\CollectionInterface {
         
         if( $this->count() <= 0 ) {
             
@@ -1323,18 +1288,7 @@ trait CollectionInterfaceImplementationTrait {
             throw new \LengthException($msg);
         }
         
-        if( !is_int($number) ) {
-            
-            $function = __FUNCTION__;
-            $class = get_class($this);
-            $number_type = gettype($number);
-            $msg = "Error [{$class}::{$function}(...)]:"
-            . " You must specify a valid integer as the number of random keys."
-            . " You supplied a(n) `{$number_type}` with a value of: ". var_to_string($number);
-            throw new \InvalidArgumentException($msg); 
-        }
-        
-        if( is_int($number) && $number > $this->count() ) {
+        if( $number > $this->count() ) {
             
             $function = __FUNCTION__;
             $class = get_class($this);
@@ -1355,7 +1309,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::randomItems()
      * 
      */
-    public function randomItems($number = 1, $preserve_keys=false) {
+    public function randomItems(int $number = 1, bool $preserve_keys=false): \VersatileCollections\CollectionInterface {
         
         if( $this->count() <= 0 ) {
             
@@ -1365,18 +1319,7 @@ trait CollectionInterfaceImplementationTrait {
             throw new \LengthException($msg);
         }
         
-        if( !is_int($number) ) {
-            
-            $function = __FUNCTION__;
-            $class = get_class($this);
-            $number_type = gettype($number);
-            $msg = "Error [{$class}::{$function}(...)]:"
-            . " You must specify a valid integer as the number of random items."
-            . " You supplied a(n) `{$number_type}` with a value of: ". var_to_string($number);
-            throw new \InvalidArgumentException($msg); 
-        }
-        
-        if( is_int($number) && $number > $this->count() ) {
+        if( $number > $this->count() ) {
             
             $function = __FUNCTION__;
             $class = get_class($this);
@@ -1408,7 +1351,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::shuffle()
      * 
      */   
-    public function shuffle($preserve_keys=true) {
+    public function shuffle(bool $preserve_keys=true): \VersatileCollections\CollectionInterface {
                 
         if( $this->isEmpty() ) {
             
@@ -1443,7 +1386,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::searchByVal()
      * 
      */    
-    public function searchByVal( $value, $strict = false ) {
+    public function searchByVal( $value, bool $strict = false ) {
         
         return array_search($value, $this->versatile_collections_items, $strict);
     }
@@ -1453,7 +1396,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::searchAllByVal()
      * 
      */  
-    public function searchAllByVal( $value, $strict = false ){
+    public function searchAllByVal( $value, bool $strict = false ){
         
         $result = array_keys($this->versatile_collections_items, $value, $strict);
         
@@ -1470,7 +1413,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::searchByCallback()
      * 
      */  
-    public function searchByCallback(callable $callback, $bind_callback_to_this=true) {
+    public function searchByCallback(callable $callback, bool $bind_callback_to_this=true) {
         
         $results = [];
         
@@ -1627,7 +1570,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::sort()
      * 
      */
-    public function sort(callable $callable=null, \VersatileCollections\SortType $type=null) {
+    public function sort(callable $callable=null, \VersatileCollections\SortType $type=null): \VersatileCollections\CollectionInterface {
         
         // sort a copy
         $items_to_sort = $this->versatile_collections_items;
@@ -1648,7 +1591,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::sortDesc()
      * 
      */
-    public function sortDesc(callable $callable=null, \VersatileCollections\SortType $type=null) {
+    public function sortDesc(callable $callable=null, \VersatileCollections\SortType $type=null): \VersatileCollections\CollectionInterface {
         
         // sort a copy
         $items_to_sort = $this->versatile_collections_items;
@@ -1669,7 +1612,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::sortByKey()
      * 
      */
-    public function sortByKey(callable $callable=null, \VersatileCollections\SortType $type=null) {
+    public function sortByKey(callable $callable=null, \VersatileCollections\SortType $type=null): \VersatileCollections\CollectionInterface {
         
         // sort a copy
         $items_to_sort = $this->versatile_collections_items;
@@ -1690,7 +1633,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::sortDescByKey()
      * 
      */
-    public function sortDescByKey(callable $callable=null, \VersatileCollections\SortType $type=null) {
+    public function sortDescByKey(callable $callable=null, \VersatileCollections\SortType $type=null): \VersatileCollections\CollectionInterface {
         
         // sort a copy
         $items_to_sort = $this->versatile_collections_items;
@@ -1715,7 +1658,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::sortByMultipleFields()
      * 
      */
-    public function sortByMultipleFields(\VersatileCollections\MultiSortParameters ...$param) {
+    public function sortByMultipleFields(\VersatileCollections\MultiSortParameters ...$param): \VersatileCollections\CollectionInterface {
         
         if( count($param) <= 0 ) {
             
@@ -1737,7 +1680,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::sortMe()
      * 
      */
-    public function sortMe(callable $callable=null, \VersatileCollections\SortType $type=null) {
+    public function sortMe(callable $callable=null, \VersatileCollections\SortType $type=null): \VersatileCollections\CollectionInterface {
           
         $this->performSort(
             $this->versatile_collections_items, 
@@ -1755,7 +1698,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::sortMeDesc()
      * 
      */
-    public function sortMeDesc(callable $callable=null, \VersatileCollections\SortType $type=null) {
+    public function sortMeDesc(callable $callable=null, \VersatileCollections\SortType $type=null): \VersatileCollections\CollectionInterface {
                 
         $this->performSort(
             $this->versatile_collections_items, 
@@ -1773,7 +1716,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::sortMeByKey()
      * 
      */
-    public function sortMeByKey(callable $callable=null, \VersatileCollections\SortType $type=null) {
+    public function sortMeByKey(callable $callable=null, \VersatileCollections\SortType $type=null): \VersatileCollections\CollectionInterface {
         
         $this->performSort(
             $this->versatile_collections_items, 
@@ -1791,7 +1734,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::sortMeDescByKey()
      * 
      */
-    public function sortMeDescByKey(callable $callable=null, \VersatileCollections\SortType $type=null) {
+    public function sortMeDescByKey(callable $callable=null, \VersatileCollections\SortType $type=null): \VersatileCollections\CollectionInterface {
         
         $this->performSort(
             $this->versatile_collections_items, 
@@ -1812,7 +1755,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::sortMeByMultipleFields()
      * 
      */
-    public function sortMeByMultipleFields(\VersatileCollections\MultiSortParameters ...$param) {
+    public function sortMeByMultipleFields(\VersatileCollections\MultiSortParameters ...$param): \VersatileCollections\CollectionInterface {
         
         if( count($param) <= 0 ) {
             
@@ -1836,29 +1779,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::splice()
      * 
      */
-    public function splice($offset, $length=null, array $replacement=[]) {
-        
-        if( !is_int($offset) ) {
-            
-            $function = __FUNCTION__;
-            $class = get_class($this);
-            $offset_type = gettype($offset);
-            $msg = "Error [{$class}::{$function}(...)]:"
-            . " You must specify a valid integer as the offset."
-            . " You supplied a(n) `{$offset_type}` with a value of: ". var_to_string($offset);
-            throw new \InvalidArgumentException($msg); 
-        }
-        
-        if( !is_null($length) && !is_int($length) ) {
-            
-            $function = __FUNCTION__;
-            $class = get_class($this);
-            $length_type = gettype($length);
-            $msg = "Error [{$class}::{$function}(...)]:"
-            . " You must specify a valid integer as the length."
-            . " You supplied a(n) `{$length_type}` with a value of: ". var_to_string($length);
-            throw new \InvalidArgumentException($msg); 
-        }
+    public function splice(int $offset, ?int $length=null, array $replacement=[]): \VersatileCollections\CollectionInterface {
         
         if( is_null($length) ) {
             
@@ -1873,20 +1794,9 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::split()
      * 
      */
-    public function split($numberOfGroups) {
+    public function split(int $numberOfGroups): \VersatileCollections\CollectionInterface {
         
-        if( !is_int($numberOfGroups) ) {
-            
-            $function = __FUNCTION__;
-            $class = get_class($this);
-            $number_type = gettype($numberOfGroups);
-            $msg = "Error [{$class}::{$function}(...)]:"
-            . " You must specify a valid integer as the number of groups."
-            . " You supplied a(n) `{$number_type}` with a value of: ". var_to_string($numberOfGroups);
-            throw new \InvalidArgumentException($msg); 
-        }
-        
-        if( is_int($numberOfGroups) && $numberOfGroups > $this->count() ) {
+        if( $numberOfGroups > $this->count() ) {
             
             $function = __FUNCTION__;
             $class = get_class($this);
@@ -1895,7 +1805,7 @@ trait CollectionInterfaceImplementationTrait {
             throw new \InvalidArgumentException($msg); 
         }
         
-        if( is_int($numberOfGroups) && $numberOfGroups < 0 ) {
+        if( $numberOfGroups < 0 ) {
             
             $function = __FUNCTION__;
             $class = get_class($this);
@@ -1926,18 +1836,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::take()
      * 
      */
-    public function take($limit) {
-        
-        if( !is_int($limit) ) {
-            
-            $function = __FUNCTION__;
-            $class = get_class($this);
-            $limit_type = gettype($limit);
-            $msg = "Error [{$class}::{$function}(...)]:"
-            . " You must specify a valid integer as the limit."
-            . " You supplied a(n) `{$limit_type}` with a value of: ". var_to_string($limit);
-            throw new \InvalidArgumentException($msg); 
-        }
+    public function take(int $limit): \VersatileCollections\CollectionInterface {
         
         if ($limit < 0) {
             return $this->slice($limit, abs($limit));
@@ -1951,7 +1850,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::unique()
      * 
      */
-    public function unique() {
+    public function unique(): \VersatileCollections\CollectionInterface {
         
         return static::makeNew(
             $this->reduce(
@@ -1975,7 +1874,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::unionWith()
      * 
      */
-    public function unionWith(array $items) {
+    public function unionWith(array $items): \VersatileCollections\CollectionInterface {
         
         return static::makeNew($this->versatile_collections_items + $items);
     }
@@ -1985,7 +1884,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::unionMeWith()
      * 
      */
-    public function unionMeWith(array $items) {
+    public function unionMeWith(array $items): \VersatileCollections\CollectionInterface {
         
         $this->versatile_collections_items =
             $this->versatile_collections_items + $items;
@@ -2001,7 +1900,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::column()
      * 
      */
-    public function column($column_key, $index_key=null) {
+    public function column($column_key, $index_key=null): \VersatileCollections\GenericCollection {
         
         // use GenericCollection because the values 
         // in the column may be of varying types
@@ -2185,7 +2084,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::getItems()
      * 
      */
-    public function getItems() {
+    public function getItems(): \VersatileCollections\CollectionInterface {
         
         return static::makeNew(array_values($this->versatile_collections_items));
     }
@@ -2226,7 +2125,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::getAsNewType()
      * 
      */
-    public function getAsNewType($new_collection_class=\VersatileCollections\GenericCollection::class) {
+    public function getAsNewType($new_collection_class=\VersatileCollections\GenericCollection::class): \VersatileCollections\CollectionInterface {
         
         if( 
             !is_string($new_collection_class) 
@@ -2269,7 +2168,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::removeAll()
      * 
      */
-    public function removeAll(array $keys=[]) {
+    public function removeAll(array $keys=[]): \VersatileCollections\CollectionInterface {
         
         if( count($keys) > 0 ) {
             
@@ -2295,7 +2194,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::getAllWhereKeysIn()
      * 
      */
-    public function getAllWhereKeysIn(array $keys) {
+    public function getAllWhereKeysIn(array $keys): \VersatileCollections\CollectionInterface {
         
         $result = static::makeNew();
         
@@ -2315,7 +2214,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::getAllWhereKeysNotIn()
      * 
      */
-    public function getAllWhereKeysNotIn(array $keys) {
+    public function getAllWhereKeysNotIn(array $keys): \VersatileCollections\CollectionInterface {
         
         $result = static::makeNew();
         
@@ -2335,7 +2234,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::paginate()
      * 
      */
-    public function paginate($page_number, $num_items_per_page) {
+    public function paginate($page_number, $num_items_per_page): \VersatileCollections\CollectionInterface {
         
         if( !is_int($page_number) ) {
             
@@ -2386,7 +2285,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::diff()
      * 
      */
-    public function diff(array $items) {
+    public function diff(array $items): \VersatileCollections\CollectionInterface {
         
         return static::makeNew(array_diff($this->versatile_collections_items, $items));
     }
@@ -2396,7 +2295,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::diffUsing()
      * 
      */
-    public function diffUsing(array $items, callable $callback) {
+    public function diffUsing(array $items, callable $callback): \VersatileCollections\CollectionInterface {
         
         return static::makeNew(array_udiff($this->versatile_collections_items, $items, $callback));
     }
@@ -2406,7 +2305,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::diffAssoc()
      * 
      */
-    public function diffAssoc(array $items) {
+    public function diffAssoc(array $items): \VersatileCollections\CollectionInterface {
         
         return static::makeNew(array_diff_assoc($this->versatile_collections_items, $items));
     }
@@ -2416,7 +2315,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::diffAssocUsing()
      * 
      */
-    public function diffAssocUsing(array $items, callable $key_comparator) {
+    public function diffAssocUsing(array $items, callable $key_comparator): \VersatileCollections\CollectionInterface {
         
         return static::makeNew(array_diff_uassoc($this->versatile_collections_items, $items, $key_comparator));
     }
@@ -2426,7 +2325,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::diffKeys()
      * 
      */
-    public function diffKeys(array $items) {
+    public function diffKeys(array $items): \VersatileCollections\CollectionInterface {
         
         return static::makeNew(array_diff_key($this->versatile_collections_items, $items));
     }
@@ -2436,7 +2335,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::diffKeysUsing()
      * 
      */
-    public function diffKeysUsing(array $items, callable $key_comparator) {
+    public function diffKeysUsing(array $items, callable $key_comparator): \VersatileCollections\CollectionInterface {
         
         return static::makeNew(array_diff_ukey($this->versatile_collections_items, $items, $key_comparator));
     }
@@ -2446,7 +2345,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::allSatisfyConditions()
      * 
      */
-    public function allSatisfyConditions(callable $callback, $bind_callback_to_this=true) {
+    public function allSatisfyConditions(callable $callback, bool $bind_callback_to_this=true): bool {
         
         if( $bind_callback_to_this === true && Utils::canReallyBind($callback)) {
             
@@ -2470,7 +2369,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::intersectByKeys()
      * 
      */
-    public function intersectByKeys(array $arr) {
+    public function intersectByKeys(array $arr): \VersatileCollections\CollectionInterface {
         
         return static::makeNew(array_intersect_key($this->versatile_collections_items, $arr));
     }
@@ -2480,7 +2379,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::intersectByItems()
      * 
      */
-    public function intersectByItems(array $arr) {
+    public function intersectByItems(array $arr): \VersatileCollections\CollectionInterface {
         
         return static::makeNew(array_intersect($this->versatile_collections_items, $arr));
     }
@@ -2490,7 +2389,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::intersectByKeysAndItems()
      * 
      */
-    public function intersectByKeysAndItems(array $arr) {
+    public function intersectByKeysAndItems(array $arr): \VersatileCollections\CollectionInterface {
         
         return static::makeNew(array_intersect_assoc($this->versatile_collections_items, $arr));
     }
@@ -2500,7 +2399,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::intersectByKeysUsingCallback()
      * 
      */
-    public function intersectByKeysUsingCallback(array $arr, callable $key_comparator) {
+    public function intersectByKeysUsingCallback(array $arr, callable $key_comparator): \VersatileCollections\CollectionInterface {
         
         return static::makeNew(array_intersect_ukey($this->versatile_collections_items, $arr, $key_comparator));
     }
@@ -2510,7 +2409,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::intersectByItemsUsingCallback()
      * 
      */
-    public function intersectByItemsUsingCallback(array $arr, callable $item_comparator) {
+    public function intersectByItemsUsingCallback(array $arr, callable $item_comparator): \VersatileCollections\CollectionInterface {
         
         return static::makeNew(array_uintersect($this->versatile_collections_items, $arr, $item_comparator));
     }
@@ -2520,7 +2419,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::intersectByKeysAndItemsUsingCallbacks()
      * 
      */
-    public function intersectByKeysAndItemsUsingCallbacks(array $arr, callable $key_comparator=null, callable $item_comparator=null){
+    public function intersectByKeysAndItemsUsingCallbacks(array $arr, callable $key_comparator=null, callable $item_comparator=null): \VersatileCollections\CollectionInterface{
         
         $result = [];
         

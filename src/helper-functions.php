@@ -1,28 +1,5 @@
 <?php
 declare(strict_types=1);
-namespace {
-    
-    if( !function_exists('array_key_first') ) {
-
-        function array_key_first(array $array) {
-
-            if( $array === [] ) { return null; }
-
-            foreach($array as $key => $_) { return $key; }
-        }
-    }
-
-    if( !function_exists('array_key_last') ) {
-
-        function array_key_last(array $array) {
-
-            if( $array === [] ) { return null; }
-
-            return array_key_first(array_slice($array, -1, null, true));
-        }
-    }
-} // namespace
-
 namespace VersatileCollections {
 
     /**
@@ -34,7 +11,7 @@ namespace VersatileCollections {
      * (the value of the propertie(s) with numeric key(s) in such \stdClass 
      * objects will be retrieved by this function).
      * 
-     * @param mixed $obj
+     * @param object $obj
      * @param string|int $property
      * @param mixed $default_val
      * @param bool $access_private_or_protected true if value associated with private or protected property should be returned.
@@ -46,17 +23,7 @@ namespace VersatileCollections {
      * @throws \RuntimeException
      * 
      */
-    function get_object_property_value($obj, $property, $default_val=null, $access_private_or_protected=false) {
-
-        if( !is_object($obj) ) {
-
-            $function = __FUNCTION__;
-            $ns = __NAMESPACE__;
-            $obj_type = gettype($obj);
-            $msg = "Error [{$ns}::{$function}(...)]:"
-            . " Object expected as first argument, `$obj_type` given.";
-            throw new \InvalidArgumentException($msg); 
-        }
+    function get_object_property_value(object $obj, $property, $default_val=null, bool $access_private_or_protected=false) {
 
         if( !is_string($property) && !is_int($property) ) {
 
@@ -120,7 +87,7 @@ namespace VersatileCollections {
      * A more robust way than property_exists of checking if an instance of a class
      * has a specified property.
      * 
-     * @param mixed $obj
+     * @param object $obj
      * @param string|int $property
      * 
      * @return bool
@@ -128,17 +95,7 @@ namespace VersatileCollections {
      * @throws \InvalidArgumentException
      * 
      */
-    function object_has_property($obj, $property) {
-
-        if( !is_object($obj) ) {
-
-            $function = __FUNCTION__;
-            $ns = __NAMESPACE__;
-            $obj_type = gettype($obj);
-            $msg = "Error [{$ns}::{$function}(...)]:"
-            . " Object expected as first argument, `$obj_type` given.";
-            throw new \InvalidArgumentException($msg); 
-        }
+    function object_has_property(object $obj, $property) {
 
         if( !is_string($property) && !is_int($property) ) {
 
@@ -213,18 +170,25 @@ namespace VersatileCollections {
 
         } catch ( \TypeError $e) {
 
+            // random_int: If invalid parameters are given, a TypeError will be thrown.
             // This is okay, so long as `Error` is caught before `Exception`.
+            // Probably will never occur since $min and $max above will always be ints.
             $error_occurred = true;
 
         } catch ( \Error $e) {
-
+            
+            // random_int: If max is less than min, an Error will be thrown.
             // This is required, if you do not need to do anything just rethrow.
+            // Probably will never occur since $min and $max above will always have $min < $max.
             $error_occurred = true;
 
         } catch ( \Exception $e) {
 
+            // random_int: If an appropriate source of randomness cannot be found, an Exception will be thrown.
             // This is optional and maybe omitted if you do not want to handle errors
             // during generation.
+            // Hard to consistently test this since it's an internal 
+            // random number generator specific logic error.
             $error_occurred = true;
         }
 
@@ -256,7 +220,7 @@ namespace VersatileCollections {
      * @throws \LengthException
      * @throws \InvalidArgumentException
      */
-    function random_array_keys(array $array, $number_of_random_keys = 1) {
+    function random_array_keys(array $array, int $number_of_random_keys = 1): array {
 
         if( count($array) <= 0 ) {
 
@@ -266,21 +230,8 @@ namespace VersatileCollections {
             throw new \LengthException($msg);
         }
 
-        if( !is_int($number_of_random_keys) ) {
-
-            $function = __FUNCTION__;
-            $ns = __NAMESPACE__;
-            $type = gettype($number_of_random_keys);
-            $msg = "Error [{$ns}::{$function}(...)]:"
-            . " You must specify a valid integer as the number of random keys."
-            . " You supplied a(n) `{$type}` with a value of: ". var_to_string($number_of_random_keys);
-            throw new \InvalidArgumentException($msg); 
-        }
-
-        if( 
-            is_int($number_of_random_keys) 
-            && ( $number_of_random_keys > count($array) )
-        ) {
+        if(  $number_of_random_keys > count($array) ) {
+            
             $function = __FUNCTION__;
             $ns = __NAMESPACE__;
             $num_items = count($array);
@@ -315,7 +266,7 @@ namespace VersatileCollections {
      * @return string a (screen / user)-friendly string representation of a variable
      * 
      */
-    function var_to_string($var) {
+    function var_to_string($var): string {
 
         return (new \SebastianBergmann\Exporter\Exporter())->export($var);
     }
@@ -329,7 +280,7 @@ namespace VersatileCollections {
      * @return void
      * 
      */
-    function dump_var($var) {
+    function dump_var($var): void {
 
         $line_breaker = (php_sapi_name() === 'cli') ? PHP_EOL : '<br>';
         echo var_to_string($var). $line_breaker . $line_breaker;

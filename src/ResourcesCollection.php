@@ -31,7 +31,7 @@ class ResourcesCollection implements \VersatileCollections\StrictlyTypedCollecti
     
     use StrictlyTypedCollectionInterfaceImplementationTrait;
 
-    public function checkType($item) {
+    public function checkType($item): bool {
         
         return is_resource($item);
     }

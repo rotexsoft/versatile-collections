@@ -28,7 +28,12 @@ namespace VersatileCollections;
  */
 class FloatsCollection extends NumericsCollection {
 
-    public function checkType($item) {
+    public function __construct(float ...$numbers) {
+        
+        $this->versatile_collections_items = $numbers;
+    }
+    
+    public function checkType($item): bool {
         
         return is_float($item);
     }

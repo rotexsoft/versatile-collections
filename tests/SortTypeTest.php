@@ -12,18 +12,6 @@ class SortTypeTest extends \PHPUnit\Framework\TestCase {
         parent::setUp();
     }
 
-    public function testThatConstructorWithInvalidSortTypeWorksAsExpected() {
-        
-        $this->expectException(\VersatileCollections\Exceptions\InvalidSortType::class);
-        $sort_type = new \VersatileCollections\SortType('');
-    }
-    
-    public function testThatConstructorWithInvalidSortTypeWorksAsExpected2() {
-        
-        $this->expectException(\VersatileCollections\Exceptions\InvalidSortType::class);
-        $sort_type = new \VersatileCollections\SortType([]);
-    }
-
     public function testThatConstructorWithValidSortTypeWorksAsExpected() {
         
         $sort_type = new \VersatileCollections\SortType();
@@ -37,6 +25,12 @@ class SortTypeTest extends \PHPUnit\Framework\TestCase {
         $sort_type = new \VersatileCollections\SortType(SORT_NATURAL);
         $this->assertTrue($sort_type->getSortType() === SORT_NATURAL);
         $this->assertTrue(in_array($sort_type->getSortType(), \VersatileCollections\SortType::getValidSortTypes()));
+    }
+
+    public function testThatConstructorWithInvalidSortTypeWorksAsExpected() {
+        
+        $this->expectException(\VersatileCollections\Exceptions\InvalidSortType::class);
+        $sort_type = new \VersatileCollections\SortType(777);
     }
 
     public function testThatGettersWorkAsExpected() {
@@ -57,6 +51,6 @@ class SortTypeTest extends \PHPUnit\Framework\TestCase {
         $this->assertTrue($sort_param->getSortType() === SORT_NUMERIC);
         
         $this->expectException(\VersatileCollections\Exceptions\InvalidSortType::class);
-        $sort_param->setSortType('Invalid Sort Type');
+        $sort_param->setSortType(777);
     }
 }

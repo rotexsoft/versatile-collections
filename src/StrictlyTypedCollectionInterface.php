@@ -32,7 +32,7 @@ interface StrictlyTypedCollectionInterface extends CollectionInterface {
      * @return bool true if $item is of the expected type, else false
      * 
      */
-    public function checkType($item);
+    public function checkType($item): bool;
     
     /**
      * 

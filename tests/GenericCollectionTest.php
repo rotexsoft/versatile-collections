@@ -1603,6 +1603,13 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         );
         
         $collections = $collection->getCollectionsOfSizeN(50)->toArray();
+        $this->assertEquals( [0=>1, 1=>2, 2=>3, 3=>4, 4=>5 ], array_shift($collections)->toArray() );
+
+        $collection = new \BaseCollectionTestImplementation(
+            1, 2, 3, 4, 5
+        );
+        
+        $collections = $collection->getCollectionsOfSizeN(0)->toArray();
         $this->assertEquals( [1], array_shift($collections)->toArray() );
         $this->assertEquals( [1=>2], array_shift($collections)->toArray() );
         $this->assertEquals( [2=>3], array_shift($collections)->toArray() );
@@ -1614,17 +1621,6 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         );
         
         $collections = $collection->getCollectionsOfSizeN(-50)->toArray();
-        $this->assertEquals( [1], array_shift($collections)->toArray() );
-        $this->assertEquals( [1=>2], array_shift($collections)->toArray() );
-        $this->assertEquals( [2=>3], array_shift($collections)->toArray() );
-        $this->assertEquals( [3=>4], array_shift($collections)->toArray() );
-        $this->assertEquals( [4=>5], array_shift($collections)->toArray() );
-
-        $collection = new \BaseCollectionTestImplementation(
-            1, 2, 3, 4, 5
-        );
-        
-        $collections = $collection->getCollectionsOfSizeN(null)->toArray();
         $this->assertEquals( [1], array_shift($collections)->toArray() );
         $this->assertEquals( [1=>2], array_shift($collections)->toArray() );
         $this->assertEquals( [2=>3], array_shift($collections)->toArray() );
@@ -1661,6 +1657,13 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         );
         
         $collections = iterator_to_array($collection->yieldCollectionsOfSizeN(50));
+        $this->assertEquals( [0=>1, 1=>2, 2=>3, 3=>4, 4=>5], array_shift($collections)->toArray() );
+
+        $collection = new \BaseCollectionTestImplementation(
+            1, 2, 3, 4, 5
+        );
+        
+        $collections = iterator_to_array($collection->yieldCollectionsOfSizeN(0));
         $this->assertEquals( [1], array_shift($collections)->toArray() );
         $this->assertEquals( [1=>2], array_shift($collections)->toArray() );
         $this->assertEquals( [2=>3], array_shift($collections)->toArray() );
@@ -1672,17 +1675,6 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         );
         
         $collections = iterator_to_array($collection->yieldCollectionsOfSizeN(-50));
-        $this->assertEquals( [1], array_shift($collections)->toArray() );
-        $this->assertEquals( [1=>2], array_shift($collections)->toArray() );
-        $this->assertEquals( [2=>3], array_shift($collections)->toArray() );
-        $this->assertEquals( [3=>4], array_shift($collections)->toArray() );
-        $this->assertEquals( [4=>5], array_shift($collections)->toArray() );
-
-        $collection = new \BaseCollectionTestImplementation(
-            1, 2, 3, 4, 5
-        );
-        
-        $collections = iterator_to_array($collection->yieldCollectionsOfSizeN(null));
         $this->assertEquals( [1], array_shift($collections)->toArray() );
         $this->assertEquals( [1=>2], array_shift($collections)->toArray() );
         $this->assertEquals( [2=>3], array_shift($collections)->toArray() );
@@ -1739,10 +1731,6 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals($collection[777], $item1);
         $this->assertEquals($collection[778], $item2);
         $this->assertEquals($collection[779], $item3);
-        
-        $this->expectException(\InvalidArgumentException::class);
-        // throw exception for non-int arg
-        $collection->makeAllKeysNumeric([]);
     }
     
     public function testThatValidateMethodNameWorksAsExpected() {
@@ -2156,13 +2144,6 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         \BaseCollectionTestImplementation::makeNew()->randomKeys();
     }
 
-    public function testThatRandomKeysWorksAsExpected2() {
-        
-        $this->expectException(\InvalidArgumentException::class);
-        \BaseCollectionTestImplementation::makeNew([1, 2])
-                                ->randomKeys("Invalid Length Data Type");
-    }
-
     public function testThatRandomKeysWorksAsExpected3() {
         
         $this->expectException(\InvalidArgumentException::class);
@@ -2269,13 +2250,6 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         // Should throw a \LengthException. 
         // Can't get a random key from an empty collection.
         \BaseCollectionTestImplementation::makeNew()->randomItems();
-    }
-
-    public function testThatRandomItemsWorksAsExpected2() {
-        
-        $this->expectException(\InvalidArgumentException::class);
-        \BaseCollectionTestImplementation::makeNew([1, 2])
-                                ->randomItems("Invalid Length Data Type");
     }
 
     public function testThatRandomItemsWorksAsExpected3() {
@@ -2421,10 +2395,10 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         
         $this->assertTrue($empty_collection->shuffle()->isEmpty());
         
-        // shuffle ($collection->count() * 2) times and assert
+        // shuffle ($collection->count()) times and assert
         // each shuffle is different from original collection
         // but with the same size.
-        for ($i = 0 ; $i < ($collection->count() * 2); $i++ ) {
+        for ($i = 0 ; $i < ($collection->count()); $i++ ) {
             
             $shuffled_collection = $collection->shuffle();
             
@@ -2456,27 +2430,6 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         $this->assertFalse(
             $collection->containsKeys($shuffled_collection->getKeys()->toArray())
         );
-    }
-
-    public function testSliceExceptionOffset()
-    {
-        $this->expectException(\InvalidArgumentException::class);
-        $collection = \VersatileCollections\GenericCollection::makeNew([1, 2, 3, 4, 5, 6, 7, 8]);
-        $collection->slice([]); // exception should be generated
-    }
-
-    public function testSliceExceptionLength()
-    {
-        $this->expectException(\InvalidArgumentException::class);
-        $collection = \VersatileCollections\GenericCollection::makeNew([1, 2, 3, 4, 5, 6, 7, 8]);
-        $collection->slice(-3,[]); // exception should be generated
-    }
-
-    public function testSliceExceptionOffsetAndLength()
-    {
-        $this->expectException(\InvalidArgumentException::class);
-        $collection = \VersatileCollections\GenericCollection::makeNew([1, 2, 3, 4, 5, 6, 7, 8]);
-        $collection->slice([],[]); // exception should be generated
     }
     
     public function testSliceNegativeOffset()
@@ -2539,27 +2492,6 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         $cut = $data->splice(1, 1, ['bar']);
         $this->assertEquals(['foo', 'bar'], $data->toArray());
         $this->assertEquals(['baz'], $cut->toArray());
-    }
-
-    public function testSpliceExceptionOffset()
-    {
-        $this->expectException(\InvalidArgumentException::class);
-        $collection = \VersatileCollections\GenericCollection::makeNew([1, 2, 3, 4, 5, 6, 7, 8]);
-        $collection->splice([]); // exception should be generated
-    }
-
-    public function testSpliceExceptionLength()
-    {
-        $this->expectException(\InvalidArgumentException::class);
-        $collection = \VersatileCollections\GenericCollection::makeNew([1, 2, 3, 4, 5, 6, 7, 8]);
-        $collection->splice(-3,[]); // exception should be generated
-    }
-
-    public function testSpliceExceptionOffsetAndLength()
-    {
-        $this->expectException(\InvalidArgumentException::class);
-        $collection = \VersatileCollections\GenericCollection::makeNew([1, 2, 3, 4, 5, 6, 7, 8]);
-        $collection->splice([],[]); // exception should be generated
     }
     
     ///////////////////////////////////////////////////////////////////////////////////////
@@ -3539,22 +3471,6 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         );
     }
 
-    public function testThatSplitWithNonIntNumberOfGroupsWorksAsExpected() {
-
-        $data = [];
-        $data[0] = [ 'volume' => 67, 'edition' => 2 ];
-        $data[1] = [ 'volume' => 86, 'edition' => 2 ];
-        $data[2] = [ 'volume' => 85, 'edition' => 6 ];
-        $data[3] = [ 'volume' => 86, 'edition' => 1 ];
-
-        $collection = new \VersatileCollections\GenericCollection(...$data);
-        
-        $this->expectException(\InvalidArgumentException::class);
-        
-        // Exception should be thrown
-        $collection->split('Invalid Data Type for Number of Groups');
-    }
-
     public function testThatSplitWithNumberOfGroupsLargerThanCollectionSizeWorksAsExpected() {
 
         $data = [];
@@ -3594,9 +3510,6 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(['taylor', 'dayle'], $data->toArray());
         
         $this->assertTrue($data->take(0)->isEmpty());
-        
-        $this->expectException(\InvalidArgumentException::class);
-        $data->take([]); // should throw exception
     }
     
     public function testTakeLast() {

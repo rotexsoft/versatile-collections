@@ -12,7 +12,7 @@ class TestValueObjectsCollection extends \VersatileCollections\ObjectsCollection
         $this->versatile_collections_items = $arr_objs;
     }
 
-    public function checkType($item) {
+    public function checkType($item): bool {
         
         return ($item instanceof TestValueObject);
     }

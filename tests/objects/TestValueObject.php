@@ -88,4 +88,9 @@ class TestValueObject {
         $this->data[$key] = null;
         unset($this->data[$key]);
     }
+    
+    public function throwException() {
+        
+        throw new DomainException('Yipee');
+    }
 }

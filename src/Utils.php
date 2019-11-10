@@ -9,23 +9,12 @@ namespace VersatileCollections;
  */
 class Utils {
 
-    public static function getClosureFromCallable(callable $callable) {
+    public static function getClosureFromCallable(callable $callable): \Closure {
 
-        if($callable instanceof \Closure) {
-            
-            return $callable;
-        }
-        
-        if(method_exists(\Closure::class, 'fromCallable')) {
-            return \Closure::fromCallable($callable);
-        }
-
-        return function () use ($callable) {
-            return call_user_func_array($callable, func_get_args());
-        };
+        return ($callable instanceof \Closure)? $callable : \Closure::fromCallable($callable);
     }
 
-    public static function bindObjectAndScopeToClosure(\Closure $closure, $newthis) {
+    public static function bindObjectAndScopeToClosure(\Closure $closure, $newthis): \Closure {
 
         try {
             
@@ -45,7 +34,7 @@ class Utils {
         }
     }
     
-    public static function getExceptionAsStr(\Exception $e) {
+    public static function getExceptionAsStr(\Exception $e): string {
         
         $eol = PHP_EOL;
         $message = "Exception Code: {$e->getCode()}"
@@ -72,8 +61,34 @@ class Utils {
         return $message;
     }
     
-    public static function canReallyBind(callable $callback) {
+    public static function canReallyBind(callable $callback): bool {
         
         return PHP_MAJOR_VERSION >= 7 || (PHP_MAJOR_VERSION === 5 && $callback instanceof \Closure);
+    }
+    
+    public static function array_key_first(array $array) {
+
+        if( function_exists('array_key_first') ) {
+            
+            return \array_key_first($array);
+        }
+        
+        // polyfill
+        if( $array === [] ) { return null; }
+
+        foreach($array as $key => $_) { return $key; }
+    }
+
+    public static function array_key_last(array $array) {
+
+        if( function_exists('array_key_last') ) {
+
+            return \array_key_last($array);
+        }
+        
+        // polyfill
+        if( $array === [] ) { return null; }
+
+        return static::array_key_first(array_slice($array, -1, null, true));
     }
 }

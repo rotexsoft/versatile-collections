@@ -116,12 +116,6 @@ class HelperFunctionsTest extends \PHPUnit\Framework\TestCase {
         random_array_keys([]);
     }
 
-    public function testThat_random_array_keys_WorksAsExpected2() {
-        
-        $this->expectException(\InvalidArgumentException::class);
-        random_array_keys([1, 2], "Invalid Length Data Type");
-    }
-
     public function testThat_random_array_keys_WorksAsExpected3() {
         
         $this->expectException(\InvalidArgumentException::class);
@@ -187,22 +181,10 @@ class HelperFunctionsTest extends \PHPUnit\Framework\TestCase {
         $this->assertFalse( object_has_property($obj_real_and_dynamic_props_and_no_magic_methods, 'non_existent_property') ); // non-existent property
     }
 
-    public function testThat_object_has_property_WithNonObjectFirstArgWorksAsExpected() {
-        
-        $this->expectException(\InvalidArgumentException::class);
-        object_has_property([], 'id');
-    }
-
     public function testThat_object_has_property_WithNonStringNonIntSecondArgWorksAsExpected() {
         
         $this->expectException(\InvalidArgumentException::class);
         object_has_property((new stdClass()), []);
-    }
-
-    public function testThat_object_has_property_WithNonObjectFirstArgAndNonStringNonIntSecondArgWorksAsExpected() {
-        
-        $this->expectException(\InvalidArgumentException::class);
-        object_has_property([], []);
     }
     
     public function testThat_get_object_property_value_WorksAsExpected() {
@@ -280,22 +262,10 @@ class HelperFunctionsTest extends \PHPUnit\Framework\TestCase {
         get_object_property_value($obj_protected_and_private_props_and_no_magic_methods, 'private_field');
     }
 
-    public function testThat_get_object_property_value_WithNonObjectFirstArgWorksAsExpected() {
-        
-        $this->expectException(\InvalidArgumentException::class);
-        get_object_property_value([], 'id');
-    }
-
     public function testThat_get_object_property_value_WithNonStringNonIntSecondArgWorksAsExpected() {
         
         $this->expectException(\InvalidArgumentException::class);
         get_object_property_value((new stdClass()), []);
-    }
-
-    public function testThat_get_object_property_value_WithNonObjectFirstArgAndNonStringNonIntSecondArgWorksAsExpected() {
-        
-        $this->expectException(\InvalidArgumentException::class);
-        get_object_property_value([], []);
     }
     
     public function test_dump_var() {
@@ -317,32 +287,5 @@ class HelperFunctionsTest extends \PHPUnit\Framework\TestCase {
         
         // Get the captured output and close the buffer and return the captured output
         return ob_get_clean();
-    }
-    
-    
-    public function testThat_array_key_first_WorksAsExpected() {
-        
-        $arr = [];
-        $arr1 = ['One', 'Two', 'Three', 'Four'];
-        $arr2 = ['a'=>'One', 'Two', 'Three', 'Four'];
-        $arr3 = ['z'=>'One', 'Two', 'Three', 'Four'];
-                
-        $this->assertEquals(array_key_first($arr), null);
-        $this->assertEquals(array_key_first($arr1), 0);
-        $this->assertEquals(array_key_first($arr2), 'a');
-        $this->assertEquals(array_key_first($arr3), 'z');
-    }
-    
-    public function testThat_array_key_last_WorksAsExpected() {
-        
-        $arr = [];
-        $arr1 = ['One', 'Two', 'Three', 'Four'];
-        $arr2 = ['One', 'Two', 'Three', 'a'=>'Four'];
-        $arr3 = ['One', 'Two', 'Three', 'z'=>'Four'];
-                
-        $this->assertEquals(array_key_last($arr), null);
-        $this->assertEquals(array_key_last($arr1), 3);
-        $this->assertEquals(array_key_last($arr2), 'a');
-        $this->assertEquals(array_key_last($arr3), 'z');
     }
 }

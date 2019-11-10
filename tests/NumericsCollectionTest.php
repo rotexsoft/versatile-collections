@@ -164,7 +164,7 @@ class NumericsCollectionTest extends \PHPUnit\Framework\TestCase {
         
         $collection = new \VersatileCollections\NumericsCollection();
         
-        $this->assertSame($collection->product(), 1);
+        $this->assertSame($collection->product(), 1.0);
         
         $collection = new \VersatileCollections\NumericsCollection(100, 2.5);
         $this->assertSame($collection->product(), 250.0);
@@ -173,7 +173,7 @@ class NumericsCollectionTest extends \PHPUnit\Framework\TestCase {
         $this->assertSame($collection->product(), 8.75);
         
         $collection = new \VersatileCollections\NumericsCollection(3, 2);
-        $this->assertSame($collection->product(), 6);
+        $this->assertSame($collection->product(), 6.0);
         
 
     }

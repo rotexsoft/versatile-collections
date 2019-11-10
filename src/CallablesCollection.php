@@ -35,7 +35,7 @@ class CallablesCollection implements \VersatileCollections\StrictlyTypedCollecti
         $this->versatile_collections_items = $callables;
     }
 
-    public function checkType($item) {
+    public function checkType($item): bool {
         
         return is_callable($item);
     }

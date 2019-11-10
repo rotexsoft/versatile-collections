@@ -72,7 +72,7 @@ trait StrictlyTypedCollectionInterfaceImplementationTrait {
         return static::parentAppendCollection($other);
     }
     
-    protected function isRightTypeOrThrowInvalidTypeException($item, $calling_functions_name) {
+    protected function isRightTypeOrThrowInvalidTypeException($item, string $calling_functions_name): bool {
         
         if( !$this->checkType($item) ) {
 
@@ -133,7 +133,7 @@ trait StrictlyTypedCollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::prependItem()
      * 
      */
-    public function prependItem($item, $key=null) {
+    public function prependItem($item, $key=null): \VersatileCollections\CollectionInterface {
         
         $this->isRightTypeOrThrowInvalidTypeException($item, __FUNCTION__);
         
@@ -145,7 +145,7 @@ trait StrictlyTypedCollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::unionMeWith()
      * 
      */
-    public function unionMeWith(array $items) {
+    public function unionMeWith(array $items): \VersatileCollections\CollectionInterface {
         
         foreach ($items as $item) {
             

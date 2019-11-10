@@ -29,6 +29,11 @@ namespace VersatileCollections;
 class ObjectsCollection implements \VersatileCollections\StrictlyTypedCollectionInterface {
     
     use StrictlyTypedCollectionInterfaceImplementationTrait;
+
+    public function __construct(object ...$objects) {
+        
+        $this->versatile_collections_items = $objects;
+    }
     
     /**
      * 
@@ -47,15 +52,18 @@ class ObjectsCollection implements \VersatileCollections\StrictlyTypedCollection
      * @throws \Exception
      * 
      */
-    public function __call($method_name, $arguments) {
+    public function __call(string $method_name, array $arguments=[]) {
 
         try {
             $result = static::parent__call($method_name, $arguments);
             
             return $result;
             
-        } catch (\Exception $ex) {
+        } catch (\VersatileCollections\Exceptions\BadMethodCallException $ex) {
 
+            // method was not available using 
+            //  static::parent__call($method_name, $arguments);
+            
             $results = [];
 
             foreach ( $this as $key_in_collection => $object ) {
@@ -76,7 +84,7 @@ class ObjectsCollection implements \VersatileCollections\StrictlyTypedCollection
                     $function = __FUNCTION__;
                     $msg = "Error [{$class}::{$function}(...)]:Trying to call a"
                         . " method named `$method_name` on a collection item with key `{$key_in_collection}` of type "
-                        . "`". gettype($object)."` "
+                        . "`". get_class($object)."` "
                         . PHP_EOL . " `\$arguments`: " . var_to_string($arguments)
                         . PHP_EOL . " `Original Exception Message`: " . $err->getMessage();
 
@@ -88,7 +96,7 @@ class ObjectsCollection implements \VersatileCollections\StrictlyTypedCollection
                     $function = __FUNCTION__;
                     $msg = "Error [{$class}::{$function}(...)]:Trying to call a"
                         . " method named `$method_name` on a collection item with key `{$key_in_collection}` of type "
-                        . "`". gettype($object)."` "
+                        . "`". get_class($object)."` "
                         . PHP_EOL . " `\$arguments`: " . var_to_string($arguments)
                         . PHP_EOL . " `Original Exception Message`: " . $err->getMessage();
 
@@ -97,16 +105,24 @@ class ObjectsCollection implements \VersatileCollections\StrictlyTypedCollection
             } // foreach ( $this as $key_in_collection => $object )
 
             return $results;
+            
+        } catch (\Exception $exc) {
+            
+            // an existing and callable method called via
+            //     static::parent__call($method_name, $arguments);
+            // definitely threw an exception, rethrow the exception
+            
+            throw $exc;
         }
     }
     
-    public function checkType($item) {
+    public function checkType($item): bool {
         
         return is_object($item);
     }
     
     public function getType() {
         
-        return $this->isEmpty()? 'object' : get_class($this->firstItem());
+        return 'object';
     }
 }

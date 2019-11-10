@@ -28,7 +28,12 @@ namespace VersatileCollections;
  */
 class StringsCollection extends ScalarsCollection {
 
-    public function checkType($item) {
+    public function __construct(string ...$strings) {
+        
+        $this->versatile_collections_items = $strings;
+    }
+    
+    public function checkType($item): bool {
         
         return is_string($item);
     }

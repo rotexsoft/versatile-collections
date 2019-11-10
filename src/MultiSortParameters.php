@@ -20,7 +20,7 @@ class MultiSortParameters {
         SORT_FLAG_CASE, (SORT_FLAG_CASE | SORT_STRING), (SORT_FLAG_CASE | SORT_NATURAL)
     ];
     
-    public function __construct($field_name, $sort_direction=null, $sort_type=null) {
+    public function __construct(string $field_name, ?int $sort_direction=null, ?int $sort_type=null) {
         
         if( $this->validateFieldName($field_name) ) {
             
@@ -38,32 +38,32 @@ class MultiSortParameters {
         }
     }
     
-    public function getFieldName() {
+    public function getFieldName(): string {
         
         return $this->field_name;
     }
 
-    public function getSortDirection() {
+    public function getSortDirection(): int {
         
         return $this->sort_direction;
     }
 
-    public function getSortType() {
+    public function getSortType(): int {
         
         return $this->sort_type;
     }
 
-    public static function getValidSortDirections() {
+    public static function getValidSortDirections(): array {
         
         return static::$valid_sort_directions;
     }
 
-    public static function getValidSortTypes() {
+    public static function getValidSortTypes(): array {
         
         return static::$valid_sort_types;
     }
 
-    public function setFieldName($field_name) {
+    public function setFieldName(string $field_name): self {
         
         if( $this->validateFieldName($field_name) ) {
             
@@ -73,7 +73,7 @@ class MultiSortParameters {
         return $this;
     }
 
-    public function setSortDirection($sort_direction) {
+    public function setSortDirection(int $sort_direction): self {
         
         if ( $this->validateSortDirection($sort_direction) ) {
             
@@ -83,7 +83,7 @@ class MultiSortParameters {
         return $this;
     }
 
-    public function setSortType($sort_type) {
+    public function setSortType(int $sort_type): self {
         
         if( $this->validateSortType($sort_type) ) {
             
@@ -93,19 +93,9 @@ class MultiSortParameters {
         return $this;
     }
     
-    protected function validateFieldName($field_name) {
+    protected function validateFieldName(string $field_name): bool {
         
-        if( !is_string($field_name) ) {
-            
-            $class = get_class($this);
-            $function = __FUNCTION__;
-            $msg = "Error [{$class}::{$function}(...)]:Invalid \$field_name supplied to "
-                . "`{$class}::{$function}(...)` "
-                . PHP_EOL . " `\$field_name`: " . var_to_string($field_name);
-            
-            throw new Exceptions\InvalidMultiSortParameterException($msg);
-            
-        } else if( strlen($field_name) <= 0 ) {
+        if( strlen($field_name) <= 0 ) {
             
             $class = get_class($this);
             $function = __FUNCTION__;
@@ -119,7 +109,7 @@ class MultiSortParameters {
         return true;
     }
     
-    protected function validateSortDirection($sort_direction) {
+    protected function validateSortDirection(int $sort_direction): bool {
         
         if( !in_array($sort_direction, static::$valid_sort_directions, true) ) {
             
@@ -135,7 +125,7 @@ class MultiSortParameters {
         return in_array($sort_direction, static::$valid_sort_directions, true);
     }
     
-    protected function validateSortType($sort_type) {
+    protected function validateSortType(int $sort_type): bool {
         
         if( !in_array($sort_type, static::$valid_sort_types, true) ) {
             

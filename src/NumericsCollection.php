@@ -27,7 +27,7 @@ namespace VersatileCollections;
  * @author rotimi
  */
 class NumericsCollection extends ScalarsCollection {
-    
+
     /**
      * 
      * @return int|float|null average all of the values in the collection or null if collection is empty
@@ -37,7 +37,7 @@ class NumericsCollection extends ScalarsCollection {
      * @title: Returns the average of all of the values(a.k.a items) in the collection or null if collection is empty.
      * 
      */
-    public function average() {
+    public function average(): ?float {
         
         return ($this->count() > 0) ? ($this->sum() / $this->count()) : null;
     }
@@ -50,7 +50,7 @@ class NumericsCollection extends ScalarsCollection {
      * @return bool
      * 
      */
-    public function checkType($item) {
+    public function checkType($item): bool {
         
         return is_float($item) || is_int($item);
     }
@@ -109,7 +109,7 @@ class NumericsCollection extends ScalarsCollection {
      * @title: Returns the maximum of all of the values(a.k.a items) in the collection or null if collection is empty.
      * 
      */
-    public function max() {
+    public function max(): ?float {
         
         return ($this->count() > 0) ? max($this->versatile_collections_items) : null;
     }
@@ -123,7 +123,7 @@ class NumericsCollection extends ScalarsCollection {
      * @title: Returns the median of all of the values(a.k.a items) in the collection or null if collection is empty.
      * 
      */
-    public function median()
+    public function median(): ?float
     {
         $count = $this->count();
 
@@ -154,7 +154,7 @@ class NumericsCollection extends ScalarsCollection {
      * @title: Returns the minimum of all of the values(a.k.a items) in the collection or null if collection is empty.
      * 
      */
-    public function min() {
+    public function min(): ?float {
         
         return ($this->count() > 0) ? min($this->versatile_collections_items) : null;
     }
@@ -175,7 +175,7 @@ class NumericsCollection extends ScalarsCollection {
      * @title: Returns an array of modal values(a.k.a items) in the collection or null if collection is empty.
      * 
      */
-    public function mode() {
+    public function mode(): ?array {
         
         $counts = [];
         $count = $this->count();
@@ -224,7 +224,7 @@ class NumericsCollection extends ScalarsCollection {
      * @title: Returns the product of all of the values(a.k.a items) in the collection or one if collection is empty.
      * 
      */
-    public function product() {
+    public function product(): float {
         
         return array_product($this->versatile_collections_items);
     }
@@ -240,7 +240,7 @@ class NumericsCollection extends ScalarsCollection {
      * @title: Returns the sum of all of the values(a.k.a items) in the collection or zero if collection is empty.
      * 
      */
-    public function sum() {
+    public function sum(): float {
         
         return array_sum($this->versatile_collections_items);
     }

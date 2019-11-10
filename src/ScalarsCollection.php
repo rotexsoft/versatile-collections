@@ -39,7 +39,7 @@ class ScalarsCollection implements \VersatileCollections\StrictlyTypedCollection
      * @return bool
      * 
      */
-    public function checkType($item) {
+    public function checkType($item): bool {
         
         return is_scalar($item);
     }
@@ -68,7 +68,7 @@ class ScalarsCollection implements \VersatileCollections\StrictlyTypedCollection
      * @title: Returns a new collection of unique items from an existing collection. This method uses non-strict comparison for testing uniqueness. The keys are not preserved in the returned collection.
      * 
      */
-    public function uniqueNonStrict() {
+    public function uniqueNonStrict(): \VersatileCollections\CollectionInterface {
         
         return static::makeNew(
             $this->reduce(

@@ -3372,9 +3372,10 @@ each returned collection.
 
 * **$max_size_of_each_collection**: maximum number of items in each collection 
 that will be yielded by the generator returned by this method. If its value is 
-greater than the total number of items in the collection or if its value is less 
-than zero or if it has a non-numeric value it will be set to a value of 1. If it 
-has a float value, it will be automatically cast into an integer.
+greater than the total number of items in the collection then the generator will
+only yield one collection with all the items in the original collection.
+If its value is less than or equal to zero it will be automatically set 
+to a value of 1.
 
 ```php
 <?php

@@ -82,4 +82,42 @@ class ObjectsCollectionTest extends \PHPUnit\Framework\TestCase {
         $this->expectException(\VersatileCollections\Exceptions\InvalidCollectionOperationException::class);
         $collection->nonExistentMethod();
     }
+    
+    public function testThat__CallWorksAsExpected2() {
+        
+        $collection = new \VersatileCollections\ObjectsCollection();
+        $collection->item1 = new TestValueObject('Johnny Cash', 50);
+        $collection->item2 = new TestValueObject('Suzzy Something', 23);
+        
+        $collection->addMethod(
+            'toUpper', 
+            function() {
+            
+                throw new RuntimeException('Yay');
+            }, 
+            true
+        );
+            
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Yay');
+        $collection->toUpper();
+    }
+    
+    public function testThat__CallWorksAsExpected3() {
+        
+        $collection = new \VersatileCollections\ObjectsCollection();
+        $collection->item1 = new TestValueObject('Johnny Cash', 50);
+        $collection->item2 = new TestValueObject('Suzzy Something', 23);
+            
+        $this->expectException(\VersatileCollections\Exceptions\InvalidCollectionOperationException::class);
+
+        try {
+            $collection->throwException();
+            
+        } catch (\VersatileCollections\Exceptions\InvalidCollectionOperationException $e) {
+            
+            $this->assertStringContainsString('Yipee', $e->getMessage());
+            throw $e;
+        }
+    }
 }

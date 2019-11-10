@@ -16,7 +16,7 @@ class SortType {
         SORT_FLAG_CASE, (SORT_FLAG_CASE | SORT_STRING), (SORT_FLAG_CASE | SORT_NATURAL)
     ];
     
-    public function __construct($sort_type=null) {
+    public function __construct(?int $sort_type=null) {
         
         if( in_array($sort_type, static::$valid_sort_types, true) ) {
             
@@ -35,17 +35,17 @@ class SortType {
         }
     }
 
-    public function getSortType() {
+    public function getSortType(): int {
         
         return $this->sort_type;
     }
 
-    public static function getValidSortTypes() {
+    public static function getValidSortTypes(): array {
         
         return static::$valid_sort_types;
     }
     
-    public function setSortType($sort_type) {
+    public function setSortType(int $sort_type): self {
         
         if( !in_array($sort_type, static::$valid_sort_types, true) ) {
             

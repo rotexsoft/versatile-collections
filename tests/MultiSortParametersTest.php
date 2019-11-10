@@ -18,10 +18,16 @@ class MultiSortParametersTest extends \PHPUnit\Framework\TestCase {
         $sort_param = new \VersatileCollections\MultiSortParameters('');
     }
 
-    public function testThatConstructorWithNonStringFieldNameWorksAsExpected() {
+    public function testThatConstructorWithValidFieldAndInvalidSortDirectionWorksAsExpected() {
         
         $this->expectException(\VersatileCollections\Exceptions\InvalidMultiSortParameterException::class);
-        $sort_param = new \VersatileCollections\MultiSortParameters([]);
+        $sort_param = new \VersatileCollections\MultiSortParameters('boo', 777);
+    }
+
+    public function testThatConstructorWithValidFieldAndInvalidSortTypeWorksAsExpected() {
+        
+        $this->expectException(\VersatileCollections\Exceptions\InvalidMultiSortParameterException::class);
+        $sort_param = new \VersatileCollections\MultiSortParameters('boo', SORT_ASC, 777);
     }
 
     public function testThatConstructorWithStringFieldNameAndNoOtherArgsWorksAsExpected() {
@@ -44,18 +50,6 @@ class MultiSortParametersTest extends \PHPUnit\Framework\TestCase {
         $this->assertTrue($sort_param->getSortType() === SORT_STRING);
         $this->assertTrue(in_array($sort_param->getSortDirection(), \VersatileCollections\MultiSortParameters::getValidSortDirections()));
         $this->assertTrue(in_array($sort_param->getSortType(), \VersatileCollections\MultiSortParameters::getValidSortTypes()));
-    }
-
-    public function testThatConstructorWithStringFieldNameAndInvalidSortTypeWorksAsExpected() {
-        
-        $this->expectException(\VersatileCollections\Exceptions\InvalidMultiSortParameterException::class);
-        $sort_param = new \VersatileCollections\MultiSortParameters('Jack', SORT_DESC, new ArrayObject() );
-    }
-
-    public function testThatConstructorWithStringFieldNameAndInvalidSortDirectionWorksAsExpected() {
-        
-        $this->expectException(\VersatileCollections\Exceptions\InvalidMultiSortParameterException::class);
-        $sort_param = new \VersatileCollections\MultiSortParameters('Jack', new ArrayObject() );
     }
     
     public function testThatSettersWorkAsExpected() {

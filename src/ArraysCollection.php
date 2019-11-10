@@ -35,7 +35,7 @@ class ArraysCollection implements \VersatileCollections\StrictlyTypedCollectionI
         $this->versatile_collections_items = $arrays;
     }
 
-    public function checkType($item) {
+    public function checkType($item): bool {
         
         return is_array($item);
     }
