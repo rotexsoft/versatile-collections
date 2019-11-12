@@ -486,7 +486,7 @@ trait CollectionInterfaceImplementationTrait {
         
         if( $this->count() <= 0 ) { return null; }
                 
-        return $this->versatile_collections_items[array_key_last($this->versatile_collections_items)];
+        return $this->versatile_collections_items[Utils::array_key_last($this->versatile_collections_items)];
     }
     
     /**

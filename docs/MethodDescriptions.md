@@ -3632,7 +3632,7 @@ NumericsCollection:
 ------------------------------------------------------------------------------------------------
 <div id="NumericsCollection-average"></div>
 
-### average(): mixed
+### average(): float|null
 Returns the average of all of the values(a.k.a items) in the collection or null if collection is empty.
 
 ```php
@@ -3647,7 +3647,7 @@ Returns the average of all of the values(a.k.a items) in the collection or null 
 ------------------------------------------------------------------------------------------------
 <div id="NumericsCollection-max"></div>
 
-### max(): mixed
+### max(): float|null
 Returns the maximum of all of the values(a.k.a items) in the collection or null if collection is empty.
 
 ```php
@@ -3662,7 +3662,7 @@ Returns the maximum of all of the values(a.k.a items) in the collection or null 
 ------------------------------------------------------------------------------------------------
 <div id="NumericsCollection-median"></div>
 
-### median(): mixed
+### median(): float|null
 Returns the median of all of the values(a.k.a items) in the collection or null if collection is empty.
 
 ```php
@@ -3688,7 +3688,7 @@ Returns the median of all of the values(a.k.a items) in the collection or null i
 ------------------------------------------------------------------------------------------------
 <div id="NumericsCollection-min"></div>
 
-### min(): mixed
+### min(): float|null
 Returns the minimum of all of the values(a.k.a items) in the collection or null if collection is empty.
 
 ```php
@@ -3703,7 +3703,7 @@ Returns the minimum of all of the values(a.k.a items) in the collection or null 
 ------------------------------------------------------------------------------------------------
 <div id="NumericsCollection-mode"></div>
 
-### mode(): mixed
+### mode(): array|null
 Returns an array of modal values(a.k.a items) in the collection or null if collection is empty.
 
 ```php
@@ -3724,7 +3724,7 @@ Returns an array of modal values(a.k.a items) in the collection or null if colle
 ------------------------------------------------------------------------------------------------
 <div id="NumericsCollection-product"></div>
 
-### product(): int|float
+### product(): float
 Returns the product of all of the values(a.k.a items) in the collection or one if collection is empty.
 
 ```php
@@ -3753,7 +3753,7 @@ Returns the product of all of the values(a.k.a items) in the collection or one i
 ------------------------------------------------------------------------------------------------
 <div id="NumericsCollection-sum"></div>
 
-### sum(): int|float
+### sum(): float
 Returns the sum of all of the values(a.k.a items) in the collection or zero if collection is empty.
 
 ```php
