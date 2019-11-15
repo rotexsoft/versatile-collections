@@ -3,7 +3,7 @@ declare(strict_types=1);
 /**
  * Description of SortTypeTest
  *
- * @author aadegbam
+ * @author Rotimi Ade
  */
 class SortTypeTest extends \PHPUnit\Framework\TestCase {
     

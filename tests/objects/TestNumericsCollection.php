@@ -3,7 +3,7 @@
 /**
  * Description of TestNumericsCollection
  *
- * @author aadegbam
+ * @author Rotimi Ade
  */
 class TestNumericsCollection extends \VersatileCollections\NumericsCollection {
 

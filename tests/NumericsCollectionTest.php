@@ -3,7 +3,7 @@ declare(strict_types=1);
 /**
  * Description of NumericsCollectionTest
  *
- * @author aadegbam
+ * @author Rotimi Ade
  */
 class NumericsCollectionTest extends \PHPUnit\Framework\TestCase {
     

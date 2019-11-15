@@ -3,7 +3,7 @@ declare(strict_types=1);
 /**
  * Description of StringsCollectionTest
  *
- * @author aadegbam
+ * @author Rotimi Ade
  */
 class StringsCollectionTest extends \PHPUnit\Framework\TestCase {
     

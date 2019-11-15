@@ -3,7 +3,7 @@
 /**
  * Description of TestIntsCollection
  *
- * @author aadegbam
+ * @author Rotimi Ade
  */
 class TestIntsCollection extends \VersatileCollections\IntsCollection {
 

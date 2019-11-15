@@ -5,7 +5,7 @@ use VersatileCollections\Utils;
 /**
  * Description of ArraysCollectionTest
  *
- * @author aadegbam
+ * @author Rotimi Ade
  */
 class UtilsTest extends \PHPUnit\Framework\TestCase{
     

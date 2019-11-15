@@ -3,7 +3,7 @@ declare(strict_types=1);
 /**
  * Description of ScalarsCollectionTest
  *
- * @author aadegbam
+ * @author Rotimi Ade
  */
 class ScalarsCollectionTest extends \PHPUnit\Framework\TestCase {
     

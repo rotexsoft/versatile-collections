@@ -5,7 +5,7 @@ namespace VersatileCollections;
 /**
  * Description of SortParameters
  *
- * @author aadegbam
+ * @author Rotimi Ade
  */
 class MultiSortParameters {
     

@@ -3,7 +3,7 @@ declare(strict_types=1);
 /**
  * Description of ResourcesCollectionTest
  *
- * @author aadegbam
+ * @author Rotimi Ade
  */
 class ResourcesCollectionTest extends \PHPUnit\Framework\TestCase {
     

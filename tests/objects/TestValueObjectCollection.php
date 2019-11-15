@@ -3,7 +3,7 @@
 /**
  * Description of TestValueObjectsCollection
  *
- * @author aadegbam
+ * @author Rotimi Ade
  */
 class TestValueObjectsCollection extends \VersatileCollections\ObjectsCollection {
 

@@ -3,7 +3,7 @@
 /**
  * Description of TestFloatsCollection
  *
- * @author aadegbam
+ * @author Rotimi Ade
  */
 class TestFloatsCollection extends \VersatileCollections\FloatsCollection {
 

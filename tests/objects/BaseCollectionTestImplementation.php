@@ -2,7 +2,7 @@
 /**
  * Description of BaseCollectionImplementation
  *
- * @author aadegbam
+ * @author Rotimi Ade
  */
 class BaseCollectionTestImplementation extends \VersatileCollections\GenericCollection {
     

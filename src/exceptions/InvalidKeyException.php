@@ -4,7 +4,7 @@ namespace VersatileCollections\Exceptions;
 /**
  * Description of InvalidItemException
  *
- * @author aadegbam
+ * @author Rotimi Ade
  */
 class InvalidKeyException extends \Exception {
     

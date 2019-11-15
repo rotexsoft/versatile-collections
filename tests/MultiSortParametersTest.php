@@ -3,7 +3,7 @@ declare(strict_types=1);
 /**
  * Description of MultiSortParametersTest
  *
- * @author aadegbam
+ * @author Rotimi Ade
  */
 class MultiSortParametersTest extends \PHPUnit\Framework\TestCase {
     

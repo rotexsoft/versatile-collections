@@ -3,7 +3,7 @@
 /**
  * Description of TestValueObject3
  *
- * @author aadegbam
+ * @author Rotimi Ade
  */
 class TestValueObject3 {
     

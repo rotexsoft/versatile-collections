@@ -4,7 +4,7 @@ namespace VersatileCollections\Exceptions;
 /**
  * Description of InvalidCollectionOperationException
  *
- * @author aadegbam
+ * @author Rotimi Ade
  */
 class InvalidCollectionOperationException extends \Exception {
     //put your code here

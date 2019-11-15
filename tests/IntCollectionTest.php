@@ -3,7 +3,7 @@ declare(strict_types=1);
 /**
  * Description of IntsCollectionTest
  *
- * @author aadegbam
+ * @author Rotimi Ade
  */
 class IntsCollectionTest extends \PHPUnit\Framework\TestCase {
     

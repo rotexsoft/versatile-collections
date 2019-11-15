@@ -3,7 +3,7 @@ declare(strict_types=1);
 /**
  * Description of FloatsCollectionTest
  *
- * @author aadegbam
+ * @author Rotimi Ade
  */
 class FloatsCollectionTest extends \PHPUnit\Framework\TestCase {
     

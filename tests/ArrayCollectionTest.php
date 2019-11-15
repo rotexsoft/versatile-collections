@@ -3,7 +3,7 @@ declare(strict_types=1);
 /**
  * Description of ArraysCollectionTest
  *
- * @author aadegbam
+ * @author Rotimi Ade
  */
 class ArraysCollectionTest extends \PHPUnit\Framework\TestCase{
     

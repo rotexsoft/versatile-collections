@@ -3,7 +3,7 @@ declare(strict_types=1);
 /**
  * Description of ObjectsCollectionTest
  *
- * @author aadegbam
+ * @author Rotimi Ade
  */
 class ObjectsCollectionTest extends \PHPUnit\Framework\TestCase {
     

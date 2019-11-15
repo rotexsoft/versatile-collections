@@ -3,7 +3,7 @@ declare(strict_types=1);
 /**
  * Description of CustomStrictlyTypedCollectionTest
  *
- * @author aadegbam
+ * @author Rotimi Ade
  */
 class CustomStrictlyTypedCollectionTest extends \PHPUnit\Framework\TestCase {
     

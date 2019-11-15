@@ -4,7 +4,7 @@ namespace VersatileCollections\Exceptions;
 /**
  * Description of NonExistentItemException
  *
- * @author aadegbam
+ * @author Rotimi Ade
  */
 class AddConflictingMethodException extends \Exception {
     

@@ -25,7 +25,7 @@ namespace VersatileCollections;
  *      - ordering-or-sorting-items
  *      - other-operations
  *
- * @author aadegbam
+ * @author Rotimi Ade
  */
 class ResourcesCollection implements \VersatileCollections\StrictlyTypedCollectionInterface {
     

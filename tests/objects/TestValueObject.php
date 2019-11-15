@@ -3,7 +3,7 @@
 /**
  * Description of TestValueObject
  *
- * @author aadegbam
+ * @author Rotimi Ade
  */
 class TestValueObject {
     public $name;

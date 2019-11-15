@@ -3,7 +3,7 @@
  * 
  * Description of ArrayAccessObject
  *
- * @author aadegbam
+ * @author Rotimi Ade
  */
 class ArrayAccessObject implements \ArrayAccess {
     
