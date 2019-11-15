@@ -9,6 +9,11 @@ namespace VersatileCollections;
  */
 class Utils {
 
+    public static function gettype($var): string {
+        
+        return is_object($var) ? get_class($var) : gettype($var);
+    }
+
     public static function getClosureFromCallable(callable $callable): \Closure {
 
         return ($callable instanceof \Closure)? $callable : \Closure::fromCallable($callable);

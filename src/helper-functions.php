@@ -29,7 +29,7 @@ namespace VersatileCollections {
 
             $function = __FUNCTION__;
             $ns = __NAMESPACE__;
-            $property_type = gettype($property);
+            $property_type = Utils::gettype($property);
             $msg = "Error [{$ns}::{$function}(...)]:"
             . " String or Int expected as second argument, `$property_type` given.";
             throw new \InvalidArgumentException($msg); 
@@ -101,7 +101,7 @@ namespace VersatileCollections {
 
             $function = __FUNCTION__;
             $ns = __NAMESPACE__;
-            $property_type = gettype($property);
+            $property_type = Utils::gettype($property);
             $msg = "Error [{$ns}::{$function}(...)]:"
             . " String or Int expected as second argument, `$property_type` given.";
             throw new \InvalidArgumentException($msg); 

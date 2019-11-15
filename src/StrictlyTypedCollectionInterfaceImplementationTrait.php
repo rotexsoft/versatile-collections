@@ -82,7 +82,7 @@ trait StrictlyTypedCollectionInterfaceImplementationTrait {
             
             $class = get_class($this);
             $msg = "Error ({$class}::{$calling_functions_name}):"
-            . " Trying to add an item of type `" . gettype($item) 
+            . " Trying to add an item of type `" . Utils::gettype($item) 
             . "` to a strictly typed collection for items of type(s) `{$type}`"
             . PHP_EOL;
             

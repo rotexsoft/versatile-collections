@@ -65,7 +65,7 @@ trait CollectionInterfaceImplementationTrait {
                     ? $class_in_which_method_was_called : static::class;
             
             $function = $method_name_was_passed_to;
-            $name_type = gettype($name);
+            $name_type = Utils::gettype($name);
             $msg = "Error [{$class}::{$function}(...)]: Trying to add a dynamic method with an invalid name of type `{$name_type}` to a collection"
                 . PHP_EOL . " `\$name`: " . var_to_string($name);
             
@@ -544,7 +544,7 @@ trait CollectionInterfaceImplementationTrait {
                 $class = get_class($this);
                 $function = __FUNCTION__;
                 $msg = "Error [{$class}::{$function}(...)]:Trying to set a property named `$field_name` on a collection item of type "
-                    . "`". gettype($item)."` "
+                    . "`". Utils::gettype($item)."` "
                     . PHP_EOL . " `\$field_val`: " . var_to_string($field_val)
                     . PHP_EOL . " `\$add_field_if_not_present`: " . var_to_string($add_field_if_not_present);
                 
@@ -737,7 +737,7 @@ trait CollectionInterfaceImplementationTrait {
             
             $function = __FUNCTION__;
             $class = get_class($this);
-            $key_type = gettype($key);
+            $key_type = Utils::gettype($key);
             $msg = "Error [{$class}::{$function}(...)]:"
             . " You must specify an integer or string as the \$key parameter."
             . " You supplied a(n) `{$key_type}` with a value of: ". var_to_string($key);
@@ -1910,7 +1910,7 @@ trait CollectionInterfaceImplementationTrait {
             
             $function = __FUNCTION__;
             $class = get_class($this);
-            $column_key_type = gettype($column_key);
+            $column_key_type = Utils::gettype($column_key);
             $msg = "Error [{$class}::{$function}(...)]:"
             . " You must specify an integer or string as the \$column_key parameter."
             . " You supplied a(n) `{$column_key_type}` with a value of: ". var_to_string($column_key);
@@ -1921,7 +1921,7 @@ trait CollectionInterfaceImplementationTrait {
             
             $function = __FUNCTION__;
             $class = get_class($this);
-            $index_key_type = gettype($index_key);
+            $index_key_type = Utils::gettype($index_key);
             $msg = "Error [{$class}::{$function}(...)]:"
             . " You must specify an integer or string as the \$index_key parameter."
             . " You supplied a(n) `{$index_key_type}` with a value of: ". var_to_string($index_key);
@@ -1934,7 +1934,7 @@ trait CollectionInterfaceImplementationTrait {
                 
                 $function = __FUNCTION__;
                 $class = get_class($this);
-                $item_type = gettype($item);
+                $item_type = Utils::gettype($item);
                 $msg = "Error [{$class}::{$function}(...)]:"
                 . " This method only works on collections containing only arrays and / or objects."
                 . " A(n) invalid item of type `{$item_type}` with a value of: ". var_to_string($item)
@@ -1953,7 +1953,7 @@ trait CollectionInterfaceImplementationTrait {
                     $function = __FUNCTION__;
                     $class = get_class($this);
                     $item_type = ($item instanceof \ArrayAccess)
-                                    ? get_class($item) : gettype($item);
+                                    ? get_class($item) : Utils::gettype($item);
                     
                     $msg = "Error [{$class}::{$function}(...)]:"
                     . " An item of type `$item_type` without the specified column key `$column_key`"
@@ -1973,7 +1973,7 @@ trait CollectionInterfaceImplementationTrait {
                     $function = __FUNCTION__;
                     $class = get_class($this);
                     $item_type = ($item instanceof \ArrayAccess)
-                                    ? get_class($item) : gettype($item);
+                                    ? get_class($item) : Utils::gettype($item);
                     
                     $msg = "Error [{$class}::{$function}(...)]:"
                     . " An item of type `$item_type` without the specified index key `$index_key`"
@@ -2000,7 +2000,7 @@ trait CollectionInterfaceImplementationTrait {
                     ){
                         $function = __FUNCTION__;
                         $class = get_class($this);
-                        $item_type = gettype($item[$index_key]);
+                        $item_type = Utils::gettype($item[$index_key]);
 
                         $msg = "Error [{$class}::{$function}(...)]:"
                         . " \$collection['{$coll_key}']['{$index_key}'] of type `$item_type`"
@@ -2017,7 +2017,7 @@ trait CollectionInterfaceImplementationTrait {
                     $function = __FUNCTION__;
                     $class = get_class($this);
                     $item_type = ($item instanceof \ArrayAccess)
-                                    ? get_class($item) : gettype($item);
+                                    ? get_class($item) : Utils::gettype($item);
                     
                     $msg = "Error [{$class}::{$function}(...)]:"
                     . " Error occured while accessing an item of type `$item_type` with the specified index key `$index_key`"
@@ -2042,7 +2042,7 @@ trait CollectionInterfaceImplementationTrait {
                     ) {
                         $function = __FUNCTION__;
                         $class = get_class($this);
-                        $item_type = gettype($index_key_value);
+                        $item_type = Utils::gettype($index_key_value);
                         $msg = "Error [{$class}::{$function}(...)]:"
                         . " \$collection['{$coll_key}']->{'{$index_key}'} of type `$item_type`"
                         . " has a non-string and non-int value of `". var_to_string($index_key_value)."`"
@@ -2133,7 +2133,7 @@ trait CollectionInterfaceImplementationTrait {
         ) {
             $function = __FUNCTION__;
             $class = get_class($this);
-            $new_collection_class_type = gettype($new_collection_class);
+            $new_collection_class_type = Utils::gettype($new_collection_class);
             $msg = "Error [{$class}::{$function}(...)]:"
             . " You must specify an object or string as the \$new_collection_class parameter."
             . " You supplied a(n) `{$new_collection_class_type}` with a value of: ". var_to_string($new_collection_class);
@@ -2145,7 +2145,7 @@ trait CollectionInterfaceImplementationTrait {
         ) {
             $function = __FUNCTION__;
             $class = get_class($this);
-            $new_collection_class_type = gettype($new_collection_class);
+            $new_collection_class_type = Utils::gettype($new_collection_class);
             $msg = "Error [{$class}::{$function}(...)]:"
             . " You must specify an object or string that is a sub-class of "
             . CollectionInterface::class . " as the \$new_collection_class parameter."
@@ -2240,7 +2240,7 @@ trait CollectionInterfaceImplementationTrait {
             
             $function = __FUNCTION__;
             $class = get_class($this);
-            $page_number_type = gettype($page_number);
+            $page_number_type = Utils::gettype($page_number);
             $msg = "Error [{$class}::{$function}(...)]:"
             . " You must specify a valid integer as the \$page_number."
             . " You supplied a(n) `{$page_number_type}` with a value of: ". var_to_string($page_number);
@@ -2251,7 +2251,7 @@ trait CollectionInterfaceImplementationTrait {
             
             $function = __FUNCTION__;
             $class = get_class($this);
-            $num_items_per_page_type = gettype($num_items_per_page);
+            $num_items_per_page_type = Utils::gettype($num_items_per_page);
             $msg = "Error [{$class}::{$function}(...)]:"
             . " You must specify a valid integer as the length."
             . " You supplied a(n) `{$num_items_per_page_type}` with a value of: ". var_to_string($num_items_per_page);
