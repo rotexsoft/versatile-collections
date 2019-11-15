@@ -25,7 +25,7 @@ namespace VersatileCollections;
  *      - other-operations
  * 
  */
-class SpecificObjectsCollection extends ObjectsCollection {
+final class SpecificObjectsCollection extends ObjectsCollection {
     
     protected $class_name = null;
     
