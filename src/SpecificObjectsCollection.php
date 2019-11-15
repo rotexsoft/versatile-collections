@@ -25,6 +25,80 @@ namespace VersatileCollections;
  *      - other-operations
  * 
  */
-class SpecificObjectsCollection {
-    //put your code here
+class SpecificObjectsCollection extends ObjectsCollection {
+    
+    protected $class_name = null;
+    
+    public function setClassName(string $class_name): void {
+        
+        $this->$class_name = $class_name;
+    }
+
+    protected function __construct(object ...$objects) {
+        
+        if( is_null($this->class_name) ) {
+            
+            // we don't have a specific class, allow all objects
+            $this->versatile_collections_items = $objects;
+            
+        } else {
+            
+            // we have a specific class, allow only instances of that class
+            // use the strictly typed constructor instead to enforce the
+            // strict typing
+            static::strictlyTypedCollectionTrait__construct(...$objects);
+        }
+    }
+    
+    public static function makeNewForSpecifiedClassName(string $class_name, array $items =[], bool $preserve_keys=true): \VersatileCollections\CollectionInterface {
+        
+        $new_collection = static::makeNew(); // make an empty collection first
+        
+        if( class_exists($class_name) ) {
+            
+            $new_collection->setClassName($class_name);
+            
+            foreach($items as $key => $val) {
+                
+                if( $preserve_keys ) {
+                    
+                    $new_collection[$key] = $val;
+                    
+                } else {
+                    
+                    $new_collection[] = $val;
+                }
+            }
+            
+        } else {
+            
+            // TODO: Throw exception that specified class cannot be found
+        }
+        
+        return $new_collection;
+    }
+    
+    /**
+     * 
+     * @return bool true if $item is of the expected type, else false
+     * 
+     */
+    public function checkType($item): bool {
+        
+        return is_null($this->class_name) 
+                ? parent::checkType($item)
+                : ($item instanceof $this->class_name);
+    }
+    
+    /**
+     * 
+     * @return string|array a string or array of strings of type name(s) for items acceptable in a collection
+     * 
+     */
+    public function getType() {
+        
+        return is_null($this->class_name)
+                ? parent::getType()
+                : $this->class_name;
+    }
 }

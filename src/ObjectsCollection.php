@@ -24,11 +24,13 @@ namespace VersatileCollections;
  *      - ordering-or-sorting-items
  *      - other-operations
  * 
- * @author aadegbam
+ * @author Rotimi Ade
  */
 class ObjectsCollection implements \VersatileCollections\StrictlyTypedCollectionInterface {
     
-    use StrictlyTypedCollectionInterfaceImplementationTrait;
+    use StrictlyTypedCollectionInterfaceImplementationTrait {
+        StrictlyTypedCollectionInterfaceImplementationTrait::__construct as strictlyTypedCollectionTrait__construct;
+    }
 
     public function __construct(object ...$objects) {
         
