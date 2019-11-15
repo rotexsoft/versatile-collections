@@ -31,7 +31,7 @@ class SpecificObjectsCollection extends ObjectsCollection {
     
     public function setClassName(string $class_name): void {
         
-        $this->$class_name = $class_name;
+        $this->class_name = $class_name;
     }
 
     protected function __construct(object ...$objects) {
