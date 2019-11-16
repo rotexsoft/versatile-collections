@@ -91,7 +91,7 @@ class ObjectsCollection implements \VersatileCollections\StrictlyTypedCollection
                         . PHP_EOL . " `\$arguments`: " . var_to_string($arguments)
                         . PHP_EOL . " `Original Exception Message`: " . $err->getMessage();
 
-                    throw new Exceptions\InvalidCollectionOperationException($msg);
+                    throw new Exceptions\InvalidCollectionOperationException($msg, $err->getCode(), $err);
                     
                 }
             } // foreach ( $this as $key_in_collection => $object )
