@@ -85,26 +85,15 @@ class ObjectsCollection implements \VersatileCollections\StrictlyTypedCollection
                     $class = get_class($this);
                     $function = __FUNCTION__;
                     $msg = "Error [{$class}::{$function}(...)]:Trying to call a"
-                        . " method named `$method_name` on a collection item with key `{$key_in_collection}` of type "
-                        . "`". get_class($object)."` "
+                        . " method named `$method_name` on a collection item of type "
+                        . "`". get_class($object)."` having `{$key_in_collection}`"
+                        . " as its key in the collection"
                         . PHP_EOL . " `\$arguments`: " . var_to_string($arguments)
                         . PHP_EOL . " `Original Exception Message`: " . $err->getMessage();
 
                     throw new Exceptions\InvalidCollectionOperationException($msg);
                     
-                } 
-//                catch (\Exception $err) {
-//
-//                    $class = get_class($this);
-//                    $function = __FUNCTION__;
-//                    $msg = "Error [{$class}::{$function}(...)]:Trying to call a"
-//                        . " method named `$method_name` on a collection item with key `{$key_in_collection}` of type "
-//                        . "`". get_class($object)."` "
-//                        . PHP_EOL . " `\$arguments`: " . var_to_string($arguments)
-//                        . PHP_EOL . " `Original Exception Message`: " . $err->getMessage();
-//
-//                    throw new Exceptions\InvalidCollectionOperationException($msg);
-//                }
+                }
             } // foreach ( $this as $key_in_collection => $object )
 
             return $results;
