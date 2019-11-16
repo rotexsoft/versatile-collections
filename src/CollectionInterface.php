@@ -84,7 +84,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * 
      * @param string $key The requested key.
      * 
-     * @param string $val The value to set it to.
+     * @param mixed $val The value to set it to.
      * 
      * @return void
      * 

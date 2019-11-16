@@ -80,7 +80,7 @@ class ObjectsCollection implements \VersatileCollections\StrictlyTypedCollection
                     $results[$key_in_collection] =
                         call_user_func_array([$object, $method_name], $arguments);
 
-                } catch (\Error $err) {
+                } catch (\Throwable $err) {
 
                     $class = get_class($this);
                     $function = __FUNCTION__;
@@ -92,18 +92,19 @@ class ObjectsCollection implements \VersatileCollections\StrictlyTypedCollection
 
                     throw new Exceptions\InvalidCollectionOperationException($msg);
                     
-                } catch (\Exception $err) {
-
-                    $class = get_class($this);
-                    $function = __FUNCTION__;
-                    $msg = "Error [{$class}::{$function}(...)]:Trying to call a"
-                        . " method named `$method_name` on a collection item with key `{$key_in_collection}` of type "
-                        . "`". get_class($object)."` "
-                        . PHP_EOL . " `\$arguments`: " . var_to_string($arguments)
-                        . PHP_EOL . " `Original Exception Message`: " . $err->getMessage();
-
-                    throw new Exceptions\InvalidCollectionOperationException($msg);
-                }
+                } 
+//                catch (\Exception $err) {
+//
+//                    $class = get_class($this);
+//                    $function = __FUNCTION__;
+//                    $msg = "Error [{$class}::{$function}(...)]:Trying to call a"
+//                        . " method named `$method_name` on a collection item with key `{$key_in_collection}` of type "
+//                        . "`". get_class($object)."` "
+//                        . PHP_EOL . " `\$arguments`: " . var_to_string($arguments)
+//                        . PHP_EOL . " `Original Exception Message`: " . $err->getMessage();
+//
+//                    throw new Exceptions\InvalidCollectionOperationException($msg);
+//                }
             } // foreach ( $this as $key_in_collection => $object )
 
             return $results;
