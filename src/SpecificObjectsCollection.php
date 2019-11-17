@@ -27,14 +27,9 @@ namespace VersatileCollections;
  */
 final class SpecificObjectsCollection extends ObjectsCollection {
     
-    protected $class_name = null;
-    
-    public function setClassName(string $class_name): void {
-        
-        $this->class_name = $class_name;
-    }
+    private $class_name = null;
 
-    protected function __construct(object ...$objects) {
+    private function __construct(object ...$objects) {
         
         if( is_null($this->class_name) ) {
             
@@ -56,7 +51,7 @@ final class SpecificObjectsCollection extends ObjectsCollection {
         
         if( class_exists($class_name) ) {
             
-            $new_collection->setClassName($class_name);
+            $new_collection->class_name = $class_name;
             
             foreach($items as $key => $val) {
                 
