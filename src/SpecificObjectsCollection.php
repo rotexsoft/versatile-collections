@@ -29,7 +29,7 @@ final class SpecificObjectsCollection extends ObjectsCollection {
     
     private $class_name = null;
 
-    private function __construct(object ...$objects) {
+    protected function __construct(object ...$objects) {
         
         if( is_null($this->class_name) ) {
             
