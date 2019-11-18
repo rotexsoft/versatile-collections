@@ -211,5 +211,5 @@ being enforced at construct time and item addition time.
 
 ## Issues
 
-* Please submit an issue or a pull request if you find any bugs or better and 
-more efficient way(s) things could be implemented in this package.
+* Please submit an issue or a pull request if you find any bugs or better 
+and more efficient way(s) things could be implemented in this package.
