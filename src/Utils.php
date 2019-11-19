@@ -32,14 +32,14 @@ class Utils {
             $function = __FUNCTION__;
             $class = static::class;
             $msg = "Error [{$class}::{$function}(...)]: Could not bind \$newthis to the supplied closure"
-                . PHP_EOL . PHP_EOL . static::getExceptionAsStr($ex);
+                . PHP_EOL . PHP_EOL . static::getThrowableAsStr($ex);
 
             // The bind failed
             throw new \InvalidArgumentException($msg);
         }
     }
     
-    public static function getExceptionAsStr(\Exception $e): string {
+    public static function getThrowableAsStr(\Throwable $e): string {
         
         $eol = PHP_EOL;
         $message = "Exception Code: {$e->getCode()}"
@@ -51,7 +51,7 @@ class Utils {
 
         $previous_exception = $e->getPrevious();
 
-        while( $previous_exception instanceof \Exception ) {
+        while( $previous_exception instanceof \Throwable ) {
 
             $message .= "Exception Code: {$previous_exception->getCode()}"
                 . PHP_EOL . "Exception Class: " . get_class($previous_exception)

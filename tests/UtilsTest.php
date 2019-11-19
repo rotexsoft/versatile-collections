@@ -14,6 +14,26 @@ class UtilsTest extends \PHPUnit\Framework\TestCase{
         parent::setUp();
     }
 
+    public function testThat_gettype_WorksAsExpected() {
+
+        $heredoc = <<<EOT
+bar
+EOT;
+        $nowdoc = <<<'EOT'
+bar
+EOT;
+        $this->assertEquals('boolean', Utils::gettype(true));
+        $this->assertEquals('integer', Utils::gettype(777));
+        $this->assertEquals('double', Utils::gettype(777.777));
+        $this->assertEquals('string', Utils::gettype('777.777'));
+        $this->assertEquals('string', Utils::gettype("777.777"));
+        $this->assertEquals('string', Utils::gettype($heredoc));
+        $this->assertEquals('string', Utils::gettype($nowdoc));
+        $this->assertEquals('array', Utils::gettype([]));
+        $this->assertEquals(\ArrayObject::class, Utils::gettype(new ArrayObject()));
+        $this->assertEquals('resource', Utils::gettype(tmpfile()));
+        $this->assertEquals('NULL', Utils::gettype(NULL));
+    }
     
     public function testThat_array_key_first_WorksAsExpected() {
         
@@ -122,13 +142,13 @@ class UtilsTest extends \PHPUnit\Framework\TestCase{
         }
     }
     
-    public function testThatGetExceptionAsStrWorksAsExpected() {
+    public function testThatGetThrowableAsStrWorksAsExpected() {
         
         $e1 = new \DescendantException('Descendant Thrown', 911);
         $e2 = new \AncestorException('Ancestor Thrown', 777, $e1);
         $e3 = new \Exception('Base Thrown', 187, $e2);
         
-        $ex_as_str = Utils::getExceptionAsStr($e3);
+        $ex_as_str = Utils::getThrowableAsStr($e3);
 
         $this->assertStringContainsString('187', $ex_as_str);
         $this->assertStringContainsString('Base Thrown', $ex_as_str);
