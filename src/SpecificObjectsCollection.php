@@ -44,31 +44,52 @@ final class SpecificObjectsCollection extends ObjectsCollection {
             static::strictlyTypedCollectionTrait__construct(...$objects);
         }
     }
-    
-    public static function makeNewForSpecifiedClassName(string $class_name, array $items =[], bool $preserve_keys=true): \VersatileCollections\CollectionInterface {
+
+    /**
+     * Create a new collection that only stores instances of the specified fully qualified class name or
+     * a new collection that stores any kind of object if no fully qualified class name was specified
+     * (essentially works like ObjectsCollection in the latter case).
+     *
+     * @param string|null $class_name fully qualified name of the class whose instances alone would be stored in the collection.
+     *                                Set it to null to make the collection work exactly like an instance of ObjectsCollection
+     * @param array $items an array of objects to be stored in the new collection
+     * @param bool $preserve_keys
+     * @return CollectionInterface
+     */
+    public static function makeNewForSpecifiedClassName(?string $class_name=null, array $items =[], bool $preserve_keys=true): \VersatileCollections\CollectionInterface {
         
         $new_collection = static::makeNew(); // make an empty collection first
-        
-        if( class_exists($class_name) ) {
-            
-            $new_collection->class_name = $class_name;
-            
-            foreach($items as $key => $val) {
-                
-                if( $preserve_keys ) {
-                    
-                    $new_collection[$key] = $val;
-                    
-                } else {
-                    
-                    $new_collection[] = $val;
+
+        if( $class_name !== null ) {
+
+            if (class_exists($class_name)) {
+
+                $new_collection->class_name = $class_name;
+
+                foreach ($items as $key => $val) {
+
+                    if ($preserve_keys) {
+
+                        $new_collection[$key] = $val;
+
+                    } else {
+
+                        $new_collection[] = $val;
+                    }
                 }
-            }
-            
-        } else {
-            
-            // TODO: Throw exception that specified class cannot be found
-        }
+
+            } else {
+
+                $class = static::class;
+                $function = __FUNCTION__;
+                $msg = "Error in [{$class}::{$function}(...)]: Trying to create a"
+                    . " new collection that stores only objects of the specified type "
+                    . "`". $class_name ."` but the specified class not found by `class_exists('$class_name')`.";
+
+                throw new Exceptions\SpecifiedClassNotFoundException($msg);
+
+            } // if (class_exists($class_name))
+        } // if( $class_name !== null )
         
         return $new_collection;
     }
