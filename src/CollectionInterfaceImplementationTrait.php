@@ -328,7 +328,7 @@ trait CollectionInterfaceImplementationTrait {
         return $this->offsetGet($key);
     }
     
-    public function __isset(string $key) {
+    public function __isset(string $key): bool {
         
         return $this->offsetExists($key);
     }
@@ -338,7 +338,7 @@ trait CollectionInterfaceImplementationTrait {
         $this->offsetSet($key, $val);
     }
     
-    public function __unset(string $key) {
+    public function __unset(string $key): void {
         
         $this->offsetUnset($key);
     }

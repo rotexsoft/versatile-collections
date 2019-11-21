@@ -79,7 +79,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @title: Checks if an item with a specified key exists in the collection.
      * 
      */
-    public function __isset(string $key);
+    public function __isset(string $key): bool;
     
     /**
      * 
@@ -111,7 +111,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @title: Removes an item associated with the specified key from the collection.
      * 
      */
-    public function __unset(string $key);
+    public function __unset(string $key): void;
     
     /**
      * 
