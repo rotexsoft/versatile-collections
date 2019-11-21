@@ -54,7 +54,13 @@ final class SpecificObjectsCollection extends ObjectsCollection {
      *                                Set it to null to make the collection work exactly like an instance of ObjectsCollection
      * @param array $items an array of objects to be stored in the new collection
      * @param bool $preserve_keys
-     * @return CollectionInterface
+     * 
+     * @return \VersatileCollections\StrictlyTypedCollectionInterface
+     * 
+     * @used-for: creating-new-collections
+     * 
+     * @title: Create a new collection that only stores instances of the specified fully qualified class name or a new collection that stores any kind of object if no fully qualified class name was specified (Essentially works like ObjectsCollection in the latter case).
+     * 
      */
     public static function makeNewForSpecifiedClassName(?string $class_name=null, array $items =[], bool $preserve_keys=true): \VersatileCollections\StrictlyTypedCollectionInterface {
         
