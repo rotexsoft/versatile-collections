@@ -333,7 +333,7 @@ trait CollectionInterfaceImplementationTrait {
         return $this->offsetExists($key);
     }
     
-    public function __set(string $key, $val) {
+    public function __set(string $key, $val): void {
         
         $this->offsetSet($key, $val);
     }

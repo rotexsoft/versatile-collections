@@ -93,7 +93,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * @title: Adds an item with a specified key to the collection.
      * 
      */
-    public function __set(string $key, $val);
+    public function __set(string $key, $val): void;
     
     /**
      * 
