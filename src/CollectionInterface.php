@@ -52,6 +52,9 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * 
      * Get a key's value.
      * 
+     * https://www.php.net/manual/en/language.oop5.overloading.php#object.get
+     * NOTE: __get() is never called when chaining assignments together like this: $a = $obj->b = 8;
+     * 
      * @param string $key The requested key.
      * 
      * @return mixed
