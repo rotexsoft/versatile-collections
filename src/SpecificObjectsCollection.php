@@ -56,7 +56,7 @@ final class SpecificObjectsCollection extends ObjectsCollection {
      * @param bool $preserve_keys
      * @return CollectionInterface
      */
-    public static function makeNewForSpecifiedClassName(?string $class_name=null, array $items =[], bool $preserve_keys=true): \VersatileCollections\CollectionInterface {
+    public static function makeNewForSpecifiedClassName(?string $class_name=null, array $items =[], bool $preserve_keys=true): \VersatileCollections\StrictlyTypedCollectionInterface {
         
         $new_collection = static::makeNew(); // make an empty collection first
 
