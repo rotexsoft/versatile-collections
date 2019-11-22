@@ -53,7 +53,7 @@ final class SpecificObjectsCollection extends ObjectsCollection {
      * @param string|null $class_name fully qualified name of the class whose instances alone would be stored in the collection.
      *                                Set it to null to make the collection work exactly like an instance of ObjectsCollection
      * @param array $items an array of objects to be stored in the new collection
-     * @param bool $preserve_keys true to use the same keys in $items in the collection
+     * @param bool $preserve_keys true to use the same keys in $items in the collection, , else false to use sequentially incrementing numeric keys starting from zero
      * 
      * @return \VersatileCollections\StrictlyTypedCollectionInterface
      * 
@@ -66,38 +66,42 @@ final class SpecificObjectsCollection extends ObjectsCollection {
      */
     public static function makeNewForSpecifiedClassName(?string $class_name=null, array $items =[], bool $preserve_keys=true): \VersatileCollections\StrictlyTypedCollectionInterface {
         
+        if( $class_name === null ) {
+            
+            return static::makeNew($items, $preserve_keys); // collection that stores any type of object
+        }
+        
+        // Class was specified, create collection for only instances of the 
+        // specified class
         $new_collection = static::makeNew(); // make an empty collection first
 
-        if( $class_name !== null ) {
+        if (class_exists($class_name)) {
 
-            if (class_exists($class_name)) {
+            $new_collection->class_name = $class_name;
 
-                $new_collection->class_name = $class_name;
+            foreach ($items as $key => $val) {
 
-                foreach ($items as $key => $val) {
+                if ($preserve_keys) {
 
-                    if ($preserve_keys) {
+                    $new_collection[$key] = $val;
 
-                        $new_collection[$key] = $val;
+                } else {
 
-                    } else {
-
-                        $new_collection[] = $val;
-                    }
+                    $new_collection[] = $val;
                 }
+            }
 
-            } else {
+        } else {
 
-                $class = static::class;
-                $function = __FUNCTION__;
-                $msg = "Error in [{$class}::{$function}(...)]: Trying to create a"
-                    . " new collection that stores only objects of the specified type "
-                    . "`". $class_name ."` but the specified class not found by `class_exists('$class_name')`.";
+            $class = static::class;
+            $function = __FUNCTION__;
+            $msg = "Error in [{$class}::{$function}(...)]: Trying to create a"
+                . " new collection that stores only objects of the specified type "
+                . "`". $class_name ."` but the specified class not found by `class_exists('$class_name')`.";
 
-                throw new Exceptions\SpecifiedClassNotFoundException($msg);
+            throw new Exceptions\SpecifiedClassNotFoundException($msg);
 
-            } // if (class_exists($class_name))
-        } // if( $class_name !== null )
+        } // if (class_exists($class_name))
         
         return $new_collection;
     }
