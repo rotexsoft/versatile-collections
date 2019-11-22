@@ -3950,11 +3950,24 @@ Set it to null to make the collection work exactly like an instance of **Objects
     ////////////////////////////////////////
     // Store only instances of ArrayObject
     ////////////////////////////////////////
+
     // Create an empty collection that stores only ArrayObject objects
     $collection = \VersatileCollections\SpecificObjectsCollection::makeNewForSpecifiedClassName(
         \ArrayObject::class
     );
+
+    // Create a collection that containing only 2 instances of ArrayObject
+    $item1 = new \ArrayObject(); // parent class instance
+    $item2 = new \ArrayObject(); // parent class instance
+
+    $collection = \VersatileCollections\SpecificObjectsCollection::makeNewForSpecifiedClassName(
+        \ArrayObject::class,
+        ['item1'=>$item1, 'item2'=>$item2]
+    );
     
+    /////////////////////////////////////////////////////////////
+    // Store only instances of ArrayIterator and its sub-classes
+    /////////////////////////////////////////////////////////////
     // Create a collection of ArrayIterator objects with 4 instances
     // 2 parent class (i.e. ArrayIterator) instances 
     // and 2 child class (i.e. RecursiveArrayIterator) instances
