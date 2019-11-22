@@ -131,7 +131,7 @@ in this package:
 * **ResourcesCollection:** a collection that only stores items that are resources (i.e. items for which is_resource is true)
 * **ScalarsCollection:** a collection that only stores items that are scalars (i.e. items for which is_scalar is true)
 * **StringsCollection:** a collection that only stores items that are strings (i.e. items for which is_string is true)
-* **SpecificObjectsCollection:** a collection that only stores items that are instances of a specified class
+* **SpecificObjectsCollection:** a collection that only stores items that are instances of a specified class or any of its sub-classes
 
 To implement a custom collection that only contains objects that are instances of
 a specific class (for example **\PDO**), your custom collection class must adhere to
