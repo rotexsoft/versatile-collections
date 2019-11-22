@@ -37,8 +37,61 @@ class SpecificObjectsCollectionTest extends \PHPUnit\Framework\TestCase {
         $this->assertTrue($collection->containsItemWithKey('item2', $item2));
         $this->assertTrue($collection->containsItemWithKey('item3', $item3));
         $this->assertTrue($collection->containsItemWithKey('item4', $item4));
+
     }
 
+    public function testThatMakeNewForSpecifiedClassName_WithNullClassNameAndOtherArgsCanStoreInstancesOfAnyClass() {
+        
+        $item1 = new stdClass();
+        $item2 = new DateTime('2000-01-01');
+        $item3 = new \PDO(
+            'sqlite::memory:',
+            null,
+            null,
+            [
+                PDO::ATTR_PERSISTENT => true,
+                PDO::ATTR_ERRMODE=>PDO::ERRMODE_EXCEPTION
+            ]
+        );
+        $item4 = new ArrayObject();
+        
+        // keys preserved
+        $collection = \VersatileCollections\SpecificObjectsCollection::makeNewForSpecifiedClassName(
+            null,
+            [
+                'item1' => $item1,
+                'item2' => $item2,
+                'item3' => $item3,
+                'item4' => $item4
+            ]
+        ); // omit last parameter which has a default value of true
+        $this->assertTrue($collection->containsItemWithKey('item1', $item1));
+        $this->assertTrue($collection->containsItemWithKey('item2', $item2));
+        $this->assertTrue($collection->containsItemWithKey('item3', $item3));
+        $this->assertTrue($collection->containsItemWithKey('item4', $item4));
+
+        // keys not preserved
+        $collection = \VersatileCollections\SpecificObjectsCollection::makeNewForSpecifiedClassName(
+            null,
+            [
+                'item1' => $item1,
+                'item2' => $item2,
+                'item3' => $item3,
+                'item4' => $item4
+            ],
+            false
+        );
+        $this->assertTrue($collection->containsItemWithKey(0, $item1));
+        $this->assertTrue($collection->containsItemWithKey(1, $item2));
+        $this->assertTrue($collection->containsItemWithKey(2, $item3));
+        $this->assertTrue($collection->containsItemWithKey(3, $item4));
+        
+        $this->assertFalse($collection->containsItemWithKey('item1', $item1));
+        $this->assertFalse($collection->containsItemWithKey('item2', $item2));
+        $this->assertFalse($collection->containsItemWithKey('item3', $item3));
+        $this->assertFalse($collection->containsItemWithKey('item4', $item4));
+    }
+    
     public function testThatMakeNewForSpecifiedClassName_WithArgsCanStoreOnlyInstancesOfTheSpecifiedClass() {
 
         $item1 = new ArrayObject();
@@ -70,6 +123,26 @@ class SpecificObjectsCollectionTest extends \PHPUnit\Framework\TestCase {
         \VersatileCollections\SpecificObjectsCollection::makeNewForSpecifiedClassName(
             $non_existent_class_name
         ); // will throw \VersatileCollections\Exceptions\SpecifiedClassNotFoundException
+    }
+
+    public function testThatInvalidItemExceptionIsThrownWhenItemOfNonObjectTypeIsSuppliedToMakeNewForSpecifiedClassNameWith_A_NullClassName() {
+
+        $item1 = new ArrayObject();
+        $item2 = new ArrayObject();
+        $item3 = new DateTime('2000-01-01');
+        $item4 = "boo";
+
+        // When creating a collection for instances of ArrayObject and instances of
+        // other classes are added, make sure that the
+        // \VersatileCollections\Exceptions\InvalidItemException is thrown
+        $right_type_name = 'object';
+        $wrong_type_name = 'string';
+        $msg = " Trying to add an item of type `{$wrong_type_name}` to a strictly typed collection for items of type(s) `{$right_type_name}`";
+        $this->expectExceptionMessage($msg);
+        $this->expectException(\VersatileCollections\Exceptions\InvalidItemException::class);
+        $collection = \VersatileCollections\SpecificObjectsCollection::makeNewForSpecifiedClassName(
+            null, [$item1, $item2, $item3, $item4 ]
+        );
     }
 
     public function testThatInvalidItemExceptionIsThrownWhenItemOfDifferentTypeIsSuppliedToMakeNewForSpecifiedClassName_1() {
