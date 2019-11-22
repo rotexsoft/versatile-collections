@@ -3964,6 +3964,11 @@ Set it to null to make the collection work exactly like an instance of **Objects
         \ArrayObject::class,
         ['item1'=>$item1, 'item2'=>$item2]
     );
+
+    // $collection = \VersatileCollections\SpecificObjectsCollection::makeNewForSpecifiedClassName(
+    //    \ArrayObject::class, ['item1'=>$item1, 'item2'=>$item2, 'item3'=> (new \DateTime('2000-01-01')) ]
+    // ); // This will throw a VersatileCollections\Exceptions\InvalidItemException, 
+          // because last item is an instance of DateTime instead of ArrayObject
     
     /////////////////////////////////////////////////////////////
     // Store only instances of ArrayIterator and its sub-classes
@@ -3980,11 +3985,6 @@ Set it to null to make the collection work exactly like an instance of **Objects
         \ArrayIterator::class, 
         ['item1'=>$item1, 'item2'=>$item2, 'item3'=>$item3, 'item4'=>$item4 ]
     );
-
-    // $collection = \VersatileCollections\SpecificObjectsCollection::makeNewForSpecifiedClassName(
-    //    \ArrayObject::class, ['item1'=>$item1, 'item2'=>$item2, 'item3'=> (new \DateTime('2000-01-01')) ]
-    // ); // This will throw a VersatileCollections\Exceptions\InvalidItemException, 
-          // because last item is an instance of DateTime instead of ArrayObject
     
     //////////////////////////////////////////////////////////////////////
     // Store instances of any class. Works exactly like ObjectsCollection
