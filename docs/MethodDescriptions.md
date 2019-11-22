@@ -1920,7 +1920,7 @@ A default value will be returned if the specified key does not exist in the coll
     $collection->pull('item3'); // === 24
     $collection->toArray(); // === [ 'item4'=>25 ]
 
-    $collection->pull('item4')); // === 25
+    $collection->pull('item4'); // === 25
     $collection->toArray(); // === []
 
     // default value returned for non-existent key
@@ -3624,6 +3624,7 @@ added to a collection via argument unpacking
 * [NumericsCollection](#VersatileCollections-NumericsCollection)
 * [ObjectsCollection](#VersatileCollections-ObjectsCollection)
 * [ScalarsCollection](#VersatileCollections-ScalarsCollection)
+* [SpecificObjectsCollection](#VersatileCollections-SpecificObjectsCollection)
 
 ------------------------------------------------------------------------------------------------
 <div id="VersatileCollections-NumericsCollection"></div>
@@ -3923,4 +3924,70 @@ The keys are not preserved in the returned collection.
     
     var_dump($collection->unique()->toArray()); 
                 // === ['4', 5.0, 7, true, false, 4, '5.0', '7', 'true', 'false']
+```
+
+------------------------------------------------------------------------------------------------
+<div id="VersatileCollections-SpecificObjectsCollection"></div>
+
+SpecificObjectsCollection:
+------------------------------------------------------------------------------------------------
+<div id="SpecificObjectsCollection-makeNewForSpecifiedClassName"></div>
+
+### static makeNewForSpecifiedClassName(?string $class_name=null, array $items =[], bool $preserve_keys=true): \VersatileCollections\StrictlyTypedCollectionInterface
+Create a new collection that only stores instances of the specified fully qualified class name 
+or its sub-classes or a new collection that stores any kind of object if no fully qualified 
+class name was specified (essentially works like ObjectsCollection in the latter case).<br>
+A `\VersatileCollections\Exceptions\SpecifiedClassNotFoundException` exception is thrown if **$class_name** is not a class that actually exists.<br>
+A `\VersatileCollections\Exceptions\InvalidItemException` exception is thrown if any of the items in **$items** is not an instance of **$class_name** if **$class_name** is not null.<br>
+
+* **$class_name**: fully qualified name of the class whose instances or instances of its sub-classes alone would be stored in the collection.
+Set it to null to make the collection work exactly like an instance of **ObjectsCollection**
+* **$items**: an array of objects to be stored in the new collection
+* **$preserve_keys**: true to use the same keys in $items in the collection, else false to use sequentially incrementing numeric keys starting from zero
+
+```php
+<?php
+    ////////////////////////////////////////
+    // Store only instances of ArrayObject
+    ////////////////////////////////////////
+    // Create an empty collection that stores only ArrayObject objects
+    $collection = \VersatileCollections\SpecificObjectsCollection::makeNewForSpecifiedClassName(
+        \ArrayObject::class
+    );
+    
+    // Create a collection of ArrayObject objects with 2 instances
+    $item1 = new ArrayObject();
+    $item2 = new ArrayObject();
+    $collection = \VersatileCollections\SpecificObjectsCollection::makeNewForSpecifiedClassName(
+        \ArrayObject::class, ['item1'=>$item1, 'item2'=>$item2]
+    );
+
+    // $collection = \VersatileCollections\SpecificObjectsCollection::makeNewForSpecifiedClassName(
+    //    \ArrayObject::class, ['item1'=>$item1, 'item2'=>$item2, 'item3'=> (new \DateTime('2000-01-01')) ]
+    // ); // This will throw a VersatileCollections\Exceptions\InvalidItemException, 
+          // because last item is an instance of DateTime instead of ArrayObject
+    
+    //////////////////////////////////////////////////////////////////////
+    // Store instances of any class. Works exactly like ObjectsCollection
+    //////////////////////////////////////////////////////////////////////
+    $collection = \VersatileCollections\SpecificObjectsCollection::makeNewForSpecifiedClassName(
+        null,    
+        [
+            'item1'=>new stdClass(), 
+            'item2'=>new \DateTime('2000-01-01'), 
+            'item3'=>new \PDO('sqlite::memory:'), 
+            'item4'=>new \ArrayObject()
+        ]
+    );
+
+    $collection = \VersatileCollections\SpecificObjectsCollection::makeNewForSpecifiedClassName(
+        null,    
+        [
+            'item1'=>new stdClass(), 
+            'item2'=>new \DateTime('2000-01-01'), 
+            'item3'=>new \PDO('sqlite::memory:'), 
+            'item4'=>new \ArrayObject(),
+            'item5'=>"Boo" // Invalid item, string and not an object
+        ]
+    );
 ```

@@ -92,24 +92,30 @@ class SpecificObjectsCollectionTest extends \PHPUnit\Framework\TestCase {
         $this->assertFalse($collection->containsItemWithKey('item4', $item4));
     }
     
-    public function testThatMakeNewForSpecifiedClassName_WithArgsCanStoreOnlyInstancesOfTheSpecifiedClass() {
+    public function testThatMakeNewForSpecifiedClassName_WithArgsCanStoreOnlyInstancesOfTheSpecifiedClassAndItsSubclasses() {
 
-        $item1 = new ArrayObject();
-        $item2 = new ArrayObject();
+        $item1 = new \ArrayIterator(); // parent class instance
+        $item2 = new \ArrayIterator(); // parent class instance
+        $item3 = new \RecursiveArrayIterator(); // child class instance
+        $item4 = new \RecursiveArrayIterator(); // child class instance
 
         // Create a collection that stores only instances of \ArrayObject
         // Store 2 instances of \ArrayObject and test that they exist in the collection
         $collection = \VersatileCollections\SpecificObjectsCollection::makeNewForSpecifiedClassName(
-            \ArrayObject::class, ['item1'=>$item1, 'item2'=>$item2], false
+            \ArrayIterator::class, ['item1'=>$item1, 'item2'=>$item2, 'item3'=>$item3, 'item4'=>$item4 ], false
         );
         $this->assertTrue($collection->containsItemWithKey(0, $item1));
         $this->assertTrue($collection->containsItemWithKey(1, $item2));
+        $this->assertTrue($collection->containsItemWithKey(2, $item3));
+        $this->assertTrue($collection->containsItemWithKey(3, $item4));
 
         $collection_keys_preserved = \VersatileCollections\SpecificObjectsCollection::makeNewForSpecifiedClassName(
-            \ArrayObject::class, ['item1'=>$item1, 'item2'=>$item2], true
+            \ArrayIterator::class, ['item1'=>$item1, 'item2'=>$item2, 'item3'=>$item3, 'item4'=>$item4], true
         );
         $this->assertTrue($collection_keys_preserved->containsItemWithKey('item1', $item1));
         $this->assertTrue($collection_keys_preserved->containsItemWithKey('item2', $item2));
+        $this->assertTrue($collection_keys_preserved->containsItemWithKey('item3', $item3));
+        $this->assertTrue($collection_keys_preserved->containsItemWithKey('item4', $item4));
     }
 
     public function testThatMakeNewForSpecifiedClassName_ThrowsAnExceptionWhenTheSpecifiedClassDoesNotExist() {

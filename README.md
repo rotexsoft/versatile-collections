@@ -122,15 +122,16 @@ by implementing **\VersatileCollections\CollectionInterface** and using
 If you want to enforce strict-typing, the following Collection classes are provided
 in this package:
 
-* **ArraysCollection :** a collection that only stores items that are arrays (i.e. items for which is_array is true)
-* **CallablesCollection :** a collection that only stores items that are callables (i.e. items for which is_callable is true)
-* **FloatsCollection :** a collection that only stores items that are floats (i.e. items for which is_float is true)
-* **IntsCollection :** a collection that only stores items that are integers (i.e. items for which is_int is true)
-* **NumericsCollection :** a collection that only stores items that are either floats or integers (i.e. items for which is_int or is_float is true)
-* **ObjectsCollection :** a collection that only stores items that are objects (i.e. items for which is_object is true)
-* **ResourcesCollection :** a collection that only stores items that are resources (i.e. items for which is_resource is true)
-* **ScalarsCollection :** a collection that only stores items that are scalars (i.e. items for which is_scalar is true)
-* **StringsCollection :** a collection that only stores items that are strings (i.e. items for which is_string is true)
+* **ArraysCollection:** a collection that only stores items that are arrays (i.e. items for which is_array is true)
+* **CallablesCollection:** a collection that only stores items that are callables (i.e. items for which is_callable is true)
+* **FloatsCollection:** a collection that only stores items that are floats (i.e. items for which is_float is true)
+* **IntsCollection:** a collection that only stores items that are integers (i.e. items for which is_int is true)
+* **NumericsCollection:** a collection that only stores items that are either floats or integers (i.e. items for which is_int or is_float is true)
+* **ObjectsCollection:** a collection that only stores items that are objects (i.e. items for which is_object is true)
+* **ResourcesCollection:** a collection that only stores items that are resources (i.e. items for which is_resource is true)
+* **ScalarsCollection:** a collection that only stores items that are scalars (i.e. items for which is_scalar is true)
+* **StringsCollection:** a collection that only stores items that are strings (i.e. items for which is_string is true)
+* **SpecificObjectsCollection:** a collection that only stores items that are instances of a specified class
 
 To implement a custom collection that only contains objects that are instances of
 a specific class (for example **\PDO**), your custom collection class must adhere to
@@ -190,6 +191,10 @@ You can declare your custom typed collection classes as **final** so that users 
 classes will not be able to extend them and thereby circumvent the type-checking 
 being enforced at construct time and item addition time.
 
+> **NOTE:** If you only want to store items that are only instances of a specific class 
+or its sub-classes in a collection and don't want to have to create a custom collection 
+>class for that purpose, simply use [SpecificObjectsCollection](docs/SpecificObjectsCollection.md)
+
 ## Documentation
 
 * [Methods Glossary by Category](docs/MethodsByCategory.md)
@@ -205,6 +210,7 @@ being enforced at construct time and item addition time.
             * [Floats Collections](docs/FloatsCollections.md): a collection that can only contain [floats](http://php.net/manual/en/language.types.float.php)
             * [Ints Collections](docs/IntsCollections.md): a collection that can only contain [integers](http://php.net/manual/en/language.types.integer.php)
         * [Strings Collections](docs/StringsCollections.md): a collection that can only contain [strings](http://php.net/manual/en/language.types.string.php)
+    * [Specific Objects Collections](docs/SpecificObjectsCollection.md): a collection that can either contain only instances of a specified class or any of its sub-classes or any type of [object](http://php.net/manual/en/language.types.object.php) (just like [Objects Collections](docs/ObjectsCollections.md)) if no class is specified
 * [Laravel Collection Methods Equivalence](docs/LaravelMethodsEquivalence.md)
 
 * Please submit an issue or a pull request if you find any issues with the documentation.

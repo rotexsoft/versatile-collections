@@ -47,10 +47,10 @@ final class SpecificObjectsCollection extends ObjectsCollection {
 
     /**
      * Create a new collection that only stores instances of the specified fully qualified class name or
-     * a new collection that stores any kind of object if no fully qualified class name was specified
-     * (essentially works like ObjectsCollection in the latter case).
+     * its sub-classes or a new collection that stores any kind of object if no fully qualified class name
+     * was specified (Essentially works like ObjectsCollection in the latter case).
      *
-     * @param string|null $class_name fully qualified name of the class whose instances alone would be stored in the collection.
+     * @param string|null $class_name fully qualified name of the class whose instances or instances of its sub-classes alone would be stored in the collection.
      *                                Set it to null to make the collection work exactly like an instance of ObjectsCollection
      * @param array $items an array of objects to be stored in the new collection
      * @param bool $preserve_keys true to use the same keys in $items in the collection, , else false to use sequentially incrementing numeric keys starting from zero
@@ -59,7 +59,7 @@ final class SpecificObjectsCollection extends ObjectsCollection {
      * 
      * @used-for: creating-new-collections
      * 
-     * @title: Create a new collection that only stores instances of the specified fully qualified class name or a new collection that stores any kind of object if no fully qualified class name was specified (Essentially works like ObjectsCollection in the latter case).
+     * @title: Create a new collection that only stores instances of the specified fully qualified class name or its sub-classes or a new collection that stores any kind of object if no fully qualified class name was specified (Essentially works like ObjectsCollection in the latter case).
      * 
      * @throws \VersatileCollections\Exceptions\SpecifiedClassNotFoundException
      * 

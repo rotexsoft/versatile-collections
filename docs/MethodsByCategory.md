@@ -169,6 +169,9 @@
 * **`VersatileCollections\ScalarsCollection`**
   * [uniqueNonStrict](MethodDescriptions.md#ScalarsCollection-uniqueNonStrict): Returns a new collection of unique items from an existing collection. This method uses non-strict comparison for testing uniqueness. The keys are not preserved in the returned collection.
 
+* **`VersatileCollections\SpecificObjectsCollection`**
+  * [makeNewForSpecifiedClassName](MethodDescriptions.md#SpecificObjectsCollection-makeNewForSpecifiedClassName): Create a new collection that only stores instances of the specified fully qualified class name or its sub-classes or a new collection that stores any kind of object if no fully qualified class name was specified (Essentially works like ObjectsCollection in the latter case).
+
 
 ------------------------------------------------------------------------------------------------
 <div id="deleting-items"></div>
@@ -312,5 +315,3 @@
 * **`VersatileCollections\CollectionInterfaceImplementationTrait`**
   * [__call](MethodDescriptions.md#CollectionInterfaceImplementationTrait-__call): Tries to call the specified method with the specified arguments and return its return value if it was registered via either `addMethod` or `addMethodForAllInstances` . An exception of type **\BadMethodCallException** is thrown if the method could not be called.
   * [__callStatic](MethodDescriptions.md#CollectionInterfaceImplementationTrait-__callStatic): Tries to call the specified method with the specified arguments and return its return value if it was registered via `addStaticMethod`. An exception of type **\BadMethodCallException** is thrown if the method could not be called.
-
-
