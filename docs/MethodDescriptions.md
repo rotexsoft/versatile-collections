@@ -3955,11 +3955,17 @@ Set it to null to make the collection work exactly like an instance of **Objects
         \ArrayObject::class
     );
     
-    // Create a collection of ArrayObject objects with 2 instances
-    $item1 = new ArrayObject();
-    $item2 = new ArrayObject();
+    // Create a collection of ArrayIterator objects with 4 instances
+    // 2 parent class (i.e. ArrayIterator) instances 
+    // and 2 child class (i.e. RecursiveArrayIterator) instances
+    $item1 = new \ArrayIterator(); // parent class instance
+    $item2 = new \ArrayIterator(); // parent class instance
+    $item3 = new \RecursiveArrayIterator(); // child class instance
+    $item4 = new \RecursiveArrayIterator(); // child class instance
+
     $collection = \VersatileCollections\SpecificObjectsCollection::makeNewForSpecifiedClassName(
-        \ArrayObject::class, ['item1'=>$item1, 'item2'=>$item2]
+        \ArrayIterator::class, 
+        ['item1'=>$item1, 'item2'=>$item2, 'item3'=>$item3, 'item4'=>$item4 ]
     );
 
     // $collection = \VersatileCollections\SpecificObjectsCollection::makeNewForSpecifiedClassName(
