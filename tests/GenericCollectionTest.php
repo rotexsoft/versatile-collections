@@ -1474,6 +1474,7 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         $this->assertTrue($collection->containsItemWithKey('item2', ['name'=>'Jane', 'age'=>'20',]));
         $this->assertFalse($collection->containsItemWithKey('not in collection', $item1));
         $this->assertFalse($collection->containsItemWithKey('item1', 'not in collection'));
+        $this->assertFalse($collection->containsItemWithKey('item1', ['name'=>'Jane', 'age'=>'20',]));
         $this->assertFalse($collection->containsItemWithKey([], $item1));
     }
     
