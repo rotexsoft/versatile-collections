@@ -1746,7 +1746,7 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
     public function testThatValidateMethodNameWorksAsExpected2() {
         
         $collection = new \BaseCollectionTestImplementation();
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(\TypeError::class);
                 
         // This should trigger an Exception because we are
         // passing a non-string (in this case an array)
@@ -4137,8 +4137,8 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
     }
 
     public function testPaginateNonIntPageNumberException() {
-        
-        $this->expectException(\InvalidArgumentException::class);
+
+        $this->expectException(\TypeError::class);
         $c = new \BaseCollectionTestImplementation(
                 ...[ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h' ]
             );
@@ -4148,7 +4148,7 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
 
     public function testPaginateNonIntNumberOfItemsPerPageException() {
         
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(\TypeError::class);
         $c = new \BaseCollectionTestImplementation(
                 ...[ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h' ]
             );
@@ -4158,7 +4158,7 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
 
     public function testPaginateNonIntPageNumberAndNonIntNumberOfItemsPerPageException() {
         
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(\TypeError::class);
         $c = new \BaseCollectionTestImplementation(
                 ...[ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h' ]
             );

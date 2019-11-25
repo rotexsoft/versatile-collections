@@ -54,24 +54,11 @@ trait CollectionInterfaceImplementationTrait {
      */
     protected static $versatile_collections_static_methods = [];
     
-    protected static function validateMethodName($name, $method_name_was_passed_to, $class_in_which_method_was_called=null) {
+    protected static function validateMethodName(string $name, $method_name_was_passed_to, $class_in_which_method_was_called=null) {
         
         $regex_4_valid_method_name = '/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/';
         
-        if( !is_string($name)) {
-            
-            $class = 
-                (!is_null($class_in_which_method_was_called) && is_string($class_in_which_method_was_called))
-                    ? $class_in_which_method_was_called : static::class;
-            
-            $function = $method_name_was_passed_to;
-            $name_type = Utils::gettype($name);
-            $msg = "Error [{$class}::{$function}(...)]: Trying to add a dynamic method with an invalid name of type `{$name_type}` to a collection"
-                . PHP_EOL . " `\$name`: " . var_to_string($name);
-            
-            throw new \InvalidArgumentException($msg);
-            
-        } else if( 
+        if( 
             !preg_match( $regex_4_valid_method_name, preg_quote($name, '/') ) 
         ) {
             // A valid php class' method name starts with a letter or underscore, 
@@ -89,7 +76,7 @@ trait CollectionInterfaceImplementationTrait {
             
             throw new \InvalidArgumentException($msg);
             
-        } else if( is_string($name) && method_exists(static::class, $name) ) {
+        } else if( method_exists(static::class, $name) ) {
             
             // valid method name was supplied but conflicts with an
             // already defined real class method
@@ -118,9 +105,9 @@ trait CollectionInterfaceImplementationTrait {
      * 
      */
     public static function addStaticMethod(
-        $name, 
+        string $name, 
         callable $callable, 
-        $has_return_val=false
+        bool $has_return_val=false
     ) {
         if( static::validateMethodName($name, __FUNCTION__) ) {
             
@@ -144,10 +131,10 @@ trait CollectionInterfaceImplementationTrait {
      * 
      */
     public static function addMethodForAllInstances(
-        $name, 
+        string $name, 
         callable $callable, 
-        $has_return_val=false,
-        $bind_to_this_on_invocation=true
+        bool $has_return_val=false,
+        bool $bind_to_this_on_invocation=true
     ) {
         if( static::validateMethodName($name, __FUNCTION__) ) {
             
@@ -174,10 +161,10 @@ trait CollectionInterfaceImplementationTrait {
      * 
      */
     public function addMethod(
-        $name, 
+        string $name, 
         callable $callable, 
-        $has_return_val=false,
-        $bind_to_this=true
+        bool $has_return_val=false,
+        bool $bind_to_this=true
     ) {
         if( static::validateMethodName($name, __FUNCTION__, get_class($this)) ) {
             
@@ -297,7 +284,7 @@ trait CollectionInterfaceImplementationTrait {
      * @throws \BadMethodCallException
      * 
      */
-    public static function __callStatic($method_name, $arguments) {
+    public static function __callStatic(string $method_name, array $arguments=[]) {
         
         $key_for_static_method = static::getKeyForDynamicMethod($method_name, static::$versatile_collections_static_methods);
         
@@ -1522,9 +1509,7 @@ trait CollectionInterfaceImplementationTrait {
         
         // last parameter is the array to be sorted
         $multi_sort_args[] = &$array_to_be_sorted;
-        
         call_user_func_array("array_multisort", $multi_sort_args);
-        
         $sorted_array_with_unpreserved_keys = array_pop($multi_sort_args);
         
         // Restore original key associations
@@ -2234,29 +2219,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::paginate()
      * 
      */
-    public function paginate($page_number, $num_items_per_page): \VersatileCollections\CollectionInterface {
-        
-        if( !is_int($page_number) ) {
-            
-            $function = __FUNCTION__;
-            $class = get_class($this);
-            $page_number_type = Utils::gettype($page_number);
-            $msg = "Error [{$class}::{$function}(...)]:"
-            . " You must specify a valid integer as the \$page_number."
-            . " You supplied a(n) `{$page_number_type}` with a value of: ". var_to_string($page_number);
-            throw new \InvalidArgumentException($msg); 
-        }
-        
-        if( !is_int($num_items_per_page) ) {
-            
-            $function = __FUNCTION__;
-            $class = get_class($this);
-            $num_items_per_page_type = Utils::gettype($num_items_per_page);
-            $msg = "Error [{$class}::{$function}(...)]:"
-            . " You must specify a valid integer as the length."
-            . " You supplied a(n) `{$num_items_per_page_type}` with a value of: ". var_to_string($num_items_per_page);
-            throw new \InvalidArgumentException($msg); 
-        }
+    public function paginate(int $page_number, int $num_items_per_page): \VersatileCollections\CollectionInterface {
         
         if( $page_number < 1 ) {
             
@@ -2443,7 +2406,6 @@ trait CollectionInterfaceImplementationTrait {
             
         } else {
             
-            //is_null($key_comparator) && is_null($item_comparator)
             $result = array_intersect_assoc($this->versatile_collections_items, $arr);
         }
         

@@ -1863,10 +1863,8 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      * 
      * @title: Returns a new collection of at most a specified number of items present in the specified page.
      * 
-     * @throws \InvalidArgumentException if $page_number or $num_items_per_page is not an integer
-     * 
      */
-    public function paginate($page_number, $num_items_per_page): \VersatileCollections\CollectionInterface;
+    public function paginate(int $page_number, int $num_items_per_page): \VersatileCollections\CollectionInterface;
     
     /**
      * 
