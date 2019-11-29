@@ -39,29 +39,21 @@ class Utils {
         }
     }
     
-    public static function getThrowableAsStr(\Throwable $e): string {
-        
-        $eol = PHP_EOL;
-        $message = "Exception Code: {$e->getCode()}"
-        . PHP_EOL . "Exception Class: " . get_class($e)
-        . PHP_EOL . "File: {$e->getFile()}"
-        . PHP_EOL . "Line: {$e->getLine()}"
-        . PHP_EOL . "Message: {$e->getMessage()}" . PHP_EOL
-        . PHP_EOL . "Trace: {$eol}{$e->getTraceAsString()}{$eol}{$eol}";
+    public static function getThrowableAsStr(\Throwable $e, string $eol=PHP_EOL): string {
 
-        $previous_exception = $e->getPrevious();
+        $previous_throwable = $e;
+        $message = '';
 
-        while( $previous_exception instanceof \Throwable ) {
-
-            $message .= "Exception Code: {$previous_exception->getCode()}"
-                . PHP_EOL . "Exception Class: " . get_class($previous_exception)
-                . PHP_EOL . "File: {$previous_exception->getFile()}"
-                . PHP_EOL . "Line: {$previous_exception->getLine()}"
-                . PHP_EOL . "Message: {$previous_exception->getMessage()}" . PHP_EOL
-                . PHP_EOL . "Trace: {$eol}{$previous_exception->getTraceAsString()}{$eol}{$eol}";
+        do {
+            $message .= "Exception / Error Code: {$previous_throwable->getCode()}"
+                . $eol . "Exception / Error Class: " . get_class($previous_throwable)
+                . $eol . "File: {$previous_throwable->getFile()}"
+                . $eol . "Line: {$previous_throwable->getLine()}"
+                . $eol . "Message: {$previous_throwable->getMessage()}" . $eol
+                . $eol . "Trace: {$eol}{$previous_throwable->getTraceAsString()}{$eol}{$eol}";
                 
-            $previous_exception = $previous_exception->getPrevious();
-        } 
+            $previous_throwable = $previous_throwable->getPrevious();
+        } while( $previous_throwable instanceof \Throwable );
         
         return $message;
     }

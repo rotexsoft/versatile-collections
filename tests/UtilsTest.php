@@ -149,7 +149,7 @@ EOT;
         $e3 = new \Exception('Base Thrown', 187, $e2);
         
         $ex_as_str = Utils::getThrowableAsStr($e3);
-
+        $this->assertStringContainsString(PHP_EOL, $ex_as_str);
         $this->assertStringContainsString('187', $ex_as_str);
         $this->assertStringContainsString('Base Thrown', $ex_as_str);
         $this->assertStringContainsString('777', $ex_as_str);
@@ -158,6 +158,17 @@ EOT;
         $this->assertStringContainsString('911', $ex_as_str);
         $this->assertStringContainsString('DescendantException', $ex_as_str);
         $this->assertStringContainsString('Descendant Thrown', $ex_as_str);
+        
+        $ex_as_str2 = Utils::getThrowableAsStr($e3, '<br>');
+        $this->assertStringContainsString('<br>', $ex_as_str2);
+        $this->assertStringContainsString('187', $ex_as_str2);
+        $this->assertStringContainsString('Base Thrown', $ex_as_str2);
+        $this->assertStringContainsString('777', $ex_as_str2);
+        $this->assertStringContainsString('AncestorException', $ex_as_str2);
+        $this->assertStringContainsString('Ancestor Thrown', $ex_as_str2);
+        $this->assertStringContainsString('911', $ex_as_str2);
+        $this->assertStringContainsString('DescendantException', $ex_as_str2);
+        $this->assertStringContainsString('Descendant Thrown', $ex_as_str2);
     }
 }
 
