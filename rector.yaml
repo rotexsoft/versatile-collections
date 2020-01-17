@@ -35,6 +35,7 @@ services:
     Rector\CodeQuality\Rector\Foreach_\ForeachToInArrayRector: ~
     Rector\CodeQuality\Rector\Identical\GetClassToInstanceOfRector: ~
     Rector\CodeQuality\Rector\FuncCall\InArrayAndArrayKeysToArrayKeyExistsRector: ~
+    Rector\CodeQuality\Rector\FuncCall\IntvalToTypeCastRector: ~
     Rector\CodeQuality\Rector\FuncCall\IsAWithStringWithThirdArgumentRector: ~
     Rector\CodeQuality\Rector\Concat\JoinStringConcatRector: ~
     Rector\CodeQuality\Rector\FuncCall\RemoveSoleValueSprintfRector: ~
@@ -47,6 +48,7 @@ services:
     Rector\CodeQuality\Rector\BooleanAnd\SimplifyEmptyArrayCheckRector: ~
     Rector\CodeQuality\Rector\Foreach_\SimplifyForeachToArrayFilterRector: ~
     Rector\CodeQuality\Rector\Foreach_\SimplifyForeachToCoalescingRector: ~
+    Rector\CodeQuality\Rector\Foreach_\ForeachItemsAssignToEmptyArrayToAssignRector: ~
     Rector\CodeQuality\Rector\FuncCall\SimplifyFuncGetArgsCountRector: ~
     Rector\CodeQuality\Rector\If_\SimplifyIfElseToTernaryRector: ~
     Rector\CodeQuality\Rector\If_\SimplifyIfIssetToNullCoalescingRector: ~
@@ -65,7 +67,7 @@ services:
     Rector\CodingStyle\Rector\Switch_\BinarySwitchToIfElseRector: ~
     Rector\CodingStyle\Rector\FuncCall\CallUserFuncCallToVariadicRector: ~
     Rector\CodingStyle\Rector\FuncCall\ConsistentImplodeRector: ~
-    Rector\CodingStyle\Rector\Encapsed\EncapsedStringsToSprintfRector: ~
+#    Rector\CodingStyle\Rector\Encapsed\EncapsedStringsToSprintfRector: ~
     Rector\CodingStyle\Rector\ClassMethod\NewlineBeforeNewAssignSetRector: ~
     Rector\CodingStyle\Rector\If_\NullableCompareToNullRector: ~
     Rector\CodingStyle\Rector\FuncCall\SimpleArrayCallableToStringRector: ~
@@ -95,6 +97,7 @@ services:
     Rector\DeadCode\Rector\ClassMethod\RemoveOverriddenValuesRector: ~
     Rector\DeadCode\Rector\StaticCall\RemoveParentCallWithoutParentRector: ~
     Rector\DeadCode\Rector\Stmt\RemoveUnreachableStatementRector: ~
+    Rector\DeadCode\Rector\Class_\RemoveUnusedClassesRector: ~
     Rector\DeadCode\Rector\ClassMethod\RemoveUnusedParameterRector: ~
     Rector\DeadCode\Rector\ClassConst\RemoveUnusedPrivateConstantRector: ~
     Rector\DeadCode\Rector\ClassMethod\RemoveUnusedPrivateMethodRector: ~
@@ -105,61 +108,6 @@ services:
     Rector\MysqlToMysqli\Rector\Assign\MysqlAssignToMysqliRector: ~
     Rector\MysqlToMysqli\Rector\FuncCall\MysqlFuncCallToMysqliRector: ~
     Rector\MysqlToMysqli\Rector\FuncCall\MysqlPConnectToMysqliConnectRector: ~
-
-    # first swap arguments, then rename
-    Rector\Rector\Argument\SwapFuncCallArgumentsRector:
-        mysql_real_escape_string: [1, 0]
-        mysql_select_db: [1, 0]
-        mysql_set_charset: [1, 0]
-        mysql_query: [1, 0]
-        mysql_fetch_row: [1, 0]
-
-    Rector\Renaming\Rector\Function_\RenameFunctionRector:
-        mysql_affected_rows: 'mysqli_affected_rows'
-        mysql_close: 'mysqli_close'
-        mysql_data_seek: 'mysqli_data_seek'
-        mysql_errno: 'mysqli_errno'
-        mysql_error: 'mysqli_error'
-        mysql_fetch_array: 'mysqli_fetch_array'
-        mysql_fetch_assoc: 'mysqli_fetch_assoc'
-        mysql_fetch_lengths: 'mysqli_fetch_lengths'
-        mysql_fetch_object: 'mysqli_fetch_object'
-        mysql_fetch_row: 'mysqli_fetch_row'
-        mysql_field_seek: 'mysqli_field_seek'
-        mysql_free_result: 'mysqli_free_result'
-        mysql_get_client_info: 'mysqli_get_client_info'
-        mysql_get_host_info: 'mysqli_get_host_info'
-        mysql_get_proto_info: 'mysqli_get_proto_info'
-        mysql_get_server_info: 'mysqli_get_server_info'
-        mysql_info: 'mysqli_info'
-        mysql_insert_id: 'mysqli_insert_id'
-        mysql_num_rows: 'mysqli_num_rows'
-        mysql_ping: 'mysqli_ping'
-        mysql_query: 'mysqli_query'
-        mysql_real_escape_string: 'mysqli_real_escape_string'
-        mysql_select_db: 'mysqli_select_db'
-        mysql_set_charset: 'mysqli_set_charset'
-        mysql_stat: 'mysqli_stat'
-        mysql_thread_id: 'mysqli_thread_id'
-        mysql_numfields: 'mysqli_num_fields'
-        mysql_escape_string: 'mysqli_real_escape_string'
-        mysql_client_encoding: 'mysqli_character_set_name'
-        mysql_numrows: 'mysqli_num_rows'
-        mysql_list_processes: 'mysqli_thread_id'
-        mysql_num_fields: 'mysqli_field_count'
-        mysql_connect: 'mysqli_connect'
-
-    # http://php.net/manual/en/mysql.constants.php ↓
-    # http://php.net/manual/en/mysqli.constants.php
-    Rector\Renaming\Rector\ConstFetch\RenameConstantRector:
-        MYSQL_ASSOC: 'MYSQLI_ASSOC'
-        MYSQL_NUM: 'MYSQLI_NUM'
-        MYSQL_BOTH: 'MYSQLI_BOTH'
-        MYSQL_CLIENT_COMPRESS: 'MYSQLI_CLIENT_COMPRESS'
-        MYSQL_CLIENT_IGNORE_SPACE: 'MYSQLI_CLIENT_IGNORE_SPACE'
-        MYSQL_CLIENT_INTERACTIVE: 'MYSQLI_CLIENT_INTERACTIVE'
-        MYSQL_CLIENT_SSL: 'MYSQLI_CLIENT_SSL'
-        MYSQL_PRIMARY_KEY_FLAG: 'MYSQLI_PRI_KEY_FLAG'
         
     Rector\PHPStan\Rector\Cast\RecastingRemovalRector: ~
     
@@ -168,10 +116,10 @@ services:
     # @expectedException → $this->expectException()
     Rector\PHPUnit\Rector\ExceptionAnnotationRector: ~
 
-    Rector\Renaming\Rector\MethodCall\RenameMethodRector:
-        PHPUnit\Framework\TestClass:
-            setExpectedException: 'expectedException'
-            setExpectedExceptionRegExp: 'expectedException'
+#    Rector\Renaming\Rector\MethodCall\RenameMethodRector:
+#        PHPUnit\Framework\TestClass:
+#            setExpectedException: 'expectedException'
+#            setExpectedExceptionRegExp: 'expectedException'
     
     Rector\PHPUnit\Rector\MethodCall\ReplaceAssertArraySubsetRector: ~
     Rector\PHPUnit\Rector\Foreach_\SimplifyForeachInstanceOfRector: ~
@@ -200,6 +148,7 @@ services:
     Rector\Php70\Rector\FuncCall\RandomFunctionRector: ~
     Rector\Php70\Rector\FunctionLike\ExceptionHandlerTypehintRector: ~
     Rector\Php70\Rector\FuncCall\MultiDirnameRector: ~
+    Rector\Php70\Rector\FuncCall\NonVariableToVariableOnFunctionCallRector: ~
     Rector\Php70\Rector\List_\ListSplitStringRector: ~
     Rector\Php70\Rector\List_\EmptyListRector: ~
     Rector\Php70\Rector\FuncCall\CallUserMethodRector : ~
@@ -259,7 +208,12 @@ services:
     Rector\Php74\Rector\LNumber\AddLiteralSeparatorToNumberRector: ~
     Rector\Php74\Rector\MethodCall\ChangeReflectionTypeToStringToGetNameRector: ~
     
+    Rector\Php80\Rector\FunctionLike\UnionTypesRector: ~
+    
+    Rector\PhpDeglobalize\Rector\Class_\ChangeGlobalVariablesToPropertiesRector: ~
+    
     Rector\SOLID\Rector\ClassMethod\UseInterfaceOverImplementationInConstructorRector: ~
+    Rector\SOLID\Rector\If_\RemoveAlwaysElseRector: ~
 
     Rector\TypeDeclaration\Rector\Property\PropertyTypeDeclarationRector: ~
     Rector\TypeDeclaration\Rector\Closure\AddClosureReturnTypeRector: ~
