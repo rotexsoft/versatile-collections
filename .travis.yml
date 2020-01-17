@@ -4,26 +4,21 @@ php:
   - 7.2
   - 7.3
   - 7.4
-#  - hhvm
 
 before_script:
-  - travis_retry composer self-update
-  - travis_retry composer install --no-interaction --prefer-source
+  - composer install --no-interaction --prefer-source
 
 script:
   - mkdir -p build/logs
-#  - ./vendor/bin/parallel-lint src tests
-  - ./vendor/bin/phpunit --coverage-text
+  #  - ./vendor/bin/parallel-lint src tests
+  - vendor/bin/phpunit --coverage-text
 #  - ./vendor/bin/phpcs src --standard=psr2 -sp
+
+  - vendor/bin/rector process src --dry-run
 
 after_script:
 #  - php vendor/bin/coveralls
 
-matrix:
-  allow_failures:
-#    - php: hhvm
-
 after_success:
-  # - travis_retry php vendor/bin/coveralls
   # or enable logging
-  - travis_retry php vendor/bin/coveralls -v
+  - vendor/bin/coveralls -v

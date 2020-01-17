@@ -2,8 +2,8 @@
     "name": "rotexsoft/versatile-collections",
     "type": "library",
     "description": "A collection package that can be extended to implement things such as a Dependency Injection Container, RecordSet objects for housing database records, a bag of http cookies, or technically any collection of items that can be looped over and whose items can each be accessed using array-access syntax or object property syntax.",
-    "keywords": [ 
-        "collections", "collection", "array", "arrays", "iterable", "iterator", 
+    "keywords": [
+        "collections", "collection", "array", "arrays", "iterable", "iterator",
         "ArrayAccess", "typed", "typed collection", "typed collections"
     ],
     "homepage": "https://github.com/rotexsoft/versatile-collections",
@@ -26,7 +26,7 @@
         "phpunit/phpunit": "^8.0 || ^7.0",
         "php-coveralls/php-coveralls": "^2.0",
         "symfony/polyfill-mbstring": "^1.8",
-        "rector/rector": "^0.6.10"
+        "rector/rector": "dev-master"
     },
     "autoload": {
         "classmap": ["src/"],
