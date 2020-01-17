@@ -129,17 +129,17 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
     public function offsetExists($key): bool;
     
     /**
-     *  
+     *    
      * ArrayAccess: get a key's value.
-     *  
+     *    
      * @param mixed $key The requested key.
-     *  
+     *    
      * @return mixed
-     *  
+     *    
      * @used-for: accessing-or-extracting-keys-or-items
-     *  
+     *    
      * @title: Retrieves an item associated with a specified key in the collection.
-     *  
+     *    
      */
     public function offsetGet($key);
     
@@ -211,28 +211,28 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
     ////////////////////////////////////////////////////////////////////////////
     ////////// OTHER COLLECTION METHODS ////////////////////////////////////////
     /**
-     *  
+     *    
      * Retrieves and returns the first item in this collection.
-     *  
+     *    
      * @return mixed The first item in this collection or null if collection is empty.
-     *  
+     *    
      * @used-for: accessing-or-extracting-keys-or-items
-     *  
+     *    
      * @title: Returns the first item in the collection or null if the collection is empty.
-     *  
+     *    
      */
     public function firstItem();
     
     /**
-     *  
+     *    
      * Retrieves and returns the last item in this collection.
-     *  
+     *    
      * @return mixed The last item in this collection or null if collection is empty.
-     *  
+     *    
      * @used-for: accessing-or-extracting-keys-or-items
-     *  
+     *    
      * @title: Returns the last item in the collection or null if the collection is empty.
-     *  
+     *    
      */
     public function lastItem();
     
@@ -351,44 +351,44 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
     public function transform(callable $transformer, bool $bind_callback_to_this=true): \VersatileCollections\CollectionInterface;
     
     /**
-     *  
+     *    
      * Iteratively reduce the collection items to a single value using a callback function.
-     *  
+     *    
      * @see http://php.net/manual/en/function.array-reduce.php array_reduce
-     *  
+     *    
      * @param callable $reducer function(mixed $carry , mixed $item): mixed
      *                          $carry: Holds the return value of the previous iteration; in the case of the first iteration it instead holds the value of initial.
      *                           $item: Holds the value of the current iteration.
-     *  
-     * @param mixed $initial_value If the optional initial is available, it will be used at the beginning of the process, or as a final result in case the collection is empty.
-     *  
-     * @return mixed a value that all items in the collection have been reduced to by applying the $reducer callback on each item.
-     *  
-     * @used-for: accessing-or-extracting-keys-or-items, iteration
-     *  
-     * @title: Iteratively reduces the collection items to a single value using a callback function.
      *    
+     * @param mixed $initial_value If the optional initial is available, it will be used at the beginning of the process, or as a final result in case the collection is empty.
+     *    
+     * @return mixed a value that all items in the collection have been reduced to by applying the $reducer callback on each item.
+     *    
+     * @used-for: accessing-or-extracting-keys-or-items, iteration
+     *    
+     * @title: Iteratively reduces the collection items to a single value using a callback function.
+     *        
      */
     public function reduce(callable $reducer, $initial_value=NULL);
     
     /**
-     *  
+     *    
      * Iteratively reduce the collection items to a single value using a callback function.
      * The callback function will have access to the key for each item.
-     *    
+     *        
      * @param callable $reducer function(mixed $carry , mixed $item, string|int $key): mixed
      *                          $carry: Holds the return value of the previous iteration; in the case of the first iteration it instead holds the value of initial.
      *                           $item: Holds the value of the current iteration.
      *                            $key: Holds the corresponding key of the current iteration.
-     *  
-     * @param mixed $initial_value If the optional initial is available, it will be used at the beginning of the process, or as a final result in case the collection is empty.
-     *  
-     * @return mixed a value that all items in the collection have been reduced to by applying the $reducer callback on each item.
-     *  
-     * @used-for: accessing-or-extracting-keys-or-items, iteration
-     *  
-     * @title: Iteratively reduces the collection items to a single value using a callback function.
      *    
+     * @param mixed $initial_value If the optional initial is available, it will be used at the beginning of the process, or as a final result in case the collection is empty.
+     *    
+     * @return mixed a value that all items in the collection have been reduced to by applying the $reducer callback on each item.
+     *    
+     * @used-for: accessing-or-extracting-keys-or-items, iteration
+     *    
+     * @title: Iteratively reduces the collection items to a single value using a callback function.
+     *        
      */
     public function reduceWithKeyAccess(callable $reducer, $initial_value=NULL);
     
@@ -432,18 +432,18 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
     public function isEmpty(): bool;
     
     /**
-     *  
+     *    
      * Try to get an item with the specified key ($key) or return $default_value if key does not exist.
-     *  
+     *    
      * @param string|int $key
      * @param mixed $default_value
-     *  
+     *    
      * @return mixed
-     *  
+     *    
      * @used-for: accessing-or-extracting-keys-or-items, checking-items-presence
-     *  
+     *    
      * @title: Returns the item in the collection with the specified key (if such an item exists) or the specified default value otherwise.
-     *  
+     *    
      */
     public function getIfExists($key, $default_value=null);
     
@@ -810,7 +810,7 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
     public function everyNth(int $n, int $position_of_first_nth_item = 0): \VersatileCollections\CollectionInterface;
     
     /**
-     *  
+     *    
      * Pass the collection to the given callback and return whatever value is
      * returned from executing the given callback.
      *
@@ -820,13 +820,13 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
      *                            collection object this 
      *                            pipeAndReturnCallbackResult 
      *                            method is being invoked on.
-     *  
+     *    
      * @return mixed whatever is returned by $callback
-     *  
+     *    
      * @used-for: other-operations
-     *  
+     *    
      * @title: Executes the given callback on a collection and returns whatever value the callback returned.
-     *  
+     *    
      */
     public function pipeAndReturnCallbackResult(callable $callback);
     
@@ -850,30 +850,30 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
     public function pipeAndReturnSelf(callable $callback): \VersatileCollections\CollectionInterface;
     
     /**
-     *  
+     *    
      * Get and remove the last item from the collection.
      *
      * @return mixed
-     *  
+     *    
      * @used-for: accessing-or-extracting-keys-or-items, deleting-items
-     *  
+     *    
      * @title: Removes and returns the last item from a collection.
-     *  
+     *    
      */
     public function getAndRemoveLastItem();
     
     /**
-     *  
+     *    
      * Get and remove an item from the collection.
      *
      * @param mixed  $key
      * @param mixed  $default
      * @return mixed
-     *  
+     *    
      * @used-for: accessing-or-extracting-keys-or-items, deleting-items
-     *  
+     *    
      * @title: Removes and returns the item with the specified key from a collection (if it exists) or returns a default value.
-     *  
+     *    
      */
     public function pull($key, $default = null);
     
@@ -909,31 +909,31 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
     public function put($key, $value): \VersatileCollections\CollectionInterface;
     
     /**
-     *  
+     *    
      * Get one key randomly from the collection.
      * A length exception (\LengthException) should be thrown if this method is called on an empty collection.
-     *  
+     *    
      * @return mixed a random key from the collection if there is at least an item in the collection
-     *  
+     *    
      * @throws \LengthException
-     *  
+     *    
      * @used-for: accessing-or-extracting-keys-or-items, ordering-or-sorting-items
-     *  
+     *    
      * @title: Gets one key randomly from a collection.
      */
     public function randomKey();
     
     /**
-     *  
+     *    
      * Get one item randomly from the collection.
      * A length exception (\LengthException) should be thrown if this method is called on an empty collection.
-     *  
+     *    
      * @return mixed a random item from the collection if there is at least an item in the collection
-     *  
+     *    
      * @used-for: accessing-or-extracting-keys-or-items, ordering-or-sorting-items
-     *  
+     *    
      * @title: Gets one item randomly from a collection.
-     *  
+     *    
      * @throws \LengthException
      */
     public function randomItem();
@@ -1000,85 +1000,85 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
     public function shuffle(bool $preserve_keys=true): \VersatileCollections\CollectionInterface;
 
     /**
-     *  
+     *    
      * Search the collection for a given value and return the first corresponding key 
      * in the collection whose item matches the given value if successful or false if not.
-     *  
+     *    
      * @param mixed $value the value to be searched for
      * @param bool $strict true if strict comparison should be used when searching, 
      *                          else false for loose comparison
-     *  
+     *    
      * @return mixed the first key in the collection whose item matches $value 
      *               or false if $value is not found in the collection
-     *  
+     *    
      * @used-for: accessing-or-extracting-keys-or-items, finding-or-searching-for-items
-     *  
+     *    
      * @title: Searches the collection for a given value and returns the first corresponding key in the collection whose item matches the given value if successful or false if not.
-     *  
-     *  
-     *  
+     *    
+     *    
+     *    
      */
     public function searchByVal( $value, bool $strict = false );
 
     /**
-     *  
+     *    
      * Search the collection for a given value and return an array of all 
      * corresponding key(s) in the collection whose item(s) match the given value, 
      * if successful.
-     *  
-     *  
+     *    
+     *    
      * @param mixed $value the value to be searched for
      * @param bool $strict true if strict comparison should be used when searching, 
      *                          else false for loose comparison
-     *  
+     *    
      * @return mixed an array of all key(s) in the collection whose item(s) match $value 
      *               or false if $value is not found in the collection
-     *  
+     *    
      * @used-for: accessing-or-extracting-keys-or-items, finding-or-searching-for-items
-     *  
+     *    
      * @title: Searches the collection for a given value and returns an array of all corresponding key(s) in the collection whose item(s) match the given value or else returns false.
-     *  
+     *    
      */
     public function searchAllByVal( $value, bool $strict = false );
 
     /**
-     *  
+     *    
      * Search the collection using a callback. The callback will be executed on
      * each item and corresponding key in the collection. Returns an array of all 
      * corresponding key(s) in the collection for which the callback returns
      * true.
-     *  
+     *    
      * @param callable $callback a callback with the following signature
      *                           function($key, $item):bool. It should return true
      *                           if a $key should be returned or false otherwise.
-     *    
+     *        
      * @param bool $bind_callback_to_this true if the variable $this inside the supplied 
      *                                    $callback should refer to the collection object
      *                                    this method is being invoked on, else false if
      *                                    you want the variable $this to be undefined 
      *                                    inside the supplied $callback.
-     *  
+     *    
      * @return mixed an array of all key(s) in the collection for which the callback 
      *               returned true or false if the callback did not return true for 
      *               any iteration over the collection
-     *  
+     *    
      * @used-for: accessing-or-extracting-keys-or-items, finding-or-searching-for-items
-     *  
+     *    
      * @title: Searches the collection using a callback. Returns an array of all corresponding key(s) in the collection for which the callback returns true or else returns false.
-     *  
+     *    
      */
     public function searchByCallback(callable $callback, bool $bind_callback_to_this=true);
     
     /**
-     *  
+     *    
      * Get and remove the first item from the collection.
      *
      * @return mixed
-     *  
+     *    
      * @used-for: accessing-or-extracting-keys-or-items, deleting-items
-     *  
+     *    
      * @title: Returns and removes the first item in a collection.
-     *  
+     *    
      */
     public function getAndRemoveFirstItem ();
     
@@ -1611,60 +1611,60 @@ interface CollectionInterface extends \ArrayAccess, \Countable, \IteratorAggrega
     public function unique(): \VersatileCollections\CollectionInterface;
     
     /**
-     *  
+     *    
      * Execute $callback on $this and return its return value if $truthy_value is truthy
      * or execute $default on $this and return its return value if $default is not null
      * or return NULL as a last resort.
-     *  
+     *    
      * @param bool $truthy_value
-     *  
+     *    
      * @param callable $callback a callback with the following signature
      *                           function(\VersatileCollections\CollectionInterface $collection): mixed
      *                           It will be invoked on the collection object from which this method
      *                           is being called.
-     *  
+     *    
      * @param callable|null $default a callback with the following signature
      *                               function(\VersatileCollections\CollectionInterface $collection): mixed
      *                               It will be invoked on the collection object from which this method
      *                               is being called. 
      *                               If $default is null and $truthy_value is not truthy, NULL will
      *                               be returned by this method.
-     *  
+     *    
      * @return mixed
-     *  
+     *    
      * @used-for: other-operations
-     *  
+     *    
      * @title: Conditionally executes a specified callback on a collection if first argument is truthy or executes a specified default callback otherwise and returns the value returned by the executed callback. If no callback could be executed, null is returned.
-     *  
+     *    
      */
     public function whenTrue( $truthy_value, callable $callback, callable $default=null);
     
     /**
-     *  
+     *    
      * Execute $callback on $this and return its return value if $falsy_value is falsy
      * or execute $default on $this and return its return value if $default is not null
      * or return NULL as a last resort.
-     *  
+     *    
      * @param bool $falsy_value
-     *  
+     *    
      * @param callable $callback a callback with the following signature
      *                           function(\VersatileCollections\CollectionInterface $collection): mixed
      *                           It will be invoked on the collection object from which this method
      *                           is being called.
-     *  
+     *    
      * @param callable|null $default a callback with the following signature
      *                               function(\VersatileCollections\CollectionInterface $collection): mixed
      *                               It will be invoked on the collection object from which this method
      *                               is being called. 
      *                               If $default is null and $falsy_value is not falsy, NULL will
      *                               be returned by this method.
-     *  
+     *    
      * @return mixed
-     *  
+     *    
      * @used-for: other-operations
-     *  
+     *    
      * @title: Conditionally executes a specified callback on a collection if first argument is falsy or executes a specified default callback otherwise and returns the value returned by the executed callback. If no callback could be executed, null is returned.
-     *  
+     *    
      */
     public function whenFalse( $falsy_value, callable $callback, callable $default=null);
     

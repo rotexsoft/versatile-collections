@@ -79,6 +79,9 @@ class Utils {
         foreach($array as $key => $_) { return $key; }
     }
 
+    /**
+     * @return null|int|string
+     */
     public static function array_key_last(array $array) {
 
         if( function_exists('array_key_last') ) {
