@@ -53,11 +53,17 @@ class MultiSortParameters {
         return $this->sort_type;
     }
 
+    /**
+     * @return mixed[]
+     */
     public static function getValidSortDirections(): array {
         
         return static::$valid_sort_directions;
     }
 
+    /**
+     * @return mixed[]
+     */
     public static function getValidSortTypes(): array {
         
         return static::$valid_sort_types;

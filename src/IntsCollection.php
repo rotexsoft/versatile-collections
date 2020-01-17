@@ -38,16 +38,25 @@ class IntsCollection extends NumericsCollection {
         return is_int($item);
     }
 
+    /**
+     * @return string
+     */
     public function getType() {
         
         return 'int';
     }
 
+    /**
+     * @return int
+     */
     protected function itemFromString($str) {
         
         return ((int) ($str.''));
     }
 
+    /**
+     * @return string
+     */
     protected function itemToString($item) {
         
         return $item.'';

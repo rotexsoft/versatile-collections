@@ -38,16 +38,25 @@ class FloatsCollection extends NumericsCollection {
         return is_float($item);
     }
 
+    /**
+     * @return string
+     */
     public function getType() {
         
         return 'float';
     }
     
+    /**
+     * @return float
+     */
     protected function itemFromString($str) {
         
         return ((float) ($str.''));
     }
 
+    /**
+     * @return string
+     */
     protected function itemToString($item) {
         
         return $item.'';

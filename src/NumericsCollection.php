@@ -68,13 +68,13 @@ class NumericsCollection extends ScalarsCollection {
     }
     
     /**
-     * 
+     *  
      * This method should be overridden in sub-classes of this class 
-     * 
+     *  
      * @param string $str a string representation of an item in this collection
-     * 
-     * @return mixed an item in this collection that was just created from its string representation
-     * 
+     *  
+     * @return float|int an item in this collection that was just created from its string representation
+     *  
      */
     protected function itemFromString($str) {
         

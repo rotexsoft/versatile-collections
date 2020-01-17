@@ -36,6 +36,9 @@ class ResourcesCollection implements \VersatileCollections\StrictlyTypedCollecti
         return is_resource($item);
     }
     
+    /**
+     * @return string
+     */
     public function getType() {
         
         return 'resource';
