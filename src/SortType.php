@@ -40,6 +40,9 @@ class SortType {
         return $this->sort_type;
     }
 
+    /**
+     * @return mixed[]
+     */
     public static function getValidSortTypes(): array {
         
         return static::$valid_sort_types;

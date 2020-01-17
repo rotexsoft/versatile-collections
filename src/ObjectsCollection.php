@@ -113,6 +113,9 @@ class ObjectsCollection implements \VersatileCollections\StrictlyTypedCollection
         return is_object($item);
     }
     
+    /**
+     * @return string
+     */
     public function getType() {
         
         return 'object';

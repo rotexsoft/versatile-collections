@@ -40,6 +40,9 @@ class CallablesCollection implements \VersatileCollections\StrictlyTypedCollecti
         return is_callable($item);
     }
 
+    /**
+     * @return string
+     */
     public function getType() {
         
         return 'callable';

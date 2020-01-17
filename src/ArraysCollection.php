@@ -40,6 +40,9 @@ class ArraysCollection implements \VersatileCollections\StrictlyTypedCollectionI
         return is_array($item);
     }
 
+    /**
+     * @return string
+     */
     public function getType() {
         
         return 'array';

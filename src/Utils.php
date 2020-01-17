@@ -63,6 +63,9 @@ class Utils {
         return PHP_MAJOR_VERSION >= 7 || (PHP_MAJOR_VERSION === 5 && $callback instanceof \Closure);
     }
     
+    /**
+     * @return null|int|string
+     */
     public static function array_key_first(array $array) {
 
         if( function_exists('array_key_first') ) {

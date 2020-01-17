@@ -67,7 +67,7 @@ final class SpecificObjectsCollection extends ObjectsCollection {
     public static function makeNewForSpecifiedClassName(?string $class_name=null, array $items =[], bool $preserve_keys=true): \VersatileCollections\StrictlyTypedCollectionInterface {
         
         if( $class_name === null ) {
-            
+
             return static::makeNew($items, $preserve_keys); // collection that stores any type of object
         }
         

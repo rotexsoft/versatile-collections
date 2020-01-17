@@ -106,7 +106,7 @@ namespace VersatileCollections {
             . " String or Int expected as second argument, `$property_type` given.";
             throw new \InvalidArgumentException($msg); 
         }
-        
+
         $property = ''.$property;
 
         return (
@@ -176,7 +176,7 @@ namespace VersatileCollections {
             $error_occurred = true;
 
         } catch ( \Error $e) {
-            
+
             // random_int: If max is less than min, an Error will be thrown.
             // This is required, if you do not need to do anything just rethrow.
             // Probably will never occur since $min and $max above will always have $min < $max.
@@ -231,7 +231,7 @@ namespace VersatileCollections {
         }
 
         if(  $number_of_random_keys > count($array) ) {
-            
+
             $function = __FUNCTION__;
             $ns = __NAMESPACE__;
             $num_items = count($array);

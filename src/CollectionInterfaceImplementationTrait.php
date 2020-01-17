@@ -338,7 +338,7 @@ trait CollectionInterfaceImplementationTrait {
     public static function makeNew(array $items=[], bool $preserve_keys=true): \VersatileCollections\CollectionInterface {
 
         if ($preserve_keys === true) {
-       
+
             $collection = new static();
 
             foreach ($items as $key => $item ) {
@@ -348,7 +348,7 @@ trait CollectionInterfaceImplementationTrait {
 
             return $collection;
         }
-        
+
         // I use array_values to ensure that all keys 
         // are numeric. Argument unpacking does not
         // work on arrays with one or more string keys.
@@ -413,9 +413,10 @@ trait CollectionInterfaceImplementationTrait {
     }
     
     /**
-     * 
+     *  
      * @see \VersatileCollections\CollectionInterface::toArray()
      * 
+     * @return mixed[] 
      */
     public function toArray(): array {
 
@@ -961,7 +962,7 @@ trait CollectionInterfaceImplementationTrait {
             $current_batch[$key] = $item;
             
             if( ++$counter >= $max_size_of_each_collection ) {
-                
+
                 $collections[] = $current_batch;
                 $counter = 0; // reset
                 $current_batch = static::makeNew(); // initialize next collection
@@ -1002,7 +1003,7 @@ trait CollectionInterfaceImplementationTrait {
             $current_batch[$key] = $item;
             
             if( ++$counter >= $max_size_of_each_collection ) {
-                
+
                 yield $current_batch;
                 $counter = 0; // reset
                 $current_batch = static::makeNew(); // initialize next collection
@@ -1914,9 +1915,9 @@ trait CollectionInterfaceImplementationTrait {
         }
 
         foreach ( $this->versatile_collections_items as $coll_key => $item ) {
-            
+
             if( !is_array($item) && !is_object($item) ) {
-                
+
                 $function = __FUNCTION__;
                 $class = get_class($this);
                 $item_type = Utils::gettype($item);
@@ -1927,9 +1928,9 @@ trait CollectionInterfaceImplementationTrait {
                 . " Collection Items: ". var_to_string($this->versatile_collections_items);
                 throw new \RuntimeException($msg); 
             }
-            
+
             if( is_array($item) || $item instanceof \ArrayAccess) {
-                
+
                 if( 
                     ( is_array($item) && !array_key_exists($column_key, $item) )
                     ||
@@ -1939,13 +1940,13 @@ trait CollectionInterfaceImplementationTrait {
                     $class = get_class($this);
                     $item_type = ($item instanceof \ArrayAccess)
                                     ? get_class($item) : Utils::gettype($item);
-                    
+
                     $msg = "Error [{$class}::{$function}(...)]:"
                     . " An item of type `$item_type` without the specified column key `$column_key`"
                     . " was found with this key `$coll_key` in the collection." .PHP_EOL
                     . " Collection Items: ". var_to_string($this->versatile_collections_items);
                     throw new \RuntimeException($msg); 
-                    
+
                 } else if (
                     !is_null($index_key)
                     &&
@@ -1959,17 +1960,17 @@ trait CollectionInterfaceImplementationTrait {
                     $class = get_class($this);
                     $item_type = ($item instanceof \ArrayAccess)
                                     ? get_class($item) : Utils::gettype($item);
-                    
+
                     $msg = "Error [{$class}::{$function}(...)]:"
                     . " An item of type `$item_type` without the specified index key `$index_key`"
                     . " was found with this key `$coll_key` in the collection." .PHP_EOL
                     . " Collection Items: ". var_to_string($this->versatile_collections_items);
                     throw new \RuntimeException($msg); 
-                    
+
                 } else if( is_null($index_key) ) {
-                    
+
                     $column_2_return[] = $item[$column_key];
-                    
+
                 } else if(
                     !is_null($index_key) 
                     && 
@@ -1994,16 +1995,16 @@ trait CollectionInterfaceImplementationTrait {
                         . " Collection Items: ". var_to_string($this->versatile_collections_items).PHP_EOL .PHP_EOL;
                         throw new \RuntimeException($msg);
                     }
-                    
+
                     $column_2_return[$item[$index_key]] = $item[$column_key];
-                    
+
                 } else {
-                    
+
                     $function = __FUNCTION__;
                     $class = get_class($this);
                     $item_type = ($item instanceof \ArrayAccess)
                                     ? get_class($item) : Utils::gettype($item);
-                    
+
                     $msg = "Error [{$class}::{$function}(...)]:"
                     . " Error occured while accessing an item of type `$item_type` with the specified index key `$index_key`"
                     . " and specified column key `$column_key` with this key `$coll_key` in the collection." . PHP_EOL
@@ -2012,7 +2013,7 @@ trait CollectionInterfaceImplementationTrait {
                 }
 
             } else if( is_object($item) ) {
-                
+
                 if( 
                     !is_null($index_key) 
                     && object_has_property($item, $column_key)
@@ -2020,7 +2021,7 @@ trait CollectionInterfaceImplementationTrait {
                 ) {
                     $index_key_value = get_object_property_value($item, $index_key, null, true);
                     $column_key_value = get_object_property_value($item, $column_key, null, true);
-                    
+
                     if( 
                         !is_int($index_key_value) 
                         && !is_string($index_key_value) 
@@ -2035,17 +2036,17 @@ trait CollectionInterfaceImplementationTrait {
                         . " Collection Items: ". var_to_string($this->versatile_collections_items).PHP_EOL .PHP_EOL;
                         throw new \RuntimeException($msg); 
                     }            
-                    
+
                     $column_2_return[$index_key_value] = $column_key_value;
-                    
+
                 } else if(
                     is_null($index_key) 
                     && object_has_property($item, $column_key)
                 ) {
                     $column_2_return[] = get_object_property_value($item, $column_key, null, true);
-                    
+
                 } else {
-                    
+
                     $function = __FUNCTION__;
                     $class = get_class($this);
                     $item_type = get_class($item);
