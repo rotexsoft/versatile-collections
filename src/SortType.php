@@ -47,7 +47,7 @@ class SortType {
     }
 
     /**
-     * @return mixed[]
+     * @return int[]
      */
     public static function getValidSortTypes(): array {
         

@@ -123,8 +123,10 @@ final class SpecificObjectsCollection extends ObjectsCollection {
     
     /**
      * 
-     * @return string|array a string or array of strings of type name(s) for items acceptable in a collection
+     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector 
      * 
+     * @return string|array a string or array of strings of type name(s) for items acceptable in a collection
+     *  
      */
     public function getType() {
         

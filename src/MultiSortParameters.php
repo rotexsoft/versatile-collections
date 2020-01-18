@@ -69,7 +69,7 @@ class MultiSortParameters {
     }
 
     /**
-     * @return mixed[]
+     * @return int[]
      */
     public static function getValidSortDirections(): array {
         
@@ -77,7 +77,7 @@ class MultiSortParameters {
     }
 
     /**
-     * @return mixed[]
+     * @return int[]
      */
     public static function getValidSortTypes(): array {
         
