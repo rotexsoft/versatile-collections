@@ -9,12 +9,27 @@ namespace VersatileCollections;
  */
 class MultiSortParameters {
     
+    /**
+     * @var string|null
+     */
     protected $field_name = null;
+    /**
+     * @var int
+     */
     protected $sort_direction = SORT_ASC;
+    /**
+     * @var int
+     */
     protected $sort_type = SORT_REGULAR;
     
+    /**
+     * @var int[]
+     */
     protected static $valid_sort_directions = [ SORT_ASC, SORT_DESC ];
     
+    /**
+     * @var int[]
+     */
     protected static $valid_sort_types = [
         SORT_REGULAR, SORT_NATURAL, SORT_NUMERIC, SORT_STRING, SORT_LOCALE_STRING,
         SORT_FLAG_CASE, (SORT_FLAG_CASE | SORT_STRING), (SORT_FLAG_CASE | SORT_NATURAL)

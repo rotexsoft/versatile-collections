@@ -77,7 +77,7 @@ trait StrictlyTypedCollectionInterfaceImplementationTrait {
         if( !$this->checkType($item) ) {
 
             $returned_type = $this->getType();
-            $type = (is_array($returned_type) && count($returned_type) > 0)
+            $type = (is_array($returned_type) && (is_countable($returned_type) ? count($returned_type) : 0) > 0)
                     ? implode(' or ', $returned_type) : ((string)$returned_type);
             
             $class = get_class($this);

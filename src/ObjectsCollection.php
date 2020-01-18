@@ -57,9 +57,7 @@ class ObjectsCollection implements \VersatileCollections\StrictlyTypedCollection
     public function __call(string $method_name, array $arguments=[]) {
 
         try {
-            $result = static::parent__call($method_name, $arguments);
-            
-            return $result;
+            return static::parent__call($method_name, $arguments);
             
         } catch (\VersatileCollections\Exceptions\BadMethodCallException $ex) {
 

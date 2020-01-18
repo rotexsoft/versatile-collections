@@ -784,6 +784,7 @@ trait CollectionInterfaceImplementationTrait {
      */
     public function containsItems(array $items): bool {
         
+        /** @noRector \Rector\Php71\Rector\FuncCall\CountOnNullRector */
         $all_items_exist = count($items) > 0;
         
         foreach ($items as $item) {
@@ -806,6 +807,7 @@ trait CollectionInterfaceImplementationTrait {
      */
     public function containsKeys(array $keys): bool {
         
+        /** @noRector \Rector\Php71\Rector\FuncCall\CountOnNullRector */
         $all_keys_exist = count($keys) > 0;
         
         foreach ($keys as $key) {
@@ -861,6 +863,7 @@ trait CollectionInterfaceImplementationTrait {
         $copy = $this->versatile_collections_items;
         $merged_items = static::makeNew($copy);
         
+        /** @noRector \Rector\Php71\Rector\FuncCall\CountOnNullRector */
         if( count($items) > 0 ) {
             
             // not using array_merge , want to trigger $merged_items->offsetSet() logic
@@ -880,6 +883,7 @@ trait CollectionInterfaceImplementationTrait {
      */
     public function mergeMeWith(array $items): \VersatileCollections\CollectionInterface {
         
+        /** @noRector \Rector\Php71\Rector\FuncCall\CountOnNullRector */
         if( count($items) > 0 ) {
             
             // not using array_merge , want to trigger $this->offsetSet() logic
@@ -1388,6 +1392,7 @@ trait CollectionInterfaceImplementationTrait {
         
         $result = array_keys($this->versatile_collections_items, $value, $strict);
         
+        /** @noRector \Rector\Php71\Rector\FuncCall\CountOnNullRector */
         if( is_array($result) && count($result) <= 0 ) {
             
             $result = false;
@@ -1418,6 +1423,7 @@ trait CollectionInterfaceImplementationTrait {
         // terminate until iteration is fully completed.
         $this->each($searcher, 9999, $bind_callback_to_this);
         
+        /** @noRector \Rector\Php71\Rector\FuncCall\CountOnNullRector */
         return count($results) > 0 ? $results : false;
     }
 
@@ -1510,7 +1516,7 @@ trait CollectionInterfaceImplementationTrait {
         
         // last parameter is the array to be sorted
         $multi_sort_args[] = &$array_to_be_sorted;
-        call_user_func_array("array_multisort", $multi_sort_args);
+        array_multisort(...$multi_sort_args);
         $sorted_array_with_unpreserved_keys = array_pop($multi_sort_args);
         
         // Restore original key associations
@@ -1646,6 +1652,7 @@ trait CollectionInterfaceImplementationTrait {
      */
     public function sortByMultipleFields(\VersatileCollections\MultiSortParameters ...$param): \VersatileCollections\CollectionInterface {
         
+        /** @noRector \Rector\Php71\Rector\FuncCall\CountOnNullRector */
         if( count($param) <= 0 ) {
             
             $function = __FUNCTION__;
@@ -1743,6 +1750,7 @@ trait CollectionInterfaceImplementationTrait {
      */
     public function sortMeByMultipleFields(\VersatileCollections\MultiSortParameters ...$param): \VersatileCollections\CollectionInterface {
         
+        /** @noRector \Rector\Php71\Rector\FuncCall\CountOnNullRector */
         if( count($param) <= 0 ) {
             
             $function = __FUNCTION__;
@@ -1872,8 +1880,7 @@ trait CollectionInterfaceImplementationTrait {
      */
     public function unionMeWith(array $items): \VersatileCollections\CollectionInterface {
         
-        $this->versatile_collections_items =
-            $this->versatile_collections_items + $items;
+        $this->versatile_collections_items += $items;
         
         return $this;
     }
@@ -2156,6 +2163,7 @@ trait CollectionInterfaceImplementationTrait {
      */
     public function removeAll(array $keys=[]): \VersatileCollections\CollectionInterface {
         
+        /** @noRector \Rector\Php71\Rector\FuncCall\CountOnNullRector */
         if( count($keys) > 0 ) {
             
             foreach($keys as $key) {

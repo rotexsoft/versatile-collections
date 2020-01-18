@@ -27,6 +27,9 @@ namespace VersatileCollections;
  */
 final class SpecificObjectsCollection extends ObjectsCollection {
     
+    /**
+     * @var string|null
+     */
     private $class_name = null;
 
     protected function __construct(object ...$objects) {

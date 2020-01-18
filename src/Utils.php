@@ -22,11 +22,7 @@ class Utils {
     public static function bindObjectAndScopeToClosure(\Closure $closure, $newthis): \Closure {
 
         try {
-            
-            $new_closure = \Closure::bind($closure, $newthis);
-            
-            return $new_closure;
-            
+            return \Closure::bind($closure, $newthis);
         } catch (\Exception $ex) {
             
             $function = __FUNCTION__;
@@ -35,7 +31,7 @@ class Utils {
                 . PHP_EOL . PHP_EOL . static::getThrowableAsStr($ex);
 
             // The bind failed
-            throw new \InvalidArgumentException($msg);
+            throw new \InvalidArgumentException($msg, $ex->getCode(), $ex);
         }
     }
     

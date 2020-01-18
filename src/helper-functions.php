@@ -192,7 +192,7 @@ namespace VersatileCollections {
             $error_occurred = true;
         }
 
-        if( $error_occurred === true ) {
+        if( $error_occurred ) {
 
             // fallback to array_rand since an error / exception occured
             // while trying to use random_int
@@ -282,7 +282,7 @@ namespace VersatileCollections {
      */
     function dump_var($var): void {
 
-        $line_breaker = (php_sapi_name() === 'cli') ? PHP_EOL : '<br>';
+        $line_breaker = (PHP_SAPI === 'cli') ? PHP_EOL : '<br>';
         echo var_to_string($var). $line_breaker . $line_breaker;
     }
 } // namespace VersatileCollections

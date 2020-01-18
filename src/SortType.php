@@ -9,8 +9,14 @@ namespace VersatileCollections;
  */
 class SortType {
 
+    /**
+     * @var int
+     */
     protected $sort_type = SORT_REGULAR;
     
+    /**
+     * @var int[]
+     */
     protected static $valid_sort_types = [
         SORT_REGULAR, SORT_NATURAL, SORT_NUMERIC, SORT_STRING, SORT_LOCALE_STRING,
         SORT_FLAG_CASE, (SORT_FLAG_CASE | SORT_STRING), (SORT_FLAG_CASE | SORT_NATURAL)
