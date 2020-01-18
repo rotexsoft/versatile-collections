@@ -193,7 +193,7 @@ services:
     Rector\Php73\Rector\FuncCall\RegexDashEscapeRector: ~
     Rector\Php73\Rector\FuncCall\RemoveMissingCompactVariableRector: ~
     
-    # Uncomment when PHP 7.4 becomes the minimum required version
+    # Uncomment Php74 rules when PHP 7.4 becomes the minimum required version
     #Rector\Php74\Rector\Property\TypedPropertyRector: ~
     Rector\Php74\Rector\FuncCall\ArrayKeyExistsOnPropertyRector: ~
     Rector\Php74\Rector\FuncCall\FilterVarToAddSlashesRector: ~
@@ -204,10 +204,10 @@ services:
     Rector\Php74\Rector\Double\RealToFloatTypeCastRector: ~
     Rector\Php74\Rector\Assign\NullCoalescingOperatorRector: ~
     Rector\Php74\Rector\Function_\ReservedFnFunctionRector: ~
-    Rector\Php74\Rector\Closure\ClosureToArrowFunctionRector: ~
-    Rector\Php74\Rector\FuncCall\ArraySpreadInsteadOfArrayMergeRector: ~
-    Rector\Php74\Rector\LNumber\AddLiteralSeparatorToNumberRector: ~
-    Rector\Php74\Rector\MethodCall\ChangeReflectionTypeToStringToGetNameRector: ~
+    #Rector\Php74\Rector\Closure\ClosureToArrowFunctionRector: ~
+    #Rector\Php74\Rector\FuncCall\ArraySpreadInsteadOfArrayMergeRector: ~
+    #Rector\Php74\Rector\LNumber\AddLiteralSeparatorToNumberRector: ~
+    #Rector\Php74\Rector\MethodCall\ChangeReflectionTypeToStringToGetNameRector: ~
     
     
     Rector\Php80\Rector\FunctionLike\UnionTypesRector: ~
