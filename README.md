@@ -33,7 +33,8 @@ For users with PHP 5.6 - PHP 7.1 switch to the 2.X branch to read the documentat
 If you are simply looking to store items of the same or differing types in a collection you can use simply use the **GenericCollection** class like so:
 
 ```php
-<?php 
+<?php
+use \VersatileCollections\GenericCollection;
 
 // items to be stored in your collection
 $item1 = ['yabadoo'];                        // an array
@@ -53,13 +54,13 @@ $collection = new \VersatileCollections\GenericCollection(
 
 // Technique 2: pass the items in an array using argument unpacking
 //              to the constructor of the collection class
-$collection = new \VersatileCollections\GenericCollection(
+$collection = new GenericCollection(
     ...[$item1, $item2, $item3, $item4, $item5, $item6, $item7, $item8, $item9]
 );
 
 // Technique 3: pass the items in an array to the static makeNew helper method
 //              available in all collection classes
-$collection = \VersatileCollections\GenericCollection::makeNew(
+$collection = GenericCollection::makeNew(
     [$item1, $item2, $item3, $item4, $item5, $item6, $item7, $item8, $item9]
 );
 
@@ -68,9 +69,9 @@ $collection = \VersatileCollections\GenericCollection::makeNew(
 //              property assignment syntax or using the appendItem($item), 
 //              prependItem($item, $key=null), push($item) or put($key, $value)
 //              methods
-$collection = new \VersatileCollections\GenericCollection(); // empty collection
+$collection = new GenericCollection(); // empty collection
 // OR
-$collection = \VersatileCollections\GenericCollection::makeNew(); // empty collection
+$collection = GenericCollection::makeNew(); // empty collection
 
 $collection[] = $item1; // array assignment syntax without key
                         // the item is automatically assigned
@@ -153,8 +154,9 @@ that only stores items that are instances of **\PDO**, can be implemented:
 
 ```php
 <?php 
+use \VersatileCollections\StrictlyTypedCollectionInterface;
 
-class PdoCollection implements \VersatileCollections\StrictlyTypedCollectionInterface { //1. Implement interface
+class PdoCollection implements StrictlyTypedCollectionInterface { //1. Implement interface
     
     use \VersatileCollections\StrictlyTypedCollectionInterfaceImplementationTrait; //2. Use trait
     
