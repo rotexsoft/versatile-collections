@@ -19,101 +19,101 @@ Instances of this class have the same features as [Objects Collections](ObjectsC
 Example Usage:
 
 ```php
-    use \VersatileCollections\SpecificObjectsCollection;
+use \VersatileCollections\SpecificObjectsCollection;
 
-    /////////////////////////////////////////////
-    // Store only instances of ArrayIterator 
-    // and its sub-class RecursiveArrayIterator
-    ////////////////////////////////////////////
-    $item1 = new \ArrayIterator(); // parent class instance
-    $item2 = new \ArrayIterator(); // parent class instance
-    $item3 = new \RecursiveArrayIterator(); // child class instance
-    $item4 = new \RecursiveArrayIterator(); // child class instance
+/////////////////////////////////////////////
+// Store only instances of ArrayIterator 
+// and its sub-class RecursiveArrayIterator
+////////////////////////////////////////////
+$item1 = new \ArrayIterator(); // parent class instance
+$item2 = new \ArrayIterator(); // parent class instance
+$item3 = new \RecursiveArrayIterator(); // child class instance
+$item4 = new \RecursiveArrayIterator(); // child class instance
 
-    $collection = SpecificObjectsCollection::makeNewForSpecifiedClassName(
-        \ArrayIterator::class, 
-        ['item1'=>$item1, 'item2'=>$item2, 'item3'=>$item3, 'item4'=>$item4]
-    );
+$collection = SpecificObjectsCollection::makeNewForSpecifiedClassName(
+    \ArrayIterator::class, 
+    ['item1'=>$item1, 'item2'=>$item2, 'item3'=>$item3, 'item4'=>$item4]
+);
 
-    // $collection = SpecificObjectsCollection::makeNewForSpecifiedClassName(
-    //    \ArrayIterator::class, 
-    //    ['item1'=>$item1, 'item2'=>$item2, 'item3'=>(new \DateTime('2000-01-01'))]
-    // ); // This will throw a VersatileCollections\Exceptions\InvalidItemException 
-          // becuse of the last item (DateTime instance) with the key `item3`
+// $collection = SpecificObjectsCollection::makeNewForSpecifiedClassName(
+//    \ArrayIterator::class, 
+//    ['item1'=>$item1, 'item2'=>$item2, 'item3'=>(new \DateTime('2000-01-01'))]
+// ); // This will throw a VersatileCollections\Exceptions\InvalidItemException 
+      // becuse of the last item (DateTime instance) with the key `item3`
 
-    // OR
+// OR
 
-    $collection = SpecificObjectsCollection::makeNewForSpecifiedClassName(
-        \ArrayIterator::class
-    );
-    $collection['item1'] = $item1;
-    $collection['item2'] = $item2;
-    // Line below will throw a VersatileCollections\Exceptions\InvalidItemException
-    // $collection['item3'] = new \DateTime('2000-01-01');
+$collection = SpecificObjectsCollection::makeNewForSpecifiedClassName(
+    \ArrayIterator::class
+);
+$collection['item1'] = $item1;
+$collection['item2'] = $item2;
+// Line below will throw a VersatileCollections\Exceptions\InvalidItemException
+// $collection['item3'] = new \DateTime('2000-01-01');
 
-    // OR
+// OR
 
-    $collection = SpecificObjectsCollection::makeNewForSpecifiedClassName(
-        \ArrayIterator::class
-    );
-    $collection->item1 = $item1;
-    $collection->item2 = $item2;
-    // Line below will throw a VersatileCollections\Exceptions\InvalidItemException
-    // $collection->item3 = new \DateTime('2000-01-01');
-    
-    //////////////////////////////////////////////////////////////////////
-    // Store instances of any class. Works exactly like ObjectsCollection
-    //////////////////////////////////////////////////////////////////////
-    $collection = SpecificObjectsCollection::makeNew([
+$collection = SpecificObjectsCollection::makeNewForSpecifiedClassName(
+    \ArrayIterator::class
+);
+$collection->item1 = $item1;
+$collection->item2 = $item2;
+// Line below will throw a VersatileCollections\Exceptions\InvalidItemException
+// $collection->item3 = new \DateTime('2000-01-01');
+
+//////////////////////////////////////////////////////////////////////
+// Store instances of any class. Works exactly like ObjectsCollection
+//////////////////////////////////////////////////////////////////////
+$collection = SpecificObjectsCollection::makeNew([
+    'item1'=>new stdClass(), 
+    'item2'=>new \DateTime('2000-01-01'), 
+    'item3'=>new \PDO('sqlite::memory:'), 
+    'item4'=>new \ArrayObject()
+]);
+
+// OR
+
+$collection = SpecificObjectsCollection::makeNewForSpecifiedClassName(
+    null,    
+    [
         'item1'=>new stdClass(), 
         'item2'=>new \DateTime('2000-01-01'), 
         'item3'=>new \PDO('sqlite::memory:'), 
         'item4'=>new \ArrayObject()
-    ]);
+    ]
+);
 
-    // OR
+// OR
 
-    $collection = SpecificObjectsCollection::makeNewForSpecifiedClassName(
-        null,    
-        [
-            'item1'=>new stdClass(), 
-            'item2'=>new \DateTime('2000-01-01'), 
-            'item3'=>new \PDO('sqlite::memory:'), 
-            'item4'=>new \ArrayObject()
-        ]
-    );
+$collection = SpecificObjectsCollection::makeNew();
+$collection['item1'] = new stdClass();
+$collection['item2'] = new \DateTime('2000-01-01');
+$collection['item3'] = new \PDO('sqlite::memory:');
+$collection['item4'] = new \ArrayObject();
 
-    // OR
+// OR
 
-    $collection = SpecificObjectsCollection::makeNew();
-    $collection['item1'] = new stdClass();
-    $collection['item2'] = new \DateTime('2000-01-01');
-    $collection['item3'] = new \PDO('sqlite::memory:');
-    $collection['item4'] = new \ArrayObject();
+$collection = SpecificObjectsCollection::makeNewForSpecifiedClassName();
+$collection['item1'] = new stdClass();
+$collection['item2'] = new \DateTime('2000-01-01');
+$collection['item3'] = new \PDO('sqlite::memory:');
+$collection['item4'] = new \ArrayObject();
 
-    // OR
+// OR
 
-    $collection = SpecificObjectsCollection::makeNewForSpecifiedClassName();
-    $collection['item1'] = new stdClass();
-    $collection['item2'] = new \DateTime('2000-01-01');
-    $collection['item3'] = new \PDO('sqlite::memory:');
-    $collection['item4'] = new \ArrayObject();
+$collection = SpecificObjectsCollection::makeNew();
+$collection->item1 = new stdClass();
+$collection->item2 = new \DateTime('2000-01-01');
+$collection->item3 = new \PDO('sqlite::memory:');
+$collection->item4 = new \ArrayObject();
 
-    // OR
+// OR
 
-    $collection = SpecificObjectsCollection::makeNew();
-    $collection->item1 = new stdClass();
-    $collection->item2 = new \DateTime('2000-01-01');
-    $collection->item3 = new \PDO('sqlite::memory:');
-    $collection->item4 = new \ArrayObject();
-
-    // OR
-
-    $collection = SpecificObjectsCollection::makeNewForSpecifiedClassName();
-    $collection->item1 = new stdClass();
-    $collection->item2 = new \DateTime('2000-01-01');
-    $collection->item3 = new \PDO('sqlite::memory:');
-    $collection->item4 = new \ArrayObject();
+$collection = SpecificObjectsCollection::makeNewForSpecifiedClassName();
+$collection->item1 = new stdClass();
+$collection->item2 = new \DateTime('2000-01-01');
+$collection->item3 = new \PDO('sqlite::memory:');
+$collection->item4 = new \ArrayObject();
 ```
 
 Use this type of collection if you want to only store objects that are 
