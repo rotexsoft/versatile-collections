@@ -19,6 +19,8 @@ Instances of this class have the same features as [Objects Collections](ObjectsC
 Example Usage:
 
 ```php
+    use \VersatileCollections\SpecificObjectsCollection;
+
     /////////////////////////////////////////////
     // Store only instances of ArrayIterator 
     // and its sub-class RecursiveArrayIterator
@@ -28,12 +30,12 @@ Example Usage:
     $item3 = new \RecursiveArrayIterator(); // child class instance
     $item4 = new \RecursiveArrayIterator(); // child class instance
 
-    $collection = \VersatileCollections\SpecificObjectsCollection::makeNewForSpecifiedClassName(
+    $collection = SpecificObjectsCollection::makeNewForSpecifiedClassName(
         \ArrayIterator::class, 
         ['item1'=>$item1, 'item2'=>$item2, 'item3'=>$item3, 'item4'=>$item4]
     );
 
-    // $collection = \VersatileCollections\SpecificObjectsCollection::makeNewForSpecifiedClassName(
+    // $collection = SpecificObjectsCollection::makeNewForSpecifiedClassName(
     //    \ArrayIterator::class, 
     //    ['item1'=>$item1, 'item2'=>$item2, 'item3'=>(new \DateTime('2000-01-01'))]
     // ); // This will throw a VersatileCollections\Exceptions\InvalidItemException 
@@ -41,7 +43,7 @@ Example Usage:
 
     // OR
 
-    $collection = \VersatileCollections\SpecificObjectsCollection::makeNewForSpecifiedClassName(
+    $collection = SpecificObjectsCollection::makeNewForSpecifiedClassName(
         \ArrayIterator::class
     );
     $collection['item1'] = $item1;
@@ -51,7 +53,7 @@ Example Usage:
 
     // OR
 
-    $collection = \VersatileCollections\SpecificObjectsCollection::makeNewForSpecifiedClassName(
+    $collection = SpecificObjectsCollection::makeNewForSpecifiedClassName(
         \ArrayIterator::class
     );
     $collection->item1 = $item1;
@@ -62,7 +64,7 @@ Example Usage:
     //////////////////////////////////////////////////////////////////////
     // Store instances of any class. Works exactly like ObjectsCollection
     //////////////////////////////////////////////////////////////////////
-    $collection = \VersatileCollections\SpecificObjectsCollection::makeNew([
+    $collection = SpecificObjectsCollection::makeNew([
         'item1'=>new stdClass(), 
         'item2'=>new \DateTime('2000-01-01'), 
         'item3'=>new \PDO('sqlite::memory:'), 
@@ -71,7 +73,7 @@ Example Usage:
 
     // OR
 
-    $collection = \VersatileCollections\SpecificObjectsCollection::makeNewForSpecifiedClassName(
+    $collection = SpecificObjectsCollection::makeNewForSpecifiedClassName(
         null,    
         [
             'item1'=>new stdClass(), 
@@ -83,7 +85,7 @@ Example Usage:
 
     // OR
 
-    $collection = \VersatileCollections\SpecificObjectsCollection::makeNew();
+    $collection = SpecificObjectsCollection::makeNew();
     $collection['item1'] = new stdClass();
     $collection['item2'] = new \DateTime('2000-01-01');
     $collection['item3'] = new \PDO('sqlite::memory:');
@@ -91,7 +93,7 @@ Example Usage:
 
     // OR
 
-    $collection = \VersatileCollections\SpecificObjectsCollection::makeNewForSpecifiedClassName();
+    $collection = SpecificObjectsCollection::makeNewForSpecifiedClassName();
     $collection['item1'] = new stdClass();
     $collection['item2'] = new \DateTime('2000-01-01');
     $collection['item3'] = new \PDO('sqlite::memory:');
@@ -99,7 +101,7 @@ Example Usage:
 
     // OR
 
-    $collection = \VersatileCollections\SpecificObjectsCollection::makeNew();
+    $collection = SpecificObjectsCollection::makeNew();
     $collection->item1 = new stdClass();
     $collection->item2 = new \DateTime('2000-01-01');
     $collection->item3 = new \PDO('sqlite::memory:');
@@ -107,7 +109,7 @@ Example Usage:
 
     // OR
 
-    $collection = \VersatileCollections\SpecificObjectsCollection::makeNewForSpecifiedClassName();
+    $collection = SpecificObjectsCollection::makeNewForSpecifiedClassName();
     $collection->item1 = new stdClass();
     $collection->item2 = new \DateTime('2000-01-01');
     $collection->item3 = new \PDO('sqlite::memory:');
