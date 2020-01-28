@@ -124,15 +124,15 @@ If you want to enforce strict-typing, the following Collection classes are provi
 in this package:
 
 * **[Arrays Collections](docs/ArraysCollection.md):** a collection that only stores items that are arrays (i.e. items for which is_array is true)
-* **CallablesCollection:** a collection that only stores items that are callables (i.e. items for which is_callable is true)
-* **FloatsCollection:** a collection that only stores items that are floats (i.e. items for which is_float is true)
-* **IntsCollection:** a collection that only stores items that are integers (i.e. items for which is_int is true)
-* **NumericsCollection:** a collection that only stores items that are either floats or integers (i.e. items for which is_int or is_float is true)
-* **ObjectsCollection:** a collection that only stores items that are objects (i.e. items for which is_object is true)
-* **ResourcesCollection:** a collection that only stores items that are resources (i.e. items for which is_resource is true)
-* **ScalarsCollection:** a collection that only stores items that are scalars (i.e. items for which is_scalar is true)
-* **StringsCollection:** a collection that only stores items that are strings (i.e. items for which is_string is true)
-* **SpecificObjectsCollection:** a collection that only stores items that are instances of a specified class or any of its sub-classes
+* **[Callables Collections](docs/CallablesCollections.md):** a collection that only stores items that are callables (i.e. items for which is_callable is true)
+* **[Floats Collections](docs/FloatsCollections.md):** a collection that only stores items that are floats (i.e. items for which is_float is true)
+* **[Ints Collections](docs/IntsCollections.md):** a collection that only stores items that are integers (i.e. items for which is_int is true)
+* **[Numerics Collections](docs/NumericsCollections.md):** a collection that only stores items that are either floats or integers (i.e. items for which is_int or is_float is true)
+* **[Objects Collections](docs/ObjectsCollections.md):** a collection that only stores items that are objects (i.e. items for which is_object is true)
+* **[Resources Collections](docs/ResourcesCollections.md):** a collection that only stores items that are resources (i.e. items for which is_resource is true)
+* **[Scalars Collections](docs/ScalarsCollections.md):** a collection that only stores items that are scalars (i.e. items for which is_scalar is true)
+* **[Strings Collections](docs/StringsCollections.md):** a collection that only stores items that are strings (i.e. items for which is_string is true)
+* **[Specific Objects Collections](docs/SpecificObjectsCollection.md):** a collection that only stores items that are instances of a specified class or any of its sub-classes
 
 To implement a custom collection that only contains objects that are instances of
 a specific class (for example **\PDO**), your custom collection class must adhere to
