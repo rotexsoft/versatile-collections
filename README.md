@@ -123,7 +123,7 @@ by implementing **\VersatileCollections\CollectionInterface** and using
 If you want to enforce strict-typing, the following Collection classes are provided
 in this package:
 
-* **ArraysCollection:** a collection that only stores items that are arrays (i.e. items for which is_array is true)
+* **[Arrays Collections](docs/ArraysCollection.md):** a collection that only stores items that are arrays (i.e. items for which is_array is true)
 * **CallablesCollection:** a collection that only stores items that are callables (i.e. items for which is_callable is true)
 * **FloatsCollection:** a collection that only stores items that are floats (i.e. items for which is_float is true)
 * **IntsCollection:** a collection that only stores items that are integers (i.e. items for which is_int is true)
