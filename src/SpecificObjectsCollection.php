@@ -4,10 +4,10 @@ namespace VersatileCollections;
 
 /**
  * Description of SpecificObjectsCollection
- * 
+ *  
  * Below is a list of acceptable value(s), that could be comma separated, 
  * for the @used-for tag in phpdoc blocks for public methods in this class:
- * 
+ *  
  *      - accessing-or-extracting-keys-or-items
  *      - adding-items
  *      - adding-methods-at-runtime
@@ -23,7 +23,7 @@ namespace VersatileCollections;
  *      - modifying-items
  *      - ordering-or-sorting-items
  *      - other-operations
- * 
+ *  
  */
 final class SpecificObjectsCollection extends ObjectsCollection {
     
@@ -57,13 +57,13 @@ final class SpecificObjectsCollection extends ObjectsCollection {
      *                                Set it to null to make the collection work exactly like an instance of ObjectsCollection
      * @param array $items an array of objects to be stored in the new collection
      * @param bool $preserve_keys true to use the same keys in $items in the collection, , else false to use sequentially incrementing numeric keys starting from zero
-     * 
+     *  
      * @return \VersatileCollections\StrictlyTypedCollectionInterface
-     * 
+     *  
      * @used-for: creating-new-collections
-     * 
+     *  
      * @title: Create a new collection that only stores instances of the specified fully qualified class name or its sub-classes or a new collection that stores any kind of object if no fully qualified class name was specified (Essentially works like ObjectsCollection in the latter case).
-     * 
+     *  
      */
     public static function makeNewForSpecifiedClassName(?string $class_name=null, array $items =[], bool $preserve_keys=true): \VersatileCollections\StrictlyTypedCollectionInterface {
         
@@ -108,9 +108,9 @@ final class SpecificObjectsCollection extends ObjectsCollection {
     }
     
     /**
-     * 
+     *  
      * @return bool true if $item is of the expected type, else false
-     * 
+     *  
      */
     public function checkType($item): bool {
         
@@ -120,11 +120,11 @@ final class SpecificObjectsCollection extends ObjectsCollection {
     }
     
     /**
-     * 
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector 
-     * 
-     * @return string|array a string or array of strings of type name(s) for items acceptable in a collection
      *  
+     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector 
+     *  
+     * @return string|array a string or array of strings of type name(s) for items acceptable in a collection
+     *    
      */
     public function getType() {
         

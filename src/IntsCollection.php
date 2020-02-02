@@ -4,10 +4,10 @@ namespace VersatileCollections;
 
 /**
  * Description of IntsCollection
- * 
+ *  
  * Below is a list of acceptable value(s), that could be comma separated, 
  * for the @used-for tag in phpdoc blocks for public methods in this class:
- * 
+ *  
  *      - accessing-or-extracting-keys-or-items
  *      - adding-items
  *      - adding-methods-at-runtime

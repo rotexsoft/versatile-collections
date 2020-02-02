@@ -3,14 +3,14 @@ declare(strict_types=1);
 namespace VersatileCollections {
 
     /**
-     * 
+     *  
      * A robust way of retrieving the value of a specified property in 
      * an instance of a class. 
-     * 
+     *  
      * Works with \stdClass objects created from arrays with numeric key(s) 
      * (the value of the propertie(s) with numeric key(s) in such \stdClass 
      * objects will be retrieved by this function).
-     * 
+     *  
      * @param object $obj
      * @param string|int $property
      * @param mixed $default_val
@@ -18,10 +18,10 @@ namespace VersatileCollections {
      *                                          If false is specified and you try to access a private or protected property, a
      *                                          \RuntimeException will be thrown.
      * @return mixed
-     * 
+     *  
      * @throws \InvalidArgumentException
      * @throws \RuntimeException
-     * 
+     *  
      */
     function get_object_property_value(object $obj, $property, $default_val=null, bool $access_private_or_protected=false) {
 
@@ -83,17 +83,17 @@ namespace VersatileCollections {
     }
 
     /**
-     * 
+     *  
      * A more robust way than property_exists of checking if an instance of a class
      * has a specified property.
-     * 
+     *  
      * @param object $obj
      * @param string|int $property
-     * 
+     *  
      * @return bool
-     * 
+     *  
      * @throws \InvalidArgumentException
-     * 
+     *  
      */
     function object_has_property(object $obj, $property) {
 
@@ -131,7 +131,7 @@ namespace VersatileCollections {
     }
 
     /**
-     * 
+     *  
      * A potentially more cryptographically secure way  (as opposed to array_rand) 
      * of getting a random key from an array.
      * If the system contains sources of randomness like: 
@@ -141,11 +141,11 @@ namespace VersatileCollections {
      * If none of the aforementioned sources are available, then array_rand will be used.
      *
      * @param array $array array from which a random key is to be extracted
-     * 
+     *  
      * @return string|int a random key from the specified array
-     * 
+     *  
      * @throws \LengthException
-     * 
+     *  
      */
     function random_array_key(array $array) {
 
@@ -203,19 +203,19 @@ namespace VersatileCollections {
     }
 
     /**
-     * 
+     *  
      * A potentially more cryptographically secure way  (as opposed to array_rand) 
      * of getting unique random keys from an array.
-     * 
+     *  
      * If the system contains sources of randomness like: 
      * On Windows, » CryptGenRandom() will always be used.
      * On Linux, the » getrandom(2) syscall will be used if available.
      * On other platforms, /dev/urandom will be used.
      * If none of the aforementioned sources are available, then array_rand will be used.
-     * 
+     *  
      * @param array $array array from which a random keys are to be extracted
      * @param int $number_of_random_keys number of unique random keys to return
-     * 
+     *  
      * @return array an array of random keys
      * @throws \LengthException
      * @throws \InvalidArgumentException
@@ -258,13 +258,13 @@ namespace VersatileCollections {
     }
 
     /**
-     * 
+     *  
      * Generate a (screen/user)-friendly string representation of a variable. 
-     * 
+     *  
      * @param mixed $var
-     * 
+     *  
      * @return string a (screen / user)-friendly string representation of a variable
-     * 
+     *  
      */
     function var_to_string($var): string {
 
@@ -272,13 +272,13 @@ namespace VersatileCollections {
     }
 
     /**
-     * 
+     *  
      * Generate a (screen/user)-friendly string representation of a variable and print it out to the screen. 
-     * 
+     *  
      * @param mixed $var
-     * 
+     *  
      * @return void
-     * 
+     *  
      */
     function dump_var($var): void {
 

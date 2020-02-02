@@ -4,10 +4,10 @@ namespace VersatileCollections;
 
 /**
  * Description of ObjectsCollection
- * 
+ *  
  * Below is a list of acceptable value(s), that could be comma separated, 
  * for the @used-for tag in phpdoc blocks for public methods in this class:
- * 
+ *  
  *      - accessing-or-extracting-keys-or-items
  *      - adding-items
  *      - adding-methods-at-runtime
@@ -23,7 +23,7 @@ namespace VersatileCollections;
  *      - modifying-items
  *      - ordering-or-sorting-items
  *      - other-operations
- * 
+ *  
  * @author Rotimi Ade
  */
 class ObjectsCollection implements \VersatileCollections\StrictlyTypedCollectionInterface {
@@ -38,21 +38,21 @@ class ObjectsCollection implements \VersatileCollections\StrictlyTypedCollection
     }
     
     /**
-     * 
+     *  
      * Call a method on each object in the collection.
-     * 
+     *  
      * The return value of each call (if any) is stored in an array keyed 
      * on the object's key in the collection and this array is returned.
-     * 
+     *  
      * @param string $method_name
      * @param array $arguments
-     * 
+     *  
      * @used-for: other-operations
-     * 
+     *  
      * @title: Tries to call the specified method with the specified arguments and return its return value if it was registered via either `addMethod` or `addMethodForAllInstances` or tries to call the specified method with the specified arguments on each item in the collection and returns an array of return values keyed by each item's key in the collection. An exception of type **\VersatileCollections\Exceptions\InvalidCollectionOperationException** is thrown if the method could not be called.
-     * 
+     *  
      * @throws \Exception
-     * 
+     *  
      */
     public function __call(string $method_name, array $arguments=[]) {
 

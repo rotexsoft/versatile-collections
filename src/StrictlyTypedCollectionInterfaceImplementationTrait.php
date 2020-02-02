@@ -5,7 +5,7 @@ namespace VersatileCollections;
  *
  * Below is a list of acceptable value(s), that could be comma separated, 
  * for the @used-for tag in phpdoc blocks for public methods in this trait:
- * 
+ *  
  *      - accessing-or-extracting-keys-or-items
  *      - adding-items
  *      - adding-methods-at-runtime
@@ -21,9 +21,9 @@ namespace VersatileCollections;
  *      - modifying-items
  *      - ordering-or-sorting-items
  *      - other-operations
- * 
+ *  
  * @author Rotimi Ade
- * 
+ *  
  */
 trait StrictlyTypedCollectionInterfaceImplementationTrait {
     
@@ -47,9 +47,9 @@ trait StrictlyTypedCollectionInterfaceImplementationTrait {
     }
     
     /**
-     * 
+     *  
      * @see \VersatileCollections\CollectionInterface::appendCollection()
-     * 
+     *  
      */
     public function appendCollection(CollectionInterface $other): \VersatileCollections\CollectionInterface {
         
@@ -93,9 +93,9 @@ trait StrictlyTypedCollectionInterfaceImplementationTrait {
     }
     
     /**
-     * 
+     *  
      * @see \VersatileCollections\CollectionInterface::offsetSet()
-     * 
+     *  
      */
     public function offsetSet($key, $val): void {
         
@@ -105,9 +105,9 @@ trait StrictlyTypedCollectionInterfaceImplementationTrait {
     }
     
     /**
-     * 
+     *  
      * @see \VersatileCollections\CollectionInterface::prependCollection()
-     * 
+     *  
      */
     public function prependCollection(CollectionInterface $other): \VersatileCollections\CollectionInterface {
         
@@ -129,9 +129,9 @@ trait StrictlyTypedCollectionInterfaceImplementationTrait {
     }
     
     /**
-     * 
+     *  
      * @see \VersatileCollections\CollectionInterface::prependItem()
-     * 
+     *  
      */
     public function prependItem($item, $key=null): \VersatileCollections\CollectionInterface {
         
@@ -141,9 +141,9 @@ trait StrictlyTypedCollectionInterfaceImplementationTrait {
     }
     
     /**
-     * 
+     *  
      * @see \VersatileCollections\CollectionInterface::unionMeWith()
-     * 
+     *  
      */
     public function unionMeWith(array $items): \VersatileCollections\CollectionInterface {
         

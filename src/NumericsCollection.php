@@ -7,7 +7,7 @@ namespace VersatileCollections;
  *
  * Below is a list of acceptable value(s), that could be comma separated, 
  * for the @used-for tag in phpdoc blocks for public methods in this class:
- * 
+ *  
  *      - accessing-or-extracting-keys-or-items
  *      - adding-items
  *      - adding-methods-at-runtime
@@ -23,19 +23,19 @@ namespace VersatileCollections;
  *      - modifying-items
  *      - ordering-or-sorting-items
  *      - other-operations
- * 
+ *  
  * @author rotimi
  */
 class NumericsCollection extends ScalarsCollection {
 
     /**
-     * 
+     *  
      * @return int|float|null average all of the values in the collection or null if collection is empty
-     * 
+     *  
      * @used-for: mathematical-operations
-     * 
+     *  
      * @title: Returns the average of all of the values(a.k.a items) in the collection or null if collection is empty.
-     * 
+     *  
      */
     public function average(): ?float {
         
@@ -43,12 +43,12 @@ class NumericsCollection extends ScalarsCollection {
     }
     
     /**
-     * 
+     *  
      * This method should be overridden in sub-classes of this class
-     * 
+     *  
      * @param mixed $item
      * @return bool
-     * 
+     *  
      */
     public function checkType($item): bool {
         
@@ -56,11 +56,11 @@ class NumericsCollection extends ScalarsCollection {
     }
 
     /**
-     * 
+     *  
      * This method should be overridden in sub-classes of this class
-     * 
+     *  
      * @return string
-     * 
+     *  
      */
     public function getType() {
         
@@ -68,13 +68,13 @@ class NumericsCollection extends ScalarsCollection {
     }
     
     /**
-     *  
+     *    
      * This method should be overridden in sub-classes of this class 
-     *  
+     *    
      * @param string $str a string representation of an item in this collection
-     *  
+     *    
      * @return float|int an item in this collection that was just created from its string representation
-     *  
+     *    
      */
     protected function itemFromString($str) {
         
@@ -87,13 +87,13 @@ class NumericsCollection extends ScalarsCollection {
     }
     
     /**
-     * 
+     *  
      * This method should be overridden in sub-classes of this class 
-     * 
+     *  
      * @param mixed $item an item in this collection
-     * 
+     *  
      * @return string representation of an item in this collection
-     * 
+     *  
      */
     protected function itemToString($item) {
         
@@ -101,13 +101,13 @@ class NumericsCollection extends ScalarsCollection {
     }
     
     /**
-     * 
+     *  
      * @return int|float|null maximum of the values in the collection or null if collection is empty
-     * 
+     *  
      * @used-for: mathematical-operations
-     * 
+     *  
      * @title: Returns the maximum of all of the values(a.k.a items) in the collection or null if collection is empty.
-     * 
+     *  
      */
     public function max(): ?float {
         
@@ -115,13 +115,13 @@ class NumericsCollection extends ScalarsCollection {
     }
     
     /**
-     * 
+     *  
      * @return int|float|null median of the values in the collection or null if collection is empty
-     * 
+     *  
      * @used-for: mathematical-operations
-     * 
+     *  
      * @title: Returns the median of all of the values(a.k.a items) in the collection or null if collection is empty.
-     * 
+     *  
      */
     public function median(): ?float
     {
@@ -146,13 +146,13 @@ class NumericsCollection extends ScalarsCollection {
     }
     
     /**
-     * 
+     *  
      * @return int|float|null minimum of the values in the collection or null if collection is empty
-     * 
+     *  
      * @used-for: mathematical-operations
-     * 
+     *  
      * @title: Returns the minimum of all of the values(a.k.a items) in the collection or null if collection is empty.
-     * 
+     *  
      */
     public function min(): ?float {
         
@@ -160,20 +160,20 @@ class NumericsCollection extends ScalarsCollection {
     }
     
     /**
-     * 
+     *  
      * @return array|null an array of modal values in the collection. 
      *                    Returned array will have modal items in the same
      *                    order as in the collection.
      *                    Null is returned if the collection is empty.
-     *                  
+     *                                    
      *                    Modal Items in the the collection that are floats like
      *                    `5.0`, `7.0` (i.e point zero) will be returned without
      *                    `.0`, in essence they are returned in integer format.
-     * 
+     *  
      * @used-for: mathematical-operations
-     * 
+     *  
      * @title: Returns an array of modal values(a.k.a items) in the collection or null if collection is empty.
-     * 
+     *  
      */
     public function mode(): ?array {
         
@@ -216,13 +216,13 @@ class NumericsCollection extends ScalarsCollection {
     }
     
     /**
-     * 
+     *  
      * @return int|float the product of all values in the collection.
-     * 
+     *  
      * @used-for: mathematical-operations
-     * 
+     *  
      * @title: Returns the product of all of the values(a.k.a items) in the collection or one if collection is empty.
-     * 
+     *  
      */
     public function product(): float {
         
@@ -230,15 +230,15 @@ class NumericsCollection extends ScalarsCollection {
     }
 
     /**
-     * 
+     *  
      * Sum of all the values in this collection
-     * 
+     *  
      * @return float|int sum of all the values in this collection or zero if the collection is empty
-     * 
+     *  
      * @used-for: mathematical-operations
-     * 
+     *  
      * @title: Returns the sum of all of the values(a.k.a items) in the collection or zero if collection is empty.
-     * 
+     *  
      */
     public function sum(): float {
         
