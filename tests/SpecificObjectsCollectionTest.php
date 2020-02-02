@@ -118,18 +118,18 @@ class SpecificObjectsCollectionTest extends \PHPUnit\Framework\TestCase {
         $this->assertTrue($collection_keys_preserved->containsItemWithKey('item4', $item4));
     }
 
-    public function testThatMakeNewForSpecifiedClassName_ThrowsAnExceptionWhenTheSpecifiedClassDoesNotExist() {
-
-        // Make sure that when the specified class does not exist, the
-        // \VersatileCollections\Exceptions\SpecifiedClassNotFoundException is thrown
-        $non_existent_class_name = 'NonExistentClass';
-        $msg = "Trying to create a new collection that stores only objects of the specified type `{$non_existent_class_name}` but the specified class not found by `class_exists('{$non_existent_class_name}')`.";
-        $this->expectExceptionMessage($msg);
-        $this->expectException(\VersatileCollections\Exceptions\SpecifiedClassNotFoundException::class);
-        \VersatileCollections\SpecificObjectsCollection::makeNewForSpecifiedClassName(
-            $non_existent_class_name
-        ); // will throw \VersatileCollections\Exceptions\SpecifiedClassNotFoundException
-    }
+//    public function testThatMakeNewForSpecifiedClassName_ThrowsAnExceptionWhenTheSpecifiedClassDoesNotExist() {
+//
+//        // Make sure that when the specified class does not exist, the
+//        // \VersatileCollections\Exceptions\SpecifiedClassNotFoundException is thrown
+//        $non_existent_class_name = 'NonExistentClass';
+//        $msg = "Trying to create a new collection that stores only objects of the specified type `{$non_existent_class_name}` but the specified class not found by `class_exists('{$non_existent_class_name}')`.";
+//        $this->expectExceptionMessage($msg);
+//        $this->expectException(\VersatileCollections\Exceptions\SpecifiedClassNotFoundException::class);
+//        \VersatileCollections\SpecificObjectsCollection::makeNewForSpecifiedClassName(
+//            $non_existent_class_name
+//        ); // will throw \VersatileCollections\Exceptions\SpecifiedClassNotFoundException
+//    }
 
     public function testThatInvalidItemExceptionIsThrownWhenItemOfNonObjectTypeIsSuppliedToMakeNewForSpecifiedClassNameWith_A_NullClassName() {
 
