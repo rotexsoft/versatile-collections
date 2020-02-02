@@ -3937,7 +3937,6 @@ SpecificObjectsCollection:
 Create a new collection that only stores instances of the specified fully qualified class name 
 or its sub-classes or a new collection that stores any kind of object if no fully qualified 
 class name was specified (essentially works like ObjectsCollection in the latter case).<br>
-A `\VersatileCollections\Exceptions\SpecifiedClassNotFoundException` exception is thrown if **$class_name** is not a class that actually exists.<br>
 A `\VersatileCollections\Exceptions\InvalidItemException` exception is thrown if any of the items in **$items** is not an instance of **$class_name** if **$class_name** is not null.<br>
 
 * **$class_name**: fully qualified name of the class whose instances or instances of its sub-classes alone would be stored in the collection.

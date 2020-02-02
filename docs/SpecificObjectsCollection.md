@@ -5,8 +5,6 @@
   * only accepts items that are instances of a specified class (if the class name is provided as the first parameter to **SpecificObjectsCollection::makeNewForSpecifiedClassName**) and the specified class' sub-classes
   * or stores any kind of object (i.e. works exactly like **ObjectsCollection** if no class name or null is provided as the first parameter to **SpecificObjectsCollection::makeNewForSpecifiedClassName**) 
 
-    > NOTE: If the specified class does not exist (i.e. **class_exists** returns false for the specified class), then the **\VersatileCollections\Exceptions\SpecifiedClassNotFoundException** will be thrown
-
 > NOTE: **SpecificObjectsCollection** is a final class and was never intended to be extensible. It has a **protected** constructor by design so that its instances cannot be created via the use of the **new** keyword, 
 instead its instances can only be created by calling either 
 >   * **SpecificObjectsCollection::makeNewForSpecifiedClassName(?string $class_name=null, array $items =[], bool $preserve_keys=true)** 
