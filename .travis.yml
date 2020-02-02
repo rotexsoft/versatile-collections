@@ -14,7 +14,7 @@ script:
   - vendor/bin/phpunit --coverage-text
 #  - ./vendor/bin/phpcs src --standard=psr2 -sp
 
-  - vendor/bin/rector process src --dry-run
+#  - vendor/bin/rector process src --dry-run
 
 after_script:
 #  - php vendor/bin/coveralls
