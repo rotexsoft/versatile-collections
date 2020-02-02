@@ -78,7 +78,7 @@ final class SpecificObjectsCollection extends ObjectsCollection {
         // specified class
         $new_collection = static::makeNew(); // make an empty collection first
 
-        if (class_exists($class_name)) {
+//        if (class_exists($class_name)) {
 
             $new_collection->class_name = $class_name;
 
@@ -94,17 +94,17 @@ final class SpecificObjectsCollection extends ObjectsCollection {
                 }
             }
 
-        } else {
-
-            $class = static::class;
-            $function = __FUNCTION__;
-            $msg = "Error in [{$class}::{$function}(...)]: Trying to create a"
-                . " new collection that stores only objects of the specified type "
-                . "`". $class_name ."` but the specified class not found by `class_exists('$class_name')`.";
-
-            throw new Exceptions\SpecifiedClassNotFoundException($msg);
-
-        } // if (class_exists($class_name))
+//        } else {
+//
+//            $class = static::class;
+//            $function = __FUNCTION__;
+//            $msg = "Error in [{$class}::{$function}(...)]: Trying to create a"
+//                . " new collection that stores only objects of the specified type "
+//                . "`". $class_name ."` but the specified class not found by `class_exists('$class_name')`.";
+//
+//            throw new Exceptions\SpecifiedClassNotFoundException($msg);
+//
+//        } // if (class_exists($class_name))
         
         return $new_collection;
     }
