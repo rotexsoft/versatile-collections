@@ -1508,13 +1508,22 @@ trait CollectionInterfaceImplementationTrait {
         $multi_sort_args = [];
         $columns_to_sort_by = [];
         
-        $original_key_tracker = 'http_versatile_collections_dot_com_original_key_b4_sort';
+        $original_key_prefix = 'http_versatile_collections_dot_com_original_key_b4_sort-';
+        
+        // add a string prefix to each key
+        // in the array to be sorted to force array_multisort to
+        // maintain key associations in the sorted array
+        $array_to_be_sorted_with_stringy_keys = [];
+        foreach ($array_to_be_sorted as $key => $val){
+            
+            $array_to_be_sorted_with_stringy_keys[$original_key_prefix.$key] = $val;
+        }
+        // update the array to be sorted
+        $array_to_be_sorted = $array_to_be_sorted_with_stringy_keys;
         
         foreach( $array_to_be_sorted as $key => $item) {
             
             if( is_array($item) || $item instanceof \ArrayAccess ) {
-                
-                $array_to_be_sorted[$key][$original_key_tracker] = $key;
                 
                 foreach($param as $current_param) {
                     
@@ -1528,8 +1537,6 @@ trait CollectionInterfaceImplementationTrait {
                 }
                 
             } else if ( is_object($item) /*a non ArrayAccess object*/ ) {
-                
-                $array_to_be_sorted[$key]->$original_key_tracker = $key;
                 
                 foreach($param as $current_param) {
                     
@@ -1568,45 +1575,17 @@ trait CollectionInterfaceImplementationTrait {
         
         // last parameter is the array to be sorted
         $multi_sort_args[] = &$array_to_be_sorted;
-        
-        call_user_func_array("array_multisort", $multi_sort_args);
-        
-        $sorted_array_with_unpreserved_keys = array_pop($multi_sort_args);
-        
-        // Restore original key associations
+        array_multisort(...$multi_sort_args);
+        $sorted_array_with_preserved_keys_with_prefix = array_pop($multi_sort_args);
         $sorted_array_with_preserved_keys = [];
-
-        foreach( $sorted_array_with_unpreserved_keys as $array_key => $current_array_data ) {
-
-            $original_key = 
-                (
-                    is_array($sorted_array_with_unpreserved_keys[$array_key])
-                    || $sorted_array_with_unpreserved_keys[$array_key] instanceof \ArrayAccess
-                )
-                ? $sorted_array_with_unpreserved_keys[$array_key][$original_key_tracker] // array / ArrayAccess
-                : $sorted_array_with_unpreserved_keys[$array_key]->$original_key_tracker // object
-                ;
+        
+        // remove the string prefix we added earlier to all keys
+        // in the array to be sorted to force array_multisort to
+        // maintain key associations in the sorted array
+        foreach($sorted_array_with_preserved_keys_with_prefix as $key => $val) {
             
-            // Remove the key we added in this method 
-            // to keep track of the original key of each array item / object
-            if(
-                is_array($sorted_array_with_unpreserved_keys[$array_key])
-                || $sorted_array_with_unpreserved_keys[$array_key] instanceof \ArrayAccess        
-            ) {
-                // array / ArrayAccess
-                unset($sorted_array_with_unpreserved_keys[$array_key][$original_key_tracker]);
-                
-            } else {
-                
-                // object
-                unset($sorted_array_with_unpreserved_keys[$array_key]->$original_key_tracker);
-            }
-            
-            $sorted_array_with_preserved_keys[$original_key] = $sorted_array_with_unpreserved_keys[$array_key];
+            $sorted_array_with_preserved_keys[str_replace($original_key_prefix, '', $key)] = $val;
         }
-
-        //take out da trash
-        unset($sorted_array_with_unpreserved_keys);
         
         return $sorted_array_with_preserved_keys;
     }
