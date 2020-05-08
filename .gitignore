@@ -27,3 +27,4 @@ composer.lock
 phpunit.xml
 
 playground.php
+.phpunit.result.cache
