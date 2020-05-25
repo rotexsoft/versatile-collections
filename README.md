@@ -125,14 +125,14 @@ in this package:
 
 * **[Arrays Collections](docs/ArraysCollection.md):** a collection that only stores items that are arrays (i.e. items for which is_array is true)
 * **[Callables Collections](docs/CallablesCollections.md):** a collection that only stores items that are callables (i.e. items for which is_callable is true)
-* **[Floats Collections](docs/FloatsCollections.md):** a collection that only stores items that are floats (i.e. items for which is_float is true)
-* **[Ints Collections](docs/IntsCollections.md):** a collection that only stores items that are integers (i.e. items for which is_int is true)
-* **[Numerics Collections](docs/NumericsCollections.md):** a collection that only stores items that are either floats or integers (i.e. items for which is_int or is_float is true)
 * **[Objects Collections](docs/ObjectsCollections.md):** a collection that only stores items that are objects (i.e. items for which is_object is true)
+    * **[Specific Objects Collections](docs/SpecificObjectsCollection.md):** a collection that only stores items that are instances of a specified class or any of its sub-classes
 * **[Resources Collections](docs/ResourcesCollections.md):** a collection that only stores items that are resources (i.e. items for which is_resource is true)
 * **[Scalars Collections](docs/ScalarsCollections.md):** a collection that only stores items that are scalars (i.e. items for which is_scalar is true)
-* **[Strings Collections](docs/StringsCollections.md):** a collection that only stores items that are strings (i.e. items for which is_string is true)
-* **[Specific Objects Collections](docs/SpecificObjectsCollection.md):** a collection that only stores items that are instances of a specified class or any of its sub-classes
+    * **[Numerics Collections](docs/NumericsCollections.md):** a collection that only stores items that are either floats or integers (i.e. items for which is_int or is_float is true)
+        * **[Floats Collections](docs/FloatsCollections.md):** a collection that only stores items that are floats (i.e. items for which is_float is true)
+        * **[Ints Collections](docs/IntsCollections.md):** a collection that only stores items that are integers (i.e. items for which is_int is true)
+    * **[Strings Collections](docs/StringsCollections.md):** a collection that only stores items that are strings (i.e. items for which is_string is true)
 
 To implement a custom collection that only contains objects that are instances of
 a specific class (for example **\PDO**), your custom collection class must adhere to
@@ -206,13 +206,13 @@ or its sub-classes in a collection and don't want to have to create a custom col
     * [Arrays Collections](docs/ArraysCollection.md): a collection that can only contain [arrays](http://php.net/manual/en/language.types.array.php)
     * [Callables Collections](docs/CallablesCollections.md): a collection that can only contain [callables](http://php.net/manual/en/language.types.callable.php)
     * [Objects Collections](docs/ObjectsCollections.md): a collection that can only contain [objects](http://php.net/manual/en/language.types.object.php) (any kind of object)
+        * [Specific Objects Collections](docs/SpecificObjectsCollection.md): a collection that can either contain only instances of a specified class or any of its sub-classes or any type of [object](http://php.net/manual/en/language.types.object.php) (just like [Objects Collections](docs/ObjectsCollections.md)) if no class is specified
     * [Resources Collections](docs/ResourcesCollections.md): a collection that can only contain [resources](http://php.net/manual/en/language.types.resource.php)
     * [Scalars Collections](docs/ScalarsCollections.md): a collection that can only scalar values. I.e. any of [booleans](http://php.net/manual/en/language.types.boolean.php), [floats](http://php.net/manual/en/language.types.float.php), [integers](http://php.net/manual/en/language.types.integer.php) or [strings](http://php.net/manual/en/language.types.string.php). It accepts any mix of scalars, e.g. ints, booleans, floats and strings can all be present in an instance of this type of collection.
         * [Numerics Collections](docs/NumericsCollections.md): a collection that can only contain [floats](http://php.net/manual/en/language.types.float.php) and/or [integers](http://php.net/manual/en/language.types.integer.php)
             * [Floats Collections](docs/FloatsCollections.md): a collection that can only contain [floats](http://php.net/manual/en/language.types.float.php)
             * [Ints Collections](docs/IntsCollections.md): a collection that can only contain [integers](http://php.net/manual/en/language.types.integer.php)
         * [Strings Collections](docs/StringsCollections.md): a collection that can only contain [strings](http://php.net/manual/en/language.types.string.php)
-    * [Specific Objects Collections](docs/SpecificObjectsCollection.md): a collection that can either contain only instances of a specified class or any of its sub-classes or any type of [object](http://php.net/manual/en/language.types.object.php) (just like [Objects Collections](docs/ObjectsCollections.md)) if no class is specified
 * [Laravel Collection Methods Equivalence](docs/LaravelMethodsEquivalence.md)
 
 * Please submit an issue or a pull request if you find any issues with the documentation.
