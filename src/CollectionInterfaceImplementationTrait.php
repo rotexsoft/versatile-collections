@@ -1455,7 +1455,10 @@ trait CollectionInterfaceImplementationTrait {
      */
     protected function performMultiSort(array $array_to_be_sorted, \VersatileCollections\MultiSortParameters ...$param) {
         
-        if(count($array_to_be_sorted) <= 0) { return $array_to_be_sorted; }
+        if(count($array_to_be_sorted) <= 0) { 
+            
+            return $array_to_be_sorted; 
+        }
         
         $multi_sort_args = [];
         $columns_to_sort_by = [];
