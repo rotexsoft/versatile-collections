@@ -7,6 +7,7 @@ php:
 
 before_script:
   - composer install --no-interaction --prefer-source
+  - phpenv config-add travis-rector-fix-php.ini
 
 script:
   - mkdir -p build/logs
