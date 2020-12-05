@@ -37,6 +37,6 @@
         "files": [ ]
     },
     "scripts": {
-        "test": "vendor/bin/phpunit"
+        "test": "vendor/bin/phpunit --coverage-text"
     }
 }
