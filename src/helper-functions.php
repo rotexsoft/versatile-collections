@@ -1,16 +1,27 @@
-<?php
+<?php /** @noinspection DuplicatedCode */ /** @noinspection PhpFullyQualifiedNameUsageInspection */
 declare(strict_types=1);
 namespace VersatileCollections {
 
+    use Error;
+    use Exception;
+    use InvalidArgumentException;
+    use LengthException;
+    use ReflectionClass;
+    use ReflectionException;
+    use RuntimeException;
+    use SebastianBergmann\Exporter\Exporter;
+    use stdClass;
+    use TypeError;
+
     /**
-     *  
-     * A robust way of retrieving the value of a specified property in 
-     * an instance of a class. 
-     *  
-     * Works with \stdClass objects created from arrays with numeric key(s) 
-     * (the value of the propertie(s) with numeric key(s) in such \stdClass 
+     *
+     * A robust way of retrieving the value of a specified property in
+     * an instance of a class.
+     *
+     * Works with \stdClass objects created from arrays with numeric key(s)
+     * (the value of the propertie(s) with numeric key(s) in such \stdClass
      * objects will be retrieved by this function).
-     *  
+     *
      * @param object $obj
      * @param string|int $property
      * @param mixed $default_val
@@ -18,21 +29,23 @@ namespace VersatileCollections {
      *                                          If false is specified and you try to access a private or protected property, a
      *                                          \RuntimeException will be thrown.
      * @return mixed
-     *  
-     * @throws \InvalidArgumentException
-     * @throws \RuntimeException
-     *  
+     *
+     * @throws InvalidArgumentException
+     * @throws RuntimeException
+     * @throws ReflectionException
+     *
+     * @noinspection DuplicatedCode
      */
     function get_object_property_value(object $obj, $property, $default_val=null, bool $access_private_or_protected=false) {
 
-        if( !is_string($property) && !is_int($property) ) {
+        if( !\is_string($property) && !\is_int($property) ) {
 
             $function = __FUNCTION__;
             $ns = __NAMESPACE__;
             $property_type = Utils::gettype($property);
             $msg = "Error [{$ns}::{$function}(...)]:"
             . " String or Int expected as second argument, `$property_type` given.";
-            throw new \InvalidArgumentException($msg); 
+            throw new InvalidArgumentException($msg);
         }
 
         $property = ''.$property;
@@ -40,7 +53,7 @@ namespace VersatileCollections {
 
         if( object_has_property($obj, $property) ) {
 
-            if( $obj instanceof \stdClass ) {
+            if( $obj instanceof stdClass ) {
 
                 // will work for stdClass instances that were created 
                 // by casting an array with numeric and / or string keys to an object.
@@ -49,13 +62,13 @@ namespace VersatileCollections {
                 $return_val = $obj_as_array[$property];
 
             } else if(
-                property_exists ($obj, $property) // is either public, protected or private
-                && !array_key_exists($property, get_object_vars($obj)) // definitely a protected or a private property
+                \property_exists ($obj, $property) // is either public, protected or private
+                && !\array_key_exists($property, \get_object_vars($obj)) // definitely a protected or a private property
             ) {
                 if( $access_private_or_protected ) {
 
                     // use some reflection gymnastics to retrieve the value
-                    $reflection_class = new \ReflectionClass(get_class($obj));
+                    $reflection_class = new ReflectionClass(\get_class($obj));
                     $property = $reflection_class->getProperty($property);
                     $property->setAccessible(true);
                     $return_val = $property->getValue($obj); //$property->setAccessible(false);
@@ -66,11 +79,11 @@ namespace VersatileCollections {
                     // trying to access a private or protected value
                     $function = __FUNCTION__;
                     $ns = __NAMESPACE__;
-                    $obj_type = get_class($obj);
+                    $obj_type = \get_class($obj);
                     $msg = "Error [{$ns}::{$function}(...)]:"
                     . " Trying to access a protected or private property named `{$property}` on the instance of `$obj_type` below:" . PHP_EOL . var_to_string($obj)
                     . PHP_EOL . "To access a protected or private property named `{$property}` call `{$ns}::{$function}()` with `true` as the fourth argument.";
-                    throw new \RuntimeException();
+                    throw new RuntimeException($msg);
                 }
 
             } else {
@@ -92,34 +105,35 @@ namespace VersatileCollections {
      *  
      * @return bool
      *  
-     * @throws \InvalidArgumentException
-     *  
+     * @throws InvalidArgumentException
+     *
+     * @noinspection PhpMissingReturnTypeInspection
      */
     function object_has_property(object $obj, $property) {
 
-        if( !is_string($property) && !is_int($property) ) {
+        if( !\is_string($property) && !\is_int($property) ) {
 
             $function = __FUNCTION__;
             $ns = __NAMESPACE__;
             $property_type = Utils::gettype($property);
             $msg = "Error [{$ns}::{$function}(...)]:"
             . " String or Int expected as second argument, `$property_type` given.";
-            throw new \InvalidArgumentException($msg); 
+            throw new InvalidArgumentException($msg);
         }
 
         $property = ''.$property;
 
         return (
-                    property_exists($obj, $property) // check if property is public, protected or private
+                    \property_exists($obj, $property) // check if property is public, protected or private
                     ||
                     (
-                        method_exists($obj, '__isset')
-                        && method_exists($obj, '__get')
+                        \method_exists($obj, '__isset')
+                        && \method_exists($obj, '__get')
                         && $obj->__isset($property)
                     ) // check if property is accessible via magic method
                     ||
                     (
-                        array_key_exists( $property, ((array)$obj) )
+                        \array_key_exists( $property, ((array)$obj) )
                     ) // works for arrays with numeric keys that were
                       // cast into an object. E.g $item === ((object)[777=>'boo'])
                       // Also detects properties that are not defined in the class
@@ -144,45 +158,45 @@ namespace VersatileCollections {
      *  
      * @return string|int a random key from the specified array
      *  
-     * @throws \LengthException
+     * @throws LengthException
      *  
      */
     function random_array_key(array $array) {
 
-        if( count($array) <= 0 ) {
+        if( \count($array) <= 0 ) {
 
             $function = __FUNCTION__;
             $ns = __NAMESPACE__;
             $msg = "Error [{$ns}::{$function}(...)]: You cannot request a random key from an empty array.";
-            throw new \LengthException($msg);
+            throw new LengthException($msg);
         }
 
         $error_occurred = false;
-        $keys = array_keys($array);
+        $keys = \array_keys($array);
         $random_key = null;
 
         try {
             // random_int is more cryptographically secure than array_rand
             $min = 0;
-            $max = count($keys) - 1;
-            $random_index = random_int( $min, $max );
+            $max = \count($keys) - 1;
+            $random_index = \random_int( $min, $max );
             $random_key = $keys[$random_index];
 
-        } catch ( \TypeError $e) {
+        } catch ( TypeError $e) {
 
             // random_int: If invalid parameters are given, a TypeError will be thrown.
             // This is okay, so long as `Error` is caught before `Exception`.
             // Probably will never occur since $min and $max above will always be ints.
             $error_occurred = true;
 
-        } catch ( \Error $e) {
+        } catch ( Error $e) {
 
             // random_int: If max is less than min, an Error will be thrown.
             // This is required, if you do not need to do anything just rethrow.
             // Probably will never occur since $min and $max above will always have $min < $max.
             $error_occurred = true;
 
-        } catch ( \Exception $e) {
+        } catch ( Exception $e) {
 
             // random_int: If an appropriate source of randomness cannot be found, an Exception will be thrown.
             // This is optional and maybe omitted if you do not want to handle errors
@@ -194,9 +208,9 @@ namespace VersatileCollections {
 
         if( $error_occurred ) {
 
-            // fallback to array_rand since an error / exception occured
+            // fallback to array_rand since an error / exception occurred
             // while trying to use random_int
-            $random_key = array_rand($array);
+            $random_key = \array_rand($array);
         }
 
         return $random_key;
@@ -217,27 +231,27 @@ namespace VersatileCollections {
      * @param int $number_of_random_keys number of unique random keys to return
      *  
      * @return array an array of random keys
-     * @throws \LengthException
-     * @throws \InvalidArgumentException
+     * @throws LengthException
+     * @throws InvalidArgumentException
      */
     function random_array_keys(array $array, int $number_of_random_keys = 1): array {
 
-        if( count($array) <= 0 ) {
+        if( \count($array) <= 0 ) {
 
             $function = __FUNCTION__;
             $ns = __NAMESPACE__;
             $msg = "Error [{$ns}::{$function}(...)]: You cannot request random keys from an empty array.";
-            throw new \LengthException($msg);
+            throw new LengthException($msg);
         }
 
-        if(  $number_of_random_keys > count($array) ) {
+        if(  $number_of_random_keys > \count($array) ) {
 
             $function = __FUNCTION__;
             $ns = __NAMESPACE__;
-            $num_items = count($array);
+            $num_items = \count($array);
             $msg = "Error [{$ns}::{$function}(...)]:"
             . " You requested {$number_of_random_keys} key(s), but there are only {$num_items} keys available.";
-            throw new \InvalidArgumentException($msg); 
+            throw new InvalidArgumentException($msg);
         }
 
         $random_keys = [];
@@ -249,7 +263,7 @@ namespace VersatileCollections {
             do { // loop to ensure uniqueness of selected random keys
                 $current_random_key = random_array_key($array);
 
-            } while( in_array($current_random_key, $random_keys, true) );
+            } while( \in_array($current_random_key, $random_keys, true) );
 
             $random_keys[] = $current_random_key;
         }
@@ -268,7 +282,7 @@ namespace VersatileCollections {
      */
     function var_to_string($var): string {
 
-        return (new \SebastianBergmann\Exporter\Exporter())->export($var);
+        return (new Exporter())->export($var);
     }
 
     /**
@@ -278,6 +292,7 @@ namespace VersatileCollections {
      * @param mixed $var
      *  
      * @return void
+     * @noRector
      *  
      */
     function dump_var($var): void {

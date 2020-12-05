@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpFullyQualifiedNameUsageInspection */
 declare(strict_types=1);
 namespace VersatileCollections;
 
@@ -27,17 +27,18 @@ namespace VersatileCollections;
  *
  * @author Rotimi Ade
  */
-class ResourcesCollection implements \VersatileCollections\StrictlyTypedCollectionInterface {
+class ResourcesCollection implements StrictlyTypedCollectionInterface
+{
     
     use StrictlyTypedCollectionInterfaceImplementationTrait;
 
     public function checkType($item): bool {
         
-        return is_resource($item);
+        return \is_resource($item);
     }
     
     /**
-     * @return string
+     * @return string|array
      */
     public function getType() {
         

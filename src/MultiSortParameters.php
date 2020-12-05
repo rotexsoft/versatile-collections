@@ -1,16 +1,16 @@
-<?php
+<?php /** @noinspection PhpFullyQualifiedNameUsageInspection */
 declare(strict_types=1);
 namespace VersatileCollections;
 
 /**
  * Description of SortParameters
- *
  * @author Rotimi Ade
  */
 class MultiSortParameters {
     
     /**
      * @var string|null
+     * @noRector
      */
     protected $field_name = null;
     /**
@@ -34,7 +34,8 @@ class MultiSortParameters {
         SORT_REGULAR, SORT_NATURAL, SORT_NUMERIC, SORT_STRING, SORT_LOCALE_STRING,
         SORT_FLAG_CASE, (SORT_FLAG_CASE | SORT_STRING), (SORT_FLAG_CASE | SORT_NATURAL)
     ];
-    
+
+    /** @noinspection PhpUnhandledExceptionInspection */
     public function __construct(string $field_name, ?int $sort_direction=null, ?int $sort_type=null) {
         
         if( $this->validateFieldName($field_name) ) {
@@ -42,12 +43,12 @@ class MultiSortParameters {
             $this->field_name = $field_name;
         }
         
-        if( !is_null($sort_direction) && $this->validateSortDirection($sort_direction) ) {
+        if( !\is_null($sort_direction) && $this->validateSortDirection($sort_direction) ) {
             
             $this->sort_direction = $sort_direction; 
         }
         
-        if( !is_null($sort_type) && $this->validateSortType($sort_type) ) {
+        if( !\is_null($sort_type) && $this->validateSortType($sort_type) ) {
             
             $this->sort_type = $sort_type;
         }
@@ -84,6 +85,7 @@ class MultiSortParameters {
         return static::$valid_sort_types;
     }
 
+    /** @noinspection PhpUnhandledExceptionInspection */
     public function setFieldName(string $field_name): self {
         
         if( $this->validateFieldName($field_name) ) {
@@ -94,6 +96,7 @@ class MultiSortParameters {
         return $this;
     }
 
+    /** @noinspection PhpUnhandledExceptionInspection */
     public function setSortDirection(int $sort_direction): self {
         
         if ( $this->validateSortDirection($sort_direction) ) {
@@ -104,6 +107,7 @@ class MultiSortParameters {
         return $this;
     }
 
+    /** @noinspection PhpUnhandledExceptionInspection */
     public function setSortType(int $sort_type): self {
         
         if( $this->validateSortType($sort_type) ) {
@@ -113,12 +117,13 @@ class MultiSortParameters {
         
         return $this;
     }
-    
+
+    /** @noinspection PhpUnhandledExceptionInspection */
     protected function validateFieldName(string $field_name): bool {
         
-        if( strlen($field_name) <= 0 ) {
+        if( \strlen($field_name) <= 0 ) {
             
-            $class = get_class($this);
+            $class = \get_class($this);
             $function = __FUNCTION__;
             $msg = "Error [{$class}::{$function}(...)]:Missing \$field_name"
                 . " in `{$class}::{$function}(...)` "
@@ -129,12 +134,13 @@ class MultiSortParameters {
         
         return true;
     }
-    
+
+    /** @noinspection PhpUnhandledExceptionInspection */
     protected function validateSortDirection(int $sort_direction): bool {
         
-        if( !in_array($sort_direction, static::$valid_sort_directions, true) ) {
+        if( !\in_array($sort_direction, static::$valid_sort_directions, true) ) {
             
-            $class = get_class($this);
+            $class = \get_class($this);
             $function = __FUNCTION__;
             $msg = "Error [{$class}::{$function}(...)]:Invalid \$sort_direction supplied to "
                 . "`{$class}::{$function}(...)` "
@@ -143,14 +149,15 @@ class MultiSortParameters {
             throw new Exceptions\InvalidMultiSortParameterException($msg);
         }
         
-        return in_array($sort_direction, static::$valid_sort_directions, true);
+        return \in_array($sort_direction, static::$valid_sort_directions, true);
     }
-    
+
+    /** @noinspection PhpUnhandledExceptionInspection */
     protected function validateSortType(int $sort_type): bool {
         
-        if( !in_array($sort_type, static::$valid_sort_types, true) ) {
+        if( !\in_array($sort_type, static::$valid_sort_types, true) ) {
             
-            $class = get_class($this);
+            $class = \get_class($this);
             $function = __FUNCTION__;
             $msg = "Error [{$class}::{$function}(...)]:Invalid \$sort_type supplied to "
                 . "`{$class}::{$function}(...)` "
@@ -159,6 +166,6 @@ class MultiSortParameters {
             throw new Exceptions\InvalidMultiSortParameterException($msg);
         }
         
-        return in_array($sort_type, static::$valid_sort_types, true);
+        return \in_array($sort_type, static::$valid_sort_types, true);
     }
 }

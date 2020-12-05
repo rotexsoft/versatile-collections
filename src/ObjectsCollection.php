@@ -1,6 +1,10 @@
-<?php
+<?php /** @noinspection PhpFullyQualifiedNameUsageInspection */
 declare(strict_types=1);
 namespace VersatileCollections;
+
+use Exception;
+use Throwable;
+use VersatileCollections\Exceptions\BadMethodCallException;
 
 /**
  * Description of ObjectsCollection
@@ -23,10 +27,11 @@ namespace VersatileCollections;
  *      - modifying-items
  *      - ordering-or-sorting-items
  *      - other-operations
- *  
+ *
  * @author Rotimi Ade
  */
-class ObjectsCollection implements \VersatileCollections\StrictlyTypedCollectionInterface {
+class ObjectsCollection implements StrictlyTypedCollectionInterface
+{
     
     use StrictlyTypedCollectionInterfaceImplementationTrait {
         StrictlyTypedCollectionInterfaceImplementationTrait::__construct as strictlyTypedCollectionTrait__construct;
@@ -36,30 +41,32 @@ class ObjectsCollection implements \VersatileCollections\StrictlyTypedCollection
         
         $this->versatile_collections_items = $objects;
     }
-    
+
     /**
-     *  
+     *
      * Call a method on each object in the collection.
-     *  
-     * The return value of each call (if any) is stored in an array keyed 
+     *
+     * The return value of each call (if any) is stored in an array keyed
      * on the object's key in the collection and this array is returned.
-     *  
+     *
      * @param string $method_name
      * @param array $arguments
-     *  
+     *
      * @used-for: other-operations
-     *  
+     *
      * @title: Tries to call the specified method with the specified arguments and return its return value if it was registered via either `addMethod` or `addMethodForAllInstances` or tries to call the specified method with the specified arguments on each item in the collection and returns an array of return values keyed by each item's key in the collection. An exception of type **\VersatileCollections\Exceptions\InvalidCollectionOperationException** is thrown if the method could not be called.
-     *  
-     * @throws \Exception
-     *  
+     *
+     * @return array|mixed
+     * @throws Exception
+     *
+     * @noinspection PhpMissingReturnTypeInspection
      */
     public function __call(string $method_name, array $arguments=[]) {
 
         try {
             return static::parent__call($method_name, $arguments);
             
-        } catch (\VersatileCollections\Exceptions\BadMethodCallException $ex) {
+        } catch (BadMethodCallException $ex) {
 
             // method was not available using 
             //  static::parent__call($method_name, $arguments);
@@ -70,21 +77,21 @@ class ObjectsCollection implements \VersatileCollections\StrictlyTypedCollection
 
                 try {
 
-                    if( count($arguments) <= 0 ) {
+                    if( \count($arguments) <= 0 ) {
 
                         $arguments = [];
                     }
 
                     $results[$key_in_collection] =
-                        call_user_func_array([$object, $method_name], $arguments);
+                        \call_user_func_array([$object, $method_name], $arguments);
 
-                } catch (\Throwable $err) {
+                } catch (Throwable $err) {
 
-                    $class = get_class($this);
+                    $class = \get_class($this);
                     $function = __FUNCTION__;
                     $msg = "Error [{$class}::{$function}(...)]:Trying to call a"
                         . " method named `$method_name` on a collection item of type "
-                        . "`". get_class($object)."` having `{$key_in_collection}`"
+                        . "`". \get_class($object)."` having `{$key_in_collection}`"
                         . " as its key in the collection"
                         . PHP_EOL . " `\$arguments`: " . var_to_string($arguments)
                         . PHP_EOL . " `Original Exception Message`: " . $err->getMessage();
@@ -96,7 +103,7 @@ class ObjectsCollection implements \VersatileCollections\StrictlyTypedCollection
 
             return $results;
             
-        } catch (\Exception $exc) {
+        } catch (Exception $exc) {
             
             // an existing and callable method called via
             //     static::parent__call($method_name, $arguments);
@@ -108,11 +115,11 @@ class ObjectsCollection implements \VersatileCollections\StrictlyTypedCollection
     
     public function checkType($item): bool {
         
-        return is_object($item);
+        return \is_object($item);
     }
     
     /**
-     * @return string
+     * @return string|array
      */
     public function getType() {
         

@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpFullyQualifiedNameUsageInspection */
 declare(strict_types=1);
 namespace VersatileCollections;
 
@@ -28,6 +28,7 @@ namespace VersatileCollections;
  */
 class FloatsCollection extends NumericsCollection {
 
+    /** @noinspection PhpMissingParentConstructorInspection */
     public function __construct(float ...$numbers) {
         
         $this->versatile_collections_items = $numbers;
@@ -35,19 +36,21 @@ class FloatsCollection extends NumericsCollection {
     
     public function checkType($item): bool {
         
-        return is_float($item);
+        return \is_float($item);
     }
 
     /**
-     * @return string
+     * @return string|array
      */
     public function getType() {
         
         return 'float';
     }
-    
+
     /**
+     * @param $str
      * @return float
+     * @noinspection PhpMissingReturnTypeInspection
      */
     protected function itemFromString($str) {
         
@@ -55,7 +58,9 @@ class FloatsCollection extends NumericsCollection {
     }
 
     /**
+     * @param $item
      * @return string
+     * @noinspection PhpMissingReturnTypeInspection
      */
     protected function itemToString($item) {
         

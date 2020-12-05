@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpFullyQualifiedNameUsageInspection */
 declare(strict_types=1);
 namespace VersatileCollections;
 
@@ -26,7 +26,8 @@ namespace VersatileCollections;
  *
  * @author Rotimi Ade
  */
-class CallablesCollection implements \VersatileCollections\StrictlyTypedCollectionInterface {
+class CallablesCollection implements StrictlyTypedCollectionInterface
+{
     
     use StrictlyTypedCollectionInterfaceImplementationTrait;
     
@@ -37,11 +38,11 @@ class CallablesCollection implements \VersatileCollections\StrictlyTypedCollecti
 
     public function checkType($item): bool {
         
-        return is_callable($item);
+        return \is_callable($item);
     }
 
     /**
-     * @return string
+     * @return string|array
      */
     public function getType() {
         

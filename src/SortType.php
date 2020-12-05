@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpFullyQualifiedNameUsageInspection */
 declare(strict_types=1);
 namespace VersatileCollections;
 
@@ -21,18 +21,19 @@ class SortType {
         SORT_REGULAR, SORT_NATURAL, SORT_NUMERIC, SORT_STRING, SORT_LOCALE_STRING,
         SORT_FLAG_CASE, (SORT_FLAG_CASE | SORT_STRING), (SORT_FLAG_CASE | SORT_NATURAL)
     ];
-    
+
+    /** @noinspection PhpUnhandledExceptionInspection */
     public function __construct(?int $sort_type=null) {
         
-        if( in_array($sort_type, static::$valid_sort_types, true) ) {
+        if( \in_array($sort_type, static::$valid_sort_types, true) ) {
             
             $this->sort_type = $sort_type;
             
         } else if( 
-            !in_array($sort_type, static::$valid_sort_types, true) 
-            && !is_null($sort_type)
+            !\in_array($sort_type, static::$valid_sort_types, true)
+            && !\is_null($sort_type)
         ) {
-            $class = get_class($this);
+            $class = \get_class($this);
             $function = __FUNCTION__;
             $msg = "Error [{$class}::{$function}(...)]:Invalid \$sort_type supplied to "
                 . "`{$class}::{$function}(...)` "
@@ -53,12 +54,13 @@ class SortType {
         
         return static::$valid_sort_types;
     }
-    
+
+    /** @noinspection PhpUnhandledExceptionInspection */
     public function setSortType(int $sort_type): self {
         
-        if( !in_array($sort_type, static::$valid_sort_types, true) ) {
+        if( !\in_array($sort_type, static::$valid_sort_types, true) ) {
             
-            $class = get_class($this);
+            $class = \get_class($this);
             $function = __FUNCTION__;
             $msg = "Error [{$class}::{$function}(...)]:Invalid \$sort_type supplied to "
                 . "`{$class}::{$function}(...)` "

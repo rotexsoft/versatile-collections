@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpFullyQualifiedNameUsageInspection */
 declare(strict_types=1);
 namespace VersatileCollections;
 
@@ -23,18 +23,23 @@ namespace VersatileCollections;
  *      - modifying-items
  *      - ordering-or-sorting-items
  *      - other-operations
- *  
+ *
  */
 final class SpecificObjectsCollection extends ObjectsCollection {
     
     /**
      * @var string|null
+     * @noRector
      */
     private $class_name = null;
 
+    /** @noinspection PhpMissingParentConstructorInspection
+     * @noinspection PhpUnnecessaryStaticReferenceInspection
+     * @param object ...$objects
+     */
     protected function __construct(object ...$objects) {
         
-        if( is_null($this->class_name) ) {
+        if( \is_null($this->class_name) ) {
             
             // we don't have a specific class, allow all objects
             $this->versatile_collections_items = $objects;
@@ -58,14 +63,16 @@ final class SpecificObjectsCollection extends ObjectsCollection {
      * @param array $items an array of objects to be stored in the new collection
      * @param bool $preserve_keys true to use the same keys in $items in the collection, , else false to use sequentially incrementing numeric keys starting from zero
      *  
-     * @return \VersatileCollections\StrictlyTypedCollectionInterface
+     * @return StrictlyTypedCollectionInterface
      *  
      * @used-for: creating-new-collections
      *  
      * @title: Create a new collection that only stores instances of the specified fully qualified class name or its sub-classes or a new collection that stores any kind of object if no fully qualified class name was specified (Essentially works like ObjectsCollection in the latter case).
-     *  
+     *
+     * @noinspection PhpUnnecessaryStaticReferenceInspection
      */
-    public static function makeNewForSpecifiedClassName(?string $class_name=null, array $items =[], bool $preserve_keys=true): \VersatileCollections\StrictlyTypedCollectionInterface {
+    public static function makeNewForSpecifiedClassName(?string $class_name=null, array $items =[], bool $preserve_keys=true): StrictlyTypedCollectionInterface
+    {
         
         if( $class_name === null ) {
 
@@ -106,15 +113,15 @@ final class SpecificObjectsCollection extends ObjectsCollection {
         
         return $new_collection;
     }
-    
+
     /**
-     *  
+     *
+     * @param $item
      * @return bool true if $item is of the expected type, else false
-     *  
      */
     public function checkType($item): bool {
         
-        return is_null($this->class_name) 
+        return \is_null($this->class_name)
                 ? parent::checkType($item)
                 : ($item instanceof $this->class_name);
     }
@@ -128,7 +135,7 @@ final class SpecificObjectsCollection extends ObjectsCollection {
      */
     public function getType() {
         
-        return is_null($this->class_name)
+        return \is_null($this->class_name)
                 ? parent::getType()
                 : $this->class_name;
     }

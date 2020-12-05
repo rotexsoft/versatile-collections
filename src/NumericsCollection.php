@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpFullyQualifiedNameUsageInspection */
 declare(strict_types=1);
 namespace VersatileCollections;
 
@@ -23,7 +23,7 @@ namespace VersatileCollections;
  *      - modifying-items
  *      - ordering-or-sorting-items
  *      - other-operations
- *  
+ *
  * @author rotimi
  */
 class NumericsCollection extends ScalarsCollection {
@@ -52,14 +52,14 @@ class NumericsCollection extends ScalarsCollection {
      */
     public function checkType($item): bool {
         
-        return is_float($item) || is_int($item);
+        return \is_float($item) || \is_int($item);
     }
 
     /**
      *  
      * This method should be overridden in sub-classes of this class
      *  
-     * @return string
+     * @return string|array
      *  
      */
     public function getType() {
@@ -74,11 +74,12 @@ class NumericsCollection extends ScalarsCollection {
      * @param string $str a string representation of an item in this collection
      *    
      * @return float|int an item in this collection that was just created from its string representation
-     *    
+     *
+     * @noinspection PhpMissingParamTypeInspection
      */
     protected function itemFromString($str) {
         
-        if( strpos($str, '.') !== false ) {
+        if( \strpos($str, '.') !== false ) {
             
             return ( (float) ($str.'') );
         }
@@ -93,7 +94,8 @@ class NumericsCollection extends ScalarsCollection {
      * @param mixed $item an item in this collection
      *  
      * @return string representation of an item in this collection
-     *  
+     *
+     * @noinspection PhpMissingReturnTypeInspection
      */
     protected function itemToString($item) {
         
@@ -111,7 +113,7 @@ class NumericsCollection extends ScalarsCollection {
      */
     public function max(): ?float {
         
-        return ($this->count() > 0) ? max($this->versatile_collections_items) : null;
+        return ($this->count() > 0) ? \max($this->versatile_collections_items) : null;
     }
     
     /**
@@ -134,7 +136,7 @@ class NumericsCollection extends ScalarsCollection {
 
         $values = $this->versatile_collections_items;
         
-        sort($values, SORT_NUMERIC);
+        \sort($values, SORT_NUMERIC);
         $middle = (int) ($count / 2);
 
         if ( $count % 2 === 1) {
@@ -156,7 +158,7 @@ class NumericsCollection extends ScalarsCollection {
      */
     public function min(): ?float {
         
-        return ($this->count() > 0) ? min($this->versatile_collections_items) : null;
+        return ($this->count() > 0) ? \min($this->versatile_collections_items) : null;
     }
     
     /**
@@ -184,17 +186,17 @@ class NumericsCollection extends ScalarsCollection {
 
         foreach ( $this->versatile_collections_items as $item ) {
             
-            if( !is_int($item) ) {
+            if( !\is_int($item) ) {
                 
                 // string concatenation for non-ints which are not 
                 // valid as keys to a php array 
                 $item = $this->itemToString($item);
             }
             
-            $counts[$item] = array_key_exists($item, $counts) ? ++$counts[$item] : 1;
+            $counts[$item] = \array_key_exists($item, $counts) ? ++$counts[$item] : 1;
         }
 
-        $highest_count = max($counts);
+        $highest_count = \max($counts);
         $modal_values = [];
 
         // get all items with counts === $highest_count
@@ -208,7 +210,7 @@ class NumericsCollection extends ScalarsCollection {
                 // to a string because array keys in
                 // php can only be ints or strings.
                 $modal_values[] = 
-                    is_string($item) ? $this->itemFromString($item) : $item;
+                    \is_string($item) ? $this->itemFromString($item) : $item;
             }
         }
 
@@ -226,7 +228,7 @@ class NumericsCollection extends ScalarsCollection {
      */
     public function product(): float {
         
-        return array_product($this->versatile_collections_items);
+        return \array_product($this->versatile_collections_items);
     }
 
     /**
@@ -242,6 +244,6 @@ class NumericsCollection extends ScalarsCollection {
      */
     public function sum(): float {
         
-        return array_sum($this->versatile_collections_items);
+        return \array_sum($this->versatile_collections_items);
     }
 }

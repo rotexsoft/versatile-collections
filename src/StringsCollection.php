@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpFullyQualifiedNameUsageInspection */
 declare(strict_types=1);
 namespace VersatileCollections;
 
@@ -28,6 +28,7 @@ namespace VersatileCollections;
  */
 class StringsCollection extends ScalarsCollection {
 
+    /** @noinspection PhpMissingParentConstructorInspection */
     public function __construct(string ...$strings) {
         
         $this->versatile_collections_items = $strings;
@@ -35,11 +36,11 @@ class StringsCollection extends ScalarsCollection {
     
     public function checkType($item): bool {
         
-        return is_string($item);
+        return \is_string($item);
     }
 
     /**
-     * @return string
+     * @return string|array
      */
     public function getType() {
         

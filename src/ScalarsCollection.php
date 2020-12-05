@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpFullyQualifiedNameUsageInspection */
 declare(strict_types=1);
 namespace VersatileCollections;
 
@@ -23,10 +23,11 @@ namespace VersatileCollections;
  *      - modifying-items
  *      - ordering-or-sorting-items
  *      - other-operations
- *  
+ *
  * @author Rotimi Ade
  */
-class ScalarsCollection implements \VersatileCollections\StrictlyTypedCollectionInterface {
+class ScalarsCollection implements StrictlyTypedCollectionInterface
+{
     
     use StrictlyTypedCollectionInterfaceImplementationTrait;
 
@@ -41,13 +42,13 @@ class ScalarsCollection implements \VersatileCollections\StrictlyTypedCollection
      */
     public function checkType($item): bool {
         
-        return is_scalar($item);
+        return \is_scalar($item);
     }
 
     /**
      * This method should be overridden in sub-classes of this class
      *  
-     * @return string
+     * @return string|array
      *  
      */
     public function getType() {
@@ -61,21 +62,22 @@ class ScalarsCollection implements \VersatileCollections\StrictlyTypedCollection
      * are not preserved in the returned collection. The uniqueness test is
      * done via loose comparison (==). 
      *  
-     * @return \VersatileCollections\CollectionInterface
+     * @return CollectionInterface
      *  
      * @used-for: accessing-or-extracting-keys-or-items, creating-new-collections, modifying-keys
      *  
      * @title: Returns a new collection of unique items from an existing collection. This method uses non-strict comparison for testing uniqueness. The keys are not preserved in the returned collection.
      *  
      */
-    public function uniqueNonStrict(): \VersatileCollections\CollectionInterface {
+    public function uniqueNonStrict(): CollectionInterface
+    {
         
         return static::makeNew(
             $this->reduce(
                 
                 function($carry, $item) {
 
-                    if( !in_array($item, $carry, false)) {
+                    if( !\in_array($item, $carry, false)) {
 
                         $carry[] = $item;
                     }

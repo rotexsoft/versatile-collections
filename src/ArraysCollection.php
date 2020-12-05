@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpFullyQualifiedNameUsageInspection */
 declare(strict_types=1);
 namespace VersatileCollections;
 
@@ -26,7 +26,8 @@ namespace VersatileCollections;
  *
  * @author Rotimi Ade
  */
-class ArraysCollection implements \VersatileCollections\StrictlyTypedCollectionInterface {
+class ArraysCollection implements StrictlyTypedCollectionInterface
+{
     
     use StrictlyTypedCollectionInterfaceImplementationTrait;
     
@@ -37,11 +38,11 @@ class ArraysCollection implements \VersatileCollections\StrictlyTypedCollectionI
 
     public function checkType($item): bool {
         
-        return is_array($item);
+        return \is_array($item);
     }
 
     /**
-     * @return string
+     * @return string|array
      */
     public function getType() {
         

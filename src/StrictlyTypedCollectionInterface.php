@@ -28,9 +28,9 @@ namespace VersatileCollections;
 interface StrictlyTypedCollectionInterface extends CollectionInterface {
 
     /**
-     *  
+     *
+     * @param $item
      * @return bool true if $item is of the expected type, else false
-     *  
      */
     public function checkType($item): bool;
     
