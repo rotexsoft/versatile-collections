@@ -35,5 +35,8 @@
     "autoload-dev": {
         "classmap": ["src/", "tests/"],
         "files": [ ]
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit"
     }
 }
