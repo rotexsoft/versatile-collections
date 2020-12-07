@@ -8,6 +8,7 @@ php:
 before_script:
   - composer install --no-interaction --prefer-source
   - phpenv config-add travis-rector-fix-php.ini
+  - pecl install -f xdebug-2.9.8
 
 script:
   - mkdir -p build/logs
