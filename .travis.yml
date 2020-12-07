@@ -8,7 +8,7 @@ php:
 before_script:
   - composer install --no-interaction --prefer-source
   - phpenv config-add travis-rector-fix-php.ini
-  - pecl install -f xdebug-2.9.8
+  - phpenv config-rm xdebug.ini # disable xdebug, having some issues with php 7.3 & 7.4 failing unit tests because of xdebug 3.0
 
 script:
   - mkdir -p build/logs
