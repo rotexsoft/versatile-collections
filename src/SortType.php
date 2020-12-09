@@ -23,7 +23,7 @@ class SortType {
     ];
 
     /** @noinspection PhpUnhandledExceptionInspection */
-    public function __construct(?int $sort_type=null) {
+    public function __construct(int $sort_type=-777) {
         
         if( \in_array($sort_type, static::$valid_sort_types, true) ) {
             
@@ -31,7 +31,7 @@ class SortType {
             
         } else if( 
             !\in_array($sort_type, static::$valid_sort_types, true)
-            && !\is_null($sort_type)
+            && $sort_type !== -777
         ) {
             $class = \get_class($this);
             $function = __FUNCTION__;

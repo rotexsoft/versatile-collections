@@ -35,6 +35,7 @@ namespace VersatileCollections {
      * @throws ReflectionException
      *
      * @noinspection DuplicatedCode
+     * @psalm-suppress DocblockTypeContradiction
      */
     function get_object_property_value(object $obj, $property, $default_val=null, bool $access_private_or_protected=false) {
 
@@ -108,6 +109,7 @@ namespace VersatileCollections {
      * @throws InvalidArgumentException
      *
      * @noinspection PhpMissingReturnTypeInspection
+     * @psalm-suppress DocblockTypeContradiction
      */
     function object_has_property(object $obj, $property) {
 
@@ -156,7 +158,7 @@ namespace VersatileCollections {
      *
      * @param array $array array from which a random key is to be extracted
      *  
-     * @return string|int a random key from the specified array
+     * @return string|int|null a random key from the specified array
      *  
      * @throws LengthException
      *  

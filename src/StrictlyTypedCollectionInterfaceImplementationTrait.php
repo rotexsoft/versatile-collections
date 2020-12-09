@@ -37,7 +37,10 @@ trait StrictlyTypedCollectionInterfaceImplementationTrait {
         CollectionInterfaceImplementationTrait::__call as parent__call;
     }
 
-    /** @noinspection PhpUnhandledExceptionInspection */
+    /** 
+     * @noinspection PhpUnhandledExceptionInspection 
+     * @psalm-suppress MissingParamType
+     */
     public function __construct(...$arr_objs) {
         
         foreach ($arr_objs as $item) {
@@ -54,9 +57,9 @@ trait StrictlyTypedCollectionInterfaceImplementationTrait {
      *
      * @noinspection PhpDocSignatureInspection
      * @noinspection PhpUnhandledExceptionInspection
+     * @psalm-suppress LessSpecificImplementedReturnType
      */
-    public function appendCollection(CollectionInterface $other): CollectionInterface
-    {
+    public function appendCollection(CollectionInterface $other): CollectionInterface {
         
         if( 
             \get_class($this) !== \get_class($other)
@@ -77,7 +80,18 @@ trait StrictlyTypedCollectionInterfaceImplementationTrait {
         return static::parentAppendCollection($other);
     }
 
-    /** @noinspection PhpUnhandledExceptionInspection */
+    /**
+     * 
+     * @param mixed $item
+     * @param string $calling_functions_name
+     * @return bool
+     * @throws Exceptions\InvalidItemException
+     * 
+     * @noinspection PhpUnhandledExceptionInspection
+     * @psalm-suppress RedundantConditionGivenDocblockType
+     * @psalm-suppress PossiblyInvalidCast
+     * @psalm-suppress DocblockTypeContradiction
+     */
     protected function isRightTypeOrThrowInvalidTypeException($item, string $calling_functions_name): bool {
         
         if( !$this->checkType($item) ) {
@@ -118,9 +132,10 @@ trait StrictlyTypedCollectionInterfaceImplementationTrait {
      *
      * @noinspection PhpDocSignatureInspection
      * @noinspection PhpUnhandledExceptionInspection
+     * 
+     * @psalm-suppress LessSpecificImplementedReturnType
      */
-    public function prependCollection(CollectionInterface $other): CollectionInterface
-    {
+    public function prependCollection(CollectionInterface $other): CollectionInterface {
         
         if( 
             \get_class($this) !== \get_class($other)
@@ -145,9 +160,9 @@ trait StrictlyTypedCollectionInterfaceImplementationTrait {
      *
      * @noinspection PhpDocSignatureInspection
      * @noinspection PhpUnhandledExceptionInspection
+     * @psalm-suppress LessSpecificImplementedReturnType
      */
-    public function prependItem($item, $key=null): CollectionInterface
-    {
+    public function prependItem($item, $key=null): CollectionInterface {
         
         $this->isRightTypeOrThrowInvalidTypeException($item, __FUNCTION__);
         
@@ -160,9 +175,9 @@ trait StrictlyTypedCollectionInterfaceImplementationTrait {
      *
      * @noinspection PhpDocSignatureInspection
      * @noinspection PhpUnhandledExceptionInspection
+     * @psalm-suppress LessSpecificImplementedReturnType
      */
-    public function unionMeWith(array $items): CollectionInterface
-    {
+    public function unionMeWith(array $items): CollectionInterface {
         
         foreach ($items as $item) {
             

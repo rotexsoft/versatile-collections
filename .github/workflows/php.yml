@@ -59,13 +59,16 @@ jobs:
     - name: Validate composer.json and composer.lock
       run: composer validate
 
-    - name: Install dependencies
+    - name: Install Dependencies
       run: composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-progress
 
     # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
     # Docs: https://getcomposer.org/doc/articles/scripts.md
-    - name: Run test suite
+    - name: Run PHPUnit Test Suite
       run: composer run-script test
 
     - name: Run Rector
       run: vendor/bin/rector process src --dry-run
+
+    - name: Run Psalm
+      run: vendor/bin/psalm

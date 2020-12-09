@@ -70,6 +70,9 @@ final class SpecificObjectsCollection extends ObjectsCollection {
      * @title: Create a new collection that only stores instances of the specified fully qualified class name or its sub-classes or a new collection that stores any kind of object if no fully qualified class name was specified (Essentially works like ObjectsCollection in the latter case).
      *
      * @noinspection PhpUnnecessaryStaticReferenceInspection
+     * @psalm-suppress LessSpecificReturnStatement
+     * @psalm-suppress MoreSpecificReturnType
+     * @psalm-suppress NoInterfaceProperties
      */
     public static function makeNewForSpecifiedClassName(?string $class_name=null, array $items =[], bool $preserve_keys=true): StrictlyTypedCollectionInterface
     {

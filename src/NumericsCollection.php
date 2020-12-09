@@ -109,7 +109,8 @@ class NumericsCollection extends ScalarsCollection {
      * @used-for: mathematical-operations
      *  
      * @title: Returns the maximum of all of the values(a.k.a items) in the collection or null if collection is empty.
-     *  
+     * 
+     * @psalm-suppress ArgumentTypeCoercion 
      */
     public function max(): ?float {
         
@@ -154,7 +155,8 @@ class NumericsCollection extends ScalarsCollection {
      * @used-for: mathematical-operations
      *  
      * @title: Returns the minimum of all of the values(a.k.a items) in the collection or null if collection is empty.
-     *  
+     * 
+     * @psalm-suppress ArgumentTypeCoercion 
      */
     public function min(): ?float {
         
@@ -175,7 +177,8 @@ class NumericsCollection extends ScalarsCollection {
      * @used-for: mathematical-operations
      *  
      * @title: Returns an array of modal values(a.k.a items) in the collection or null if collection is empty.
-     *  
+     * 
+     * @psalm-suppress ArgumentTypeCoercion 
      */
     public function mode(): ?array {
         

@@ -14,6 +14,11 @@ use Throwable;
  */
 class Utils {
 
+    /**
+     * 
+     * @param mixed $var
+     * @return string
+     */
     public static function gettype($var): string {
         
         return \is_object($var) ? \get_class($var) : \gettype($var);
@@ -24,7 +29,8 @@ class Utils {
         return ($callable instanceof Closure)? $callable : Closure::fromCallable($callable);
     }
 
-    public static function bindObjectAndScopeToClosure(Closure $closure, $newthis): Closure {
+    
+    public static function bindObjectAndScopeToClosure(Closure $closure, object $newthis): Closure {
 
         try {
             return Closure::bind($closure, $newthis);

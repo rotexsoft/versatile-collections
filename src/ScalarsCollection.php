@@ -67,7 +67,8 @@ class ScalarsCollection implements StrictlyTypedCollectionInterface
      * @used-for: accessing-or-extracting-keys-or-items, creating-new-collections, modifying-keys
      *  
      * @title: Returns a new collection of unique items from an existing collection. This method uses non-strict comparison for testing uniqueness. The keys are not preserved in the returned collection.
-     *  
+     * 
+     * @psalm-suppress MissingClosureParamType  
      */
     public function uniqueNonStrict(): CollectionInterface
     {

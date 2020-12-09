@@ -26,7 +26,8 @@
         "phpunit/phpunit": "^9.0 || ^8.0 || ^7.0",
         "php-coveralls/php-coveralls": "^2.0",
         "symfony/polyfill-mbstring": "^1.8",
-        "rector/rector": "^0.8.56"
+        "rector/rector": "^0.8.56",
+        "vimeo/psalm": "^4.3"
     },
     "autoload": {
         "classmap": ["src/"],

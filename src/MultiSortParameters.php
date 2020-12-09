@@ -9,10 +9,10 @@ namespace VersatileCollections;
 class MultiSortParameters {
     
     /**
-     * @var string|null
+     * @var string
      * @noRector
      */
-    protected $field_name = null;
+    protected $field_name = '';
     /**
      * @var int
      */

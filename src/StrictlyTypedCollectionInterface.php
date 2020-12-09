@@ -29,7 +29,7 @@ interface StrictlyTypedCollectionInterface extends CollectionInterface {
 
     /**
      *
-     * @param $item
+     * @param mixed $item
      * @return bool true if $item is of the expected type, else false
      */
     public function checkType($item): bool;

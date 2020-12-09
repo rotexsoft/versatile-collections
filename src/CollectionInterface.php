@@ -1861,8 +1861,8 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      * object in the collection has a non-int and non-string value for the
      * property named $index_key.
      *  
-     * @param string|int $column_key name of field in each item to be used as values / items in the collection to be returned
-     * @param string|int $index_key name of field in each item to be used as key in the collection to be returned.
+     * @param int|string $column_key name of field in each item to be used as values / items in the collection to be returned
+     * @param int|string|null $index_key name of field in each item to be used as key in the collection to be returned.
      *                              If null, the returned collection will have sequential integer keys starting from 0.
      *                              Be aware that only string or integer values are usable as keys in the collection
      *                              to be returned by this method and as a result an exception will be thrown if any
