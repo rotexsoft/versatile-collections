@@ -17,6 +17,8 @@ jobs:
     strategy:
         matrix:
             php: [7.4, 7.3, 7.2]
+# prefer-lowest is causing unit tests to fail when php 7.2 is run against PHPunit 7.x, 
+# PHPUnit 8.x is the latest stable release that supports PHP 7.2 and that runs fine
 #            dependency-version: [prefer-lowest, prefer-stable]
             dependency-version: [prefer-stable]
             os: [ubuntu-18.04, ubuntu-20.04]
@@ -57,23 +59,11 @@ jobs:
     - name: Validate composer.json and composer.lock
       run: composer validate
 
-#    - name: Cache Composer packages
-#      id: composer-cache
-#      uses: actions/cache@v2
-#      with:
-#        path: vendor
-#        key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
-#        restore-keys: |
-#          ${{ runner.os }}-php-
-
     - name: Install dependencies
-#      if: steps.composer-cache.outputs.cache-hit != 'true'
-#      run: composer install --prefer-dist --no-progress --no-suggest
       run: composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-progress
 
     # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
     # Docs: https://getcomposer.org/doc/articles/scripts.md
-
     - name: Run test suite
       run: composer run-script test
 
