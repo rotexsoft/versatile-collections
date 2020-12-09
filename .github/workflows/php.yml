@@ -40,6 +40,9 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
+    - name: Composer version
+      run: composer --version
+
     - name: Validate composer.json and composer.lock
       run: composer validate
 
@@ -55,7 +58,7 @@ jobs:
     - name: Install dependencies
 #      if: steps.composer-cache.outputs.cache-hit != 'true'
 #      run: composer install --prefer-dist --no-progress --no-suggest
-      run: composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-suggest --no-progress
+      run: composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-progress
 
     # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
     # Docs: https://getcomposer.org/doc/articles/scripts.md
