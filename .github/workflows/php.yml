@@ -45,6 +45,7 @@ jobs:
       uses: shivammathur/setup-php@v2
       with:
           php-version: ${{ matrix.php }}
+          ini-values: pcre.backtrack_limit=9999999, pcre.recursion_limit=9999999
           coverage: none
 
     - name: PHP version
@@ -76,5 +77,5 @@ jobs:
     - name: Run test suite
       run: composer run-script test
 
-#    - name: Run Rector
-#      run: vendor/bin/rector process src --dry-run
+    - name: Run Rector
+      run: vendor/bin/rector process src --dry-run
