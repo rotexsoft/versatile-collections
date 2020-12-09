@@ -3,6 +3,7 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/39472c4a7ad5402aaf19a38e72ed651c)](https://www.codacy.com/app/rotexdegba/versatile-collections?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=rotexsoft/versatile-collections&amp;utm_campaign=Badge_Grade) &nbsp; 
 [![Release](https://img.shields.io/github/release/rotexsoft/versatile-collections.png?style=flat-square)](https://github.com/rotexsoft/versatile-collections/releases/latest) &nbsp; 
 [![License](https://img.shields.io/badge/license-BSD-brightgreen.png?style=flat-square)](https://github.com/rotexsoft/versatile-collections/blob/master/LICENSE) &nbsp; 
+![PHP Tests and Code Quality Tools](https://github.com/rotexsoft/versatile-collections/workflows/Run%20PHP%20Tests%20and%20Code%20Quality%20Tools/badge.svg) &nbsp;
 
 A collection package that can be extended to implement things such as a Dependency Injection Container,
 RecordSet objects for housing database records, a bag of http cookies, or technically any collection of
@@ -21,7 +22,7 @@ This package provides optional strict-typing of collection items and strives for
 
 ## Installation 
 
-**Via composer:** (Requires PHP 7.2+). 
+**Via composer:** (Requires PHP 7.2+ or PHP 8.0+). 
 For users with PHP 5.6 - PHP 7.1 switch to the 2.X branch to read the documentation for the 2.X version.
 
 
