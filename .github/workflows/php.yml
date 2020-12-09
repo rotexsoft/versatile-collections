@@ -61,5 +61,5 @@ jobs:
     - name: Run test suite
       run: composer run-script test
 
-    - name: Run Rector
-      run: vendor/bin/rector process src --dry-run
+#    - name: Run Rector
+#      run: vendor/bin/rector process src --dry-run
