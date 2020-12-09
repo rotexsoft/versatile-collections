@@ -41,6 +41,9 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
+    - name: PHP version
+      run: php -v
+
     - name: Composer version
       run: composer --version
 
