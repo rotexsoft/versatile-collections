@@ -1,15 +1,40 @@
-name: PHP Composer
+name: Run PHP Tests and Code Quality Tools
 
 on:
   push:
     branches: [ master ]
   pull_request:
     branches: [ master ]
+  schedule:
+      # Also run  every Sunday at midnight
+      - cron: '0 0 * * 0'
 
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+        matrix:
+            php: [7.4, 7.3, 7.2]
+            dependency-version: [prefer-lowest, prefer-stable]
+            os: [ubuntu-18.04, ubuntu-20.04]
+            include:
+                - os: ubuntu-18.04
+                  php: 7.2
+                - os: ubuntu-18.04
+                  php: 7.3
+                - os: ubuntu-18.04
+                  php: 7.4
+                - os: ubuntu-20.04
+                  php: 7.4
+            exclude:
+                - os: ubuntu-20.04
+                  php: 7.2
+                - os: ubuntu-20.04
+                  php: 7.3
+
+    name: PHP-${{ matrix.php }} - ${{ matrix.dependency-version }} - ${{ matrix.os }}
 
     steps:
     - uses: actions/checkout@v2
