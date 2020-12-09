@@ -45,7 +45,7 @@ jobs:
       uses: shivammathur/setup-php@v2
       with:
           php-version: ${{ matrix.php }}
-          ini-values: pcre.backtrack_limit=9999999, pcre.recursion_limit=9999999
+          ini-values: pcre.jit=0, pcre.backtrack_limit=9999999, pcre.recursion_limit=9999999
           coverage: none
 
     - name: PHP version
