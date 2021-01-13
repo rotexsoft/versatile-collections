@@ -77,4 +77,6 @@ jobs:
       run: vendor/bin/rector process src --dry-run
 
     - name: Run Psalm
+      # Run psalm for PHP 7.4 & 8.0 but not 7.2 & 7.3, psalm is currently blowing up with PHP 7.2 & 7.3
+      if: matrix.php != '7.2' && matrix.php != '7.3'
       run: vendor/bin/psalm
