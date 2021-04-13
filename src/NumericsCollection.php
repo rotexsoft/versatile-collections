@@ -58,7 +58,7 @@ class NumericsCollection extends ScalarsCollection {
      *  
      * This method should be overridden in sub-classes of this class
      *  
-     * @return string|array
+     * @return string
      *  
      */
     public function getType() {

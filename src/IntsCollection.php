@@ -40,7 +40,7 @@ class IntsCollection extends NumericsCollection {
     }
 
     /**
-     * @return string|array
+     * @return string
      */
     public function getType() {
         

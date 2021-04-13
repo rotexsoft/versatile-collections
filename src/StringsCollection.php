@@ -40,7 +40,7 @@ class StringsCollection extends ScalarsCollection {
     }
 
     /**
-     * @return string|array
+     * @return string
      */
     public function getType() {
         

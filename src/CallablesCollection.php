@@ -45,7 +45,7 @@ class CallablesCollection implements StrictlyTypedCollectionInterface
     }
 
     /**
-     * @return string|array
+     * @return string
      */
     public function getType() {
         

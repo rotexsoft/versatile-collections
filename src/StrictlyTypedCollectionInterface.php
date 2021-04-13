@@ -36,7 +36,7 @@ interface StrictlyTypedCollectionInterface extends CollectionInterface {
     
     /**
      *  
-     * @return string|array a string or array of strings of type name(s) for items acceptable in a collection
+     * @return string|string[] a string or array of strings of type name(s) for items acceptable in a collection
      *  
      */
     public function getType();
