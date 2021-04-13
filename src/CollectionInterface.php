@@ -81,72 +81,67 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
     public function __get(string $key);
     
     /**
-     *  
+     * 
      * Does the requested key exist?
-     *  
+     * 
      * @param string $key The requested key.
-     *  
-     * @return bool
-     *  
+     * 
+     * 
      * @used-for: checking-items-presence
-     *  
+     * 
      * @title: Checks if an item with a specified key exists in the collection.
-     *  
+     * 
      * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
-     *  
+     * 
      */
     public function __isset(string $key): bool;
     
     /**
-     *  
+     * 
      * Set a key's value.
-     *  
+     * 
      * @param string $key The requested key.
-     *  
+     * 
      * @param mixed $val The value to set it to.
-     *  
-     * @return void
-     *  
+     * 
+     * 
      * @used-for: adding-items
-     *  
+     * 
      * @title: Adds an item with a specified key to the collection.
-     *  
+     * 
      * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
-     *  
+     * 
      */
     public function __set(string $key, $val): void;
     
     /**
-     *  
+     * 
      * Unset a key.
-     *  
+     * 
      * @param string $key The requested key.
-     *  
-     * @return void
-     *  
+     * 
+     * 
      * @used-for: deleting-items
-     *  
+     * 
      * @title: Removes an item associated with the specified key from the collection.
-     *  
+     * 
      * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
-     *  
+     * 
      */
     public function __unset(string $key): void;
     
     /**
-     *  
+     * 
      * ArrayAccess: does the requested key exist?
-     *  
+     * 
      * @param mixed $key The requested key.
-     *  
-     * @return bool
-     *  
+     * 
+     * 
      * @used-for: checking-items-presence
-     *  
+     * 
      * @title: Checks if an item with a specified key exists in the collection.
-     *  
+     * 
      * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
-     *
      * @noinspection PhpParameterNameChangedDuringInheritanceInspection
      */
     public function offsetExists($key): bool;
@@ -170,39 +165,35 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
     public function offsetGet($key);
     
     /**
-     *  
+     * 
      * ArrayAccess: set a key's value.
-     *  
+     * 
      * @param mixed $key The requested key.
-     *  
+     * 
      * @param mixed $val The value to set it to.
-     *  
-     * @return void
-     *  
+     * 
+     * 
      * @used-for: adding-items
-     *  
+     * 
      * @title: Adds an item with a specified key to the collection.
-     *  
+     * 
      * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
-     *
      * @noinspection PhpParameterNameChangedDuringInheritanceInspection
      */
     public function offsetSet($key, $val): void;
     
     /**
-     *  
+     * 
      * ArrayAccess: unset a key.
-     *  
+     * 
      * @param mixed $key The requested key.
-     *  
-     * @return void
-     *  
+     * 
+     * 
      * @used-for: deleting-items
-     *  
+     * 
      * @title: Removes an item associated with the specified key from the collection.
-     *  
+     * 
      * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
-     *
      * @noinspection PhpParameterNameChangedDuringInheritanceInspection
      */
     public function offsetUnset($key): void;
@@ -292,23 +283,20 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
     public function getKeys(): GenericCollection;
     
     /**
-     *  
+     * 
      * This method works only on collections of arrays and / or objects.
      * It set's the specified field in each array or property in each object
      * to the given value.
-     *  
-     * @param string $field_name
+     * 
      * @param mixed $field_val
-     * @param bool $add_field_if_not_present
-     *  
-     * @return $this
-     *  
+     * 
+     * 
      * @used-for: modifying-items
-     *  
+     * 
      * @title: Sets the specified field in each array or object in the collection to a specified value.
-     *  
+     * 
      * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
-     *  
+     * 
      */
     public function setValForEachItem(string $field_name, $field_val, bool $add_field_if_not_present=false): CollectionInterface;
     
@@ -379,26 +367,25 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
     public function filterFirstN(callable $filterer, ?int $max_number_of_filtered_items_to_return=null, bool $copy_keys=false, bool $bind_callback_to_this=true, bool $remove_filtered_items=false): CollectionInterface;
     
     /**
-     *  
+     * 
      * Transform each item in the collection via a callback function.
-     *  
+     * 
      * @param callable $transformer a callback with the following signature
      *                 function($key, $item):mixed that returns a value that will replace $this[$key]
-     *  
+     * 
      * @param bool $bind_callback_to_this true if the variable $this inside the supplied 
      *                                    $transformer should refer to the collection object
      *                                    this method is being invoked on, else false if
      *                                    you want the variable $this to be undefined 
      *                                    inside the supplied $transformer.
-     *  
-     * @return $this
-     *  
+     * 
+     * 
      * @used-for: modifying-items, iteration
-     *  
+     * 
      * @title: Transforms each item in the collection via a callback function.
-     *  
+     * 
      * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
-     *  
+     * 
      */
     public function transform(callable $transformer, bool $bind_callback_to_this=true): CollectionInterface;
     
@@ -464,32 +451,30 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
     public function reverse(): CollectionInterface;
     
     /**
-     *  
+     * 
      * Reverse order of items in the collection. Original collection will be modified.
-     *  
-     * @return $this
-     *  
+     * 
+     * 
      * @used-for: ordering-or-sorting-items
-     *  
+     * 
      * @title: Reverses the order of items in the collection. Original collection is modified.
-     *  
+     * 
      * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
-     *  
+     * 
      */
     public function reverseMe(): CollectionInterface;
     
     /**
-     *  
+     * 
      * Return true if there are one or more items in the collection or false otherwise
-     *  
-     * @return bool
-     *  
+     * 
+     * 
      * @used-for: getting-collection-meta-data
-     *  
+     * 
      * @title: Returns true if there are one or more items in the collection or false otherwise.
-     *  
+     * 
      * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
-     *  
+     * 
      */
     public function isEmpty(): bool;
     
@@ -600,86 +585,79 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
     public function containsKeys(array $keys): bool;
     
     /**
-     *  
+     * 
      * Appends all items from $other collection to the end of $this collection. 
      * Note that appended items will be assigned numeric keys.
-     *  
-     * @param CollectionInterface $other
-     *  
-     * @return $this
-     *  
+     * 
+     * 
+     * 
      * @used-for: adding-items
-     *  
+     * 
      * @title: Appends all items from a specified collection to the end of a collection. Note that appended items will be assigned numeric keys.
-     *  
+     * 
      * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
-     *  
+     * 
      */
     public function appendCollection(CollectionInterface $other): CollectionInterface;
     
     /**
-     *  
+     * 
      * Appends an $item to the end of $this collection.
-     *  
+     * 
      * @param mixed $item
-     *  
-     * @return $this
-     *  
+     * 
+     * 
      * @used-for: adding-items
-     *  
+     * 
      * @title: Appends a specified item to the end of a collection.
-     *  
+     * 
      * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
-     *  
+     * 
      */
     public function appendItem($item): CollectionInterface;
     
     /**
-     *  
+     * 
      * Prepends all items from $other collection to the front of $this collection. 
      * Note that all numeric keys will be modified to start counting from zero while literal keys won't be changed.
-     *  
-     * @param CollectionInterface $other
-     *  
-     * @return $this
-     *  
+     * 
+     * 
+     * 
      * @used-for: adding-items
-     *  
+     * 
      * @title: Prepends all items from a specified collection to the front of a collection.
-     *  
+     * 
      * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
-     *  
+     * 
      */
     public function prependCollection(CollectionInterface $other): CollectionInterface;
     
     /**
-     *  
+     * 
      * Prepends an $item to the front of $this collection.
-     *  
+     * 
      * @param mixed $item
      * @param string|int $key
-     *  
-     * @return $this
-     *  
+     * 
+     * 
      * @used-for: adding-items
-     *  
+     * 
      * @title: Prepends a specified item (with a specified key, if specified) to the front of a collection.
-     *  
+     * 
      * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
-     *  
+     * 
      */
     public function prependItem($item, $key=null): CollectionInterface;
     
     /**
-     *  
+     * 
      * Adds all items from $items to $this collection and returns a new collection
      * containing the result. The original collection will not be modified.
      * Items in $items with existing keys in $this will overwrite the existing items in $this.
-     *  
+     * 
      * Use unionWith() and unionMeWith() if you want items from $this to be used
      * when same keys exist in both $items and $this.
-     *  
-     * @param array $items
+     * 
      *
      * @return CollectionInterface a new collection containing
      *                                                   the result of merging all
@@ -694,111 +672,106 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      *
      *@see \VersatileCollections\CollectionInterface::unionWith()
      * @see \VersatileCollections\CollectionInterface::unionMeWith()
-     *  
+     * 
      */
     public function mergeWith(array $items): CollectionInterface;
 
     /**
-     *  
+     * 
      * Adds all items from $items to $this collection. 
      * Items in $items with existing keys in $this will overwrite the existing items in $this.
-     *  
+     * 
      * Use unionWith() and unionMeWith() if you want items from $this to be used
      * when same keys exist in both $items and $this.
-     *  
+     * 
      * @see \VersatileCollections\CollectionInterface::unionWith()
      * @see \VersatileCollections\CollectionInterface::unionMeWith()
-     *  
-     * @param array $items
-     *  
-     * @return $this
-     *  
+     * 
+     * 
+     * 
      * @used-for: adding-items
-     *  
+     * 
      * @title: Adds all specified items to a collection. The original collection is modified. New items with the same keys as existing items will overwrite the existing items.
-     *  
+     * 
      * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
-     *  
+     * 
      */
     public function mergeMeWith(array $items): CollectionInterface;
 
     /**
-     *  
+     * 
      * Returns a generator that yields collections each having a maximum of $num_of_items. Original keys are preserved in each returned collection.
-     *  
+     * 
      * If $this contains [1,2,3,4,5,6]
-     *  
+     * 
      * foreach( $this->yieldCollectionsOfSizeN(2) as $batch ) {
-     *  
+     * 
      *     var_dump($batch);
      * }
-     *  
+     * 
      * will output
-     *  
+     * 
      * [0=>1,1=>2]
      * [2=>3,3=>4]
      * [4=>5,5=>6]
-     *  
-     * @param int $max_size_of_each_collection
-     *  
+     * 
+     * 
      * @return Generator a generator that yields sub-collections
-     *  
+     * 
      * @used-for: creating-new-collections
-     *  
+     * 
      * @title: Returns a generator that yields collections each having a specified maximum number of items. Original keys are preserved in each returned collection.
-     *  
+     * 
      * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
-     *  
+     * 
      */
     public function yieldCollectionsOfSizeN(int $max_size_of_each_collection=1): Generator;
     
     /**
-     *  
+     * 
      * Returns a collection of collections each having a maximum of $num_of_items. Original keys are preserved in each sub-collection.
-     *  
+     * 
      * If $this contains [1,2,3,4,5,6]
-     *  
+     * 
      * foreach( $this->getCollectionsOfSizeN(2) as $batch ) {
-     *  
+     * 
      *     var_dump($batch);
      * }
-     *  
+     * 
      * will output
-     *  
+     * 
      * [0=>1,1=>2]
      * [2=>3,3=>4]
      * [4=>5,5=>6]
-     *  
-     * @param int $max_size_of_each_collection
-     *  
+     * 
+     * 
      * @return CollectionInterface a collection of sub-collections
-     *  
+     * 
      * @used-for: creating-new-collections
-     *  
+     * 
      * @title: Returns a collection of collections; with each sub-collection having a specified maximum number of items. Original keys are preserved in each sub-collection.
-     *  
+     * 
      * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
-     *  
+     * 
      */
     public function getCollectionsOfSizeN(int $max_size_of_each_collection=1): CollectionInterface;
 
     /**
-     *  
+     * 
      * Convert all keys in the collection to consecutive integer keys starting from $starting_key 
-     *  
+     * 
      * @param int $starting_key a positive integer value that will be the value of the first key. 
      *                          A negative integer value should be forced to zero.
-     *  
-     * @return $this
-     *  
+     * 
+     * 
      * @used-for: modifying-keys
-     *  
+     * 
      * @title: Converts all keys in a collection to consecutive integer keys starting from the specified integer value.
-     *  
+     * 
      * @throws InvalidArgumentException if $starting_key is not an integer
-     *  
+     * 
      * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
-     *  
+     * 
      */
     public function makeAllKeysNumeric(int $starting_key=0): CollectionInterface;
 
@@ -820,9 +793,9 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
     public function getItems(): CollectionInterface;
 
     /**
-     *  
+     * 
      * Iterate through a collection and execute a callback over each item during the iteration.
-     *  
+     * 
      * @param callable $callback a callback with the following signature
      *                           function($key, $item). To stop iteration at any
      *                           point, the callback should return the value 
@@ -830,61 +803,59 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      *                           if you wanted to loop through the first half of
      *                           a collection you should return false in the 
      *                           callback when you reach the ($this->count()/2)th item.
-     *  
+     * 
      * @param mixed $termination_value a value that should be returned by $callback 
      *                                 signifying that iteration through a collection
      *                                 should stop.
-     *  
+     * 
      * @param bool $bind_callback_to_this true if the variable $this inside the supplied 
      *                                    $callback should refer to the collection object
      *                                    this method is being invoked on, else false if
      *                                    you want the variable $this to be undefined 
      *                                    inside the supplied $callback.
-     *  
-     * @return $this
-     *  
+     * 
+     * 
      * @used-for: accessing-or-extracting-keys-or-items, iteration
-     *  
+     * 
      * @title: Iterates through a collection and executes a callback over each item.
-     *  
+     * 
      * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
-     *  
+     * 
      */
     public function each(callable $callback, $termination_value=false, bool $bind_callback_to_this=true): CollectionInterface;
 
     /**
-     *  
+     * 
      * Applies the callback to the items in the collection and returns a new 
      * collection containing all the items in the original collection after 
      * applying the callback function to each one. The original collection
      * is not modified.
-     *  
-     *  
-     *  
+     * 
+     * 
+     * 
      * @param callable $callback a callback with the following signature
      *                           function($key, $item): mixed. It should perform an
      *                           operation on each item and return the result 
      *                           of the operation on each item.
-     *                                                    
+     *                                                   
      * @param bool $preserve_keys true if keys in the returned collection should 
      *                            match the keys in the original collection, else
      *                            false for sequentially incrementing integer keys 
      *                            (starting from 0) in the returned collection.
-     *  
+     * 
      * @param bool $bind_callback_to_this true if the variable $this inside the supplied 
      *                                    $callback should refer to the collection object
      *                                    this method is being invoked on, else false if
      *                                    you want the variable $this to be undefined 
      *                                    inside the supplied $callback.
-     *  
-     * @return CollectionInterface
-     *  
+     * 
+     * 
      * @used-for: accessing-or-extracting-keys-or-items, creating-new-collections, iteration
-     *  
+     * 
      * @title: Applies a callback to the items in a collection and returns a new collection containing all items in the original collection after applying the callback function to each one. The original collection is not modified.
-     *  
+     * 
      * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
-     *  
+     * 
      */
     public function map(callable $callback, bool $preserve_keys=true, bool $bind_callback_to_this=true): CollectionInterface;
 
@@ -933,7 +904,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
     public function pipeAndReturnCallbackResult(callable $callback);
     
     /**
-     *  
+     * 
      * Pass the collection to the given callback and return the collection.
      *
      * @param callable $callback a callback with the following signature
@@ -941,15 +912,14 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      *                            argument in the callback's signature is
      *                            collection object this pipeAndReturnSelf 
      *                            method is being invoked on.
-     *  
-     * @return $this
-     *  
+     * 
+     * 
      * @used-for: other-operations
-     *  
+     * 
      * @title: Executes the given callback on a collection and returns the collection itself.
-     *  
+     * 
      * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
-     *  
+     * 
      */
     public function pipeAndReturnSelf(callable $callback): CollectionInterface;
 
@@ -986,37 +956,35 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
     public function pull($key, $default = null);
     
     /**
-     *  
+     * 
      * Alias of appendItem($item)
      *
      * @param mixed  $item
-     * @return $this
-     *  
+     * 
      * @used-for: adding-items
-     *  
+     * 
      * @title: Appends a specified item to the end of a collection.
-     *  
+     * 
      * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
-     *  
+     * 
      */
     public function push($item): CollectionInterface;
 
 
     /**
-     *  
+     * 
      * Put an item in the collection by key.
      *
      * @param mixed  $key
      * @param mixed  $value
-     *  
-     * @return $this
-     *  
+     * 
+     * 
      * @used-for: adding-items
-     *  
+     * 
      * @title: Adds a specified key and item pair to a collection. If the specified key already exists, the specified item will overwrite the existing item.
-     *  
+     * 
      * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
-     *  
+     * 
      */
     public function put($key, $value): CollectionInterface;
 
@@ -1392,7 +1360,6 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      *      1 => [ 'volume' => 86, 'edition' => 1 ],
      * ]
      *
-     * @param MultiSortParameters ...$param
      *                                                  See \VersatileCollections\MultiSortParameters::$valid_sort_types for available sort types for each field.
      *                                                  See \VersatileCollections\MultiSortParameters::$valid_sort_directions for available sort directions for each field.
      *
@@ -1401,7 +1368,6 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      * @used-for: ordering-or-sorting-items, creating-new-collections
      *
      * @title: Sorts a collection of associative arrays or objects by specified field name(s) while maintaining key association. A new collection containing the sorted items is returned. The original collection is not modified.
-     *
      * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
      */
     public function sortByMultipleFields(MultiSortParameters ...$param): CollectionInterface;
@@ -1424,12 +1390,10 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      *                                             See \VersatileCollections\SortType::$valid_sort_types
      *                                             for available sort types.
      *
-     * @return $this
      *
      * @used-for: ordering-or-sorting-items
      *
      * @title: Sorts a collection's items in ascending order while maintaining key association. The original collection is modified.
-     *
      * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
      */
     public function sortMe(callable $callable=null, SortType $type=null): CollectionInterface;
@@ -1452,12 +1416,10 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      *                                             See \VersatileCollections\SortType::$valid_sort_types
      *                                             for available sort types.
      *
-     * @return $this
      *
      * @used-for: ordering-or-sorting-items
      *
      * @title: Sorts a collection's items in descending order while maintaining key association. The original collection is modified.
-     *
      * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
      */
     public function sortMeDesc(callable $callable=null, SortType $type=null): CollectionInterface;
@@ -1480,12 +1442,10 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      *                                             See \VersatileCollections\SortType::$valid_sort_types
      *                                             for available sort types.
      *
-     * @return $this
      *
      * @used-for: ordering-or-sorting-items
      *
      * @title: Sorts a collection's items by keys in ascending order while maintaining key association. The original collection is modified.
-     *
      * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
      */
     public function sortMeByKey(callable $callable=null, SortType $type=null): CollectionInterface;
@@ -1508,12 +1468,10 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      *                                             See \VersatileCollections\SortType::$valid_sort_types
      *                                             for available sort types.
      *
-     * @return $this
      *
      * @used-for: ordering-or-sorting-items
      *
      * @title: Sorts a collection's items by keys in descending order while maintaining key association. The original collection is modified.
-     *
      * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
      */
     public function sortMeDescByKey(callable $callable=null, SortType $type=null): CollectionInterface;
@@ -1544,9 +1502,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      *      1 => [ 'volume' => 86, 'edition' => 1 ],
      * ]
      *
-     * @param MultiSortParameters ...$param
      *
-     * @return $this
      *
      * @used-for: ordering-or-sorting-items
      *
@@ -1601,26 +1557,25 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
     public function splice(int $offset, ?int $length=null, array $replacement=[]): CollectionInterface;
 
     /**
-     *  
+     * 
      * Split a collection into a certain number of groups.
-     *  
+     * 
      * Throw an execution if
      *      !is_int($numberOfGroups) or
      *      $numberOfGroups > $this->count() or
      *      $numberOfGroups < 0
      *
-     * @param int $numberOfGroups
-     *  
+     * 
      * @return CollectionInterface A new collection containing $numberOfGroups collections
-     *  
+     * 
      * @used-for: creating-new-collections
-     *  
+     * 
      * @title: Splits a collection into a specified number of collections and returns a collection containing those collections.
      *
      * @throws InvalidArgumentException
-     *  
+     * 
      * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
-     *  
+     * 
      */
     public function split(int $numberOfGroups): CollectionInterface;
 
@@ -1651,40 +1606,38 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      *
      * @param callable $callback a callback with the following signature: 
      *                            function(\VersatileCollections\CollectionInterface $collection):void
-     * @return $this
-     *  
+     * 
      * @used-for: other-operations
-     *  
+     * 
      * @title: Invokes a specified callback on a copy of a collection and returns the original collection.
-     *  
+     * 
      * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
-     *  
+     * 
      */
     public function tap(callable $callback): CollectionInterface;
 
     /**
-     *  
+     * 
      * Union the collection with the given items by trying to append all items 
      * from $items to $this collection and return the result in a new collection.
      * This method does not modify the original collection.
-     *  
+     * 
      * For keys that exist in both $items and $this, the items from $this 
      * will be used, and the matching items from $items will be ignored.
-     *  
+     * 
      * For example:
      *  $a = \VersatileCollections\GenericCollection::makeNew( 
      *          [ "a"=>"apple", "b"=>"banana" ]
      *      );
      * $b = [ "a"=>"pear", "b"=>"strawberry", "c"=>"cherry" ];
-     *  
+     * 
      * // result
      * $a->unionWith($b)->toArray() === [ "a"=>"apple", "b"=>"banana", "c"=>"cherry" ]
-     *    
-     *  
+     *   
+     * 
      * Use mergeWith() and mergeMeWith() if you want items from $items to be used
      * when same keys exist in both $items and $this.
      *
-     * @param array $items
      *
      * @return CollectionInterface A new collection containing items in the original collection unioned with $items.
      *
@@ -1696,60 +1649,57 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      *
      *@see \VersatileCollections\CollectionInterface::mergeWith()
      * @see \VersatileCollections\CollectionInterface::mergeMeWith()
-     *  
+     * 
      */
     public function unionWith(array $items): CollectionInterface;
 
     /**
-     *  
+     * 
      * Union the collection with the given items by trying to append all items 
      * from $items to $this collection.
      * This method modifies the original collection.
-     *  
+     * 
      * For keys that exist in both $items and $this, the items from $this 
      * will be used, and the matching items from $items will be ignored.
-     *  
+     * 
      * For example:
      *  $a = \VersatileCollections\GenericCollection::makeNew( 
      *          [ "a"=>"apple", "b"=>"banana" ]
      *      );
      * $b = [ "a"=>"pear", "b"=>"strawberry", "c"=>"cherry" ];
-     *  
+     * 
      * // result
      * $a->unionMeWith($b)->toArray() === [ "a"=>"apple", "b"=>"banana", "c"=>"cherry" ]
-     *    
-     *  
+     *   
+     * 
      * Use mergeWith() and mergeMeWith() if you want items from $items to be used
      * when same keys exist in both $items and $this.
-     *  
+     * 
      * @see \VersatileCollections\CollectionInterface::mergeWith()
      * @see \VersatileCollections\CollectionInterface::mergeMeWith()
      *
-     * @param array $items
-     *  
-     * @return $this
-     *  
+     * 
+     * 
      * @used-for: adding-items
-     *  
+     * 
      * @title: Appends specified items to a collection. New items with the same keys as existing items will not overwrite the existing items. Original collection is modified.
-     *  
+     * 
      * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
-     *  
+     * 
      */
     public function unionMeWith(array $items): CollectionInterface;
 
     /**
-     *  
+     * 
      * Get a collection of unique items from an existing collection. The keys
      * are not preserved in the returned collection. The uniqueness test must be
      * done via strict comparison (===). 
-     *  
+     * 
      * Non-strict comparison is unsafe for collections containing objects, for 
      * example you can't cast an object to a double or int. To get unique items 
      * using non-strict comparison see 
      * \VersatileCollections\ScalarsCollection::uniqueNonStrict().
-     *  
-     * @return CollectionInterface
+     * 
      *
      * @used-for: accessing-or-extracting-keys-or-items, creating-new-collections, modifying-keys
      *
@@ -1758,7 +1708,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
      *
      *@see \VersatileCollections\ScalarsCollection::uniqueNonStrict()
-     *  
+     * 
      */
     public function unique(): CollectionInterface;
 
@@ -1918,60 +1868,57 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
     public function getAsNewType($new_collection_class=GenericCollection::class): CollectionInterface;
 
     /**
-     *  
+     * 
      * Remove items from the collection (whose keys are present in $keys) or (all items if $keys is empty)  and return $this.
-     *  
+     * 
      * @param array $keys optional array of keys for the items to be removed.
-     *  
-     * @return $this
-     *  
+     * 
+     * 
      * @used-for: deleting-items
-     *  
+     * 
      * @title: Removes items from a collection (whose keys are specified) or (all items if no keys were specified). 
-     *  
+     * 
      * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
-     *  
+     * 
      */
     public function removeAll(array $keys=[]): CollectionInterface;
 
     /**
-     *  
+     * 
      * Return a collection of items whose keys are present in $keys.
      * Keys are preserved in the new collection.
-     *  
+     * 
      * Key presence is determined via strict comparison (i.e. ===)
-     *  
-     * @param array $keys
-     *  
+     * 
+     * 
      * @return CollectionInterface a new collection of items whose keys are present in $keys
-     *  
+     * 
      * @used-for: accessing-or-extracting-keys-or-items, creating-new-collections, finding-or-searching-for-items
-     *  
+     * 
      * @title: Returns a new collection of items from an existing collection whose keys are present in the specified keys.
-     *  
+     * 
      * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
-     *  
+     * 
      */
     public function getAllWhereKeysIn(array $keys): CollectionInterface;
 
     /**
-     *  
+     * 
      * Return a collection of items whose keys are not present in $keys.
      * Keys are preserved in the new collection.
-     *  
+     * 
      * Key presence is determined via strict comparison (i.e. ===)
-     *  
-     *  
-     * @param array $keys
-     *  
+     * 
+     * 
+     * 
      * @return CollectionInterface a new collection of items whose keys are not present in $keys
-     *    
+     *   
      * @used-for: accessing-or-extracting-keys-or-items, creating-new-collections, finding-or-searching-for-items
-     *  
+     * 
      * @title: Returns a new collection of items from an existing collection whose keys are not present in the specified keys.
-     *  
+     * 
      * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
-     *  
+     * 
      */
     public function getAllWhereKeysNotIn(array $keys): CollectionInterface;
 
@@ -2092,10 +2039,9 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
     public function diffAssoc(array $items): CollectionInterface;
 
     /**
-     *  
+     * 
      * Get the items in the collection whose keys and values are not present in the given items.
      *
-     * @param array  $items
      * @param callable  $key_comparator a callback used to check if a key for an item in the collection is equal to a key for an item in $item 
      *                   The function must have the following signature:
      *                   int callback ( mixed $a, mixed $b ): 
@@ -2103,15 +2049,15 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      *                   equal to, or greater than zero if the first argument is 
      *                   considered to be respectively less than, equal to, 
      *                   or greater than the second.
-     *  
+     * 
      * @return CollectionInterface a new collection containing items in the collection whose keys and values are not present in the given items
-     *  
+     * 
      * @used-for: accessing-or-extracting-keys-or-items, creating-new-collections, finding-or-searching-for-items
-     *  
+     * 
      * @title: Returns a new collection containing items in an existing collection whose keys and values are not present in the specified array of items using a callback to test for key presence.
-     *  
+     * 
      * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
-     *  
+     * 
      */
     public function diffAssocUsing(array $items, callable $key_comparator): CollectionInterface;
 
@@ -2158,90 +2104,85 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
 
 
     /**
-     *  
+     * 
      * Iterate through a collection and execute a callback over each item (the callback
      * checks if each item satisfies one or more condition(s) and returns true if an item 
      * satisfies the condition(s) or false if not) and return true if all items satisfy 
      * the condition(s) tested in the callback or false otherwise.
-     *  
+     * 
      * @param callable $callback a callback with the following signature
      *                           function($key, $item):bool
      *                           It should return true if the current item `$item`
      *                           satisfies one or more condition(s) or false otherwise.
-     *  
+     * 
      * @param bool $bind_callback_to_this true if the variable $this inside the supplied 
      *                                    $callback should refer to the collection object
      *                                    this method is being invoked on, else false if
      *                                    you want the variable $this to be undefined 
      *                                    inside the supplied $callback.
-     *  
-     * @return bool
-     *  
+     * 
+     * 
      * @used-for: other-operations
-     *  
+     * 
      * @title: Iterates through a collection and executes a callback (that returns a boolean) over each item and returns true if the callback returns true for all items or false otherwise.
-     *  
+     * 
      * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
-     *  
+     * 
      */
     public function allSatisfyConditions(callable $callback, bool $bind_callback_to_this=true): bool;
     
     /**
-     *  
+     * 
      * Create a collection of items from the original collection whose keys are present in $arr
-     *  
-     * @param array $arr
-     *  
+     * 
+     * 
      * @return CollectionInterface new collection of items from the original collection whose keys are present in $arr
-     *  
+     * 
      * @used-for: accessing-or-extracting-keys-or-items, creating-new-collections, finding-or-searching-for-items
-     *  
+     * 
      * @title: Returns a new collection of items from an existing collection whose keys are present in an array of specified keys.
-     *  
+     * 
      * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
-     *  
+     * 
      */
     public function intersectByKeys(array $arr): CollectionInterface;
 
     /**
-     *  
+     * 
      * Create a collection of items from the original collection that are present in $arr
-     *  
-     * @param array $arr
-     *  
+     * 
+     * 
      * @return CollectionInterface new collection of items from the original collection that are present in $arr
-     *  
+     * 
      * @used-for: accessing-or-extracting-keys-or-items, creating-new-collections, finding-or-searching-for-items
-     *  
+     * 
      * @title: Returns a new collection of items from an existing collection that are present in an array of specified items.
-     *  
+     * 
      * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
-     *  
+     * 
      */
     public function intersectByItems(array $arr): CollectionInterface;
 
     /**
-     *  
+     * 
      * Create a collection of items from the original collection whose keys and corresponding items /values are present in $arr
-     *  
-     * @param array $arr
-     *  
+     * 
+     * 
      * @return CollectionInterface new collection of items from the original collection whose keys and corresponding items /values are present in $arr
-     *  
+     * 
      * @used-for: accessing-or-extracting-keys-or-items, creating-new-collections, finding-or-searching-for-items
-     *  
+     * 
      * @title: Returns a new collection of items from an existing collection whose keys and corresponding items are present in an array of specified items.
-     *  
+     * 
      * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
-     *  
+     * 
      */
     public function intersectByKeysAndItems(array $arr): CollectionInterface;
 
     /**
-     *  
+     * 
      * Create a collection of items from the original collection whose keys are present in $arr using a callback for the key comparison
-     *  
-     * @param array $arr
+     * 
      * @param callable $key_comparator a callback used to check if a key in the collection is equal to a key in $arr 
      *                   The function must have the following signature:
      *                   int callback ( mixed $a, mixed $b ): 
@@ -2249,23 +2190,22 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      *                   equal to, or greater than zero if the first argument is 
      *                   considered to be respectively less than, equal to, 
      *                   or greater than the second.
-     *  
+     * 
      * @return CollectionInterface new collection of items from the original collection whose keys are present in $arr
-     *  
+     * 
      * @used-for: accessing-or-extracting-keys-or-items, creating-new-collections, finding-or-searching-for-items
-     *  
+     * 
      * @title: Returns a new collection of items from an existing collection whose keys are present in an array of specified keys using a specified callback for testing key presence.
-     *  
+     * 
      * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
-     *  
+     * 
      */
     public function intersectByKeysUsingCallback(array $arr, callable $key_comparator): CollectionInterface;
 
     /**
-     *  
+     * 
      * Create a collection of items from the original collection that are present in $arr using a callback for the item comparison
-     *  
-     * @param array $arr
+     * 
      * @param callable $item_comparator a callback used to check if an item in the collection is equal to an item in $arr 
      *                   The function must have the following signature:
      *                   int callback ( mixed $a, mixed $b ): 
@@ -2273,15 +2213,15 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      *                   equal to, or greater than zero if the first argument is 
      *                   considered to be respectively less than, equal to, 
      *                   or greater than the second.
-     *  
+     * 
      * @return CollectionInterface new collection of items from the original collection that are present in $arr
-     *  
+     * 
      * @used-for: accessing-or-extracting-keys-or-items, creating-new-collections, finding-or-searching-for-items
-     *  
+     * 
      * @title: Returns a new collection of items from an existing collection that are present in an array of specified items using a specified callback for testing item presence.
-     *  
+     * 
      * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
-     *  
+     * 
      */
     public function intersectByItemsUsingCallback(array $arr, callable $item_comparator): CollectionInterface;
 
@@ -2289,7 +2229,6 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      *
      * Create a collection of items from the original collection whose keys and corresponding items /values are present in $arr  using callbacks for key and item comparisons
      *
-     * @param array $arr
      *
      * @param callable|null $key_comparator a callback used to check if a key in the collection is equal to a key in $arr
      *                   The function must have the following signature:
@@ -2317,7 +2256,6 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      * @used-for: accessing-or-extracting-keys-or-items, creating-new-collections, finding-or-searching-for-items
      *
      * @title: Returns a new collection of items from an existing collection whose keys and corresponding items are present in an array of specified items using one specified callback for testing key presence and another specified callback for testing item presence.
-     *
      * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
      */
     public function intersectByKeysAndItemsUsingCallbacks(array $arr, callable $key_comparator=null, callable $item_comparator=null): CollectionInterface;

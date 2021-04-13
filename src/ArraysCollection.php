@@ -37,9 +37,8 @@ class ArraysCollection implements StrictlyTypedCollectionInterface
     }
 
     /**
-     * 
+     *
      * @param mixed $item
-     * @return bool
      */
     public function checkType($item): bool {
         
