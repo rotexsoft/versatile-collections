@@ -49,20 +49,18 @@ class FloatsCollection extends NumericsCollection {
 
     /**
      * @param $str
-     * @return float
      * @noinspection PhpMissingReturnTypeInspection
      */
-    protected function itemFromString($str) {
+    protected function itemFromString(string $str): float {
         
         return ((float) ($str.''));
     }
 
     /**
      * @param $item
-     * @return string
      * @noinspection PhpMissingReturnTypeInspection
      */
-    protected function itemToString($item) {
+    protected function itemToString($item): string {
         
         return $item.'';
     }

@@ -76,7 +76,7 @@ class NumericsCollection extends ScalarsCollection {
      *
      * @noinspection PhpMissingParamTypeInspection
      */
-    protected function itemFromString($str) {
+    protected function itemFromString(string $str) {
         
         if( \strpos($str, '.') !== false ) {
             
@@ -96,7 +96,7 @@ class NumericsCollection extends ScalarsCollection {
      *
      * @noinspection PhpMissingReturnTypeInspection
      */
-    protected function itemToString($item) {
+    protected function itemToString($item): string {
         
         return $item.'';
     }

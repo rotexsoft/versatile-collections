@@ -31,6 +31,9 @@ class CallablesCollection implements StrictlyTypedCollectionInterface
     
     use StrictlyTypedCollectionInterfaceImplementationTrait;
     
+    /**
+     * @param callable[] ...$callables
+     */
     public function __construct(callable ...$callables) {
         
         $this->versatile_collections_items = $callables;

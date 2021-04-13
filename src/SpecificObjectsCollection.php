@@ -35,6 +35,7 @@ final class SpecificObjectsCollection extends ObjectsCollection {
 
     /** @noinspection PhpMissingParentConstructorInspection
      * @noinspection PhpUnnecessaryStaticReferenceInspection
+     * @param object[] ...$objects
      */
     protected function __construct(object ...$objects) {
         

@@ -31,6 +31,9 @@ class ArraysCollection implements StrictlyTypedCollectionInterface
     
     use StrictlyTypedCollectionInterfaceImplementationTrait;
     
+    /**
+     * @param array[] ...$arrays
+     */
     public function __construct(array ...$arrays) {
         
         $this->versatile_collections_items = $arrays;

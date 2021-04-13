@@ -37,6 +37,9 @@ class ObjectsCollection implements StrictlyTypedCollectionInterface
         StrictlyTypedCollectionInterfaceImplementationTrait::__construct as strictlyTypedCollectionTrait__construct;
     }
 
+    /**
+     * @param object[] ...$objects
+     */
     public function __construct(object ...$objects) {
         
         $this->versatile_collections_items = $objects;

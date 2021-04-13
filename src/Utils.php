@@ -74,7 +74,7 @@ class Utils {
     /**
      *
      *
-     * @return mixed
+     * @return int|string|null
      */
     public static function array_key_first(array $array) {
 
@@ -85,7 +85,7 @@ class Utils {
     /**
      *
      *
-     * @return mixed
+     * @return int|string|null
      */
     public static function array_key_last(array $array) {
 

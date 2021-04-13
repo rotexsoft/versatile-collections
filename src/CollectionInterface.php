@@ -585,18 +585,17 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
     public function containsKeys(array $keys): bool;
     
     /**
-     * 
+     *
      * Appends all items from $other collection to the end of $this collection. 
      * Note that appended items will be assigned numeric keys.
-     * 
-     * 
-     * 
+     *
+     *
+     *
      * @used-for: adding-items
-     * 
+     *
      * @title: Appends all items from a specified collection to the end of a collection. Note that appended items will be assigned numeric keys.
-     * 
+     *
      * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
-     * 
      */
     public function appendCollection(CollectionInterface $other): CollectionInterface;
     
@@ -617,18 +616,17 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
     public function appendItem($item): CollectionInterface;
     
     /**
-     * 
+     *
      * Prepends all items from $other collection to the front of $this collection. 
      * Note that all numeric keys will be modified to start counting from zero while literal keys won't be changed.
-     * 
-     * 
-     * 
+     *
+     *
+     *
      * @used-for: adding-items
-     * 
+     *
      * @title: Prepends all items from a specified collection to the front of a collection.
-     * 
+     *
      * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
-     * 
      */
     public function prependCollection(CollectionInterface $other): CollectionInterface;
     

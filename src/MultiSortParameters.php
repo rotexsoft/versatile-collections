@@ -35,7 +35,9 @@ class MultiSortParameters {
         SORT_FLAG_CASE, (SORT_FLAG_CASE | SORT_STRING), (SORT_FLAG_CASE | SORT_NATURAL)
     ];
 
-    /** @noinspection PhpUnhandledExceptionInspection */
+    /** @noinspection PhpUnhandledExceptionInspection
+     * @param int $sort_direction
+     * @param int $sort_type */
     public function __construct(string $field_name, ?int $sort_direction=null, ?int $sort_type=null) {
         
         if( $this->validateFieldName($field_name) ) {

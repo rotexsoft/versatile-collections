@@ -49,20 +49,18 @@ class IntsCollection extends NumericsCollection {
 
     /**
      * @param $str
-     * @return int
      * @noinspection PhpMissingReturnTypeInspection
      */
-    protected function itemFromString($str) {
+    protected function itemFromString(string $str): int {
         
         return ((int) ($str.''));
     }
 
     /**
      * @param $item
-     * @return string
      * @noinspection PhpMissingReturnTypeInspection
      */
-    protected function itemToString($item) {
+    protected function itemToString($item): string {
         
         return $item.'';
     }

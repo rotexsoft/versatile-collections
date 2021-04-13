@@ -52,7 +52,7 @@ trait StrictlyTypedCollectionInterfaceImplementationTrait {
     }
     
     /**
-     *  
+     *
      * @see \VersatileCollections\CollectionInterface::appendCollection()
      *
      * @noinspection PhpDocSignatureInspection
@@ -125,12 +125,12 @@ trait StrictlyTypedCollectionInterfaceImplementationTrait {
     }
     
     /**
-     *  
+     *
      * @see \VersatileCollections\CollectionInterface::prependCollection()
      *
      * @noinspection PhpDocSignatureInspection
      * @noinspection PhpUnhandledExceptionInspection
-     * 
+     *
      * @psalm-suppress LessSpecificImplementedReturnType
      */
     public function prependCollection(CollectionInterface $other): CollectionInterface {

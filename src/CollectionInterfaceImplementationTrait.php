@@ -382,9 +382,10 @@ trait CollectionInterfaceImplementationTrait {
     }
     
     /**
-     *  
+     * 
      * @see \VersatileCollections\CollectionInterface::offsetGet()
-     *  
+     *
+     * @return mixed|void 
      */
     public function offsetGet($key) {
         
@@ -438,9 +439,10 @@ trait CollectionInterfaceImplementationTrait {
     }
     
     /**
-     *  
+     * 
      * @see \VersatileCollections\CollectionInterface::getIterator()
-     *  
+     *
+     * @return \ArrayIterator 
      */
     public function getIterator(): Iterator {
 
@@ -471,9 +473,10 @@ trait CollectionInterfaceImplementationTrait {
     ////////////////////////////////////////////////////////////////////////////
     ////////// OTHER COLLECTION METHODS ////////////////////////////////////////
     /**
-     *  
+     * 
      * @see \VersatileCollections\CollectionInterface::firstItem()
-     *  
+     *
+     * @return null|mixed 
      */
     public function firstItem(){
         
@@ -483,9 +486,10 @@ trait CollectionInterfaceImplementationTrait {
     }
     
     /**
-     *  
+     * 
      * @see \VersatileCollections\CollectionInterface::lastItem()
-     *  
+     *
+     * @return null|mixed 
      */
     public function lastItem(){
         
@@ -856,9 +860,9 @@ trait CollectionInterfaceImplementationTrait {
     }
     
     /**
-     *  
+     *
      * @see \VersatileCollections\CollectionInterface::appendCollection()
-     *  
+     *
      * @psalm-suppress LessSpecificImplementedReturnType
      */
     public function appendCollection(CollectionInterface $other): CollectionInterface
@@ -930,9 +934,9 @@ trait CollectionInterfaceImplementationTrait {
     }
     
     /**
-     *  
+     *
      * @see \VersatileCollections\CollectionInterface::prependCollection()
-     * 
+     *
      * @psalm-suppress LessSpecificImplementedReturnType 
      */
     public function prependCollection(CollectionInterface $other): CollectionInterface

@@ -97,21 +97,20 @@ namespace VersatileCollections {
     }
 
     /**
-     *  
+     * 
      * A more robust way than property_exists of checking if an instance of a class
      * has a specified property.
-     *  
+     * 
      * @param object $obj
      * @param string|int $property
-     *  
-     * @return bool
-     *  
+     * 
+     * 
      * @throws InvalidArgumentException
      *
      * @noinspection PhpMissingReturnTypeInspection
      * @psalm-suppress DocblockTypeContradiction
      */
-    function object_has_property(object $obj, $property) {
+    function object_has_property(object $obj, $property): bool {
 
         if( !\is_string($property) && !\is_int($property) ) {
 
