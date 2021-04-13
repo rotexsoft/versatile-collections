@@ -49,8 +49,6 @@ class ObjectsCollection implements StrictlyTypedCollectionInterface
      * The return value of each call (if any) is stored in an array keyed
      * on the object's key in the collection and this array is returned.
      *
-     * @param string $method_name
-     * @param array $arguments
      *
      * @used-for: other-operations
      *

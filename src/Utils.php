@@ -15,9 +15,8 @@ use Throwable;
 class Utils {
 
     /**
-     * 
+     *
      * @param mixed $var
-     * @return string
      */
     public static function gettype($var): string {
         
@@ -74,47 +73,22 @@ class Utils {
 
     /**
      *
-     * @param array $array
      *
      * @return mixed
      */
     public static function array_key_first(array $array) {
 
-        if( \function_exists('array_key_first') ) {
+        return \array_key_first($array);
 
-            /** @noinspection PhpFullyQualifiedNameUsageInspection */
-            return \array_key_first($array);
-        }
-
-        // polyfill
-        $firstKey = null; // default for $array === []
-
-        foreach($array as $key => $value) {
-            // an array with at least 1 item
-            $firstKey = $key;
-            break;
-        }
-
-        return $firstKey;
     }
 
     /**
      *
-     * @param array $array
      *
      * @return mixed
      */
     public static function array_key_last(array $array) {
 
-        if( \function_exists('array_key_last') ) {
-
-            /** @noinspection PhpFullyQualifiedNameUsageInspection */
-            return \array_key_last($array);
-        }
-
-        // polyfill
-        if( $array === [] ) { return null; }
-
-        return static::array_key_first(\array_slice($array, -1, null, true));
+        return \array_key_last($array);
     }
 }

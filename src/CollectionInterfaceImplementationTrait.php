@@ -158,18 +158,17 @@ trait CollectionInterfaceImplementationTrait {
     }
     
     /**
-     *  
+     * 
      * @param string $name name of the method being added
      * @param callable $callable method being added
      * @param bool $has_return_val true means $callable returns a value, else false if $callable returns no value
      * @param bool $bind_to_this true means $callable will be bound to $this, else false if $callable should not be explicitly bound to $this
-     *  
+     * 
      * @used-for: adding-methods-at-runtime
-     *  
+     * 
      * @title: Registers a specified `callable` with a specified name to a single instance of a Collection class, so that the registered callable can be later called as an instance method with the specified name on the instance of the Collection class the callable was registered to.
-     *  
-     * @return $this
-     *  
+     * 
+     * 
      */
     public function addMethod(
         string $name, 
@@ -197,10 +196,7 @@ trait CollectionInterfaceImplementationTrait {
     }
     
     /**
-     * 
-     * @param string $name
-     * @param array $methods_array
-     * @param bool $search_parent_class_registration
+     *
      * @return mixed a string representing the calculated key or false if calculated key does not exist in $methods_array
      */
     protected static function getKeyForDynamicMethod(string $name, array &$methods_array, bool $search_parent_class_registration=true) {
@@ -229,16 +225,14 @@ trait CollectionInterfaceImplementationTrait {
     }
     
     /**
-     *  
-     * @param string $method_name
-     * @param array $arguments
-     *  
+     * 
+     * 
      * @return mixed
-     *  
+     * 
      * @used-for: other-operations
-     *  
+     * 
      * @title: Tries to call the specified method with the specified arguments and return its return value if it was registered via either `addMethod` or `addMethodForAllInstances` . An exception of type **\BadMethodCallException** is thrown if the method could not be called.
-     *  
+     * 
      * @throws BadMethodCallException
      *
      * @noinspection PhpInconsistentReturnPointsInspection
@@ -290,16 +284,14 @@ trait CollectionInterfaceImplementationTrait {
     }
     
     /**
-     *  
-     * @param string $method_name
-     * @param array $arguments
-     *  
+     * 
+     * 
      * @return mixed
-     *  
+     * 
      * @used-for: other-operations
-     *  
+     * 
      * @title: Tries to call the specified method with the specified arguments and return its return value if it was registered via `addStaticMethod`. An exception of type **\BadMethodCallException** is thrown if the method could not be called.
-     *  
+     * 
      * @throws BadMethodCallException
      *
      * @noinspection PhpInconsistentReturnPointsInspection

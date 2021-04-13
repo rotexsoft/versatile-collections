@@ -81,12 +81,10 @@ trait StrictlyTypedCollectionInterfaceImplementationTrait {
     }
 
     /**
-     * 
+     *
      * @param mixed $item
-     * @param string $calling_functions_name
-     * @return bool
      * @throws Exceptions\InvalidItemException
-     * 
+     *
      * @noinspection PhpUnhandledExceptionInspection
      * @psalm-suppress RedundantConditionGivenDocblockType
      * @psalm-suppress PossiblyInvalidCast

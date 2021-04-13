@@ -16,15 +16,13 @@ jobs:
 
     strategy:
         matrix:
-            php: [8.0, 7.4, 7.3, 7.2]
+            php: [8.0, 7.4, 7.3]
 # prefer-lowest is causing unit tests to fail when php 7.2 is run against PHPunit 7.x, 
 # PHPUnit 8.x is the latest stable release that supports PHP 7.2 and that runs fine
 #            dependency-version: [prefer-lowest, prefer-stable]
             dependency-version: [prefer-stable]
             os: [ubuntu-18.04, ubuntu-20.04]
             include:
-                - os: ubuntu-18.04
-                  php: 7.2
                 - os: ubuntu-18.04
                   php: 7.3
                 - os: ubuntu-18.04
@@ -36,8 +34,6 @@ jobs:
                 - os: ubuntu-20.04
                   php: 8.0
             exclude:
-                - os: ubuntu-20.04
-                  php: 7.2
                 - os: ubuntu-20.04
                   php: 7.3
 
@@ -73,10 +69,10 @@ jobs:
 
     - name: Run Rector
       # Run rector for PHP 7.3+ and 8.X, rector is currently blowing up with PHP 7.2
-      if: matrix.php != '7.2'
+      # if: matrix.php != '7.2'
       run: vendor/bin/rector process src --dry-run
 
     - name: Run Psalm
       # Run psalm for PHP 7.4 & 8.0 but not 7.2 & 7.3, psalm is currently blowing up with PHP 7.2 & 7.3
-      if: matrix.php != '7.2' && matrix.php != '7.3'
+      # if: matrix.php != '7.3'
       run: vendor/bin/psalm
