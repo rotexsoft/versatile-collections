@@ -27,12 +27,12 @@ class Utils {
 
         return ($callable instanceof Closure)? $callable : Closure::fromCallable($callable);
     }
-
     
     public static function bindObjectAndScopeToClosure(Closure $closure, object $newthis): Closure {
 
         try {
             return Closure::bind($closure, $newthis);
+            
         } catch (Exception $ex) {
             
             $function = __FUNCTION__;
@@ -48,7 +48,7 @@ class Utils {
     /** @noinspection DuplicatedCode */
     public static function getThrowableAsStr(Throwable $e, string $eol=PHP_EOL): string {
 
-        $previous_throwable = $e;
+        $previous_throwable = $e; 
         $message = '';
 
         do {
@@ -63,32 +63,5 @@ class Utils {
         } while( $previous_throwable instanceof Throwable );
         
         return $message;
-    }
-    
-    public static function canReallyBind(callable $callback): bool {
-        
-        return PHP_MAJOR_VERSION >= 7 || (PHP_MAJOR_VERSION === 5 && $callback instanceof Closure);
-    }
-
-
-    /**
-     *
-     *
-     * @return int|string|null
-     */
-    public static function array_key_first(array $array) {
-
-        return \array_key_first($array);
-
-    }
-
-    /**
-     *
-     *
-     * @return int|string|null
-     */
-    public static function array_key_last(array $array) {
-
-        return \array_key_last($array);
     }
 }
