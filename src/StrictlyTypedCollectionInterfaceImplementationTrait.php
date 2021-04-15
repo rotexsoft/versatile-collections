@@ -89,6 +89,8 @@ trait StrictlyTypedCollectionInterfaceImplementationTrait {
      * @psalm-suppress RedundantConditionGivenDocblockType
      * @psalm-suppress PossiblyInvalidCast
      * @psalm-suppress DocblockTypeContradiction
+     * @psalm-suppress PossiblyInvalidArgument
+     * @psalm-suppress RedundantCastGivenDocblockType
      */
     protected function isRightTypeOrThrowInvalidTypeException($item, string $calling_functions_name): bool {
         
@@ -113,6 +115,9 @@ trait StrictlyTypedCollectionInterfaceImplementationTrait {
     /**
      *  
      * @see \VersatileCollections\CollectionInterface::offsetSet()
+     * 
+     * @param string|int|null $key The requested key.
+     * @param mixed $val The value to set it to.
      *
      * @noinspection PhpDocSignatureInspection
      * @noinspection PhpUnhandledExceptionInspection
@@ -155,6 +160,9 @@ trait StrictlyTypedCollectionInterfaceImplementationTrait {
     /**
      *  
      * @see \VersatileCollections\CollectionInterface::prependItem()
+     * 
+     * @param mixed $item
+     * @param string|int|null $key
      *
      * @noinspection PhpDocSignatureInspection
      * @noinspection PhpUnhandledExceptionInspection

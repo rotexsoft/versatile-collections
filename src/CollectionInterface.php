@@ -168,7 +168,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      * 
      * ArrayAccess: set a key's value.
      * 
-     * @param mixed $key The requested key.
+     * @param string|int|null $key The requested key.
      * 
      * @param mixed $val The value to set it to.
      * 
@@ -186,7 +186,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      * 
      * ArrayAccess: unset a key.
      * 
-     * @param mixed $key The requested key.
+     * @param string|int $key The requested key.
      * 
      * 
      * @used-for: deleting-items
@@ -518,7 +518,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      * Check if a collection contains an item with the specified key using strict comparison for the item.
      * Strict comparison is used for checking each item.
      *  
-     * @param string|int $key key whose existence in the collection is to be checked
+     * @param int|string $key key whose existence in the collection is to be checked
      * @param mixed $item item whose existence in the collection is to be checked
      *  
      * @return bool true if collection contains item with the specified key, false otherwise
@@ -554,7 +554,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      *  
      * Check if a key exists in a collection
      *  
-     * @param mixed $key key whose existence in the collection is to be checked
+     * @param int|string $key key whose existence in the collection is to be checked
      *  
      * @return bool true if key exists in collection, false otherwise
      *  
@@ -635,7 +635,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      * Prepends an $item to the front of $this collection.
      * 
      * @param mixed $item
-     * @param string|int $key
+     * @param string|int|null $key
      * 
      * 
      * @used-for: adding-items
@@ -940,8 +940,8 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      *                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
      * Get and remove an item from the collection.
      *
-     * @param mixed  $key
-     * @param mixed  $default
+     * @param int|string  $key
+     * @param mixed       $default
      * @return mixed
      *                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
      * @used-for: accessing-or-extracting-keys-or-items, deleting-items
@@ -973,8 +973,8 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      * 
      * Put an item in the collection by key.
      *
-     * @param mixed  $key
-     * @param mixed  $value
+     * @param int|string  $key
+     * @param mixed       $value
      * 
      * 
      * @used-for: adding-items
@@ -1740,7 +1740,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      *
      * @noinspection PhpMissingParamTypeInspection
      */
-    public function whenTrue( $truthy_value, callable $callback, callable $default=null);
+    public function whenTrue($truthy_value, callable $callback, callable $default=null);
     
     /**
      *                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
@@ -1772,7 +1772,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      *
      * @noinspection PhpMissingParamTypeInspection
      */
-    public function whenFalse( $falsy_value, callable $callback, callable $default=null);
+    public function whenFalse($falsy_value, callable $callback, callable $default=null);
     
     /**
      *  

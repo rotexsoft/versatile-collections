@@ -331,6 +331,10 @@ trait CollectionInterfaceImplementationTrait {
         return $this->offsetExists($key);
     }
     
+    /**
+     * 
+     * @param mixed $val The value to set it to.
+     */
     public function __set(string $key, $val): void {
         
         $this->offsetSet($key, $val);
@@ -376,6 +380,8 @@ trait CollectionInterfaceImplementationTrait {
      *  
      * @see \VersatileCollections\CollectionInterface::offsetExists()
      *  
+     * @param mixed $key The requested key.
+     * 
      */
     public function offsetExists($key): bool {
         
@@ -385,6 +391,8 @@ trait CollectionInterfaceImplementationTrait {
     /**
      * 
      * @see \VersatileCollections\CollectionInterface::offsetGet()
+     * 
+     * @param mixed $key The requested key.
      *
      * @return mixed|void 
      */
@@ -403,6 +411,10 @@ trait CollectionInterfaceImplementationTrait {
     /**
      *  
      * @see \VersatileCollections\CollectionInterface::offsetSet()
+     * 
+     * @param string|int|null $key The requested key.
+     * 
+     * @param mixed $val The value to set it to.
      *  
      */
     public function offsetSet($key, $val): void {
@@ -420,6 +432,8 @@ trait CollectionInterfaceImplementationTrait {
     /**
      *  
      * @see \VersatileCollections\CollectionInterface::offsetUnset()
+     * 
+     * @param string|int $key The requested key.
      *  
      */
     public function offsetUnset($key): void {
@@ -443,7 +457,9 @@ trait CollectionInterfaceImplementationTrait {
      * 
      * @see \VersatileCollections\CollectionInterface::getIterator()
      *
-     * @return \ArrayIterator 
+     * @return \Iterator
+     * 
+     * @noRector \Rector\DeadCode\Rector\ClassMethod\RemoveUselessReturnTagRector
      */
     public function getIterator(): Iterator {
 
@@ -477,7 +493,8 @@ trait CollectionInterfaceImplementationTrait {
      * 
      * @see \VersatileCollections\CollectionInterface::firstItem()
      *
-     * @return null|mixed 
+     * @return null|mixed
+     * @psalm-suppress PossiblyNullArrayOffset 
      */
     public function firstItem() {
         
@@ -489,6 +506,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::lastItem()
      *
      * @return null|mixed 
+     * @psalm-suppress PossiblyNullArrayOffset
      */
     public function lastItem() {
                 
@@ -512,6 +530,8 @@ trait CollectionInterfaceImplementationTrait {
      *  
      * @see \VersatileCollections\CollectionInterface::setValForEachItem()
      *  
+     * @param mixed $field_val value to be set for the field whose name is the value contained in $field_name 
+     * 
      * @psalm-suppress LessSpecificImplementedReturnType
      */
     public function setValForEachItem(string $field_name, $field_val, bool $add_field_if_not_present=false): CollectionInterface
@@ -669,6 +689,8 @@ trait CollectionInterfaceImplementationTrait {
     /**
      *  
      * @see \VersatileCollections\CollectionInterface::reduce()
+     * 
+     * @param mixed $initial_value If the optional initial is available, it will be used at the beginning of the process, or as a final result in case the collection is empty.
      *  
      */
     public function reduce(callable $reducer, $initial_value=NULL) {
@@ -679,6 +701,8 @@ trait CollectionInterfaceImplementationTrait {
     /**
      *  
      * @see \VersatileCollections\CollectionInterface::reduceWithKeyAccess()
+     * 
+     * @param mixed $initial_value If the optional initial is available, it will be used at the beginning of the process, or as a final result in case the collection is empty.
      *  
      */
     public function reduceWithKeyAccess(callable $reducer, $initial_value=NULL) {
@@ -748,6 +772,9 @@ trait CollectionInterfaceImplementationTrait {
      *  
      * @see \VersatileCollections\CollectionInterface::getIfExists()
      * 
+     * @param string|int $key
+     * @param mixed $default_value
+     * 
      * @psalm-suppress DocblockTypeContradiction
      */
     public function getIfExists($key, $default_value=null) {
@@ -770,6 +797,8 @@ trait CollectionInterfaceImplementationTrait {
     /**
      *  
      * @see \VersatileCollections\CollectionInterface::containsItem()
+     * 
+     * @param mixed $item item whose existence in the collection is to be checked
      *  
      */
     public function containsItem($item): bool {
@@ -780,7 +809,9 @@ trait CollectionInterfaceImplementationTrait {
     /**
      *  
      * @see \VersatileCollections\CollectionInterface::containsKey()
-     *  
+     * 
+     * @param int|string $key key whose existence in the collection is to be checked
+     * @psalm-suppress DocblockTypeContradiction
      */
     public function containsKey($key): bool {
         
@@ -796,8 +827,10 @@ trait CollectionInterfaceImplementationTrait {
      *  
      * @see \VersatileCollections\CollectionInterface::containsItemWithKey()
      * 
-     * @psalm-suppress DocblockTypeContradiction 
+     * @param int|string $key key whose existence in the collection is to be checked
+     * @param mixed $item item whose existence in the collection is to be checked
      * 
+     * @psalm-suppress DocblockTypeContradiction
      */
     public function containsItemWithKey($key, $item): bool {
         
@@ -879,6 +912,8 @@ trait CollectionInterfaceImplementationTrait {
     /**
      *  
      * @see \VersatileCollections\CollectionInterface::appendItem()
+     * 
+     * @param mixed $item
      *  
      * @psalm-suppress LessSpecificImplementedReturnType
      */
@@ -950,6 +985,9 @@ trait CollectionInterfaceImplementationTrait {
     /**
      *  
      * @see \VersatileCollections\CollectionInterface::prependItem()
+     * 
+     * @param mixed $item
+     * @param string|int|null $key
      * 
      * @psalm-suppress LessSpecificImplementedReturnType 
      * @psalm-suppress RedundantConditionGivenDocblockType 
@@ -1095,6 +1133,10 @@ trait CollectionInterfaceImplementationTrait {
     /**
      *  
      * @see \VersatileCollections\CollectionInterface::each()
+     * 
+     * @param mixed $termination_value a value that should be returned by $callback 
+     *                                 signifying that iteration through a collection
+     *                                 should stop.
      * 
      * @psalm-suppress LessSpecificImplementedReturnType 
      */
@@ -1246,7 +1288,10 @@ trait CollectionInterfaceImplementationTrait {
     /**
      *  
      * @see \VersatileCollections\CollectionInterface::pull()
-     *  
+     * 
+     * @param int|string  $key
+     * @param mixed       $default
+     * 
      */
     public function pull($key, $default = null) {
 
@@ -1261,6 +1306,8 @@ trait CollectionInterfaceImplementationTrait {
      *  
      * @see \VersatileCollections\CollectionInterface::push()
      * 
+     * @param mixed  $item
+     * 
      * @psalm-suppress LessSpecificImplementedReturnType 
      */
     public function push($item): CollectionInterface
@@ -1272,6 +1319,9 @@ trait CollectionInterfaceImplementationTrait {
     /**
      *  
      * @see \VersatileCollections\CollectionInterface::put()
+     * 
+     * @param int|string  $key
+     * @param mixed       $value
      * 
      * @psalm-suppress LessSpecificImplementedReturnType 
      */
@@ -1434,6 +1484,8 @@ trait CollectionInterfaceImplementationTrait {
     /**
      *  
      * @see \VersatileCollections\CollectionInterface::searchByVal()
+     * 
+     * @param mixed $value the value to be searched for
      *  
      */
     public function searchByVal( $value, bool $strict = false ) {
@@ -1444,6 +1496,8 @@ trait CollectionInterfaceImplementationTrait {
     /**
      *  
      * @see \VersatileCollections\CollectionInterface::searchAllByVal()
+     * 
+     * @param mixed $value the value to be searched for
      *  
      */
     public function searchAllByVal( $value, bool $strict = false ){
@@ -1974,6 +2028,9 @@ trait CollectionInterfaceImplementationTrait {
      * of each object in the collection.
      *  
      * @see \VersatileCollections\CollectionInterface::column()
+     * 
+     * @param int|string $column_key name of field in each item to be used as values / items in the collection to be returned
+     * @param int|string|null $index_key
      *  
      * @psalm-suppress DocblockTypeContradiction
      * @psalm-suppress MoreSpecificReturnType
@@ -2172,7 +2229,9 @@ trait CollectionInterfaceImplementationTrait {
     /**
      *  
      * @see \VersatileCollections\CollectionInterface::whenTrue()
-     *  
+     * 
+     * @param bool $truthy_value
+     * @noRector \Rector\TypeDeclaration\Rector\FunctionLike\ParamTypeDeclarationRector
      */
     public function whenTrue( 
         $truthy_value, callable $callback, callable $default=null
@@ -2192,7 +2251,9 @@ trait CollectionInterfaceImplementationTrait {
     /**
      *  
      * @see \VersatileCollections\CollectionInterface::whenFalse()
-     *  
+     * 
+     * @param bool $falsy_value
+     * @noRector \Rector\TypeDeclaration\Rector\FunctionLike\ParamTypeDeclarationRector
      */
     public function whenFalse( 
         $falsy_value, callable $callback, callable $default=null
@@ -2203,6 +2264,8 @@ trait CollectionInterfaceImplementationTrait {
     /**
      *  
      * @see \VersatileCollections\CollectionInterface::getAsNewType()
+     * 
+     * @param string|CollectionInterface $new_collection_class
      * 
      * @psalm-suppress DocblockTypeContradiction
      * @psalm-suppress RedundantConditionGivenDocblockType

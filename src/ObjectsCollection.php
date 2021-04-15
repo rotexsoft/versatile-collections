@@ -38,7 +38,8 @@ class ObjectsCollection implements StrictlyTypedCollectionInterface
     }
 
     /**
-     * @param object[] ...$objects
+     * @param object ...$objects
+     * @noRector \Rector\DeadCode\Rector\ClassMethod\RemoveUselessParamTagRector
      */
     public function __construct(object ...$objects) {
         

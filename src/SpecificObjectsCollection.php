@@ -35,7 +35,8 @@ final class SpecificObjectsCollection extends ObjectsCollection {
 
     /** @noinspection PhpMissingParentConstructorInspection
      * @noinspection PhpUnnecessaryStaticReferenceInspection
-     * @param object[] ...$objects
+     * @param object ...$objects
+     * @noRector \Rector\DeadCode\Rector\ClassMethod\RemoveUselessParamTagRector
      */
     protected function __construct(object ...$objects) {
         
@@ -102,7 +103,7 @@ final class SpecificObjectsCollection extends ObjectsCollection {
 
     /**
      *
-     * @param $item
+     * @param mixed $item
      * @return bool true if $item is of the expected type, else false
      */
     public function checkType($item): bool {
@@ -116,7 +117,7 @@ final class SpecificObjectsCollection extends ObjectsCollection {
      *  
      * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector 
      *  
-     * @return string|array a string or array of strings of type name(s) for items acceptable in a collection
+     * @return string
      *    
      */
     public function getType() {

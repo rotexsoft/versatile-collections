@@ -32,7 +32,8 @@ class CallablesCollection implements StrictlyTypedCollectionInterface
     use StrictlyTypedCollectionInterfaceImplementationTrait;
     
     /**
-     * @param callable[] ...$callables
+     * @param callable ...$callables
+     * @noRector \Rector\DeadCode\Rector\ClassMethod\RemoveUselessParamTagRector
      */
     public function __construct(callable ...$callables) {
         
