@@ -7,8 +7,8 @@
 
 > NOTE: **SpecificObjectsCollection** is a final class and was never intended to be extensible. It has a **protected** constructor by design so that its instances cannot be created via the use of the **new** keyword, 
 instead its instances can only be created by calling either 
->   * **SpecificObjectsCollection::makeNewForSpecifiedClassName(?string $class_name=null, array $items =[], bool $preserve_keys=true)** 
->   * or **SpecificObjectsCollection::makeNew(array $items=[], bool $preserve_keys=true)**
+>   * **SpecificObjectsCollection::makeNewForSpecifiedClassName(?string $class_name=null, iterable $items =[], bool $preserve_keys=true)** 
+>   * or **SpecificObjectsCollection::makeNew(iterable $items=[], bool $preserve_keys=true)**
 > 
 > This is also by design.
 

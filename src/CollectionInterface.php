@@ -46,7 +46,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      * new \VersatileCollections\NumericsCollection(...[1,2,3])
      * vs \VersatileCollections\NumericsCollection::makeNew([1,2,3])
      *  
-     * @param array $items an array of items for the new collection to be created.
+     * @param iterable $items an iterable of items for the new collection to be created.
      * @param bool $preserve_keys true if keys in $items will be preserved in the created collection.
      *  
      * @return CollectionInterface newly created collection
@@ -58,7 +58,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
      *  
      */
-    public static function makeNew(array $items=[], bool $preserve_keys=true): CollectionInterface;
+    public static function makeNew(iterable $items=[], bool $preserve_keys=true): CollectionInterface;
     
     /**
      *  

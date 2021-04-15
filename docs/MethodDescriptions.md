@@ -1383,8 +1383,8 @@ A negative integer value will be converted to zero.
 ------------------------------------------------------------------------------------------------
 <div id="CollectionInterface-makeNew"></div>
 
-### static makeNew(array $items=[], bool $preserve_keys=true): \VersatileCollections\CollectionInterface
-Creates a new collection from an array.<br>
+### static makeNew(iterable $items=[], bool $preserve_keys=true): \VersatileCollections\CollectionInterface
+Creates a new collection from an iterable.<br>
 THIS IS THE STRONGLY RECOMMENDED WAY TO CREATE COLLECTION OBJECTS (if you forget 
 to unpack arguments when creating collection objects via the constructor, you 
 will end up with a collection containing only one item, which is the array 

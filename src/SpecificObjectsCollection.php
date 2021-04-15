@@ -60,7 +60,7 @@ final class SpecificObjectsCollection extends ObjectsCollection {
      *
      * @param string|null $class_name fully qualified name of the class whose instances or instances of its sub-classes alone would be stored in the collection.
      *                                Set it to null to make the collection work exactly like an instance of ObjectsCollection
-     * @param array $items an array of objects to be stored in the new collection
+     * @param iterable $items an iterable of objects to be stored in the new collection
      * @param bool $preserve_keys true to use the same keys in $items in the collection, , else false to use sequentially incrementing numeric keys starting from zero
      * 
      * 
@@ -73,7 +73,7 @@ final class SpecificObjectsCollection extends ObjectsCollection {
      * @psalm-suppress MoreSpecificReturnType
      * @psalm-suppress NoInterfaceProperties
      */
-    public static function makeNewForSpecifiedClassName(?string $class_name=null, array $items =[], bool $preserve_keys=true): StrictlyTypedCollectionInterface
+    public static function makeNewForSpecifiedClassName(?string $class_name=null, iterable $items =[], bool $preserve_keys=true): StrictlyTypedCollectionInterface
     {
         
         if( $class_name === null ) {
@@ -81,37 +81,21 @@ final class SpecificObjectsCollection extends ObjectsCollection {
             return static::makeNew($items, $preserve_keys); // collection that stores any type of object
         }
         
-        // Class was specified, create collection for only instances of the 
-        // specified class
+        // Class was specified, create collection for only instances of the specified class
         $new_collection = static::makeNew(); // make an empty collection first
+        $new_collection->class_name = $class_name;
 
-//        if (class_exists($class_name)) {
+        foreach ($items as $key => $val) {
 
-            $new_collection->class_name = $class_name;
+            if ($preserve_keys) {
 
-            foreach ($items as $key => $val) {
+                $new_collection[$key] = $val;
 
-                if ($preserve_keys) {
+            } else {
 
-                    $new_collection[$key] = $val;
-
-                } else {
-
-                    $new_collection[] = $val;
-                }
+                $new_collection[] = $val;
             }
-
-//        } else {
-//
-//            $class = static::class;
-//            $function = __FUNCTION__;
-//            $msg = "Error in [{$class}::{$function}(...)]: Trying to create a"
-//                . " new collection that stores only objects of the specified type "
-//                . "`". $class_name ."` but the specified class not found by `class_exists('$class_name')`.";
-//
-//            throw new Exceptions\SpecifiedClassNotFoundException($msg);
-//
-//        } // if (class_exists($class_name))
+        }
         
         return $new_collection;
     }

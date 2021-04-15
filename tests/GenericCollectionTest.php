@@ -162,6 +162,41 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         $this->assertTrue($collection[0] === 'taylor');
         $this->assertTrue($collection[1] === 'abigail');
         $this->assertTrue($collection[2] === null);
+        
+        ////////////////////////////////////////////////////////////////////////
+        // Test with collection from another collection and preserve keys
+        ////////////////////////////////////////////////////////////////////////
+        $collection = \BaseCollectionTestImplementation::makeNew(['a'=>'taylor', 'b'=>'abigail', null]);
+        $collectionFromCollection = \BaseCollectionTestImplementation::makeNew($collection);
+        
+        $this->assertTrue($collectionFromCollection->containsKey('a'));
+        $this->assertTrue($collectionFromCollection->containsKey('b'));
+        $this->assertTrue($collectionFromCollection->containsKey(0));
+        $this->assertTrue($collectionFromCollection->containsItem('taylor'));
+        $this->assertTrue($collectionFromCollection->containsItem('abigail'));
+        $this->assertTrue($collectionFromCollection->containsItem(null));
+        $this->assertTrue($collectionFromCollection['a'] === 'taylor');
+        $this->assertTrue($collectionFromCollection['b'] === 'abigail');
+        $this->assertTrue($collectionFromCollection[0] === null);
+        
+        ////////////////////////////////////////////////////////////////////////
+        // Test with collection from another collection and don't preserve keys
+        ////////////////////////////////////////////////////////////////////////
+        $collection = \BaseCollectionTestImplementation::makeNew([5=>'taylor', 10=>'abigail', 9=>null], false);
+        $collectionFromCollection = \BaseCollectionTestImplementation::makeNew($collection);
+
+        $this->assertTrue($collectionFromCollection->containsKey(0));
+        $this->assertTrue($collectionFromCollection->containsKey(1));
+        $this->assertTrue($collectionFromCollection->containsKey(2));
+        $this->assertTrue(!$collectionFromCollection->containsKey(10));
+        $this->assertTrue(!$collectionFromCollection->containsKey(5));
+        $this->assertTrue(!$collectionFromCollection->containsKey(9));
+        $this->assertTrue($collectionFromCollection->containsItem('taylor'));
+        $this->assertTrue($collectionFromCollection->containsItem('abigail'));
+        $this->assertTrue($collectionFromCollection->containsItem(null));
+        $this->assertTrue($collectionFromCollection[0] === 'taylor');
+        $this->assertTrue($collectionFromCollection[1] === 'abigail');
+        $this->assertTrue($collectionFromCollection[2] === null);
     }
     
     public function testThatEmptyConstructorWorksAsExpected() {

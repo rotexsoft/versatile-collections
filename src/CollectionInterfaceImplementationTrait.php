@@ -348,7 +348,7 @@ trait CollectionInterfaceImplementationTrait {
      * @noinspection PhpIncompatibleReturnTypeInspection
      * @psalm-suppress UnsafeInstantiation
      */
-    public static function makeNew(array $items=[], bool $preserve_keys=true): CollectionInterface {
+    public static function makeNew(iterable $items=[], bool $preserve_keys=true): CollectionInterface {
 
         if ($preserve_keys === true) {
 
@@ -365,9 +365,11 @@ trait CollectionInterfaceImplementationTrait {
         // I use array_values to ensure that all keys 
         // are numeric. Argument unpacking does not
         // work on arrays with one or more string keys.
-        return new static(...\array_values($items)); // This should be faster than loop above
-                                                    // since looping triggers offsetSet()
-                                                    // for each item
+        return \is_array($items)
+                ? new static(...\array_values($items))
+                : new static(...\array_values(\iterator_to_array($items))); // These should be faster than loop above
+                                                                            // since looping triggers offsetSet()
+                                                                            // for each item
     }
     
     /**

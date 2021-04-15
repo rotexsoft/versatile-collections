@@ -59,7 +59,7 @@ $collection = new GenericCollection(
     ...[$item1, $item2, $item3, $item4, $item5, $item6, $item7, $item8, $item9]
 );
 
-// Technique 3: pass the items in an array to the static makeNew helper method
+// Technique 3: pass the items in an iterable (such as an array) to the static makeNew helper method
 //              available in all collection classes
 $collection = GenericCollection::makeNew(
     [$item1, $item2, $item3, $item4, $item5, $item6, $item7, $item8, $item9]
