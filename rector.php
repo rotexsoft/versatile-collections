@@ -2,31 +2,25 @@
 
 declare(strict_types=1);
 
-use Rector\Core\Configuration\Option;
 use Rector\Php74\Rector\Property\TypedPropertyRector;
 use Rector\Set\ValueObject\SetList;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
-    // get parameters
-    $parameters = $containerConfigurator->parameters();
 
     // Define what rule sets will be applied
-    $parameters->set(Option::SETS, [
-        SetList::DEAD_CODE,
-        SetList::PHP_72,
-        SetList::PHP_73,
-        //SetList::PHP_74,
-        //SetList::PHP_80,
-        SetList::DEAD_CODE,
-        SetList::PSR_4,
-        SetList::TYPE_DECLARATION,
-        SetList::TYPE_DECLARATION_STRICT,
-    ]);
-
-    // get services (needed for register a single rule)
-    // $services = $containerConfigurator->services();
+    $containerConfigurator->import(SetList::DEAD_CODE);
+    $containerConfigurator->import(SetList::PHP_72);
+    $containerConfigurator->import(SetList::PHP_73);
+    //$containerConfigurator->import(SetList::PHP_74);
+    //$containerConfigurator->import(SetList::PHP_80);
+    $containerConfigurator->import(SetList::PSR_4);
+    $containerConfigurator->import(SetList::TYPE_DECLARATION);
+    
+    // get parameters
+    //$parameters = $containerConfigurator->parameters();
 
     // register a single rule
-    // $services->set(TypedPropertyRector::class);
+    //$services = $containerConfigurator->services();
+    //$services->set(TypedPropertyRector::class);
 };
