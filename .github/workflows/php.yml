@@ -68,8 +68,8 @@ jobs:
       run: vendor/bin/phpunit
 
     - name: Run Rector
-      # Run rector for PHP 7.3+ and 8.X, rector is currently blowing up with PHP 7.2
-      # if: matrix.php != '7.2'
+      # Run rector for PHP 7.3+ but not 8.0
+      if: matrix.php != '8.0'
       run: vendor/bin/rector process src --dry-run
 
     - name: Run Psalm
