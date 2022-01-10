@@ -48,10 +48,7 @@ class ArraysCollection implements StrictlyTypedCollectionInterface
         return \is_array($item);
     }
 
-    /**
-     * @return string
-     */
-    public function getType() {
+    public function getType(): string {
         
         return 'array';
     }

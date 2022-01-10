@@ -13,16 +13,10 @@ class MultiSortParameters {
      * @noRector
      */
     protected $field_name = '';
-    /**
-     * @var int
-     */
-    protected $sort_direction = SORT_ASC;
-    /**
-     * @var int
-     */
-    protected $sort_type = SORT_REGULAR;
+    protected int $sort_direction = SORT_ASC;
+    protected int $sort_type = SORT_REGULAR;
     
-    /**
+    /**         
      * @var int[]
      */
     protected static $valid_sort_directions = [ SORT_ASC, SORT_DESC ];

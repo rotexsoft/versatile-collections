@@ -114,13 +114,12 @@ final class SpecificObjectsCollection extends ObjectsCollection {
     }
     
     /**
-     *  
+     * 
      * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector 
-     *  
-     * @return string
-     *    
+     * 
+     *   
      */
-    public function getType() {
+    public function getType(): string {
         
         return \is_null($this->class_name)
                 ? parent::getType()

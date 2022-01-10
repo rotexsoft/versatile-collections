@@ -2492,10 +2492,7 @@ trait CollectionInterfaceImplementationTrait {
         }
         
         return $this->reduceWithKeyAccess(
-            function($carry, $item, $key) use ($callback): bool{
-            
-                return $carry && $callback($key, $item);
-            }, 
+            fn($carry, $item, $key): bool => $carry && $callback($key, $item), 
             true
         );
     }

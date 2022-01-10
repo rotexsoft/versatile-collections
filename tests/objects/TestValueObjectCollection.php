@@ -17,7 +17,7 @@ class TestValueObjectsCollection extends \VersatileCollections\ObjectsCollection
         return ($item instanceof TestValueObject);
     }
     
-    public function getType() {
+    public function getType(): string {
         
         return \TestValueObject::class;
     }

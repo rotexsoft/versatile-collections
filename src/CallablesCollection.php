@@ -45,10 +45,7 @@ class CallablesCollection implements StrictlyTypedCollectionInterface
         return \is_callable($item);
     }
 
-    /**
-     * @return string
-     */
-    public function getType() {
+    public function getType(): string {
         
         return 'callable';
     }
