@@ -120,8 +120,8 @@ class ObjectsCollection implements StrictlyTypedCollectionInterface
         return \is_object($item);
     }
 
-    public function getType(): StringsCollection {
+    public function getTypes(): StringsCollection {
         
-        return new StringsCollection(...['object']);
+        return new StringsCollection('object');
     }
 }

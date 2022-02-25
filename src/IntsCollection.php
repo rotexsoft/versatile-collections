@@ -39,9 +39,9 @@ class IntsCollection extends NumericsCollection {
         return \is_int($item);
     }
 
-    public function getType(): StringsCollection {
+    public function getTypes(): StringsCollection {
         
-        return new StringsCollection(...['int']);
+        return new StringsCollection('int');
     }
 
     /**

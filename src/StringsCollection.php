@@ -39,8 +39,8 @@ class StringsCollection extends ScalarsCollection {
         return \is_string($item);
     }
 
-    public function getType(): StringsCollection {
+    public function getTypes(): StringsCollection {
         
-        return new StringsCollection(...['string']);
+        return new StringsCollection('string');
     }
 }

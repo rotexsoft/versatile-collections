@@ -17,8 +17,8 @@ class TestValueObjectsCollection extends \VersatileCollections\ObjectsCollection
         return ($item instanceof TestValueObject);
     }
     
-    public function getType(): \VersatileCollections\StringsCollection {
+    public function getTypes(): \VersatileCollections\StringsCollection {
         
-        return new \VersatileCollections\StringsCollection(...[\TestValueObject::class]);
+        return new \VersatileCollections\StringsCollection(\TestValueObject::class);
     }
 }

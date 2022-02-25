@@ -113,10 +113,10 @@ final class SpecificObjectsCollection extends ObjectsCollection {
                 : ($item instanceof $this->class_name);
     }
     
-    public function getType(): StringsCollection {
+    public function getTypes(): StringsCollection {
         
         return \is_null($this->class_name)
-                ? parent::getType()
-                : new StringsCollection(...[$this->class_name]);
+                ? parent::getTypes()
+                : new StringsCollection($this->class_name);
     }
 }

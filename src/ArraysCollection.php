@@ -48,8 +48,8 @@ class ArraysCollection implements StrictlyTypedCollectionInterface
         return \is_array($item);
     }
 
-    public function getType(): StringsCollection {
+    public function getTypes(): StringsCollection {
         
-        return new StringsCollection(...['array']);
+        return new StringsCollection('array');
     }
 }

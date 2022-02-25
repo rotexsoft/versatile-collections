@@ -39,9 +39,9 @@ class FloatsCollection extends NumericsCollection {
         return \is_float($item);
     }
 
-    public function getType(): StringsCollection {
+    public function getTypes(): StringsCollection {
         
-        return new StringsCollection(...['float']);
+        return new StringsCollection('float');
     }
 
     /**
