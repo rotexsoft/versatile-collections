@@ -12,10 +12,12 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->import(SetList::DEAD_CODE);
     $containerConfigurator->import(SetList::PHP_72);
     $containerConfigurator->import(SetList::PHP_73);
-    //$containerConfigurator->import(SetList::PHP_74);
+    $containerConfigurator->import(SetList::PHP_74);
     //$containerConfigurator->import(SetList::PHP_80);
+    //$containerConfigurator->import(SetList::PHP_81);
     $containerConfigurator->import(SetList::PSR_4);
     $containerConfigurator->import(SetList::TYPE_DECLARATION);
+    $containerConfigurator->import(SetList::TYPE_DECLARATION_STRICT);
     
     // get parameters
     //$parameters = $containerConfigurator->parameters();
@@ -23,4 +25,10 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     // register a single rule
     //$services = $containerConfigurator->services();
     //$services->set(TypedPropertyRector::class);
+    
+    // get services (needed for register a single rule)
+    $services = $containerConfigurator->services();
+    
+    //TODO:PHP8 comment once PHP 8 becomes minimum version
+    $services->remove(Rector\DeadCode\Rector\ClassMethod\RemoveUnusedPromotedPropertyRector::class);
 };
