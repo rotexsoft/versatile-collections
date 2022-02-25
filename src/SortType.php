@@ -30,8 +30,9 @@ class SortType {
             $this->sort_type = $sort_type;
             
         } else if( 
-            !\in_array($sort_type, static::$valid_sort_types, true)
-            && $sort_type !== -777
+            //!\in_array($sort_type, static::$valid_sort_types, true)
+            //&& 
+            $sort_type !== -777
         ) {
             $class = \get_class($this);
             $function = __FUNCTION__;

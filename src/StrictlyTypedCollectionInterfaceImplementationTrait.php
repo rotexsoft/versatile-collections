@@ -95,10 +95,12 @@ trait StrictlyTypedCollectionInterfaceImplementationTrait {
     protected function isRightTypeOrThrowInvalidTypeException($item, string $calling_functions_name): bool {
         
         if( !$this->checkType($item) ) {
-
+            
+            /** @var StringsCollection $returned_type */
             $returned_type = $this->getType();
-            $type = (\is_array($returned_type) && (\is_countable($returned_type) ? \count($returned_type) : 0) > 0)
-                    ? \implode(' or ', $returned_type) : ((string)$returned_type);
+            $type = ($returned_type->count() > 1)
+                    ? \implode(' or ', $returned_type->toArray()) 
+                    : (($returned_type->count() === 1) ? $returned_type->firstItem() : '');
             
             $class = \get_class($this);
             $msg = "Error ({$class}::{$calling_functions_name}):"

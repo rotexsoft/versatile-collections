@@ -36,12 +36,9 @@ class ResourcesCollection implements StrictlyTypedCollectionInterface
         
         return \is_resource($item);
     }
-    
-    /**
-     * @return string
-     */
-    public function getType() {
+
+    public function getType(): StringsCollection {
         
-        return 'resource';
+        return new StringsCollection(...['resource']);
     }
 }

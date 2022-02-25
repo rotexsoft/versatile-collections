@@ -54,16 +54,9 @@ class NumericsCollection extends ScalarsCollection {
         return \is_float($item) || \is_int($item);
     }
 
-    /**
-     *  
-     * This method should be overridden in sub-classes of this class
-     *  
-     * @return string
-     *  
-     */
-    public function getType() {
+    public function getType(): StringsCollection {
         
-        return 'numeric';
+        return new StringsCollection(...['numeric']);
     }
     
     /**

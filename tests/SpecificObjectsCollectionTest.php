@@ -278,13 +278,13 @@ class SpecificObjectsCollectionTest extends \PHPUnit\Framework\TestCase {
         $collection = \VersatileCollections\SpecificObjectsCollection::makeNewForSpecifiedClassName(
             \ArrayObject::class
         );
-        $this->assertStringContainsString($collection->getType(), \ArrayObject::class);
+        $this->assertStringContainsString($collection->getType()->firstItem(), \ArrayObject::class);
 
         // Create a collection that stores instances of any class
         $object_collection = \VersatileCollections\ObjectsCollection::makeNew();
         $collection = \VersatileCollections\SpecificObjectsCollection::makeNewForSpecifiedClassName();
 
         // because no class was specified, the parent class' (i.e. ObjectsCollection) getType() always gets called
-        $this->assertStringContainsString($collection->getType(), $object_collection->getType());
+        $this->assertStringContainsString($collection->getType()->firstItem(), $object_collection->getType()->firstItem());
     }
 }
