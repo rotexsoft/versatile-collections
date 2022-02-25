@@ -54,9 +54,9 @@ class NumericsCollection extends ScalarsCollection {
         return \is_float($item) || \is_int($item);
     }
 
-    public function getType(): StringsCollection {
+    public function getTypes(): StringsCollection {
         
-        return new StringsCollection(...['numeric']);
+        return new StringsCollection('numeric');
     }
     
     /**

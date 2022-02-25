@@ -44,9 +44,9 @@ class ScalarsCollection implements StrictlyTypedCollectionInterface
         return \is_scalar($item);
     }
 
-    public function getType(): StringsCollection {
+    public function getTypes(): StringsCollection {
         
-        return new StringsCollection(...['scalar']);
+        return new StringsCollection('float', 'int', 'string');
     }
     
     /**

@@ -97,7 +97,7 @@ trait StrictlyTypedCollectionInterfaceImplementationTrait {
         if( !$this->checkType($item) ) {
             
             /** @var StringsCollection $returned_type */
-            $returned_type = $this->getType();
+            $returned_type = $this->getTypes();
             $type = ($returned_type->count() > 1)
                     ? \implode(' or ', $returned_type->toArray()) 
                     : (($returned_type->count() === 1) ? $returned_type->firstItem() : '');

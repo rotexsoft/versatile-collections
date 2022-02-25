@@ -39,5 +39,5 @@ interface StrictlyTypedCollectionInterface extends CollectionInterface {
      * @return \VersatileCollections\StringsCollection a collection of strings of type name(s) for items acceptable in a collection
      *  
      */
-    public function getType(): StringsCollection;
+    public function getTypes(): StringsCollection;
 }
