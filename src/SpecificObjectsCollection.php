@@ -26,12 +26,8 @@ namespace VersatileCollections;
  *
  */
 final class SpecificObjectsCollection extends ObjectsCollection {
-    
-    /**
-     * @var string|null
-     * @noRector
-     */
-    private $class_name = null;
+
+    private ?string $class_name = null;
 
     /** @noinspection PhpMissingParentConstructorInspection
      * @noinspection PhpUnnecessaryStaticReferenceInspection

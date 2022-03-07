@@ -56,7 +56,7 @@ class NumericsCollection extends ScalarsCollection {
 
     public function getTypes(): StringsCollection {
         
-        return new StringsCollection('numeric');
+        return new StringsCollection('int', 'float');
     }
     
     /**

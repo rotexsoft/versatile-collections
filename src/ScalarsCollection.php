@@ -46,7 +46,7 @@ class ScalarsCollection implements StrictlyTypedCollectionInterface
 
     public function getTypes(): StringsCollection {
         
-        return new StringsCollection('float', 'int', 'string');
+        return new StringsCollection('bool', 'float', 'int', 'string');
     }
     
     /**
