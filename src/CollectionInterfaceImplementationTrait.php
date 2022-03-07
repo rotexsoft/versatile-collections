@@ -1063,6 +1063,8 @@ trait CollectionInterfaceImplementationTrait {
     /**
      *  
      * @see \VersatileCollections\CollectionInterface::yieldCollectionsOfSizeN()
+     * 
+     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
      *  
      */
     public function yieldCollectionsOfSizeN(int $max_size_of_each_collection=1): Generator {
