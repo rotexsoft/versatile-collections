@@ -139,7 +139,7 @@ $methods_by_category_markdown = $declared_classes_collection->filterAll(
             function($key, $class_name)use(&$methods_implemented_by_class) {
             
                 $rfclass = new \ReflectionClass($class_name);
-                $methods_2_exclude = ['__construct', 'checkType', 'getType'];
+                $methods_2_exclude = ['__construct', 'checkType', 'getTypes'];
 
                 // get an array of \ReflectionMethod objects for the public methods in 
                 // \VersatileCollections\CollectionInterface and create a collection of 

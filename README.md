@@ -142,7 +142,7 @@ the following requirements:
 * Your custom collection class must implement **\VersatileCollections\StrictlyTypedCollectionInterface** which currently contains the methods below:
 
     * **public function checkType($item): bool** : it must return true if `$item` is of the expected type or false otherwise
-    * **public function getType()** : it must return a string or an array of strings representing the name(s) of the expected type(s)
+    * **public function getTypes()** : it must return an instance of **\VersatileCollections\StringsCollection** of strings representing the name(s) of the expected type(s)
 
 * Your custom collection class should use **\VersatileCollections\StrictlyTypedCollectionInterfaceImplementationTrait** (which contains implementation of the methods in **\VersatileCollections\StrictlyTypedCollectionInterface**). If you choose not to use **\VersatileCollections\StrictlyTypedCollectionInterfaceImplementationTrait**, then you will have to implement all the methods specified in **\VersatileCollections\StrictlyTypedCollectionInterface** and make sure you call the **checkType($item)** method in every method where you add items to or modify items in the collection such as **offsetSet($key, $val)**  and throw an **VersatileCollections\Exceptions\InvalidItemException** exception whenever **checkType($item)** returns false. If you use **\VersatileCollections\StrictlyTypedCollectionInterfaceImplementationTrait** in your custom collection class but add new methods that also add items to or modify items in the collection you can use the helper method **isRightTypeOrThrowInvalidTypeException($item, $calling_functions_name)** provided in **\VersatileCollections\StrictlyTypedCollectionInterfaceImplementationTrait** to validate items (it will automatically throw an exception for you if the item you are validating is of the wrong type; see **\VersatileCollections\StrictlyTypedCollectionInterfaceImplementationTrait::offsetSet($key, $val)** for an example of how this helper method should be used).
 
@@ -183,9 +183,9 @@ class PdoCollection implements StrictlyTypedCollectionInterface { //1. Implement
      *                      collection class
      * 
      */
-    public function getType() { //4. implement interface methods not implemented in trait above
+    public function getTypes(): \VersatileCollections\StringsCollection { //4. implement interface methods not implemented in trait above
         
-        return \PDO::class;
+        return new \VersatileCollections\StringsCollection(\PDO::class);
     }
 }
 ```
