@@ -48,7 +48,7 @@ jobs:
       with:
           php-version: ${{ matrix.php }}
           ini-values: pcre.jit=0, pcre.backtrack_limit=9999999, pcre.recursion_limit=9999999
-          coverage: none
+          coverage: xdebug
 
     - name: PHP version
       run: php -v
@@ -66,6 +66,12 @@ jobs:
     # Docs: https://getcomposer.org/doc/articles/scripts.md
     - name: Run PHPUnit Test Suite
       run: vendor/bin/phpunit
+      
+    - name: Upload coverage results to Coveralls
+      env: 
+        COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        vendor/bin/php-coveralls --coverage_clover=build/logs/clover.xml -v
 
     - name: Run Rector
       # Run rector for PHP 7.3+ but not 8.0

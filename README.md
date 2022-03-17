@@ -3,7 +3,8 @@
 [![Release](https://img.shields.io/github/release/rotexsoft/versatile-collections.png?style=flat-square)](https://github.com/rotexsoft/versatile-collections/releases/latest) &nbsp; 
 [![License](https://img.shields.io/badge/license-BSD-brightgreen.png?style=flat-square)](https://github.com/rotexsoft/versatile-collections/blob/master/LICENSE) &nbsp; 
 ![GitHub top language](https://img.shields.io/github/languages/top/rotexsoft/versatile-collections) &nbsp; 
-![GitHub repo size](https://img.shields.io/github/repo-size/rotexsoft/versatile-collections) &nbsp; 
+![GitHub repo size](https://img.shields.io/github/repo-size/rotexsoft/versatile-collections) &nbsp;
+![Coveralls](https://img.shields.io/coveralls/github/rotexsoft/versatile-collections) &nbsp; 
 ![Packagist Downloads](https://img.shields.io/packagist/dt/rotexsoft/versatile-collections) &nbsp;
 ![PHP Tests and Code Quality Tools](https://github.com/rotexsoft/versatile-collections/workflows/Run%20PHP%20Tests%20and%20Code%20Quality%20Tools/badge.svg) &nbsp;
 
