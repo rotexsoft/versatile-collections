@@ -1,8 +1,10 @@
 # Versatile Collections
 [![Build Status](https://img.shields.io/travis/rotexsoft/versatile-collections/master.png?style=flat-square)](https://travis-ci.org/rotexsoft/versatile-collections) &nbsp; 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/39472c4a7ad5402aaf19a38e72ed651c)](https://www.codacy.com/app/rotexdegba/versatile-collections?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=rotexsoft/versatile-collections&amp;utm_campaign=Badge_Grade) &nbsp; 
 [![Release](https://img.shields.io/github/release/rotexsoft/versatile-collections.png?style=flat-square)](https://github.com/rotexsoft/versatile-collections/releases/latest) &nbsp; 
 [![License](https://img.shields.io/badge/license-BSD-brightgreen.png?style=flat-square)](https://github.com/rotexsoft/versatile-collections/blob/master/LICENSE) &nbsp; 
+![GitHub top language](https://img.shields.io/github/languages/top/rotexsoft/versatile-collections) &nbsp; 
+![GitHub repo size](https://img.shields.io/github/repo-size/rotexsoft/versatile-collections) &nbsp; 
+![Packagist Downloads](https://img.shields.io/packagist/dt/rotexsoft/versatile-collections) &nbsp;
 ![PHP Tests and Code Quality Tools](https://github.com/rotexsoft/versatile-collections/workflows/Run%20PHP%20Tests%20and%20Code%20Quality%20Tools/badge.svg) &nbsp;
 
 A collection package that can be extended to implement things such as a Dependency Injection Container,
