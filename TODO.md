@@ -23,4 +23,5 @@ New PHP 7.0 - 7.2 Features for Versatile Collections PHP 7.2+
     - Utils::canReallyBind should no longer be needed for the php 7.2+ versions
 - Use Generator Return Expressions and Generator delegation where appropriate
 - No more polyfills needed for random_bytes() and random_int() i.e. paragonie/random_compat
-- 
+ 
+Add them to https://github.com/rotexsoft/versatile-collections/issues moving forward. 
