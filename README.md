@@ -1,12 +1,18 @@
 # Versatile Collections
-[![Build Status](https://img.shields.io/travis/rotexsoft/versatile-collections/master.png?style=flat-square)](https://travis-ci.org/rotexsoft/versatile-collections) &nbsp; 
-[![Release](https://img.shields.io/github/release/rotexsoft/versatile-collections.png?style=flat-square)](https://github.com/rotexsoft/versatile-collections/releases/latest) &nbsp; 
-[![License](https://img.shields.io/badge/license-BSD-brightgreen.png?style=flat-square)](https://github.com/rotexsoft/versatile-collections/blob/master/LICENSE) &nbsp; 
-![GitHub top language](https://img.shields.io/github/languages/top/rotexsoft/versatile-collections) &nbsp; 
-![GitHub repo size](https://img.shields.io/github/repo-size/rotexsoft/versatile-collections) &nbsp;
-![Coveralls](https://img.shields.io/coveralls/github/rotexsoft/versatile-collections) &nbsp; 
-![Packagist Downloads](https://img.shields.io/packagist/dt/rotexsoft/versatile-collections) &nbsp;
 ![PHP Tests and Code Quality Tools](https://github.com/rotexsoft/versatile-collections/workflows/Run%20PHP%20Tests%20and%20Code%20Quality%20Tools/badge.svg) &nbsp;
+![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/rotexsoft/versatile-collections?label=latest%20release) &nbsp;
+![GitHub](https://img.shields.io/github/license/rotexsoft/versatile-collections) &nbsp;
+[![Coveralls branch](https://img.shields.io/coveralls/github/rotexsoft/versatile-collections/master)](https://coveralls.io/github/rotexsoft/versatile-collections?branch=master) &nbsp;
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/rotexsoft/versatile-collections) &nbsp;
+![Packagist Downloads](https://img.shields.io/packagist/dt/rotexsoft/versatile-collections) &nbsp;
+![GitHub top language](https://img.shields.io/github/languages/top/rotexsoft/versatile-collections) &nbsp;
+![Packagist PHP Version Support](https://img.shields.io/packagist/php-v/rotexsoft/versatile-collections) &nbsp;
+![GitHub commits since latest release (by date) for a branch](https://img.shields.io/github/commits-since/rotexsoft/versatile-collections/latest/master) &nbsp;
+![GitHub last commit (branch)](https://img.shields.io/github/last-commit/rotexsoft/versatile-collections/master) &nbsp;
+![GitHub Release Date](https://img.shields.io/github/release-date/rotexsoft/versatile-collections) &nbsp;
+<a href="https://libraries.io/github/rotexsoft/versatile-collections">
+<img alt="Libraries.io dependency status for GitHub repo" src="https://img.shields.io/librariesio/github/rotexsoft/versatile-collections">
+</a>
 
 A collection package that can be extended to implement things such as a Dependency Injection Container,
 RecordSet objects for housing database records, a bag of http cookies, or technically any collection of

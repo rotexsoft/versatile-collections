@@ -77,9 +77,7 @@ trait CollectionInterfaceImplementationTrait {
 
             // Make sure the controller name is a valid string usable as a class name
             // in php as defined in http://php.net/manual/en/language.oop5.basic.php
-            $class = 
-                ($class_in_which_method_was_called !== null)
-                    ? $class_in_which_method_was_called : static::class;
+            $class = $class_in_which_method_was_called ?? static::class;
             
             $function = $method_name_was_passed_to;
             $name_var = var_to_string($name);
@@ -91,9 +89,7 @@ trait CollectionInterfaceImplementationTrait {
             
             // valid method name was supplied but conflicts with an
             // already defined real class method
-            $class = 
-                ($class_in_which_method_was_called !== null)
-                    ? $class_in_which_method_was_called : static::class;
+            $class = $class_in_which_method_was_called ?? static::class;
             
             $function = $method_name_was_passed_to;
             $msg = "Error [{$class}::{$function}(...)]: Trying to add a dynamic method with the same name `{$name}` as an existing actual method to a collection";
