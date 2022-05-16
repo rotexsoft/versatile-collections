@@ -136,6 +136,8 @@ in this package:
 * **[Arrays Collections](docs/ArraysCollection.md):** a collection that only stores items that are arrays (i.e. items for which is_array is true)
 * **[Callables Collections](docs/CallablesCollections.md):** a collection that only stores items that are callables (i.e. items for which is_callable is true)
 * **[Objects Collections](docs/ObjectsCollections.md):** a collection that only stores items that are objects (i.e. items for which is_object is true)
+    * **[Iterables Collections](docs/IterablesCollection.md):** a collection that only accepts
+      items that are objects for which [\is_iterable](https://www.php.net/manual/en/function.is-iterable) returns true. This type of collection does not accept [arrays](https://www.php.net/manual/en/language.types.array.php) which are also iterables but not objects. Use [Arrays Collections](docs/ArraysCollection.md) to store arrays or you could create a new collection class that accepts all iterables (both arrays & every other type for which **is_iterable** returns **true**)
     * **[Specific Objects Collections](docs/SpecificObjectsCollection.md):** a collection that only stores items that are instances of a specified class or any of its sub-classes
 * **[Resources Collections](docs/ResourcesCollections.md):** a collection that only stores items that are resources (i.e. items for which is_resource is true)
 * **[Scalars Collections](docs/ScalarsCollections.md):** a collection that only stores items that are scalars (i.e. items for which is_scalar is true)
