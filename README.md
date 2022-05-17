@@ -1,6 +1,6 @@
 # Versatile Collections
 [![PHP Tests and Code Quality Tools](https://github.com/rotexsoft/versatile-collections/workflows/Run%20PHP%20Tests%20and%20Code%20Quality%20Tools/badge.svg)](https://github.com/rotexsoft/versatile-collections/actions) &nbsp;
-[![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/rotexsoft/versatile-collections?label=latest%20release)](https://github.com/rotexsoft/versatile-collections/releases/latest) &nbsp;
+[![Packagist Version](https://img.shields.io/packagist/v/rotexsoft/versatile-collections)](https://github.com/rotexsoft/versatile-collections/releases/latest) &nbsp;
 [![GitHub](https://img.shields.io/github/license/rotexsoft/versatile-collections)](https://github.com/rotexsoft/versatile-collections/blob/master/LICENSE) &nbsp;
 [![Coveralls branch](https://img.shields.io/coveralls/github/rotexsoft/versatile-collections/master)](https://coveralls.io/github/rotexsoft/versatile-collections?branch=master) &nbsp;
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/rotexsoft/versatile-collections) &nbsp;
