@@ -26,7 +26,7 @@ namespace VersatileCollections;
  *
  * @author Rotimi Ade
  */
-class IterablesCollection extends ObjectsCollection
+class NonArrayIterablesCollection extends ObjectsCollection
 {
     public function __construct(iterable ...$iterableObjects)
     {

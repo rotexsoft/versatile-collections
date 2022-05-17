@@ -1,13 +1,13 @@
 <?php
 declare(strict_types=1);
-use \VersatileCollections\IterablesCollection;
+use \VersatileCollections\NonArrayIterablesCollection;
 
 /**
- * Description of IterablesCollection
+ * Description of NonArrayIterablesCollectionTest
  *
  * @author rotimi
  */
-class IterablesCollectionTest extends \PHPUnit\Framework\TestCase {
+class NonArrayIterablesCollectionTest extends \PHPUnit\Framework\TestCase {
     
     protected function setUp(): void { 
         
@@ -16,7 +16,7 @@ class IterablesCollectionTest extends \PHPUnit\Framework\TestCase {
 
     public function testThatOnlyIterableObjectsCanBeInjectedIntoCollection() {
         
-        $collection = new IterablesCollection(
+        $collection = new NonArrayIterablesCollection(
                         new \ArrayObject(),
                         new \SplDoublyLinkedList(),
                         new \SplStack(),
@@ -30,7 +30,7 @@ class IterablesCollectionTest extends \PHPUnit\Framework\TestCase {
                     );
         $this->assertEquals($collection->count(), 10);
         
-        $collection2 = IterablesCollection::makeNew([
+        $collection2 = NonArrayIterablesCollection::makeNew([
                         new \ArrayObject(),
                         new \SplDoublyLinkedList(),
                         new \SplStack(),
@@ -44,7 +44,7 @@ class IterablesCollectionTest extends \PHPUnit\Framework\TestCase {
                     ]);
         $this->assertEquals($collection2->count(), 10);
         
-        $collection3 = new \VersatileCollections\IterablesCollection();
+        $collection3 = new \VersatileCollections\NonArrayIterablesCollection();
         $this->assertEquals($collection3->count(), 0);
         $collection3[] = new \SplPriorityQueue();
         $collection3['r'] = new \SplObjectStorage();
