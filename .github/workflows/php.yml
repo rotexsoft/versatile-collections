@@ -75,7 +75,7 @@ jobs:
 
     - name: Run Rector
       # Run rector for PHP 7.3+ but not 8.0
-      if: matrix.php == '7.4'
+      #if: matrix.php == '7.4'
       run: vendor/bin/rector process src --dry-run
       continue-on-error: true
 
