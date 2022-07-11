@@ -162,6 +162,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      *
      * @noinspection PhpParameterNameChangedDuringInheritanceInspection
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($key);
     
     /**
