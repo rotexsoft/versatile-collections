@@ -2086,8 +2086,7 @@ trait CollectionInterfaceImplementationTrait {
                 ) {
                     $function = __FUNCTION__;
                     $class = \get_class($this);
-                    $item_type = ($item instanceof ArrayAccess)
-                                    ? \get_class($item) : Utils::gettype($item);
+                    $item_type = Utils::gettype($item);
 
                     $msg = "Error [{$class}::{$function}(...)]:"
                     . " An item of type `$item_type` without the specified column key `$column_key`"
@@ -2106,8 +2105,7 @@ trait CollectionInterfaceImplementationTrait {
                 ) {
                     $function = __FUNCTION__;
                     $class = \get_class($this);
-                    $item_type = ($item instanceof ArrayAccess)
-                                    ? \get_class($item) : Utils::gettype($item);
+                    $item_type = Utils::gettype($item);
 
                     $msg = "Error [{$class}::{$function}(...)]:"
                     . " An item of type `$item_type` without the specified index key `$index_key`"
@@ -2150,8 +2148,7 @@ trait CollectionInterfaceImplementationTrait {
 
                     $function = __FUNCTION__;
                     $class = \get_class($this);
-                    $item_type = ($item instanceof ArrayAccess)
-                                    ? \get_class($item) : Utils::gettype($item);
+                    $item_type = Utils::gettype($item);
 
                     $msg = "Error [{$class}::{$function}(...)]:"
                     . " Error occured while accessing an item of type `$item_type` with the specified index key `$index_key`"
@@ -2160,7 +2157,7 @@ trait CollectionInterfaceImplementationTrait {
                     throw new RuntimeException($msg);
                 }
 
-            } else if( \is_object($item) ) {
+            } else { // \is_object($item) === true && !($item instanceof ArrayAccess)
 
                 if( 
                     !\is_null($index_key)
@@ -2197,7 +2194,7 @@ trait CollectionInterfaceImplementationTrait {
 
                     $function = __FUNCTION__;
                     $class = \get_class($this);
-                    $item_type = \get_class($item);
+                    $item_type = Utils::gettype($item);
                     $msg = "Error [{$class}::{$function}(...)]:"
                     . " Error occured while accessing an item of type `$item_type` with the specified index key `$index_key`"
                     . " and specified column key `$column_key` with this key `$coll_key` in the collection." . PHP_EOL

@@ -14,7 +14,7 @@ class ArrayAccessObject implements \ArrayAccess {
         $this->container = $array;
     }
 
-    public function offsetSet($offset, $value) {
+    public function offsetSet($offset, $value): void {
         
         if (is_null($offset)) {
             
@@ -26,16 +26,17 @@ class ArrayAccessObject implements \ArrayAccess {
         }
     }
 
-    public function offsetExists($offset) {
+    public function offsetExists($offset): bool {
         
         return array_key_exists($offset, $this->container);
     }
 
-    public function offsetUnset($offset) {
+    public function offsetUnset($offset): void {
         
         unset($this->container[$offset]);
     }
 
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset) {
         
         if( $this->offsetExists($offset) ) {
