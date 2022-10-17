@@ -282,8 +282,16 @@ namespace VersatileCollections {
      *  
      */
     function var_to_string($var): string {
+        
+        // Start capturing the output
+        ob_start();
 
-        return (new Exporter())->export($var);
+        var_dump($var);
+
+        // Get the captured output, close the buffer & return the captured output
+        $output = ob_get_clean();
+        
+        return ($output === false) ? '' : $output;
     }
 
     /**
