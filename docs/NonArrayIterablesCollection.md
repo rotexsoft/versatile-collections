@@ -23,7 +23,7 @@ Example Usage:
 
     // OR
     
-    $collection = new \VersatileCollections\NonArrayIterablesCollection(
+    $collection = \VersatileCollections\NonArrayIterablesCollection::makeNew([
                     new \ArrayObject(),
                     new \SplDoublyLinkedList(),
                     new \SplStack(),
@@ -33,7 +33,7 @@ Example Usage:
                     new \SplPriorityQueue(),
                     new \SplFixedArray(),
                     new \SplObjectStorage()
-                );
+                ]);
 
     // OR
 
