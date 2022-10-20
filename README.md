@@ -32,7 +32,8 @@ This package provides optional strict-typing of collection items and strives for
 ## Installation 
 
 **Via composer:** (Requires PHP 7.4+ or PHP 8.0+). 
-For users with PHP 7.2 switch to the 3.X branch to read the documentation for the 3.X version.
+Switch to the 3.X branch to read the documentation for the 3.X version.
+Switch to the 4.X branch to read the documentation for the 4.X version.
 
 
     composer require rotexsoft/versatile-collections
