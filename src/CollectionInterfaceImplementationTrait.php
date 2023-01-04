@@ -455,7 +455,7 @@ trait CollectionInterfaceImplementationTrait {
      *
      * @return \Iterator
      * 
-     * @noRector \Rector\DeadCode\Rector\ClassMethod\RemoveUselessReturnTagRector
+     * 
      */
     public function getIterator(): Iterator {
 
@@ -846,7 +846,7 @@ trait CollectionInterfaceImplementationTrait {
      */
     public function containsItems(array $items): bool {
         
-        /** @noRector \Rector\Php71\Rector\FuncCall\CountOnNullRector */
+        /**  */
         $all_items_exist = \count($items) > 0;
         
         foreach ($items as $item) {
@@ -869,7 +869,7 @@ trait CollectionInterfaceImplementationTrait {
      */
     public function containsKeys(array $keys): bool {
         
-        /** @noRector \Rector\Php71\Rector\FuncCall\CountOnNullRector */
+        /**  */
         $all_keys_exist = \count($keys) > 0;
         
         foreach ($keys as $key) {
@@ -932,7 +932,7 @@ trait CollectionInterfaceImplementationTrait {
         $copy = $this->versatile_collections_items;
         $merged_items = static::makeNew($copy);
         
-        /** @noRector \Rector\Php71\Rector\FuncCall\CountOnNullRector */
+        /**  */
 
         // not using array_merge , want to trigger $merged_items->offsetSet() logic
         foreach ( $items as $key => $item ) {
@@ -1059,9 +1059,7 @@ trait CollectionInterfaceImplementationTrait {
     /**
      *  
      * @see \VersatileCollections\CollectionInterface::yieldCollectionsOfSizeN()
-     * 
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
-     *  
+     *   
      */
     public function yieldCollectionsOfSizeN(int $max_size_of_each_collection=1): Generator {
         
@@ -1502,7 +1500,7 @@ trait CollectionInterfaceImplementationTrait {
         
         $result = \array_keys($this->versatile_collections_items, $value, $strict);
         
-        /** @noRector \Rector\Php71\Rector\FuncCall\CountOnNullRector */
+        /**  */
         if( \count($result) <= 0 ) {
             
             $result = false;
@@ -1535,7 +1533,7 @@ trait CollectionInterfaceImplementationTrait {
         // terminate until iteration is fully completed.
         $this->each($searcher, 9999, $bind_callback_to_this);
         
-        /** @noRector \Rector\Php71\Rector\FuncCall\CountOnNullRector */
+        /**  */
         return \count($results) > 0 ? $results : false;
     }
 
@@ -1672,7 +1670,7 @@ trait CollectionInterfaceImplementationTrait {
         // sort a copy
         $items_to_sort = $this->versatile_collections_items;
 
-        /** @noRector \Rector\DeadCode\Rector\MethodCall\RemoveDefaultArgumentValueRector */
+        /**  */
         $this->performSort(
             $items_to_sort, 
             $callable, 
@@ -1695,7 +1693,7 @@ trait CollectionInterfaceImplementationTrait {
         // sort a copy
         $items_to_sort = $this->versatile_collections_items;
 
-        /** @noRector \Rector\DeadCode\Rector\MethodCall\RemoveDefaultArgumentValueRector */
+        /**  */
         $this->performSort(
             $items_to_sort, 
             $callable, 
@@ -1718,7 +1716,7 @@ trait CollectionInterfaceImplementationTrait {
         // sort a copy
         $items_to_sort = $this->versatile_collections_items;
 
-        /** @noRector \Rector\DeadCode\Rector\MethodCall\RemoveDefaultArgumentValueRector */
+        /**  */
         $this->performSort(
             $items_to_sort, 
             $callable, 
@@ -1741,7 +1739,7 @@ trait CollectionInterfaceImplementationTrait {
         // sort a copy
         $items_to_sort = $this->versatile_collections_items;
 
-        /** @noRector \Rector\DeadCode\Rector\MethodCall\RemoveDefaultArgumentValueRector */
+        /**  */
         $this->performSort(
             $items_to_sort, 
             $callable, 
@@ -1765,7 +1763,7 @@ trait CollectionInterfaceImplementationTrait {
     public function sortByMultipleFields(MultiSortParameters ...$param): CollectionInterface
     {
         
-        /** @noRector \Rector\Php71\Rector\FuncCall\CountOnNullRector */
+        /**  */
         if( \count($param) <= 0 ) {
             
             $function = __FUNCTION__;
@@ -1790,7 +1788,7 @@ trait CollectionInterfaceImplementationTrait {
     public function sortMe(callable $callable=null, SortType $type=null): CollectionInterface
     {
 
-        /** @noRector \Rector\DeadCode\Rector\MethodCall\RemoveDefaultArgumentValueRector */
+        /**  */
         $this->performSort(
             $this->versatile_collections_items, 
             $callable, 
@@ -1811,7 +1809,7 @@ trait CollectionInterfaceImplementationTrait {
     public function sortMeDesc(callable $callable=null, SortType $type=null): CollectionInterface
     {
 
-        /** @noRector \Rector\DeadCode\Rector\MethodCall\RemoveDefaultArgumentValueRector */
+        /**  */
         $this->performSort(
             $this->versatile_collections_items, 
             $callable, 
@@ -1832,7 +1830,7 @@ trait CollectionInterfaceImplementationTrait {
     public function sortMeByKey(callable $callable=null, SortType $type=null): CollectionInterface
     {
 
-        /** @noRector \Rector\DeadCode\Rector\MethodCall\RemoveDefaultArgumentValueRector */
+        /**  */
         $this->performSort(
             $this->versatile_collections_items, 
             $callable, 
@@ -1853,7 +1851,7 @@ trait CollectionInterfaceImplementationTrait {
     public function sortMeDescByKey(callable $callable=null, SortType $type=null): CollectionInterface
     {
 
-        /** @noRector \Rector\DeadCode\Rector\MethodCall\RemoveDefaultArgumentValueRector */
+        /**  */
         $this->performSort(
             $this->versatile_collections_items, 
             $callable, 
@@ -1877,7 +1875,7 @@ trait CollectionInterfaceImplementationTrait {
     public function sortMeByMultipleFields(MultiSortParameters ...$param): CollectionInterface
     {
         
-        /** @noRector \Rector\Php71\Rector\FuncCall\CountOnNullRector */
+        /**  */
         if( \count($param) <= 0 ) {
             
             $function = __FUNCTION__;
@@ -2226,7 +2224,6 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::whenTrue()
      * 
      * @param bool $truthy_value
-     * @noRector \Rector\TypeDeclaration\Rector\FunctionLike\ParamTypeDeclarationRector
      */
     public function whenTrue( 
         $truthy_value, callable $callback, callable $default=null
@@ -2248,7 +2245,6 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::whenFalse()
      * 
      * @param bool $falsy_value
-     * @noRector \Rector\TypeDeclaration\Rector\FunctionLike\ParamTypeDeclarationRector
      */
     public function whenFalse( 
         $falsy_value, callable $callback, callable $default=null
@@ -2312,7 +2308,7 @@ trait CollectionInterfaceImplementationTrait {
     public function removeAll(array $keys=[]): CollectionInterface
     {
         
-        /** @noRector \Rector\Php71\Rector\FuncCall\CountOnNullRector */
+        /**  */
         if( \count($keys) > 0 ) {
             
             foreach($keys as $key) {

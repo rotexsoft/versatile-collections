@@ -282,7 +282,7 @@ namespace VersatileCollections {
      *  
      */
     function var_to_string($var): string {
-        
+
         // Start capturing the output
         ob_start();
 
@@ -290,7 +290,7 @@ namespace VersatileCollections {
 
         // Get the captured output, close the buffer & return the captured output
         $output = ob_get_clean();
-        
+
         return ($output === false) ? '' : $output;
     }
 
@@ -301,7 +301,6 @@ namespace VersatileCollections {
      * @param mixed $var
      *  
      * @return void
-     * @noRector
      *  
      */
     function dump_var($var): void {

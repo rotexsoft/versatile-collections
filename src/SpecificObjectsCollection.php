@@ -29,10 +29,9 @@ final class SpecificObjectsCollection extends ObjectsCollection {
 
     private ?string $class_name = null;
 
-    /** @noinspection PhpMissingParentConstructorInspection
+    /** 
+     * @noinspection PhpMissingParentConstructorInspection
      * @noinspection PhpUnnecessaryStaticReferenceInspection
-     * @param object ...$objects
-     * @noRector \Rector\DeadCode\Rector\ClassMethod\RemoveUselessParamTagRector
      */
     protected function __construct(object ...$objects) {
         

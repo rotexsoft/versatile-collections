@@ -31,10 +31,6 @@ class CallablesCollection implements StrictlyTypedCollectionInterface
     
     use StrictlyTypedCollectionInterfaceImplementationTrait;
     
-    /**
-     * @param callable ...$callables
-     * @noRector \Rector\DeadCode\Rector\ClassMethod\RemoveUselessParamTagRector
-     */
     public function __construct(callable ...$callables) {
         
         $this->versatile_collections_items = $callables;

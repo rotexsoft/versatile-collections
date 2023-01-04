@@ -55,7 +55,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      *  
      * @title: Creates a new collection from an array of items. Items must be rightly typed if collection class is strictly typed.
      *  
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      *  
      */
     public static function makeNew(iterable $items=[], bool $preserve_keys=true): CollectionInterface;
@@ -75,7 +75,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      *  
      * @title: Retrieves an item associated with a specified key in the collection.
      *  
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      *  
      */
     public function __get(string $key);
@@ -91,7 +91,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      * 
      * @title: Checks if an item with a specified key exists in the collection.
      * 
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      * 
      */
     public function __isset(string $key): bool;
@@ -109,7 +109,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      * 
      * @title: Adds an item with a specified key to the collection.
      * 
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      * 
      */
     public function __set(string $key, $val): void;
@@ -125,7 +125,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      * 
      * @title: Removes an item associated with the specified key from the collection.
      * 
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      * 
      */
     public function __unset(string $key): void;
@@ -141,7 +141,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      * 
      * @title: Checks if an item with a specified key exists in the collection.
      * 
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      * @noinspection PhpParameterNameChangedDuringInheritanceInspection
      */
     public function offsetExists($key): bool;
@@ -158,7 +158,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      *                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
      * @title: Retrieves an item associated with a specified key in the collection.
      *  
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      *
      * @noinspection PhpParameterNameChangedDuringInheritanceInspection
      */
@@ -178,7 +178,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      * 
      * @title: Adds an item with a specified key to the collection.
      * 
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      * @noinspection PhpParameterNameChangedDuringInheritanceInspection
      */
     public function offsetSet($key, $val): void;
@@ -194,7 +194,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      * 
      * @title: Removes an item associated with the specified key from the collection.
      * 
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      * @noinspection PhpParameterNameChangedDuringInheritanceInspection
      */
     public function offsetUnset($key): void;
@@ -207,7 +207,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      *  
      * @title: Returns all items in the collection and their corresponding keys in an array.
      *  
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      *  
      */
     public function toArray(): array;
@@ -220,7 +220,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      *  
      * @title: Returns an Iterator object that can be used to iterate through the collection.
      *  
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      *  
      */
     public function getIterator(): Iterator;
@@ -233,7 +233,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      *  
      * @title: Returns the number of items in the collection.
      *  
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      *  
      */
     public function count(): int;
@@ -250,7 +250,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      *                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
      * @title: Returns the first item in the collection or null if the collection is empty.
      *  
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      *                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
      */
     public function firstItem();
@@ -265,7 +265,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      *                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
      * @title: Returns the last item in the collection or null if the collection is empty.
      *  
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      *                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
      */
     public function lastItem();
@@ -278,7 +278,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      *  
      * @title: Returns a new instance of **`\VersatileCollections\GenericCollection`** containing all the keys in the original collection.
      *  
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      *  
      */
     public function getKeys(): GenericCollection;
@@ -296,7 +296,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      * 
      * @title: Sets the specified field in each array or object in the collection to a specified value.
      * 
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      * 
      */
     public function setValForEachItem(string $field_name, $field_val, bool $add_field_if_not_present=false): CollectionInterface;
@@ -328,7 +328,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      *  
      * @title: Filters out items in the collection via a callback function and returns filtered items in a new collection.
      *  
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      *  
      */
     public function filterAll(callable $filterer, bool $copy_keys=false, bool $bind_callback_to_this=true, bool $remove_filtered_items=false): CollectionInterface;
@@ -362,7 +362,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      *  
      * @title: Filters out the first N items in the collection via a callback function and returns filtered items in a new collection.
      *  
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      *  
      */
     public function filterFirstN(callable $filterer, ?int $max_number_of_filtered_items_to_return=null, bool $copy_keys=false, bool $bind_callback_to_this=true, bool $remove_filtered_items=false): CollectionInterface;
@@ -385,7 +385,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      * 
      * @title: Transforms each item in the collection via a callback function.
      * 
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      * 
      */
     public function transform(callable $transformer, bool $bind_callback_to_this=true): CollectionInterface;
@@ -408,7 +408,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      *                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
      * @title: Iteratively reduces the collection items to a single value using a callback function.
      *  
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      *                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
      */
     public function reduce(callable $reducer, $initial_value=NULL);
@@ -431,7 +431,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      *                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
      * @title: Iteratively reduces the collection items to a single value using a callback function.
      *  
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      *                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
      */
     public function reduceWithKeyAccess(callable $reducer, $initial_value=NULL);
@@ -446,7 +446,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      *  
      * @title: Reverses the order of items in the collection and returns the reversed items in a new collection.
      *  
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      *  
      */
     public function reverse(): CollectionInterface;
@@ -460,7 +460,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      * 
      * @title: Reverses the order of items in the collection. Original collection is modified.
      * 
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      * 
      */
     public function reverseMe(): CollectionInterface;
@@ -474,7 +474,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      * 
      * @title: Returns true if there are one or more items in the collection or false otherwise.
      * 
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      * 
      */
     public function isEmpty(): bool;
@@ -492,7 +492,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      *                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
      * @title: Returns the item in the collection with the specified key (if such an item exists) or the specified default value otherwise.
      *  
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      *                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
      */
     public function getIfExists($key, $default_value=null);
@@ -509,7 +509,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      *  
      * @title: Checks if a collection contains a specified item (using strict comparison).
      *  
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      *  
      */
     public function containsItem($item): bool;
@@ -528,7 +528,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      *  
      * @title: Checks if a collection contains a specified item (using strict comparison) together with the specified key.
      *  
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      *  
      */
     public function containsItemWithKey($key, $item): bool;
@@ -546,7 +546,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      *  
      * @title: Checks if a collection contains all specified items (using strict comparison for each comparison).
      *  
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      *  
      */
     public function containsItems(array $items): bool;
@@ -563,7 +563,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      *  
      * @title: Checks if a collection contains a specified key.
      *  
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      *    
      */
     public function containsKey($key): bool;
@@ -580,7 +580,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      *  
      * @title: Checks if a collection contains all specified keys.
      *  
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      *  
      */
     public function containsKeys(array $keys): bool;
@@ -596,7 +596,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      *
      * @title: Appends all items from a specified collection to the end of a collection. Note that appended items will be assigned numeric keys.
      *
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      */
     public function appendCollection(CollectionInterface $other): CollectionInterface;
     
@@ -611,7 +611,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      * 
      * @title: Appends a specified item to the end of a collection.
      * 
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      * 
      */
     public function appendItem($item): CollectionInterface;
@@ -627,7 +627,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      *
      * @title: Prepends all items from a specified collection to the front of a collection.
      *
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      */
     public function prependCollection(CollectionInterface $other): CollectionInterface;
     
@@ -643,7 +643,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      * 
      * @title: Prepends a specified item (with a specified key, if specified) to the front of a collection.
      * 
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      * 
      */
     public function prependItem($item, $key=null): CollectionInterface;
@@ -667,7 +667,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      *
      * @title: Adds all specified items to a collection and returns a new collection containing the result. The original collection is not modified. New items with the same keys as existing items will overwrite the existing items.
      *
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      *
      *@see \VersatileCollections\CollectionInterface::unionWith()
      * @see \VersatileCollections\CollectionInterface::unionMeWith()
@@ -692,7 +692,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      * 
      * @title: Adds all specified items to a collection. The original collection is modified. New items with the same keys as existing items will overwrite the existing items.
      * 
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      * 
      */
     public function mergeMeWith(array $items): CollectionInterface;
@@ -721,7 +721,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      * 
      * @title: Returns a generator that yields collections each having a specified maximum number of items. Original keys are preserved in each returned collection.
      * 
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      * 
      */
     public function yieldCollectionsOfSizeN(int $max_size_of_each_collection=1): Generator;
@@ -750,7 +750,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      * 
      * @title: Returns a collection of collections; with each sub-collection having a specified maximum number of items. Original keys are preserved in each sub-collection.
      * 
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      * 
      */
     public function getCollectionsOfSizeN(int $max_size_of_each_collection=1): CollectionInterface;
@@ -769,7 +769,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      * 
      * @throws InvalidArgumentException if $starting_key is not an integer
      * 
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      * 
      */
     public function makeAllKeysNumeric(int $starting_key=0): CollectionInterface;
@@ -786,7 +786,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      *  
      * @title: Returns a new collection with all items in the original collection. All the keys in the new collection will be consecutive integer keys starting from zero.
      *  
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      *  
      */
     public function getItems(): CollectionInterface;
@@ -818,7 +818,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      * 
      * @title: Iterates through a collection and executes a callback over each item.
      * 
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      * 
      */
     public function each(callable $callback, $termination_value=false, bool $bind_callback_to_this=true): CollectionInterface;
@@ -853,7 +853,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      * 
      * @title: Applies a callback to the items in a collection and returns a new collection containing all items in the original collection after applying the callback function to each one. The original collection is not modified.
      * 
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      * 
      */
     public function map(callable $callback, bool $preserve_keys=true, bool $bind_callback_to_this=true): CollectionInterface;
@@ -874,7 +874,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      *  
      * @title: Creates a new collection consisting of every n-th element in a collection.
      *  
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      *  
      */
     public function everyNth(int $n, int $position_of_first_nth_item = 0): CollectionInterface;
@@ -897,7 +897,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      *                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
      * @title: Executes the given callback on a collection and returns whatever value the callback returned.
      *  
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      *                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
      */
     public function pipeAndReturnCallbackResult(callable $callback);
@@ -917,7 +917,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      * 
      * @title: Executes the given callback on a collection and returns the collection itself.
      * 
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      * 
      */
     public function pipeAndReturnSelf(callable $callback): CollectionInterface;
@@ -932,7 +932,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      *                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
      * @title: Removes and returns the last item from a collection.
      *  
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      *                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
      */
     public function getAndRemoveLastItem();
@@ -949,7 +949,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      *                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
      * @title: Removes and returns the item with the specified key from a collection (if it exists) or returns a default value.
      *  
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      *                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
      */
     public function pull($key, $default = null);
@@ -964,7 +964,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      * 
      * @title: Appends a specified item to the end of a collection.
      * 
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      * 
      */
     public function push($item): CollectionInterface;
@@ -982,7 +982,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      * 
      * @title: Adds a specified key and item pair to a collection. If the specified key already exists, the specified item will overwrite the existing item.
      * 
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      * 
      */
     public function put($key, $value): CollectionInterface;
@@ -1000,7 +1000,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      *                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
      * @title: Gets one key randomly from a collection.
      *  
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      *  
      */
     public function randomKey();
@@ -1018,7 +1018,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      *                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
      * @throws LengthException
      *  
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      *  
      */
     public function randomItem();
@@ -1041,7 +1041,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      * @throws InvalidArgumentException
      * @throws LengthException
      *  
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      *  
      */
     public function randomKeys(int $number = 1): CollectionInterface;
@@ -1066,7 +1066,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      * @throws InvalidArgumentException
      * @throws LengthException
      *  
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      *  
      */
     public function randomItems(int $number = 1, bool $preserve_keys=false): CollectionInterface;
@@ -1085,7 +1085,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      *  
      * @title: Shuffles all the items in a collection and returns the shuffled items in a new collection. The original collection is not modified.
      *  
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      *  
      */
     public function shuffle(bool $preserve_keys=true): CollectionInterface;
@@ -1106,7 +1106,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      *                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
      * @title: Searches the collection for a given value and returns the first corresponding key in the collection whose item matches the given value if successful or false if not.
      *  
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      *  
      */
     public function searchByVal( $value, bool $strict = false );
@@ -1129,7 +1129,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      *                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
      * @title: Searches the collection for a given value and returns an array of all corresponding key(s) in the collection whose item(s) match the given value or else returns false.
      *  
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      *  
      */
     public function searchAllByVal( $value, bool $strict = false );
@@ -1159,7 +1159,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      *                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
      * @title: Searches the collection using a callback. Returns an array of all corresponding key(s) in the collection for which the callback returns true or else returns false.
      *  
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      *  
      */
     public function searchByCallback(callable $callback, bool $bind_callback_to_this=true);
@@ -1174,7 +1174,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      *                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
      * @title: Returns and removes the first item in a collection.
      *  
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      *  
      */
     public function getAndRemoveFirstItem ();
@@ -1209,7 +1209,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      *  
      * @throws InvalidArgumentException if $offset is non-int and / or if $length is non-null and non-int
      *  
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      *  
      */
     public function slice(int $offset, ?int $length = null): CollectionInterface;
@@ -1239,7 +1239,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      *  
      * @title: Sorts a collection's items in ascending order while maintaining key association. A new collection containing the sorted items is returned. The original collection is not modified.
      *  
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      *  
      */
     public function sort(callable $callable=null, SortType $type=null): CollectionInterface;
@@ -1269,7 +1269,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      *  
      * @title: Sorts a collection's items in descending order while maintaining key association. A new collection containing the sorted items is returned. The original collection is not modified.
      *  
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      *  
      */
     public function sortDesc(callable $callable=null, SortType $type=null): CollectionInterface;
@@ -1299,7 +1299,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      *
      * @title: Sorts a collection's items by keys in ascending order while maintaining key association. A new collection containing the sorted items is returned. The original collection is not modified.
      *
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      */
     public function sortByKey(callable $callable=null, SortType $type=null): CollectionInterface;
 
@@ -1328,7 +1328,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      *
      * @title: Sorts a collection's items by keys in descending order while maintaining key association. A new collection containing the sorted items is returned. The original collection is not modified.
      *
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      */
     public function sortDescByKey(callable $callable=null, SortType $type=null): CollectionInterface;
 
@@ -1367,7 +1367,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      * @used-for: ordering-or-sorting-items, creating-new-collections
      *
      * @title: Sorts a collection of associative arrays or objects by specified field name(s) while maintaining key association. A new collection containing the sorted items is returned. The original collection is not modified.
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      */
     public function sortByMultipleFields(MultiSortParameters ...$param): CollectionInterface;
 
@@ -1393,7 +1393,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      * @used-for: ordering-or-sorting-items
      *
      * @title: Sorts a collection's items in ascending order while maintaining key association. The original collection is modified.
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      */
     public function sortMe(callable $callable=null, SortType $type=null): CollectionInterface;
 
@@ -1419,7 +1419,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      * @used-for: ordering-or-sorting-items
      *
      * @title: Sorts a collection's items in descending order while maintaining key association. The original collection is modified.
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      */
     public function sortMeDesc(callable $callable=null, SortType $type=null): CollectionInterface;
 
@@ -1445,7 +1445,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      * @used-for: ordering-or-sorting-items
      *
      * @title: Sorts a collection's items by keys in ascending order while maintaining key association. The original collection is modified.
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      */
     public function sortMeByKey(callable $callable=null, SortType $type=null): CollectionInterface;
 
@@ -1471,7 +1471,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      * @used-for: ordering-or-sorting-items
      *
      * @title: Sorts a collection's items by keys in descending order while maintaining key association. The original collection is modified.
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      */
     public function sortMeDescByKey(callable $callable=null, SortType $type=null): CollectionInterface;
 
@@ -1507,7 +1507,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      *
      * @title: Sorts a collection of associative arrays or objects by specified field name(s) while maintaining key association. The original collection is modified.
      *
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      */
     public function sortMeByMultipleFields(MultiSortParameters ...$param): CollectionInterface;
 
@@ -1550,7 +1550,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      *  
      * @throws InvalidArgumentException if $offset is non-int and / or if $length is non-null and non-int
      *  
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      *  
      */
     public function splice(int $offset, ?int $length=null, array $replacement=[]): CollectionInterface;
@@ -1573,7 +1573,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      *
      * @throws InvalidArgumentException
      * 
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      * 
      */
     public function split(int $numberOfGroups): CollectionInterface;
@@ -1595,7 +1595,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      *  
      * @throws InvalidArgumentException
      *  
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      *  
      */
     public function take(int $limit): CollectionInterface;
@@ -1610,7 +1610,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      * 
      * @title: Invokes a specified callback on a copy of a collection and returns the original collection.
      * 
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      * 
      */
     public function tap(callable $callback): CollectionInterface;
@@ -1644,7 +1644,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      *
      * @title: Appends specified items to a collection and returns the result in a new collection. New items with the same keys as existing items will not overwrite the existing items. Original collection is not modified.
      *
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      *
      *@see \VersatileCollections\CollectionInterface::mergeWith()
      * @see \VersatileCollections\CollectionInterface::mergeMeWith()
@@ -1683,7 +1683,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      * 
      * @title: Appends specified items to a collection. New items with the same keys as existing items will not overwrite the existing items. Original collection is modified.
      * 
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      * 
      */
     public function unionMeWith(array $items): CollectionInterface;
@@ -1704,7 +1704,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      *
      * @title: Returns a new collection of unique items from an existing collection. This method uses strict comparison for testing uniqueness. The keys are not preserved in the returned collection.
      *
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      *
      *@see \VersatileCollections\ScalarsCollection::uniqueNonStrict()
      * 
@@ -1737,7 +1737,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      *                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
      * @title: Conditionally executes a specified callback on a collection if first argument is truthy or executes a specified default callback otherwise and returns the value returned by the executed callback. If no callback could be executed, null is returned.
      *  
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      *
      * @noinspection PhpMissingParamTypeInspection
      */
@@ -1769,7 +1769,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      *                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
      * @title: Conditionally executes a specified callback on a collection if first argument is falsy or executes a specified default callback otherwise and returns the value returned by the executed callback. If no callback could be executed, null is returned.
      *  
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      *
      * @noinspection PhpMissingParamTypeInspection
      */
@@ -1827,7 +1827,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      * @throws InvalidArgumentException
      * @throws RuntimeException
      *  
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      *  
      */
     public function column($column_key, $index_key=null): GenericCollection;
@@ -1861,7 +1861,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      * @throws InvalidArgumentException if $new_collection_class is not a string and is not an object
      *                                   of if $new_collection_class is not an instanceof \VersatileCollections\CollectionInterface
      *  
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      *  
      */
     public function getAsNewType($new_collection_class=GenericCollection::class): CollectionInterface;
@@ -1877,7 +1877,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      * 
      * @title: Removes items from a collection (whose keys are specified) or (all items if no keys were specified). 
      * 
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      * 
      */
     public function removeAll(array $keys=[]): CollectionInterface;
@@ -1896,7 +1896,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      * 
      * @title: Returns a new collection of items from an existing collection whose keys are present in the specified keys.
      * 
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      * 
      */
     public function getAllWhereKeysIn(array $keys): CollectionInterface;
@@ -1916,7 +1916,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      * 
      * @title: Returns a new collection of items from an existing collection whose keys are not present in the specified keys.
      * 
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      * 
      */
     public function getAllWhereKeysNotIn(array $keys): CollectionInterface;
@@ -1974,7 +1974,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      *  
      * @title: Returns a new collection of at most a specified number of items present in the specified page.
      *  
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      *  
      */
     public function paginate(int $page_number, int $num_items_per_page): CollectionInterface;
@@ -1991,7 +1991,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      *  
      * @title: Returns a new collection containing items in an existing collection that are not present in the specified array of items.
      *  
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      *  
      */
     public function diff(array $items): CollectionInterface;
@@ -2015,7 +2015,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      *  
      * @title: Returns a new collection containing items in an existing collection that are not present in the specified array of items using a specified callback to test for item presence.
      *  
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      *  
      */
     public function diffUsing(array $items, callable $callback): CollectionInterface;
@@ -2032,7 +2032,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      *  
      * @title: Returns a new collection containing items in an existing collection whose keys and values are not present in the specified array of items.
      *  
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      *  
      */
     public function diffAssoc(array $items): CollectionInterface;
@@ -2055,7 +2055,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      * 
      * @title: Returns a new collection containing items in an existing collection whose keys and values are not present in the specified array of items using a callback to test for key presence.
      * 
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      * 
      */
     public function diffAssocUsing(array $items, callable $key_comparator): CollectionInterface;
@@ -2072,7 +2072,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      *  
      * @title: Returns a new collection containing items in an existing collection whose keys are not present in the specified array of items.
      *  
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      *  
      */
     public function diffKeys(array $items): CollectionInterface;
@@ -2096,7 +2096,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      *  
      * @title: Returns a new collection containing items in an existing collection whose keys are not present in the specified array of items using a specified callback to test for key presence.
      *  
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      *  
      */
     public function diffKeysUsing(array $items, callable $key_comparator): CollectionInterface;
@@ -2125,7 +2125,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      * 
      * @title: Iterates through a collection and executes a callback (that returns a boolean) over each item and returns true if the callback returns true for all items or false otherwise.
      * 
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      * 
      */
     public function allSatisfyConditions(callable $callback, bool $bind_callback_to_this=true): bool;
@@ -2141,7 +2141,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      * 
      * @title: Returns a new collection of items from an existing collection whose keys are present in an array of specified keys.
      * 
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      * 
      */
     public function intersectByKeys(array $arr): CollectionInterface;
@@ -2157,7 +2157,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      * 
      * @title: Returns a new collection of items from an existing collection that are present in an array of specified items.
      * 
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      * 
      */
     public function intersectByItems(array $arr): CollectionInterface;
@@ -2173,7 +2173,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      * 
      * @title: Returns a new collection of items from an existing collection whose keys and corresponding items are present in an array of specified items.
      * 
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      * 
      */
     public function intersectByKeysAndItems(array $arr): CollectionInterface;
@@ -2196,7 +2196,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      * 
      * @title: Returns a new collection of items from an existing collection whose keys are present in an array of specified keys using a specified callback for testing key presence.
      * 
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      * 
      */
     public function intersectByKeysUsingCallback(array $arr, callable $key_comparator): CollectionInterface;
@@ -2219,7 +2219,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      * 
      * @title: Returns a new collection of items from an existing collection that are present in an array of specified items using a specified callback for testing item presence.
      * 
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      * 
      */
     public function intersectByItemsUsingCallback(array $arr, callable $item_comparator): CollectionInterface;
@@ -2255,7 +2255,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate 
      * @used-for: accessing-or-extracting-keys-or-items, creating-new-collections, finding-or-searching-for-items
      *
      * @title: Returns a new collection of items from an existing collection whose keys and corresponding items are present in an array of specified items using one specified callback for testing key presence and another specified callback for testing item presence.
-     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
+     * 
      */
     public function intersectByKeysAndItemsUsingCallbacks(array $arr, callable $key_comparator=null, callable $item_comparator=null): CollectionInterface;
 }
