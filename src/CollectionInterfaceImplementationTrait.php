@@ -883,7 +883,7 @@ trait CollectionInterfaceImplementationTrait {
      *
      * @see \VersatileCollections\CollectionInterface::appendCollection()
      *
-     * @psalm-suppress LessSpecificImplementedReturnType
+     * 
      */
     public function appendCollection(CollectionInterface $other): CollectionInterface
     {
@@ -955,7 +955,7 @@ trait CollectionInterfaceImplementationTrait {
      *
      * @see \VersatileCollections\CollectionInterface::prependCollection()
      *
-     * @psalm-suppress LessSpecificImplementedReturnType 
+     *  
      */
     public function prependCollection(CollectionInterface $other): CollectionInterface
     {
@@ -975,7 +975,7 @@ trait CollectionInterfaceImplementationTrait {
      * @param mixed $item
      * @param string|int|null $key
      * 
-     * @psalm-suppress LessSpecificImplementedReturnType 
+     * 
      * @psalm-suppress RedundantConditionGivenDocblockType 
      */
     public function prependItem($item, $key=null): CollectionInterface
@@ -1762,7 +1762,7 @@ trait CollectionInterfaceImplementationTrait {
      *  
      * @see \VersatileCollections\CollectionInterface::sortMe()
      * 
-     * @psalm-suppress LessSpecificImplementedReturnType 
+     * 
      */
     public function sortMe(callable $callable=null, SortType $type=null): CollectionInterface
     {
@@ -1783,7 +1783,7 @@ trait CollectionInterfaceImplementationTrait {
      *  
      * @see \VersatileCollections\CollectionInterface::sortMeDesc()
      * 
-     * @psalm-suppress LessSpecificImplementedReturnType 
+     *  
      */
     public function sortMeDesc(callable $callable=null, SortType $type=null): CollectionInterface
     {
@@ -1804,7 +1804,7 @@ trait CollectionInterfaceImplementationTrait {
      *  
      * @see \VersatileCollections\CollectionInterface::sortMeByKey()
      * 
-     * @psalm-suppress LessSpecificImplementedReturnType 
+     *  
      */
     public function sortMeByKey(callable $callable=null, SortType $type=null): CollectionInterface
     {
@@ -1825,7 +1825,7 @@ trait CollectionInterfaceImplementationTrait {
      *  
      * @see \VersatileCollections\CollectionInterface::sortMeDescByKey()
      * 
-     * @psalm-suppress LessSpecificImplementedReturnType 
+     *  
      */
     public function sortMeDescByKey(callable $callable=null, SortType $type=null): CollectionInterface
     {
@@ -1849,7 +1849,7 @@ trait CollectionInterfaceImplementationTrait {
      *  
      * @see \VersatileCollections\CollectionInterface::sortMeByMultipleFields()
      * 
-     * @psalm-suppress LessSpecificImplementedReturnType 
+     *  
      */
     public function sortMeByMultipleFields(MultiSortParameters ...$param): CollectionInterface
     {
@@ -1987,7 +1987,7 @@ trait CollectionInterfaceImplementationTrait {
      *  
      * @see \VersatileCollections\CollectionInterface::unionMeWith()
      * 
-     * @psalm-suppress LessSpecificImplementedReturnType 
+     * 
      */
     public function unionMeWith(array $items): CollectionInterface
     {
@@ -2238,7 +2238,7 @@ trait CollectionInterfaceImplementationTrait {
      * @param string|CollectionInterface $new_collection_class
      * 
      * @psalm-suppress DocblockTypeContradiction
-     * @psalm-suppress RedundantConditionGivenDocblockType
+     * 
      */
     public function getAsNewType($new_collection_class= GenericCollection::class): CollectionInterface {
         
@@ -2282,7 +2282,7 @@ trait CollectionInterfaceImplementationTrait {
      *  
      * @see \VersatileCollections\CollectionInterface::removeAll()
      * 
-     * @psalm-suppress LessSpecificImplementedReturnType 
+     * 
      */
     public function removeAll(array $keys=[]): CollectionInterface
     {
