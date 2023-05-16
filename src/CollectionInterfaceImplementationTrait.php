@@ -349,10 +349,8 @@ trait CollectionInterfaceImplementationTrait
      * @see \VersatileCollections\CollectionInterface::offsetGet()
      * 
      * @param mixed $key The requested key.
-     *
-     * @return mixed|void 
      */
-    public function offsetGet($key) 
+    public function offsetGet(mixed $key):mixed
     {
         if ( \array_key_exists($key, $this->versatile_collections_items) ) {
 

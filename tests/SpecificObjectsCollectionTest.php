@@ -92,7 +92,7 @@ class SpecificObjectsCollectionTest extends \PHPUnit\Framework\TestCase {
         $this->assertFalse($collection->containsItemWithKey('item4', $item4));
     }
     
-    public function testThatMakeNewForSpecifiedClassName_WithArgsCanStoreOnlyInstancesOfTheSpecifiedClassAndItsSubclasses() {
+    public function testThatMakeNewForSpecifiedClassNameStoresOnlyInstancesOfTheSpecifiedClassAndItsSubclasses() {
 
         $item1 = new \ArrayIterator(); // parent class instance
         $item2 = new \ArrayIterator(); // parent class instance

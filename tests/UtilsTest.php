@@ -69,31 +69,46 @@ EOT;
         ); // anonymous function a.k.a Closure
     }
 
+    public function testThatBindObjectAndScopeToClosureWorksAsExpected1() {
+        
+        $this->expectException(\InvalidArgumentException::class);
+        
+        @Utils::bindObjectAndScopeToClosure(Utils::getClosureFromCallable([\Ancestor::class, 'who']), $this); // static method call on a class
+    }
+
+    public function testThatBindObjectAndScopeToClosureWorksAsExpected2() {
+        
+        $this->expectException(\InvalidArgumentException::class);
+        
+        @Utils::bindObjectAndScopeToClosure(Utils::getClosureFromCallable(\Descendant::class.'::who'), $this); // static method call string syntax
+    }
+
+    public function testThatBindObjectAndScopeToClosureWorksAsExpected3() {
+        
+        $this->expectException(\InvalidArgumentException::class);
+        
+        @Utils::bindObjectAndScopeToClosure(Utils::getClosureFromCallable([\Descendant::class, 'parent::who']), $this); // parent class' static method call
+    }
+
+    public function testThatBindObjectAndScopeToClosureWorksAsExpected4() {
+        
+        $this->expectException(\InvalidArgumentException::class);
+        
+        @Utils::bindObjectAndScopeToClosure(Utils::getClosureFromCallable([ (new \Descendant() ), 'echoOut']), $this); // instance method call on a class instance
+    }
+
+    public function testThatBindObjectAndScopeToClosureWorksAsExpected5() {
+        
+        $this->expectException(\InvalidArgumentException::class);
+        
+        @Utils::bindObjectAndScopeToClosure(Utils::getClosureFromCallable( (new \Descendant()) ), $this); // instance of class that has __invoke()
+    }
+    
     public function testThatBindObjectAndScopeToClosureWorksAsExpected() {
         
         $this->assertTrue(
-            Utils::getClosureFromCallable('my_callback_function') instanceof \Closure
+            Utils::bindObjectAndScopeToClosure(Utils::getClosureFromCallable('my_callback_function'), $this) instanceof \Closure
         ); // from non-anonymous & non-class function
-        
-        $this->assertTrue(
-            Utils::getClosureFromCallable([\Ancestor::class, 'who']) instanceof \Closure    
-        ); // static method call on a class
-        
-        $this->assertTrue(
-            Utils::getClosureFromCallable([ (new \Descendant() ), 'echoOut']) instanceof \Closure    
-        ); // instance method call on a class instance
-        
-        $this->assertTrue(
-            Utils::getClosureFromCallable(\Descendant::class.'::who') instanceof \Closure    
-        ); // static method call string syntax
-        
-        $this->assertTrue(
-            Utils::getClosureFromCallable([\Descendant::class, 'parent::who']) instanceof \Closure    
-        ); // parent class' static method call
-        
-        $this->assertTrue(
-            Utils::getClosureFromCallable( (new \Descendant()) ) instanceof \Closure    
-        ); // instance of class that has __invoke()
         
         $anon_func = function($a) {
             return $a * 2;
@@ -101,19 +116,6 @@ EOT;
         $this->assertTrue(
             Utils::bindObjectAndScopeToClosure($anon_func, $this) instanceof \Closure    
         ); // anonymous function a.k.a Closure
-        
-        if( 
-            (PHP_MAJOR_VERSION === 7 && PHP_MINOR_VERSION >=1)
-            || PHP_MAJOR_VERSION > 7
-        ) {
-            $this->expectException(\InvalidArgumentException::class);
-            
-            // Code should generate Exception: binding $this to a static Closure
-            Utils::bindObjectAndScopeToClosure(
-                Utils::getClosureFromCallable([\Ancestor::class, 'who']), 
-                $this
-            );
-        }
     }
     
     public function testThatGetThrowableAsStrWorksAsExpected() {

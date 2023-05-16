@@ -129,16 +129,13 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate
      * 
      * @param mixed $key The requested key.
      * 
-     * @return mixed
-     * 
      * @used-for: accessing-or-extracting-keys-or-items
      * 
      * @title: Retrieves an item associated with a specified key in the collection.
      * 
      * @noinspection PhpParameterNameChangedDuringInheritanceInspection
      */
-    #[\ReturnTypeWillChange]
-    public function offsetGet($key);
+    public function offsetGet(mixed $key): mixed;
     
     /**
      * ArrayAccess: set a key's value.

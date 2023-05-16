@@ -49,10 +49,10 @@
         ]
     },
     "scripts" : {
-        "test" : "vendor/bin/phpunit --coverage-text",
+        "test" : "vendor/bin/phpunit --coverage-text --display-warnings --display-deprecations --display-notices",
         "rector" : "vendor/bin/rector process src --dry-run -vvv",
         "rector-clear": "vendor/bin/rector --clear-cache",
-        "psalm" : "vendor/bin/psalm",
+        "psalm" : "vendor/bin/psalm --threads=1",
         "qa" : "composer test && composer rector && composer psalm"
     },
     "config" : {
