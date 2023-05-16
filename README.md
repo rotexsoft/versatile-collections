@@ -37,6 +37,8 @@ Switch to the 3.X branch to read the documentation for the 3.X version.
 
 Switch to the 4.X branch to read the documentation for the 4.X version.
 
+Switch to the 5.2.x branch to read the documentation for the 5.2.X+ version.
+
 
     composer require rotexsoft/versatile-collections
 
@@ -241,11 +243,9 @@ and more efficient way(s) things could be implemented in this package.
 
 As of May 16 2023, version 5.2.0 is the latest stable version with a minimum PHP 7.4 requirement.
 Only bugfixes will be accepted for this version and they should be applied to the 5.2.x branch.
-- Bugfixes for version 4.x should be applied to the 4.x branch.
-- Bugfixes for version 3.x should be applied to the 3.x branch.
-- Bugfixes for version 2.x should be applied to the 2.x branch.
+- Bugfixes for version 4.x should be applied to the 4.X branch.
+- Bugfixes for version 3.x should be applied to the 3.X branch.
+- Bugfixes for version 2.x should be applied to the 2.X branch.
 
 The master branch currently contains code that is in preparation for the next major version 6 
 scheduled to be released at the end of 2023 which will have PHP 8.1 as a minimum requirement.
-> The php-8.1-readiness branch contains code that has been refactored for a minimum version of 
-PHP 8.1 & will be merged into master at some point before the first stable version 6 release
