@@ -11,7 +11,7 @@ MOVE ALL THE CONTENTS OF THIS FILE TO https://github.com/rotexsoft/versatile-col
 > **NOTE TO SELF:** Create github issues rather than adding tasks to this file
 
 New PHP 7.0 - 7.2 Features for Versatile Collections PHP 7.2+
-===============================================================
+==============================================================
 - https://gist.github.com/rotexdegba/2e04245570810ff05f571ab95cc4c728 new stuff in PHP 7.X
 - Use Scalar type definitions in method parameters and return signature and get rid of code formerly used to check types (and the exceptions thrown when types are wrong)
     - Update unit test expecting those exceptions to no longer do so where appropriate they should expect \TypeError in those cases I guess
