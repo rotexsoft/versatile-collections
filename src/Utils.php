@@ -31,7 +31,14 @@ class Utils {
     public static function bindObjectAndScopeToClosure(Closure $closure, object $newthis): Closure {
 
         try {
-            return Closure::bind($closure, $newthis);
+            $new_closure = Closure::bind($closure, $newthis);
+
+            if($new_closure === null) {
+
+                throw new Exception(''); // jump to catch block below
+            }
+            
+            return $new_closure;
             
         } catch (Exception $ex) {
             

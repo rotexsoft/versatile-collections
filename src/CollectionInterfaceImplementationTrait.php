@@ -526,9 +526,7 @@ trait CollectionInterfaceImplementationTrait {
      *  
      * @see \VersatileCollections\CollectionInterface::setValForEachItem()
      *  
-     * @param mixed $field_val value to be set for the field whose name is the value contained in $field_name 
-     * 
-     * @psalm-suppress LessSpecificImplementedReturnType
+     * @param mixed $field_val value to be set for the field whose name is the value contained in $field_name
      */
     public function setValForEachItem(string $field_name, $field_val, bool $add_field_if_not_present=false): CollectionInterface
     {
@@ -656,8 +654,6 @@ trait CollectionInterfaceImplementationTrait {
     /**
      *  
      * @see \VersatileCollections\CollectionInterface::transform()
-     * 
-     * @psalm-suppress LessSpecificImplementedReturnType 
      */
     public function transform(callable $transformer, bool $bind_callback_to_this=true): CollectionInterface
     {
@@ -729,8 +725,6 @@ trait CollectionInterfaceImplementationTrait {
     /**
      *  
      * @see \VersatileCollections\CollectionInterface::reverseMe()
-     * 
-     * @psalm-suppress LessSpecificImplementedReturnType
      */
     public function reverseMe(): CollectionInterface
     {
@@ -910,8 +904,6 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::appendItem()
      * 
      * @param mixed $item
-     *  
-     * @psalm-suppress LessSpecificImplementedReturnType
      */
     public function appendItem($item): CollectionInterface
     {
@@ -946,8 +938,6 @@ trait CollectionInterfaceImplementationTrait {
     /**
      *  
      * @see \VersatileCollections\CollectionInterface::mergeMeWith()
-     * 
-     * @psalm-suppress LessSpecificImplementedReturnType 
      */
     public function mergeMeWith(array $items): CollectionInterface
     {
@@ -1098,8 +1088,6 @@ trait CollectionInterfaceImplementationTrait {
     /**
      *  
      * @see \VersatileCollections\CollectionInterface::makeAllKeysNumeric()
-     * 
-     * @psalm-suppress LessSpecificImplementedReturnType 
      */
     public function makeAllKeysNumeric(int $starting_key=0): CollectionInterface
     {
@@ -1133,8 +1121,6 @@ trait CollectionInterfaceImplementationTrait {
      * @param mixed $termination_value a value that should be returned by $callback 
      *                                 signifying that iteration through a collection
      *                                 should stop.
-     * 
-     * @psalm-suppress LessSpecificImplementedReturnType 
      */
     public function each(
         callable $callback, $termination_value=false, bool $bind_callback_to_this=true
@@ -1236,8 +1222,6 @@ trait CollectionInterfaceImplementationTrait {
     /**
      *  
      * @see \VersatileCollections\CollectionInterface::pipeAndReturnSelf()
-     * 
-     * @psalm-suppress LessSpecificImplementedReturnType 
      */
     public function pipeAndReturnSelf(callable $callback): CollectionInterface
     {
@@ -1250,8 +1234,6 @@ trait CollectionInterfaceImplementationTrait {
     /**
      *  
      * @see \VersatileCollections\CollectionInterface::tap()
-     * 
-     * @psalm-suppress LessSpecificImplementedReturnType 
      */
     public function tap(callable $callback): CollectionInterface
     {
@@ -1303,8 +1285,6 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::push()
      * 
      * @param mixed  $item
-     * 
-     * @psalm-suppress LessSpecificImplementedReturnType 
      */
     public function push($item): CollectionInterface
     {
@@ -1317,9 +1297,7 @@ trait CollectionInterfaceImplementationTrait {
      * @see \VersatileCollections\CollectionInterface::put()
      * 
      * @param int|string  $key
-     * @param mixed       $value
-     * 
-     * @psalm-suppress LessSpecificImplementedReturnType 
+     * @param mixed       $value 
      */
     public function put($key, $value): CollectionInterface
     {
@@ -1564,6 +1542,7 @@ trait CollectionInterfaceImplementationTrait {
     /**
      * @psalm-suppress PossiblyInvalidArgument
      * @psalm-suppress PossiblyInvalidIterator
+     * @psalm-suppress UnsupportedReferenceUsage
      * 
      * @return mixed[]
      */

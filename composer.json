@@ -1,63 +1,62 @@
 {
-	"name" : "rotexsoft/versatile-collections",
-	"type" : "library",
-	"description" : "A collection package that can be extended to implement things such as a Dependency Injection Container, RecordSet objects for housing database records, a bag of http cookies, or technically any collection of items that can be looped over and whose items can each be accessed using array-access syntax or object property syntax.",
-	"keywords" : [
-		"collections",
-		"collection",
-		"array",
-		"arrays",
-		"iterable",
-		"iterator",
-		"ArrayAccess",
-		"typed",
-		"typed collection",
-		"typed collections"
-	],
-	"homepage" : "https://github.com/rotexsoft/versatile-collections",
-	"license" : "BSD-3-Clause",
-	"authors" : [{
-			"name" : "Rotimi Adegbamigbe",
-			"email" : "rotexdegba007-github@yahoo.ca",
-			"homepage" : "https://github.com/rotexdegba",
-			"role" : "Developer"
-		}
-	],
-	"minimum-stability" : "dev",
-	"prefer-stable" : true,
-	"require" : {
-		"php" : ">=7.4.0"
-	},
-	"require-dev" : {
-		"phpunit/phpunit" : "^9.0",
-		"php-coveralls/php-coveralls" : "^2.0",
-		"symfony/polyfill-mbstring" : "^1.8",
-		"rector/rector" : "^0.15.0",
-		"vimeo/psalm" : "^5.4.0"
-	},
-	"autoload" : {
-		"classmap" : [
-			"src/"
-		],
-		"files" : [
-			"src/helper-functions.php"
-		]
-	},
-	"autoload-dev" : {
-		"classmap" : [
-			"src/",
-			"tests/"
-		]
-	},
-	"scripts" : {
-		"test" : "vendor/bin/phpunit --coverage-text",
-		"rector" : "vendor/bin/rector process src --dry-run -vvv",
-		"psalm" : "vendor/bin/psalm",
-		"qa" : "composer test && composer rector && composer psalm"
-	},
-	"config" : {
-		"allow-plugins" : {
-			"rector/rector-installer" : true
-		}
-	}
+    "name" : "rotexsoft/versatile-collections",
+    "type" : "library",
+    "description" : "A collection package that can be extended to implement things such as a Dependency Injection Container, RecordSet objects for housing database records, a bag of http cookies, or technically any collection of items that can be looped over and whose items can each be accessed using array-access syntax or object property syntax.",
+    "keywords" : [
+        "collections",
+        "collection",
+        "array",
+        "arrays",
+        "iterable",
+        "iterator",
+        "ArrayAccess",
+        "typed",
+        "typed collection",
+        "typed collections"
+    ],
+    "homepage" : "https://github.com/rotexsoft/versatile-collections",
+    "license" : "BSD-3-Clause",
+    "authors" : [{
+        "name" : "Rotimi Adegbamigbe",
+        "email" : "rotexdegba007-github@yahoo.ca",
+        "homepage" : "https://github.com/rotexdegba",
+        "role" : "Developer"
+    }],
+    "minimum-stability" : "dev",
+    "prefer-stable" : true,
+    "require" : {
+        "php" : ">=7.4.0"
+    },
+    "require-dev" : {
+        "phpunit/phpunit" : "^9.0",
+        "php-coveralls/php-coveralls" : "^2.0",
+        "symfony/polyfill-mbstring" : "^1.8",
+        "rector/rector" : "^0.16.0",
+        "vimeo/psalm" : "^5.4.0"
+    },
+    "autoload" : {
+        "classmap" : [
+            "src/"
+        ],
+        "files" : [
+            "src/helper-functions.php"
+        ]
+    },
+    "autoload-dev" : {
+        "classmap" : [
+            "src/",
+            "tests/"
+        ]
+    },
+    "scripts" : {
+        "test" : "vendor/bin/phpunit --coverage-text",
+        "rector" : "vendor/bin/rector process src --dry-run -vvv",
+        "psalm" : "vendor/bin/psalm",
+        "qa" : "composer test && composer rector && composer psalm"
+    },
+    "config" : {
+        "allow-plugins" : {
+                "rector/rector-installer" : true
+        }
+    }
 }

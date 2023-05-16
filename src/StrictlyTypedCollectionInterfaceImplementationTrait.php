@@ -57,7 +57,6 @@ trait StrictlyTypedCollectionInterfaceImplementationTrait {
      *
      * @noinspection PhpDocSignatureInspection
      * @noinspection PhpUnhandledExceptionInspection
-     * @psalm-suppress LessSpecificImplementedReturnType
      */
     public function appendCollection(CollectionInterface $other): CollectionInterface {
         
@@ -86,11 +85,6 @@ trait StrictlyTypedCollectionInterfaceImplementationTrait {
      * @throws Exceptions\InvalidItemException
      *
      * @noinspection PhpUnhandledExceptionInspection
-     * @psalm-suppress RedundantConditionGivenDocblockType
-     * @psalm-suppress PossiblyInvalidCast
-     * @psalm-suppress DocblockTypeContradiction
-     * @psalm-suppress PossiblyInvalidArgument
-     * @psalm-suppress RedundantCastGivenDocblockType
      */
     protected function isRightTypeOrThrowInvalidTypeException($item, string $calling_functions_name): bool {
         
@@ -137,8 +131,6 @@ trait StrictlyTypedCollectionInterfaceImplementationTrait {
      *
      * @noinspection PhpDocSignatureInspection
      * @noinspection PhpUnhandledExceptionInspection
-     *
-     * @psalm-suppress LessSpecificImplementedReturnType
      */
     public function prependCollection(CollectionInterface $other): CollectionInterface {
         
@@ -168,7 +160,6 @@ trait StrictlyTypedCollectionInterfaceImplementationTrait {
      *
      * @noinspection PhpDocSignatureInspection
      * @noinspection PhpUnhandledExceptionInspection
-     * @psalm-suppress LessSpecificImplementedReturnType
      */
     public function prependItem($item, $key=null): CollectionInterface {
         
@@ -183,7 +174,6 @@ trait StrictlyTypedCollectionInterfaceImplementationTrait {
      *
      * @noinspection PhpDocSignatureInspection
      * @noinspection PhpUnhandledExceptionInspection
-     * @psalm-suppress LessSpecificImplementedReturnType
      */
     public function unionMeWith(array $items): CollectionInterface {
         

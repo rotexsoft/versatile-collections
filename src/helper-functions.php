@@ -279,7 +279,8 @@ namespace VersatileCollections {
      * @param mixed $var
      *  
      * @return string a (screen / user)-friendly string representation of a variable
-     *  
+     * 
+     * @psalm-suppress ForbiddenCode
      */
     function var_to_string($var): string {
 

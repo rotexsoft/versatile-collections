@@ -34,6 +34,8 @@ use VersatileCollections\Exceptions\InvalidItemException;
  *      - other-operations
  *
  * @author rotimi
+ * 
+ * @psalm-suppress MissingTemplateParam
  */
 interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate {
 
