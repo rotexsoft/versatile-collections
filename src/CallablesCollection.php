@@ -28,21 +28,20 @@ namespace VersatileCollections;
  */
 class CallablesCollection implements StrictlyTypedCollectionInterface
 {
-    
     use StrictlyTypedCollectionInterfaceImplementationTrait;
     
-    public function __construct(callable ...$callables) {
-        
+    public function __construct(callable ...$callables)
+    {    
         $this->versatile_collections_items = $callables;
     }
 
-    public function checkType($item): bool {
-        
+    public function checkType($item): bool
+    {    
         return \is_callable($item);
     }
 
-    public function getTypes(): StringsCollection {
-        
+    public function getTypes(): StringsCollection
+    {    
         return new StringsCollection('callable');
     }
 }

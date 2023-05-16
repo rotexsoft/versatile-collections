@@ -12,24 +12,23 @@ use Throwable;
  *
  * @author rotimi
  */
-class Utils {
-
+class Utils
+{
     /**
-     *
      * @param mixed $var
      */
-    public static function gettype($var): string {
-        
+    public static function gettype($var): string 
+    {    
         return \is_object($var) ? \get_class($var) : \gettype($var);
     }
 
-    public static function getClosureFromCallable(callable $callable): Closure {
-
+    public static function getClosureFromCallable(callable $callable): Closure 
+    {
         return ($callable instanceof Closure)? $callable : Closure::fromCallable($callable);
     }
     
-    public static function bindObjectAndScopeToClosure(Closure $closure, object $newthis): Closure {
-
+    public static function bindObjectAndScopeToClosure(Closure $closure, object $newthis): Closure 
+    {
         try {
             $new_closure = Closure::bind($closure, $newthis);
 
@@ -53,8 +52,8 @@ class Utils {
     }
 
     /** @noinspection DuplicatedCode */
-    public static function getThrowableAsStr(Throwable $e, string $eol=PHP_EOL): string {
-
+    public static function getThrowableAsStr(Throwable $e, string $eol=PHP_EOL): string 
+    {
         $previous_throwable = $e; 
         $message = '';
 

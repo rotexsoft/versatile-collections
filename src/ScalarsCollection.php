@@ -28,29 +28,24 @@ namespace VersatileCollections;
  */
 class ScalarsCollection implements StrictlyTypedCollectionInterface
 {
-    
     use StrictlyTypedCollectionInterfaceImplementationTrait;
 
     /**
-     * 
      * This method should be overridden in sub-classes of this class
      * 
      * @param mixed $item
-     * 
-     * 
      */
-    public function checkType($item): bool {
-        
+    public function checkType($item): bool
+    {
         return \is_scalar($item);
     }
 
-    public function getTypes(): StringsCollection {
-        
+    public function getTypes(): StringsCollection
+    {
         return new StringsCollection('bool', 'float', 'int', 'string');
     }
     
     /**
-     * 
      * Get a collection of unique items from an existing collection. The keys
      * are not preserved in the returned collection. The uniqueness test is
      * done via loose comparison (==). 
@@ -63,7 +58,6 @@ class ScalarsCollection implements StrictlyTypedCollectionInterface
      */
     public function uniqueNonStrict(): CollectionInterface
     {
-        
         return static::makeNew(
             $this->reduce(
                 

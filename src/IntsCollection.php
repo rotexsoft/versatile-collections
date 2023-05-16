@@ -26,21 +26,21 @@ namespace VersatileCollections;
  *
  * @author rotimi
  */
-class IntsCollection extends NumericsCollection {
-
+class IntsCollection extends NumericsCollection 
+{
     /** @noinspection PhpMissingParentConstructorInspection */
-    public function __construct(int ...$numbers) {
-        
+    public function __construct(int ...$numbers)
+    {    
         $this->versatile_collections_items = $numbers;
     }
     
-    public function checkType($item): bool {
-        
+    public function checkType($item): bool
+    {    
         return \is_int($item);
     }
 
-    public function getTypes(): StringsCollection {
-        
+    public function getTypes(): StringsCollection
+    {    
         return new StringsCollection('int');
     }
 
@@ -48,8 +48,8 @@ class IntsCollection extends NumericsCollection {
      * @param $str
      * @noinspection PhpMissingReturnTypeInspection
      */
-    protected function itemFromString(string $str): int {
-        
+    protected function itemFromString(string $str): int
+    {    
         return ((int) ($str.''));
     }
 
@@ -57,8 +57,8 @@ class IntsCollection extends NumericsCollection {
      * @param $item
      * @noinspection PhpMissingReturnTypeInspection
      */
-    protected function itemToString($item): string {
-        
+    protected function itemToString($item): string
+    {    
         return $item.'';
     }
 }

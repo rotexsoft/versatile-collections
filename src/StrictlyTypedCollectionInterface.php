@@ -3,7 +3,6 @@ declare(strict_types=1);
 namespace VersatileCollections;
 
 /**
- *
  * Below is a list of acceptable value(s), that could be comma separated, 
  * for the @used-for tag in phpdoc blocks for public methods in this interface:
  *  
@@ -25,19 +24,16 @@ namespace VersatileCollections;
  *  
  * @author Rotimi Ade
  */
-interface StrictlyTypedCollectionInterface extends CollectionInterface {
-
+interface StrictlyTypedCollectionInterface extends CollectionInterface
+{
     /**
-     *
      * @param mixed $item
      * @return bool true if $item is of the expected type, else false
      */
     public function checkType($item): bool;
     
     /**
-     *  
      * @return \VersatileCollections\StringsCollection a collection of strings of type name(s) for items acceptable in a collection
-     *  
      */
     public function getTypes(): StringsCollection;
 }

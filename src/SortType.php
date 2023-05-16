@@ -7,28 +7,28 @@ namespace VersatileCollections;
  *
  * @author Rotimi Ade
  */
-class SortType {
-
+class SortType
+{
     protected int $sort_type = SORT_REGULAR;
     
     /**
      * @var int[]
      */
-    protected static $valid_sort_types = [
+    protected static array $valid_sort_types = [
         SORT_REGULAR, SORT_NATURAL, SORT_NUMERIC, SORT_STRING, SORT_LOCALE_STRING,
         SORT_FLAG_CASE, (SORT_FLAG_CASE | SORT_STRING), (SORT_FLAG_CASE | SORT_NATURAL)
     ];
 
     /** @noinspection PhpUnhandledExceptionInspection */
-    public function __construct(int $sort_type=-777) {
-        
+    public function __construct(int $sort_type=-777) 
+    {    
         if( \in_array($sort_type, static::$valid_sort_types, true) ) {
             
             $this->sort_type = $sort_type;
             
         } else if( 
-            //!\in_array($sort_type, static::$valid_sort_types, true)
-            //&& 
+            // !\in_array($sort_type, static::$valid_sort_types, true)
+            // && 
             $sort_type !== -777
         ) {
             $class = \get_class($this);
@@ -40,22 +40,22 @@ class SortType {
         }
     }
 
-    public function getSortType(): int {
-        
+    public function getSortType(): int
+    {
         return $this->sort_type;
     }
 
     /**
      * @return int[]
      */
-    public static function getValidSortTypes(): array {
-        
+    public static function getValidSortTypes(): array
+    {
         return static::$valid_sort_types;
     }
 
     /** @noinspection PhpUnhandledExceptionInspection */
-    public function setSortType(int $sort_type): self {
-        
+    public function setSortType(int $sort_type): self
+    {
         if( !\in_array($sort_type, static::$valid_sort_types, true) ) {
             
             $class = \get_class($this);

@@ -26,21 +26,21 @@ namespace VersatileCollections;
  *
  * @author rotimi
  */
-class FloatsCollection extends NumericsCollection {
-
+class FloatsCollection extends NumericsCollection 
+{
     /** @noinspection PhpMissingParentConstructorInspection */
-    public function __construct(float ...$numbers) {
-        
+    public function __construct(float ...$numbers) 
+    {    
         $this->versatile_collections_items = $numbers;
     }
     
-    public function checkType($item): bool {
-        
+    public function checkType($item): bool
+    {
         return \is_float($item);
     }
 
-    public function getTypes(): StringsCollection {
-        
+    public function getTypes(): StringsCollection 
+    {    
         return new StringsCollection('float');
     }
 
@@ -48,8 +48,8 @@ class FloatsCollection extends NumericsCollection {
      * @param $str
      * @noinspection PhpMissingReturnTypeInspection
      */
-    protected function itemFromString(string $str): float {
-        
+    protected function itemFromString(string $str): float
+    {
         return ((float) ($str.''));
     }
 
@@ -57,8 +57,8 @@ class FloatsCollection extends NumericsCollection {
      * @param $item
      * @noinspection PhpMissingReturnTypeInspection
      */
-    protected function itemToString($item): string {
-        
+    protected function itemToString($item): string
+    {    
         return $item.'';
     }
 }

@@ -3,8 +3,6 @@ declare(strict_types=1);
 namespace VersatileCollections;
 
 /**
- * Description of StringsCollection
- *
  * Below is a list of acceptable value(s), that could be comma separated, 
  * for the @used-for tag in phpdoc blocks for public methods in this class:
  *  
@@ -26,21 +24,21 @@ namespace VersatileCollections;
  *  
  * @author rotimi
  */
-class StringsCollection extends ScalarsCollection {
-
+class StringsCollection extends ScalarsCollection
+{
     /** @noinspection PhpMissingParentConstructorInspection */
-    public function __construct(string ...$strings) {
-        
+    public function __construct(string ...$strings) 
+    {    
         $this->versatile_collections_items = $strings;
     }
     
-    public function checkType($item): bool {
-        
+    public function checkType($item): bool
+    {    
         return \is_string($item);
     }
 
-    public function getTypes(): StringsCollection {
-        
+    public function getTypes(): StringsCollection
+    {
         return new StringsCollection('string');
     }
 }

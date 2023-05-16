@@ -3,7 +3,6 @@
 namespace VersatileCollections;
 
 /**
- *
  * Below is a list of acceptable value(s), that could be comma separated, 
  * for the @used-for tag in phpdoc blocks for public methods in this trait:
  *  
@@ -24,10 +23,9 @@ namespace VersatileCollections;
  *      - other-operations
  *
  * @author Rotimi Ade
- *  
  */
-trait StrictlyTypedCollectionInterfaceImplementationTrait {
-    
+trait StrictlyTypedCollectionInterfaceImplementationTrait
+{
     use CollectionInterfaceImplementationTrait {
         CollectionInterfaceImplementationTrait::appendCollection as parentAppendCollection;
         CollectionInterfaceImplementationTrait::offsetSet as parentOffsetSet;
@@ -41,8 +39,8 @@ trait StrictlyTypedCollectionInterfaceImplementationTrait {
      * @noinspection PhpUnhandledExceptionInspection 
      * @psalm-suppress MissingParamType
      */
-    public function __construct(...$arr_objs) {
-        
+    public function __construct(...$arr_objs)
+    {
         foreach ($arr_objs as $item) {
             
             $this->isRightTypeOrThrowInvalidTypeException($item, __FUNCTION__);
@@ -52,14 +50,13 @@ trait StrictlyTypedCollectionInterfaceImplementationTrait {
     }
     
     /**
-     *
      * @see \VersatileCollections\CollectionInterface::appendCollection()
      *
      * @noinspection PhpDocSignatureInspection
      * @noinspection PhpUnhandledExceptionInspection
      */
-    public function appendCollection(CollectionInterface $other): CollectionInterface {
-        
+    public function appendCollection(CollectionInterface $other): CollectionInterface
+    {
         if( 
             \get_class($this) !== \get_class($other)
             && !\is_subclass_of($other, \get_class($this))
@@ -80,14 +77,13 @@ trait StrictlyTypedCollectionInterfaceImplementationTrait {
     }
 
     /**
-     *
      * @param mixed $item
      * @throws Exceptions\InvalidItemException
      *
      * @noinspection PhpUnhandledExceptionInspection
      */
-    protected function isRightTypeOrThrowInvalidTypeException($item, string $calling_functions_name): bool {
-        
+    protected function isRightTypeOrThrowInvalidTypeException($item, string $calling_functions_name): bool 
+    {
         if( !$this->checkType($item) ) {
             
             /** @var StringsCollection $returned_type */
@@ -109,7 +105,6 @@ trait StrictlyTypedCollectionInterfaceImplementationTrait {
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::offsetSet()
      * 
      * @param string|int|null $key The requested key.
@@ -118,22 +113,21 @@ trait StrictlyTypedCollectionInterfaceImplementationTrait {
      * @noinspection PhpDocSignatureInspection
      * @noinspection PhpUnhandledExceptionInspection
      */
-    public function offsetSet($key, $val): void {
-        
+    public function offsetSet($key, $val): void 
+    {
         $this->isRightTypeOrThrowInvalidTypeException($val, __FUNCTION__);
         
         static::parentOffsetSet($key, $val);
     }
     
     /**
-     *
      * @see \VersatileCollections\CollectionInterface::prependCollection()
      *
      * @noinspection PhpDocSignatureInspection
      * @noinspection PhpUnhandledExceptionInspection
      */
-    public function prependCollection(CollectionInterface $other): CollectionInterface {
-        
+    public function prependCollection(CollectionInterface $other): CollectionInterface 
+    {
         if( 
             \get_class($this) !== \get_class($other)
             && !\is_subclass_of($other, \get_class($this))
@@ -152,7 +146,6 @@ trait StrictlyTypedCollectionInterfaceImplementationTrait {
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::prependItem()
      * 
      * @param mixed $item
@@ -161,22 +154,21 @@ trait StrictlyTypedCollectionInterfaceImplementationTrait {
      * @noinspection PhpDocSignatureInspection
      * @noinspection PhpUnhandledExceptionInspection
      */
-    public function prependItem($item, $key=null): CollectionInterface {
-        
+    public function prependItem($item, $key=null): CollectionInterface 
+    {
         $this->isRightTypeOrThrowInvalidTypeException($item, __FUNCTION__);
         
         return static::parentPrependItem($item, $key);
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::unionMeWith()
      *
      * @noinspection PhpDocSignatureInspection
      * @noinspection PhpUnhandledExceptionInspection
      */
-    public function unionMeWith(array $items): CollectionInterface {
-        
+    public function unionMeWith(array $items): CollectionInterface 
+    {
         foreach ($items as $item) {
             
             $this->isRightTypeOrThrowInvalidTypeException($item, __FUNCTION__);

@@ -37,19 +37,17 @@ class ObjectsCollection implements StrictlyTypedCollectionInterface
         StrictlyTypedCollectionInterfaceImplementationTrait::__construct as strictlyTypedCollectionTrait__construct;
     }
 
-    public function __construct(object ...$objects) {
-        
+    public function __construct(object ...$objects)
+    {    
         $this->versatile_collections_items = $objects;
     }
 
     /**
-     *
      * Call a method on each object in the collection.
      *
      * The return value of each call (if any) is stored in an array keyed
      * on the object's key in the collection and this array is returned.
-     *
-     *
+     * 
      * @used-for: other-operations
      *
      * @title: Tries to call the specified method with the specified arguments and return its return value if it was registered via either `addMethod` or `addMethodForAllInstances` or tries to call the specified method with the specified arguments on each item in the collection and returns an array of return values keyed by each item's key in the collection. An exception of type **\VersatileCollections\Exceptions\InvalidCollectionOperationException** is thrown if the method could not be called.
@@ -59,8 +57,8 @@ class ObjectsCollection implements StrictlyTypedCollectionInterface
      *
      * @noinspection PhpMissingReturnTypeInspection
      */
-    public function __call(string $method_name, array $arguments=[]) {
-
+    public function __call(string $method_name, array $arguments=[])
+    {
         try {
             return static::parent__call($method_name, $arguments);
             
@@ -68,7 +66,6 @@ class ObjectsCollection implements StrictlyTypedCollectionInterface
 
             // method was not available using 
             //  static::parent__call($method_name, $arguments);
-            
             $results = [];
 
             foreach ( $this as $key_in_collection => $object ) {
@@ -106,18 +103,17 @@ class ObjectsCollection implements StrictlyTypedCollectionInterface
             // an existing and callable method called via
             //     static::parent__call($method_name, $arguments);
             // definitely threw an exception, rethrow the exception
-            
             throw $exc;
         }
     }
     
-    public function checkType($item): bool {
-        
+    public function checkType($item): bool
+    {
         return \is_object($item);
     }
 
-    public function getTypes(): StringsCollection {
-        
+    public function getTypes(): StringsCollection
+    {
         return new StringsCollection('object');
     }
 }

@@ -28,28 +28,26 @@ namespace VersatileCollections;
  */
 class ArraysCollection implements StrictlyTypedCollectionInterface
 {
-    
     use StrictlyTypedCollectionInterfaceImplementationTrait;
     
     /**
      * @param array[] ...$arrays
      */
-    public function __construct(array ...$arrays) {
-        
+    public function __construct(array ...$arrays) 
+    {
         $this->versatile_collections_items = $arrays;
     }
 
     /**
-     *
      * @param mixed $item
      */
-    public function checkType($item): bool {
-        
+    public function checkType($item): bool 
+    {    
         return \is_array($item);
     }
 
-    public function getTypes(): StringsCollection {
-        
+    public function getTypes(): StringsCollection 
+    {    
         return new StringsCollection('array');
     }
 }

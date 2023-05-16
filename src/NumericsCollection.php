@@ -26,41 +26,36 @@ namespace VersatileCollections;
  *
  * @author rotimi
  */
-class NumericsCollection extends ScalarsCollection {
-
+class NumericsCollection extends ScalarsCollection
+{
     /**
-     *  
      * @return int|float|null average all of the values in the collection or null if collection is empty
      *  
      * @used-for: mathematical-operations
      *  
      * @title: Returns the average of all of the values(a.k.a items) in the collection or null if collection is empty.
-     *  
      */
-    public function average(): ?float {
-        
+    public function average(): ?float
+    {
         return ($this->count() > 0) ? ($this->sum() / $this->count()) : null;
     }
     
     /**
-     * 
      * This method should be overridden in sub-classes of this class
      * 
      * @param mixed $item
-     * 
      */
-    public function checkType($item): bool {
-        
+    public function checkType($item): bool
+    {    
         return \is_float($item) || \is_int($item);
     }
 
-    public function getTypes(): StringsCollection {
-        
+    public function getTypes(): StringsCollection
+    {    
         return new StringsCollection('int', 'float');
     }
     
     /**
-     *    
      * This method should be overridden in sub-classes of this class 
      *    
      * @param string $str a string representation of an item in this collection
@@ -69,8 +64,8 @@ class NumericsCollection extends ScalarsCollection {
      *
      * @noinspection PhpMissingParamTypeInspection
      */
-    protected function itemFromString(string $str) {
-        
+    protected function itemFromString(string $str)
+    {    
         if( \strpos($str, '.') !== false ) {
             
             return ( (float) ($str.'') );
@@ -80,7 +75,6 @@ class NumericsCollection extends ScalarsCollection {
     }
     
     /**
-     *  
      * This method should be overridden in sub-classes of this class 
      *  
      * @param mixed $item an item in this collection
@@ -89,13 +83,12 @@ class NumericsCollection extends ScalarsCollection {
      *
      * @noinspection PhpMissingReturnTypeInspection
      */
-    protected function itemToString($item): string {
-        
+    protected function itemToString($item): string
+    {    
         return $item.'';
     }
     
     /**
-     *  
      * @return int|float|null maximum of the values in the collection or null if collection is empty
      *  
      * @used-for: mathematical-operations
@@ -104,19 +97,17 @@ class NumericsCollection extends ScalarsCollection {
      * 
      * @psalm-suppress ArgumentTypeCoercion 
      */
-    public function max(): ?float {
-        
+    public function max(): ?float
+    {    
         return ($this->count() > 0) ? \max($this->versatile_collections_items) : null;
     }
     
     /**
-     *  
      * @return int|float|null median of the values in the collection or null if collection is empty
      *  
      * @used-for: mathematical-operations
      *  
      * @title: Returns the median of all of the values(a.k.a items) in the collection or null if collection is empty.
-     *  
      */
     public function median(): ?float
     {
@@ -141,7 +132,6 @@ class NumericsCollection extends ScalarsCollection {
     }
     
     /**
-     *  
      * @return int|float|null minimum of the values in the collection or null if collection is empty
      *  
      * @used-for: mathematical-operations
@@ -150,13 +140,12 @@ class NumericsCollection extends ScalarsCollection {
      * 
      * @psalm-suppress ArgumentTypeCoercion 
      */
-    public function min(): ?float {
-        
+    public function min(): ?float
+    {
         return ($this->count() > 0) ? \min($this->versatile_collections_items) : null;
     }
     
     /**
-     *  
      * @return array|null an array of modal values in the collection. 
      *                    Returned array will have modal items in the same
      *                    order as in the collection.
@@ -172,8 +161,8 @@ class NumericsCollection extends ScalarsCollection {
      * 
      * @psalm-suppress ArgumentTypeCoercion 
      */
-    public function mode(): ?array {
-        
+    public function mode(): ?array
+    {    
         $counts = [];
         $count = $this->count();
 
@@ -213,21 +202,18 @@ class NumericsCollection extends ScalarsCollection {
     }
     
     /**
-     *  
      * @return int|float the product of all values in the collection.
      *  
      * @used-for: mathematical-operations
      *  
      * @title: Returns the product of all of the values(a.k.a items) in the collection or one if collection is empty.
-     *  
      */
-    public function product(): float {
-        
+    public function product(): float
+    {    
         return \array_product($this->versatile_collections_items);
     }
 
     /**
-     *  
      * Sum of all the values in this collection
      *  
      * @return float|int sum of all the values in this collection or zero if the collection is empty
@@ -235,10 +221,9 @@ class NumericsCollection extends ScalarsCollection {
      * @used-for: mathematical-operations
      *  
      * @title: Returns the sum of all of the values(a.k.a items) in the collection or zero if collection is empty.
-     *  
      */
-    public function sum(): float {
-        
+    public function sum(): float
+    {
         return \array_sum($this->versatile_collections_items);
     }
 }

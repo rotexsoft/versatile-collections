@@ -23,18 +23,17 @@ namespace VersatileCollections;
  *      - modifying-items
  *      - ordering-or-sorting-items
  *      - other-operations
- *
  */
-final class SpecificObjectsCollection extends ObjectsCollection {
-
+final class SpecificObjectsCollection extends ObjectsCollection 
+{
     private ?string $class_name = null;
 
     /** 
      * @noinspection PhpMissingParentConstructorInspection
      * @noinspection PhpUnnecessaryStaticReferenceInspection
      */
-    protected function __construct(object ...$objects) {
-        
+    protected function __construct(object ...$objects) 
+    {    
         if( \is_null($this->class_name) ) {
             
             // we don't have a specific class, allow all objects
@@ -53,17 +52,16 @@ final class SpecificObjectsCollection extends ObjectsCollection {
      * Create a new collection that only stores instances of the specified fully qualified class name or
      * its sub-classes or a new collection that stores any kind of object if no fully qualified class name
      * was specified (Essentially works like ObjectsCollection in the latter case).
-     *
+     * 
      * @param string|null $class_name fully qualified name of the class whose instances or instances of its sub-classes alone would be stored in the collection.
      *                                Set it to null to make the collection work exactly like an instance of ObjectsCollection
      * @param iterable $items an iterable of objects to be stored in the new collection
      * @param bool $preserve_keys true to use the same keys in $items in the collection, , else false to use sequentially incrementing numeric keys starting from zero
      * 
-     * 
      * @used-for: creating-new-collections
      * 
      * @title: Create a new collection that only stores instances of the specified fully qualified class name or its sub-classes or a new collection that stores any kind of object if no fully qualified class name was specified (Essentially works like ObjectsCollection in the latter case).
-     *
+     * 
      * @noinspection PhpUnnecessaryStaticReferenceInspection
      * @psalm-suppress LessSpecificReturnStatement
      * @psalm-suppress MoreSpecificReturnType
@@ -71,7 +69,6 @@ final class SpecificObjectsCollection extends ObjectsCollection {
      */
     public static function makeNewForSpecifiedClassName(?string $class_name=null, iterable $items =[], bool $preserve_keys=true): StrictlyTypedCollectionInterface
     {
-        
         if( $class_name === null ) {
 
             return static::makeNew($items, $preserve_keys); // collection that stores any type of object
@@ -97,19 +94,18 @@ final class SpecificObjectsCollection extends ObjectsCollection {
     }
 
     /**
-     *
      * @param mixed $item
      * @return bool true if $item is of the expected type, else false
      */
-    public function checkType($item): bool {
-        
+    public function checkType($item): bool 
+    {    
         return \is_null($this->class_name)
                 ? parent::checkType($item)
                 : ($item instanceof $this->class_name);
     }
     
-    public function getTypes(): StringsCollection {
-        
+    public function getTypes(): StringsCollection 
+    {    
         return \is_null($this->class_name)
                 ? parent::getTypes()
                 : new StringsCollection($this->class_name);

@@ -1,5 +1,4 @@
 <?php /** @noinspection PhpFullyQualifiedNameUsageInspection */
-
 namespace VersatileCollections;
 
 use ArrayAccess;
@@ -13,7 +12,6 @@ use RuntimeException;
 use VersatileCollections\Exceptions\NonExistentItemException;
 
 /**
- *
  * Below is a list of acceptable value(s), that could be comma separated, 
  * for the @used-for tag in phpdoc blocks for public methods in this trait:
  *  
@@ -35,38 +33,18 @@ use VersatileCollections\Exceptions\NonExistentItemException;
  *
  * @author Rotimi Ade
  */
-trait CollectionInterfaceImplementationTrait {
+trait CollectionInterfaceImplementationTrait
+{    
+    protected array $versatile_collections_items = [];
 
-    /**
-     *
-     * @var array
-     *  
-     */
-    protected $versatile_collections_items = [];
+    protected static array $versatile_collections_methods_for_all_instances = [];
     
-    /**
-     *
-     * @var array
-     *  
-     */
-    protected static $versatile_collections_methods_for_all_instances = [];
-
-    /**
-     *
-     * @var array
-     *  
-     */
-    protected $versatile_collections_methods_for_this_instance = [];
-
-    /**
-     *
-     * @var array
-     *  
-     */
-    protected static $versatile_collections_static_methods = [];
+    protected array $versatile_collections_methods_for_this_instance = [];
     
-    protected static function validateMethodName(string $name, string $method_name_was_passed_to, ?string $class_in_which_method_was_called=null): bool {
-        
+    protected static array $versatile_collections_static_methods = [];
+    
+    protected static function validateMethodName(string $name, string $method_name_was_passed_to, ?string $class_in_which_method_was_called=null): bool 
+    {
         $regex_4_valid_method_name = '/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/';
         
         if( 
@@ -90,7 +68,6 @@ trait CollectionInterfaceImplementationTrait {
             // valid method name was supplied but conflicts with an
             // already defined real class method
             $class = $class_in_which_method_was_called ?? static::class;
-            
             $function = $method_name_was_passed_to;
             $msg = "Error [{$class}::{$function}(...)]: Trying to add a dynamic method with the same name `{$name}` as an existing actual method to a collection";
             
@@ -101,7 +78,6 @@ trait CollectionInterfaceImplementationTrait {
     }
     
     /**
-     *  
      * @param string $name name of the method being added
      * @param callable $callable method being added
      * @param bool $has_return_val true means $callable returns a value, else false if $callable returns no value
@@ -109,7 +85,6 @@ trait CollectionInterfaceImplementationTrait {
      * @used-for: adding-methods-at-runtime
      *  
      * @title: Registers a specified `callable` with a specified name to a Collection class, so that the registered callable can be later called as a static method with the specified name on the Collection class or any of its sub-classes.
-     *  
      */
     public static function addStaticMethod(
         string $name, 
@@ -126,7 +101,6 @@ trait CollectionInterfaceImplementationTrait {
     }
     
     /**
-     *  
      * @param string $name name of the method being added
      * @param callable $callable method being added
      * @param bool $has_return_val true means $callable returns a value, else false if $callable returns no value
@@ -135,7 +109,6 @@ trait CollectionInterfaceImplementationTrait {
      * @used-for: adding-methods-at-runtime
      *  
      * @title: Registers a specified `callable` with a specified name to a Collection class, so that the registered callable can be later called as an instance method with the specified name on any instance of the Collection class or any of its sub-classes.
-     *  
      */
     public static function addMethodForAllInstances(
         string $name, 
@@ -154,7 +127,6 @@ trait CollectionInterfaceImplementationTrait {
     }
     
     /**
-     * 
      * @param string $name name of the method being added
      * @param callable $callable method being added
      * @param bool $has_return_val true means $callable returns a value, else false if $callable returns no value
@@ -163,8 +135,6 @@ trait CollectionInterfaceImplementationTrait {
      * @used-for: adding-methods-at-runtime
      * 
      * @title: Registers a specified `callable` with a specified name to a single instance of a Collection class, so that the registered callable can be later called as an instance method with the specified name on the instance of the Collection class the callable was registered to.
-     * 
-     * 
      */
     public function addMethod(
         string $name, 
@@ -192,11 +162,10 @@ trait CollectionInterfaceImplementationTrait {
     }
     
     /**
-     *
      * @return mixed a string representing the calculated key or false if calculated key does not exist in $methods_array
      */
-    protected static function getKeyForDynamicMethod(string $name, array &$methods_array, bool $search_parent_class_registration=true) {
-        
+    protected static function getKeyForDynamicMethod(string $name, array &$methods_array, bool $search_parent_class_registration=true)
+    {
         if( \array_key_exists( static::class.'::'.$name , $methods_array) ) {
             
             return static::class.'::'.$name;
@@ -221,8 +190,6 @@ trait CollectionInterfaceImplementationTrait {
     }
     
     /**
-     * 
-     * 
      * @return mixed
      * 
      * @used-for: other-operations
@@ -233,8 +200,8 @@ trait CollectionInterfaceImplementationTrait {
      *
      * @noinspection PhpInconsistentReturnPointsInspection
      */
-    public function __call(string $method_name, array $arguments=[]) {
-        
+    public function __call(string $method_name, array $arguments=[]) 
+    {    
         $key_for_this_instance = static::getKeyForDynamicMethod($method_name, $this->versatile_collections_methods_for_this_instance, false);
         $key_for_all_instances = static::getKeyForDynamicMethod($method_name, static::$versatile_collections_methods_for_all_instances);
         
@@ -279,8 +246,6 @@ trait CollectionInterfaceImplementationTrait {
     }
     
     /**
-     * 
-     * 
      * @return mixed
      * 
      * @used-for: other-operations
@@ -291,8 +256,8 @@ trait CollectionInterfaceImplementationTrait {
      *
      * @noinspection PhpInconsistentReturnPointsInspection
      */
-    public static function __callStatic(string $method_name, array $arguments=[]) {
-        
+    public static function __callStatic(string $method_name, array $arguments=[])
+    {
         $key_for_static_method = static::getKeyForDynamicMethod($method_name, static::$versatile_collections_static_methods);
         
         if( $key_for_static_method !== false ) {
@@ -317,39 +282,37 @@ trait CollectionInterfaceImplementationTrait {
         }
     }
     
-    public function __get(string $key) {
-        
+    public function __get(string $key) 
+    {
         return $this->offsetGet($key);
     }
     
-    public function __isset(string $key): bool {
-        
+    public function __isset(string $key): bool
+    {
         return $this->offsetExists($key);
     }
     
     /**
-     * 
      * @param mixed $val The value to set it to.
      */
-    public function __set(string $key, $val): void {
-        
+    public function __set(string $key, $val): void 
+    {
         $this->offsetSet($key, $val);
     }
     
-    public function __unset(string $key): void {
-        
+    public function __unset(string $key): void 
+    {
         $this->offsetUnset($key);
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::makeNew()
      *
      * @noinspection PhpIncompatibleReturnTypeInspection
      * @psalm-suppress UnsafeInstantiation
      */
-    public static function makeNew(iterable $items=[], bool $preserve_keys=true): CollectionInterface {
-
+    public static function makeNew(iterable $items=[], bool $preserve_keys=true): CollectionInterface
+    {
         if ($preserve_keys === true) {
 
             $collection = new static();
@@ -373,27 +336,24 @@ trait CollectionInterfaceImplementationTrait {
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::offsetExists()
      *  
      * @param mixed $key The requested key.
-     * 
      */
-    public function offsetExists($key): bool {
-        
+    public function offsetExists($key): bool 
+    {
         return \array_key_exists($key, $this->versatile_collections_items);
     }
     
     /**
-     * 
      * @see \VersatileCollections\CollectionInterface::offsetGet()
      * 
      * @param mixed $key The requested key.
      *
      * @return mixed|void 
      */
-    public function offsetGet($key) {
-        
+    public function offsetGet($key) 
+    {
         if ( \array_key_exists($key, $this->versatile_collections_items) ) {
 
             return $this->versatile_collections_items[$key];
@@ -405,16 +365,14 @@ trait CollectionInterfaceImplementationTrait {
     }
 
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::offsetSet()
      * 
      * @param string|int|null $key The requested key.
      * 
      * @param mixed $val The value to set it to.
-     *  
      */
-    public function offsetSet($key, $val): void {
-        
+    public function offsetSet($key, $val): void 
+    {
         if(\is_null($key) ) {
             
             $this->versatile_collections_items[] = $val;
@@ -426,91 +384,77 @@ trait CollectionInterfaceImplementationTrait {
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::offsetUnset()
      * 
      * @param string|int $key The requested key.
-     *  
      */
-    public function offsetUnset($key): void {
-        
+    public function offsetUnset($key): void 
+    {
         $this->versatile_collections_items[$key] = null;
         unset($this->versatile_collections_items[$key]);
     }
     
     /**
-     *    
      * @see \VersatileCollections\CollectionInterface::toArray()
      *  
      * @return mixed[] 
      */
-    public function toArray(): array {
-
+    public function toArray(): array 
+    {
         return $this->versatile_collections_items;
     }
     
     /**
-     * 
      * @see \VersatileCollections\CollectionInterface::getIterator()
      *
      * @return \Iterator
-     * 
-     * 
      */
-    public function getIterator(): Iterator {
-
+    public function getIterator(): Iterator 
+    {
         return new ArrayIterator($this->versatile_collections_items);
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::count()
-     *  
      */
-    public function count(): int {
-        
+    public function count(): int 
+    {
         return \count($this->versatile_collections_items);
     }
 
     /**
-     * 
      * @param mixed $items
      */
-    public function __construct(...$items) {
-
+    public function __construct(...$items) 
+    {
         $this->versatile_collections_items = $items;
     }
     
     ////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////
     ////////// OTHER COLLECTION METHODS ////////////////////////////////////////
     /**
-     * 
      * @see \VersatileCollections\CollectionInterface::firstItem()
      *
      * @return null|mixed
      * @psalm-suppress PossiblyNullArrayOffset 
      */
-    public function firstItem() {
-        
+    public function firstItem() 
+    {
         return ($this->count() <= 0) ? null : $this->versatile_collections_items[\array_key_first($this->versatile_collections_items)];
     }
     
     /**
-     * 
      * @see \VersatileCollections\CollectionInterface::lastItem()
      *
      * @return null|mixed 
      * @psalm-suppress PossiblyNullArrayOffset
      */
-    public function lastItem() {
-                
+    public function lastItem() 
+    {      
         return ( $this->count() <= 0 ) ? null : $this->versatile_collections_items[\array_key_last($this->versatile_collections_items)];
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::getKeys()
      *
      * @noinspection PhpIncompatibleReturnTypeInspection
@@ -518,19 +462,16 @@ trait CollectionInterfaceImplementationTrait {
      */
     public function getKeys(): GenericCollection
     {
-        
         return GenericCollection::makeNew( \array_keys($this->versatile_collections_items) );
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::setValForEachItem()
      *  
      * @param mixed $field_val value to be set for the field whose name is the value contained in $field_name
      */
     public function setValForEachItem(string $field_name, $field_val, bool $add_field_if_not_present=false): CollectionInterface
     {
-        
         foreach ($this->versatile_collections_items as &$item) {
             
             if( 
@@ -582,24 +523,18 @@ trait CollectionInterfaceImplementationTrait {
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::filterAll()
-     *  
      */
     public function filterAll(callable $filterer, bool $copy_keys=false, bool $bind_callback_to_this=true, bool $remove_filtered_items=false): CollectionInterface
-    {
-                
+    {    
         return $this->filterFirstN($filterer, $this->count(), $copy_keys, $bind_callback_to_this, $remove_filtered_items);
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::filterFirstN()
-     *  
      */
     public function filterFirstN(callable $filterer, ?int $max_number_of_filtered_items_to_return =null, bool $copy_keys=false, bool $bind_callback_to_this=true, bool $remove_filtered_items=false): CollectionInterface
     {
-        
         if( $bind_callback_to_this === true ) {
             
             $filterer = Utils::bindObjectAndScopeToClosure(
@@ -652,12 +587,10 @@ trait CollectionInterfaceImplementationTrait {
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::transform()
      */
     public function transform(callable $transformer, bool $bind_callback_to_this=true): CollectionInterface
     {
-        
         if( $bind_callback_to_this === true ) {
             
             $transformer = Utils::bindObjectAndScopeToClosure(
@@ -679,26 +612,22 @@ trait CollectionInterfaceImplementationTrait {
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::reduce()
      * 
      * @param mixed $initial_value If the optional initial is available, it will be used at the beginning of the process, or as a final result in case the collection is empty.
-     *  
      */
-    public function reduce(callable $reducer, $initial_value=NULL) {
-        
+    public function reduce(callable $reducer, $initial_value=NULL) 
+    {
         return \array_reduce($this->versatile_collections_items, $reducer, $initial_value);
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::reduceWithKeyAccess()
      * 
      * @param mixed $initial_value If the optional initial is available, it will be used at the beginning of the process, or as a final result in case the collection is empty.
-     *  
      */
-    public function reduceWithKeyAccess(callable $reducer, $initial_value=NULL) {
-        
+    public function reduceWithKeyAccess(callable $reducer, $initial_value=NULL) 
+    {
         $reduced_result = $initial_value;
         
         foreach ($this->versatile_collections_items as $key=>$item) {
@@ -710,25 +639,20 @@ trait CollectionInterfaceImplementationTrait {
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::reverse()
-     *  
      */
     public function reverse(): CollectionInterface
     {
-        
         return static::makeNew(
             \array_reverse($this->versatile_collections_items, true)
         );
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::reverseMe()
      */
     public function reverseMe(): CollectionInterface
     {
-        
         $this->versatile_collections_items = 
             \array_reverse($this->versatile_collections_items, true);
         
@@ -736,30 +660,24 @@ trait CollectionInterfaceImplementationTrait {
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::slice()
-     *  
      */
     public function slice(int $offset, ?int $length = null): CollectionInterface
     {
-        
         return static::makeNew(
             \array_slice($this->versatile_collections_items, $offset, $length, true)
         );
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::isEmpty()
-     *  
      */
-    public function isEmpty(): bool {
-        
+    public function isEmpty(): bool 
+    {
         return ($this->count() <= 0);
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::getIfExists()
      * 
      * @param string|int $key
@@ -767,8 +685,8 @@ trait CollectionInterfaceImplementationTrait {
      * 
      * @psalm-suppress DocblockTypeContradiction
      */
-    public function getIfExists($key, $default_value=null) {
-        
+    public function getIfExists($key, $default_value=null) 
+    {
         if( !\is_int($key) && !\is_string($key) ) {
             
             $function = __FUNCTION__;
@@ -785,26 +703,23 @@ trait CollectionInterfaceImplementationTrait {
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::containsItem()
      * 
      * @param mixed $item item whose existence in the collection is to be checked
-     *  
      */
-    public function containsItem($item): bool {
-        
+    public function containsItem($item): bool 
+    {
         return \in_array($item, $this->versatile_collections_items, true);
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::containsKey()
      * 
      * @param int|string $key key whose existence in the collection is to be checked
      * @psalm-suppress DocblockTypeContradiction
      */
-    public function containsKey($key): bool {
-        
+    public function containsKey($key): bool 
+    {
         if( !\is_int($key) && !\is_string($key) ) {
             
             return false; 
@@ -814,7 +729,6 @@ trait CollectionInterfaceImplementationTrait {
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::containsItemWithKey()
      * 
      * @param int|string $key key whose existence in the collection is to be checked
@@ -822,8 +736,8 @@ trait CollectionInterfaceImplementationTrait {
      * 
      * @psalm-suppress DocblockTypeContradiction
      */
-    public function containsItemWithKey($key, $item): bool {
-        
+    public function containsItemWithKey($key, $item): bool 
+    {
         if( !\is_int($key) && !\is_string($key) ) {
             
             return false; 
@@ -834,13 +748,10 @@ trait CollectionInterfaceImplementationTrait {
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::containsItems()
-     *  
      */
-    public function containsItems(array $items): bool {
-        
-        /**  */
+    public function containsItems(array $items): bool 
+    {
         $all_items_exist = \count($items) > 0;
         
         foreach ($items as $item) {
@@ -857,13 +768,10 @@ trait CollectionInterfaceImplementationTrait {
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::containsKeys()
-     *  
      */
-    public function containsKeys(array $keys): bool {
-        
-        /**  */
+    public function containsKeys(array $keys): bool 
+    {
         $all_keys_exist = \count($keys) > 0;
         
         foreach ($keys as $key) {
@@ -880,14 +788,10 @@ trait CollectionInterfaceImplementationTrait {
     }
     
     /**
-     *
      * @see \VersatileCollections\CollectionInterface::appendCollection()
-     *
-     * 
      */
     public function appendCollection(CollectionInterface $other): CollectionInterface
     {
-        
         if( ! $other->isEmpty() ) {
             
             foreach ($other as $item) {
@@ -900,27 +804,22 @@ trait CollectionInterfaceImplementationTrait {
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::appendItem()
      * 
      * @param mixed $item
      */
     public function appendItem($item): CollectionInterface
     {
-        
         $this[] = $item;
         
         return $this;
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::mergeWith()
-     *  
      */
     public function mergeWith(array $items): CollectionInterface
     {
-        
         $copy = $this->versatile_collections_items;
         $merged_items = static::makeNew($copy);
         
@@ -936,12 +835,10 @@ trait CollectionInterfaceImplementationTrait {
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::mergeMeWith()
      */
     public function mergeMeWith(array $items): CollectionInterface
     {
-
         // not using array_merge , want to trigger $this->offsetSet() logic
         foreach ( $items as $key => $item ) {
 
@@ -952,14 +849,10 @@ trait CollectionInterfaceImplementationTrait {
     }
     
     /**
-     *
      * @see \VersatileCollections\CollectionInterface::prependCollection()
-     *
-     *  
      */
     public function prependCollection(CollectionInterface $other): CollectionInterface
     {
-        
         if( ! $other->isEmpty() ) {
             
             \array_unshift($this->versatile_collections_items, ...\array_values($other->toArray()));
@@ -969,18 +862,15 @@ trait CollectionInterfaceImplementationTrait {
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::prependItem()
      * 
      * @param mixed $item
      * @param string|int|null $key
      * 
-     * 
      * @psalm-suppress RedundantConditionGivenDocblockType 
      */
     public function prependItem($item, $key=null): CollectionInterface
     {
-        
         if( \is_null($key) ) {
             
             \array_unshift($this->versatile_collections_items, $item);
@@ -1004,13 +894,10 @@ trait CollectionInterfaceImplementationTrait {
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::getCollectionsOfSizeN()
-     *  
      */
     public function getCollectionsOfSizeN(int $max_size_of_each_collection=1): CollectionInterface
     {
-        
         if(
             $max_size_of_each_collection > $this->count()
         ) {
@@ -1047,12 +934,10 @@ trait CollectionInterfaceImplementationTrait {
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::yieldCollectionsOfSizeN()
-     *   
      */
-    public function yieldCollectionsOfSizeN(int $max_size_of_each_collection=1): Generator {
-        
+    public function yieldCollectionsOfSizeN(int $max_size_of_each_collection=1): Generator 
+    {    
         if(
             $max_size_of_each_collection > $this->count()
         ) {
@@ -1086,12 +971,10 @@ trait CollectionInterfaceImplementationTrait {
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::makeAllKeysNumeric()
      */
     public function makeAllKeysNumeric(int $starting_key=0): CollectionInterface
-    {
-               
+    {       
         if( $starting_key < 0 ) {
             
             $starting_key = 0;
@@ -1115,7 +998,6 @@ trait CollectionInterfaceImplementationTrait {
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::each()
      * 
      * @param mixed $termination_value a value that should be returned by $callback 
@@ -1126,7 +1008,6 @@ trait CollectionInterfaceImplementationTrait {
         callable $callback, $termination_value=false, bool $bind_callback_to_this=true
     ): CollectionInterface
     {
-        
         if( $bind_callback_to_this === true ) {
             
             $callback = Utils::bindObjectAndScopeToClosure(
@@ -1147,9 +1028,7 @@ trait CollectionInterfaceImplementationTrait {
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::map()
-     *  
      */
     public function map(
         callable $callback, bool $preserve_keys = true, bool $bind_callback_to_this=true
@@ -1186,13 +1065,10 @@ trait CollectionInterfaceImplementationTrait {
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::everyNth()
-     *  
      */
     public function everyNth(int $n, int $position_of_first_nth_item = 0): CollectionInterface
     {
-        
         $new = static::makeNew();
         $iteration_counter = 0;
 
@@ -1210,53 +1086,43 @@ trait CollectionInterfaceImplementationTrait {
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::pipeAndReturnCallbackResult()
-     *  
      */
-    public function pipeAndReturnCallbackResult(callable $callback) {
-        
+    public function pipeAndReturnCallbackResult(callable $callback) 
+    {
         return $callback($this);
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::pipeAndReturnSelf()
      */
     public function pipeAndReturnSelf(callable $callback): CollectionInterface
     {
-        
         $callback($this);
         
         return $this;
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::tap()
      */
     public function tap(callable $callback): CollectionInterface
     {
-        
         $callback(static::makeNew($this->versatile_collections_items));
 
         return $this;
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::getAndRemoveFirstItem()
-     *  
      */
-    public function getAndRemoveFirstItem() {
-        
+    public function getAndRemoveFirstItem() 
+    {    
         return \array_shift($this->versatile_collections_items);
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::getAndRemoveLastItem()
-     *  
      */
     public function getAndRemoveLastItem()
     {
@@ -1264,36 +1130,30 @@ trait CollectionInterfaceImplementationTrait {
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::pull()
      * 
      * @param int|string  $key
      * @param mixed       $default
-     * 
      */
     public function pull($key, $default = null) {
 
         $item = $this->getIfExists($key, $default);
-        
         unset($this[$key]);
         
         return $item;
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::push()
      * 
      * @param mixed  $item
      */
     public function push($item): CollectionInterface
     {
-        
         return $this->appendItem($item);
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::put()
      * 
      * @param int|string  $key
@@ -1301,19 +1161,16 @@ trait CollectionInterfaceImplementationTrait {
      */
     public function put($key, $value): CollectionInterface
     {
-        
         $this->offsetSet($key, $value);
         
         return $this;
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::randomKey()
-     *  
      */
-    public function randomKey() {
-        
+    public function randomKey() 
+    { 
         if( $this->count() <= 0 ) {
             
             $function = __FUNCTION__;
@@ -1326,12 +1183,10 @@ trait CollectionInterfaceImplementationTrait {
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::randomItem()
-     *  
      */
-    public function randomItem() {
-        
+    public function randomItem() 
+    {    
         if( $this->count() <= 0 ) {
             
             $function = __FUNCTION__;
@@ -1344,14 +1199,12 @@ trait CollectionInterfaceImplementationTrait {
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::randomKeys()
      * 
      * @psalm-suppress LessSpecificImplementedReturnType 
      */
     public function randomKeys(int $number = 1): CollectionInterface
     {
-        
         if( $this->count() <= 0 ) {
             
             $function = __FUNCTION__;
@@ -1377,13 +1230,10 @@ trait CollectionInterfaceImplementationTrait {
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::randomItems()
-     *  
      */
     public function randomItems(int $number = 1, bool $preserve_keys=false): CollectionInterface
     {
-        
         if( $this->count() <= 0 ) {
             
             $function = __FUNCTION__;
@@ -1420,13 +1270,10 @@ trait CollectionInterfaceImplementationTrait {
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::shuffle()
-     *  
      */
     public function shuffle(bool $preserve_keys=true): CollectionInterface
     {
-                
         if( $this->isEmpty() ) {
             
             return static::makeNew();
@@ -1456,11 +1303,9 @@ trait CollectionInterfaceImplementationTrait {
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::searchByVal()
      * 
      * @param mixed $value the value to be searched for
-     *  
      */
     public function searchByVal( $value, bool $strict = false ) {
         
@@ -1468,11 +1313,9 @@ trait CollectionInterfaceImplementationTrait {
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::searchAllByVal()
      * 
      * @param mixed $value the value to be searched for
-     *  
      */
     public function searchAllByVal( $value, bool $strict = false ){
         
@@ -1488,16 +1331,13 @@ trait CollectionInterfaceImplementationTrait {
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::searchByCallback()
      * 
      * @psalm-suppress MissingClosureParamType 
      */
-    public function searchByCallback(callable $callback, bool $bind_callback_to_this=true) {
-        
+    public function searchByCallback(callable $callback, bool $bind_callback_to_this=true) 
+    {
         $results = [];
-        
-        
         $searcher = function($key, $item) use ($callback, &$results): void {
             
             if( $callback($key, $item) === true ) {
@@ -1506,12 +1346,11 @@ trait CollectionInterfaceImplementationTrait {
             }
         };
         
-        // using 9999 as termination value since $callback is only ever 
+        // Using 9999 as termination value since $callback is only ever 
         // expected to return true or false, which means each will not
         // terminate until iteration is fully completed.
         $this->each($searcher, 9999, $bind_callback_to_this);
         
-        /**  */
         return \count($results) > 0 ? $results : false;
     }
 
@@ -1546,8 +1385,8 @@ trait CollectionInterfaceImplementationTrait {
      * 
      * @return mixed[]
      */
-    protected function performMultiSort(array $array_to_be_sorted, MultiSortParameters ...$param) {
-        
+    protected function performMultiSort(array $array_to_be_sorted, MultiSortParameters ...$param) 
+    {
         if(\count($array_to_be_sorted) <= 0) {
             
             return $array_to_be_sorted; 
@@ -1639,17 +1478,12 @@ trait CollectionInterfaceImplementationTrait {
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::sort()
-     *  
      */
     public function sort(callable $callable=null, SortType $type=null): CollectionInterface
     {
-        
         // sort a copy
         $items_to_sort = $this->versatile_collections_items;
-
-        /**  */
         $this->performSort(
             $items_to_sort, 
             $callable, 
@@ -1662,17 +1496,12 @@ trait CollectionInterfaceImplementationTrait {
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::sortDesc()
-     *  
      */
     public function sortDesc(callable $callable=null, SortType $type=null): CollectionInterface
     {
-        
         // sort a copy
         $items_to_sort = $this->versatile_collections_items;
-
-        /**  */
         $this->performSort(
             $items_to_sort, 
             $callable, 
@@ -1685,17 +1514,12 @@ trait CollectionInterfaceImplementationTrait {
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::sortByKey()
-     *  
      */
     public function sortByKey(callable $callable=null, SortType $type=null): CollectionInterface
     {
-        
         // sort a copy
         $items_to_sort = $this->versatile_collections_items;
-
-        /**  */
         $this->performSort(
             $items_to_sort, 
             $callable, 
@@ -1708,17 +1532,12 @@ trait CollectionInterfaceImplementationTrait {
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::sortDescByKey()
-     *  
      */
     public function sortDescByKey(callable $callable=null, SortType $type=null): CollectionInterface
     {
-        
         // sort a copy
         $items_to_sort = $this->versatile_collections_items;
-
-        /**  */
         $this->performSort(
             $items_to_sort, 
             $callable, 
@@ -1732,17 +1551,13 @@ trait CollectionInterfaceImplementationTrait {
 
     
     /**
-     *  
      * Can also sort by private and / or protected field(s) in each object in 
      * the collection.
      *  
      * @see \VersatileCollections\CollectionInterface::sortByMultipleFields()
-     *  
      */
     public function sortByMultipleFields(MultiSortParameters ...$param): CollectionInterface
     {
-        
-        /**  */
         if( \count($param) <= 0 ) {
             
             $function = __FUNCTION__;
@@ -1759,15 +1574,10 @@ trait CollectionInterfaceImplementationTrait {
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::sortMe()
-     * 
-     * 
      */
     public function sortMe(callable $callable=null, SortType $type=null): CollectionInterface
     {
-
-        /**  */
         $this->performSort(
             $this->versatile_collections_items, 
             $callable, 
@@ -1780,15 +1590,10 @@ trait CollectionInterfaceImplementationTrait {
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::sortMeDesc()
-     * 
-     *  
      */
     public function sortMeDesc(callable $callable=null, SortType $type=null): CollectionInterface
     {
-
-        /**  */
         $this->performSort(
             $this->versatile_collections_items, 
             $callable, 
@@ -1801,15 +1606,10 @@ trait CollectionInterfaceImplementationTrait {
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::sortMeByKey()
-     * 
-     *  
      */
     public function sortMeByKey(callable $callable=null, SortType $type=null): CollectionInterface
     {
-
-        /**  */
         $this->performSort(
             $this->versatile_collections_items, 
             $callable, 
@@ -1822,15 +1622,10 @@ trait CollectionInterfaceImplementationTrait {
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::sortMeDescByKey()
-     * 
-     *  
      */
     public function sortMeDescByKey(callable $callable=null, SortType $type=null): CollectionInterface
     {
-
-        /**  */
         $this->performSort(
             $this->versatile_collections_items, 
             $callable, 
@@ -1843,18 +1638,13 @@ trait CollectionInterfaceImplementationTrait {
     }
     
     /**
-     *  
      * Can also sort by private and / or protected field(s) in each object in 
      * the collection.
      *  
      * @see \VersatileCollections\CollectionInterface::sortMeByMultipleFields()
-     * 
-     *  
      */
     public function sortMeByMultipleFields(MultiSortParameters ...$param): CollectionInterface
     {
-        
-        /**  */
         if( \count($param) <= 0 ) {
             
             $function = __FUNCTION__;
@@ -1873,13 +1663,10 @@ trait CollectionInterfaceImplementationTrait {
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::splice()
-     *  
      */
     public function splice(int $offset, ?int $length=null, array $replacement=[]): CollectionInterface
     {
-        
         if( \is_null($length) ) {
             
             $length = $this->count();
@@ -1889,13 +1676,10 @@ trait CollectionInterfaceImplementationTrait {
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::split()
-     *  
      */
     public function split(int $numberOfGroups): CollectionInterface
     {
-        
         if( $numberOfGroups > $this->count() ) {
             
             $function = __FUNCTION__;
@@ -1920,7 +1704,6 @@ trait CollectionInterfaceImplementationTrait {
         }
 
         $groupSize = (int)\ceil($this->count() / $numberOfGroups);
-        
         $groups = static::makeNew();
 
         foreach ( $this->yieldCollectionsOfSizeN($groupSize) as $group ) {
@@ -1932,13 +1715,10 @@ trait CollectionInterfaceImplementationTrait {
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::take()
-     *  
      */
     public function take(int $limit): CollectionInterface
     {
-        
         if ($limit < 0) {
             return $this->slice($limit, \abs($limit));
         }
@@ -1947,14 +1727,12 @@ trait CollectionInterfaceImplementationTrait {
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::unique()
      *  
      * @psalm-suppress MissingClosureParamType
      */
     public function unique(): CollectionInterface
     {
-        
         return static::makeNew(
             $this->reduce(
                 
@@ -1973,32 +1751,24 @@ trait CollectionInterfaceImplementationTrait {
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::unionWith()
-     *  
      */
     public function unionWith(array $items): CollectionInterface
     {
-        
         return static::makeNew($this->versatile_collections_items + $items);
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::unionMeWith()
-     * 
-     * 
      */
     public function unionMeWith(array $items): CollectionInterface
     {
-        
         $this->versatile_collections_items += $items;
         
         return $this;
     }
     
     /**
-     *  
      * Can also extract values from private and  / or protected properties 
      * of each object in the collection.
      *  
@@ -2188,18 +1958,14 @@ trait CollectionInterfaceImplementationTrait {
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::getItems()
-     *  
      */
     public function getItems(): CollectionInterface
     {
-        
         return static::makeNew(\array_values($this->versatile_collections_items));
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::whenTrue()
      * 
      * @param bool $truthy_value
@@ -2220,7 +1986,6 @@ trait CollectionInterfaceImplementationTrait {
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::whenFalse()
      * 
      * @param bool $falsy_value
@@ -2232,16 +1997,14 @@ trait CollectionInterfaceImplementationTrait {
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::getAsNewType()
      * 
      * @param string|CollectionInterface $new_collection_class
      * 
      * @psalm-suppress DocblockTypeContradiction
-     * 
      */
-    public function getAsNewType($new_collection_class= GenericCollection::class): CollectionInterface {
-        
+    public function getAsNewType($new_collection_class= GenericCollection::class): CollectionInterface 
+    {
         if( 
             !\is_string($new_collection_class)
             && !\is_object($new_collection_class)
@@ -2279,15 +2042,10 @@ trait CollectionInterfaceImplementationTrait {
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::removeAll()
-     * 
-     * 
      */
     public function removeAll(array $keys=[]): CollectionInterface
     {
-        
-        /**  */
         if( \count($keys) > 0 ) {
             
             foreach($keys as $key) {
@@ -2308,13 +2066,10 @@ trait CollectionInterfaceImplementationTrait {
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::getAllWhereKeysIn()
-     *  
      */
     public function getAllWhereKeysIn(array $keys): CollectionInterface
     {
-        
         $result = static::makeNew();
         
         foreach ( $this->versatile_collections_items as $key => $item ) {
@@ -2329,13 +2084,10 @@ trait CollectionInterfaceImplementationTrait {
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::getAllWhereKeysNotIn()
-     *  
      */
     public function getAllWhereKeysNotIn(array $keys): CollectionInterface
     {
-        
         $result = static::makeNew();
         
         foreach ( $this->versatile_collections_items as $key => $item ) {
@@ -2350,13 +2102,10 @@ trait CollectionInterfaceImplementationTrait {
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::paginate()
-     *  
      */
     public function paginate(int $page_number, int $num_items_per_page): CollectionInterface
     {
-        
         if( $page_number < 1 ) {
             
             $page_number = 1;
@@ -2380,79 +2129,60 @@ trait CollectionInterfaceImplementationTrait {
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::diff()
-     *  
      */
     public function diff(array $items): CollectionInterface
     {
-        
         return static::makeNew(\array_diff($this->versatile_collections_items, $items));
     }
 
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::diffUsing()
-     *  
      */
     public function diffUsing(array $items, callable $callback): CollectionInterface
     {
-        
         return static::makeNew(\array_udiff($this->versatile_collections_items, $items, $callback));
     }
 
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::diffAssoc()
-     *  
      */
     public function diffAssoc(array $items): CollectionInterface
     {
-        
         return static::makeNew(\array_diff_assoc($this->versatile_collections_items, $items));
     }
 
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::diffAssocUsing()
-     *  
      */
     public function diffAssocUsing(array $items, callable $key_comparator): CollectionInterface
     {
-        
         return static::makeNew(\array_diff_uassoc($this->versatile_collections_items, $items, $key_comparator));
     }
 
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::diffKeys()
-     *  
      */
     public function diffKeys(array $items): CollectionInterface
     {
-        
         return static::makeNew(\array_diff_key($this->versatile_collections_items, $items));
     }
 
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::diffKeysUsing()
-     *  
      */
     public function diffKeysUsing(array $items, callable $key_comparator): CollectionInterface
     {
-        
         return static::makeNew(\array_diff_ukey($this->versatile_collections_items, $items, $key_comparator));
     }
 
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::allSatisfyConditions()
      * 
      * @psalm-suppress MissingClosureParamType 
      */
-    public function allSatisfyConditions(callable $callback, bool $bind_callback_to_this=true): bool {
-        
+    public function allSatisfyConditions(callable $callback, bool $bind_callback_to_this=true): bool 
+    {
         if( $bind_callback_to_this === true ) {
             
             $callback = Utils::bindObjectAndScopeToClosure(
@@ -2468,69 +2198,52 @@ trait CollectionInterfaceImplementationTrait {
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::intersectByKeys()
-     *  
      */
     public function intersectByKeys(array $arr): CollectionInterface
     {
-        
         return static::makeNew(\array_intersect_key($this->versatile_collections_items, $arr));
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::intersectByItems()
-     *  
      */
     public function intersectByItems(array $arr): CollectionInterface
     {
-        
         return static::makeNew(\array_intersect($this->versatile_collections_items, $arr));
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::intersectByKeysAndItems()
-     *  
      */
     public function intersectByKeysAndItems(array $arr): CollectionInterface
     {
-        
         return static::makeNew(\array_intersect_assoc($this->versatile_collections_items, $arr));
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::intersectByKeysUsingCallback()
-     *  
      */
     public function intersectByKeysUsingCallback(array $arr, callable $key_comparator): CollectionInterface
     {
-        
         return static::makeNew(\array_intersect_ukey($this->versatile_collections_items, $arr, $key_comparator));
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::intersectByItemsUsingCallback()
-     *  
      */
     public function intersectByItemsUsingCallback(array $arr, callable $item_comparator): CollectionInterface
     {
-        
         return static::makeNew(\array_uintersect($this->versatile_collections_items, $arr, $item_comparator));
     }
     
     /**
-     *  
      * @see \VersatileCollections\CollectionInterface::intersectByKeysAndItemsUsingCallbacks()
      *
      * @noinspection PhpUnusedLocalVariableInspection
      */
     public function intersectByKeysAndItemsUsingCallbacks(array $arr, callable $key_comparator=null, callable $item_comparator=null): CollectionInterface
     {
-        
         $result = [];
         
         if( !\is_null($key_comparator) && \is_null($item_comparator) ) {

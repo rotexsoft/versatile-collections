@@ -9,12 +9,10 @@ namespace VersatileCollections {
     use ReflectionClass;
     use ReflectionException;
     use RuntimeException;
-    use SebastianBergmann\Exporter\Exporter;
     use stdClass;
     use TypeError;
 
     /**
-     *
      * A robust way of retrieving the value of a specified property in
      * an instance of a class.
      *
@@ -37,8 +35,8 @@ namespace VersatileCollections {
      * @noinspection DuplicatedCode
      * @psalm-suppress DocblockTypeContradiction
      */
-    function get_object_property_value(object $obj, $property, $default_val=null, bool $access_private_or_protected=false) {
-
+    function get_object_property_value(object $obj, $property, $default_val=null, bool $access_private_or_protected=false)
+    {
         if( !\is_string($property) && !\is_int($property) ) {
 
             $function = __FUNCTION__;
@@ -97,7 +95,6 @@ namespace VersatileCollections {
     }
 
     /**
-     * 
      * A more robust way than property_exists of checking if an instance of a class
      * has a specified property.
      * 
@@ -110,8 +107,8 @@ namespace VersatileCollections {
      * @noinspection PhpMissingReturnTypeInspection
      * @psalm-suppress DocblockTypeContradiction
      */
-    function object_has_property(object $obj, $property): bool {
-
+    function object_has_property(object $obj, $property): bool
+    {
         if( !\is_string($property) && !\is_int($property) ) {
 
             $function = __FUNCTION__;
@@ -146,7 +143,6 @@ namespace VersatileCollections {
     }
 
     /**
-     *  
      * A potentially more cryptographically secure way  (as opposed to array_rand) 
      * of getting a random key from an array.
      * If the system contains sources of randomness like: 
@@ -160,10 +156,9 @@ namespace VersatileCollections {
      * @return string|int|null a random key from the specified array
      *  
      * @throws LengthException
-     *  
      */
-    function random_array_key(array $array) {
-
+    function random_array_key(array $array)
+    {
         if( \count($array) <= 0 ) {
 
             $function = __FUNCTION__;
@@ -218,7 +213,6 @@ namespace VersatileCollections {
     }
 
     /**
-     *  
      * A potentially more cryptographically secure way  (as opposed to array_rand) 
      * of getting unique random keys from an array.
      *  
@@ -235,13 +229,14 @@ namespace VersatileCollections {
      * @throws LengthException
      * @throws InvalidArgumentException
      */
-    function random_array_keys(array $array, int $number_of_random_keys = 1): array {
-
+    function random_array_keys(array $array, int $number_of_random_keys = 1): array
+    {
         if( \count($array) <= 0 ) {
 
             $function = __FUNCTION__;
             $ns = __NAMESPACE__;
             $msg = "Error [{$ns}::{$function}(...)]: You cannot request random keys from an empty array.";
+            
             throw new LengthException($msg);
         }
 
@@ -252,6 +247,7 @@ namespace VersatileCollections {
             $num_items = \count($array);
             $msg = "Error [{$ns}::{$function}(...)]:"
             . " You requested {$number_of_random_keys} key(s), but there are only {$num_items} keys available.";
+            
             throw new InvalidArgumentException($msg);
         }
 
@@ -273,7 +269,6 @@ namespace VersatileCollections {
     }
 
     /**
-     *  
      * Generate a (screen/user)-friendly string representation of a variable. 
      *  
      * @param mixed $var
@@ -282,10 +277,9 @@ namespace VersatileCollections {
      * 
      * @psalm-suppress ForbiddenCode
      */
-    function var_to_string($var): string {
-
-        // Start capturing the output
-        ob_start();
+    function var_to_string($var): string 
+    {
+        ob_start(); // Start capturing the output
 
         var_dump($var);
 
@@ -296,16 +290,14 @@ namespace VersatileCollections {
     }
 
     /**
-     *  
      * Generate a (screen/user)-friendly string representation of a variable and print it out to the screen. 
      *  
      * @param mixed $var
      *  
      * @return void
-     *  
      */
-    function dump_var($var): void {
-
+    function dump_var($var): void 
+    {
         $line_breaker = (PHP_SAPI === 'cli') ? PHP_EOL : '<br>';
         echo var_to_string($var). $line_breaker . $line_breaker;
     }

@@ -4,10 +4,11 @@ namespace VersatileCollections;
 
 /**
  * Description of SortParameters
+ * 
  * @author Rotimi Ade
  */
-class MultiSortParameters {
-    
+class MultiSortParameters 
+{    
     protected string $field_name = '';
     protected int $sort_direction = SORT_ASC;
     protected int $sort_type = SORT_REGULAR;
@@ -15,12 +16,12 @@ class MultiSortParameters {
     /**         
      * @var int[]
      */
-    protected static $valid_sort_directions = [ SORT_ASC, SORT_DESC ];
+    protected static array $valid_sort_directions = [ SORT_ASC, SORT_DESC ];
     
     /**
      * @var int[]
      */
-    protected static $valid_sort_types = [
+    protected static array $valid_sort_types = [
         SORT_REGULAR, SORT_NATURAL, SORT_NUMERIC, SORT_STRING, SORT_LOCALE_STRING,
         SORT_FLAG_CASE, (SORT_FLAG_CASE | SORT_STRING), (SORT_FLAG_CASE | SORT_NATURAL)
     ];
@@ -28,8 +29,8 @@ class MultiSortParameters {
     /** 
      * @noinspection PhpUnhandledExceptionInspection
      */
-    public function __construct(string $field_name, ?int $sort_direction=null, ?int $sort_type=null) {
-        
+    public function __construct(string $field_name, ?int $sort_direction=null, ?int $sort_type=null) 
+    {    
         if( $this->validateFieldName($field_name) ) {
             
             $this->field_name = $field_name;
@@ -46,40 +47,40 @@ class MultiSortParameters {
         }
     }
     
-    public function getFieldName(): string {
-        
+    public function getFieldName(): string
+    {    
         return $this->field_name;
     }
 
-    public function getSortDirection(): int {
-        
+    public function getSortDirection(): int
+    {    
         return $this->sort_direction;
     }
 
-    public function getSortType(): int {
-        
+    public function getSortType(): int
+    {    
         return $this->sort_type;
     }
 
     /**
      * @return int[]
      */
-    public static function getValidSortDirections(): array {
-        
+    public static function getValidSortDirections(): array
+    {    
         return static::$valid_sort_directions;
     }
 
     /**
      * @return int[]
      */
-    public static function getValidSortTypes(): array {
-        
+    public static function getValidSortTypes(): array
+    {    
         return static::$valid_sort_types;
     }
 
     /** @noinspection PhpUnhandledExceptionInspection */
-    public function setFieldName(string $field_name): self {
-        
+    public function setFieldName(string $field_name): self
+    {    
         if( $this->validateFieldName($field_name) ) {
             
             $this->field_name = $field_name;
@@ -89,8 +90,8 @@ class MultiSortParameters {
     }
 
     /** @noinspection PhpUnhandledExceptionInspection */
-    public function setSortDirection(int $sort_direction): self {
-        
+    public function setSortDirection(int $sort_direction): self
+    {
         if ( $this->validateSortDirection($sort_direction) ) {
             
             $this->sort_direction = $sort_direction;
@@ -100,8 +101,8 @@ class MultiSortParameters {
     }
 
     /** @noinspection PhpUnhandledExceptionInspection */
-    public function setSortType(int $sort_type): self {
-        
+    public function setSortType(int $sort_type): self
+    {
         if( $this->validateSortType($sort_type) ) {
             
             $this->sort_type = $sort_type;
@@ -111,8 +112,8 @@ class MultiSortParameters {
     }
 
     /** @noinspection PhpUnhandledExceptionInspection */
-    protected function validateFieldName(string $field_name): bool {
-        
+    protected function validateFieldName(string $field_name): bool
+    {
         if( \strlen($field_name) <= 0 ) {
             
             $class = \get_class($this);
@@ -128,8 +129,8 @@ class MultiSortParameters {
     }
 
     /** @noinspection PhpUnhandledExceptionInspection */
-    protected function validateSortDirection(int $sort_direction): bool {
-        
+    protected function validateSortDirection(int $sort_direction): bool
+    {    
         if( !\in_array($sort_direction, static::$valid_sort_directions, true) ) {
             
             $class = \get_class($this);
@@ -145,8 +146,8 @@ class MultiSortParameters {
     }
 
     /** @noinspection PhpUnhandledExceptionInspection */
-    protected function validateSortType(int $sort_type): bool {
-        
+    protected function validateSortType(int $sort_type): bool
+    {    
         if( !\in_array($sort_type, static::$valid_sort_types, true) ) {
             
             $class = \get_class($this);

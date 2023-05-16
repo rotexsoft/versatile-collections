@@ -3,7 +3,6 @@ declare(strict_types=1);
 namespace VersatileCollections;
 
 /**
- *  
  * Description of ResourcesCollection
  *  
  * Below is a list of acceptable value(s), that could be comma separated, 
@@ -29,16 +28,15 @@ namespace VersatileCollections;
  */
 class ResourcesCollection implements StrictlyTypedCollectionInterface
 {
-    
     use StrictlyTypedCollectionInterfaceImplementationTrait;
 
-    public function checkType($item): bool {
-        
+    public function checkType($item): bool 
+    {
         return \is_resource($item);
     }
 
-    public function getTypes(): StringsCollection {
-        
+    public function getTypes(): StringsCollection 
+    {
         return new StringsCollection('resource');
     }
 }
