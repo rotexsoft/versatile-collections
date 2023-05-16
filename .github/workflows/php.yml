@@ -63,7 +63,7 @@ jobs:
     # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
     # Docs: https://getcomposer.org/doc/articles/scripts.md
     - name: Run PHPUnit Test Suite
-      run: vendor/bin/phpunit
+      run: vendor/bin/phpunit --coverage-text --display-warnings --display-deprecations --display-notices
       
     - name: Upload coverage results to Coveralls
       env: 
