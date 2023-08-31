@@ -8,11 +8,7 @@ namespace VersatileCollections;
  */
 class MultiSortParameters {
     
-    /**
-     * @var string
-     * @noRector
-     */
-    protected $field_name = '';
+    protected string $field_name = '';
     protected int $sort_direction = SORT_ASC;
     protected int $sort_type = SORT_REGULAR;
     

@@ -33,6 +33,7 @@ use VersatileCollections\Exceptions\InvalidItemException;
  *      - ordering-or-sorting-items
  *      - other-operations
  *
+ * @psalm-suppress MissingTemplateParam
  * @author rotimi
  */
 interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate {

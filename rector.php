@@ -21,9 +21,8 @@ return static function (RectorConfig $rectorConfigurator): void {
     //$containerConfigurator->import(SetList::PHP_80);
     //$containerConfigurator->import(SetList::PHP_81);
     $rectorConfigurator->import(SetList::DEAD_CODE);
-    $rectorConfigurator->import(SetList::PSR_4);
+    //$rectorConfigurator->import(SetList::PSR_4);
     $rectorConfigurator->import(SetList::TYPE_DECLARATION);
-    $rectorConfigurator->import(SetList::TYPE_DECLARATION_STRICT);
     
     // get parameters
     //$parameters = $containerConfigurator->parameters();
@@ -33,8 +32,8 @@ return static function (RectorConfig $rectorConfigurator): void {
     //$services->set(TypedPropertyRector::class);
     
     // get services (needed for register a single rule)
-    $services = $rectorConfigurator->services();
+    //$services = $rectorConfigurator->services();
     
     //TODO:PHP8 comment once PHP 8 becomes minimum version
-    $services->remove(Rector\DeadCode\Rector\ClassMethod\RemoveUnusedPromotedPropertyRector::class);
+    //$services->remove(Rector\DeadCode\Rector\ClassMethod\RemoveUnusedPromotedPropertyRector::class);
 };

@@ -67,7 +67,7 @@ class ScalarsCollection implements StrictlyTypedCollectionInterface
         return static::makeNew(
             $this->reduce(
                 
-                function($carry, $item) {
+                function(array $carry, $item):array {
 
                     if( !\in_array($item, $carry, false)) {
 

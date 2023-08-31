@@ -450,10 +450,7 @@ trait CollectionInterfaceImplementationTrait {
     }
     
     /**
-     * 
      * @see \VersatileCollections\CollectionInterface::getIterator()
-     *
-     * @return \Iterator
      * 
      * @noRector \Rector\DeadCode\Rector\ClassMethod\RemoveUselessReturnTagRector
      */
@@ -1645,6 +1642,7 @@ trait CollectionInterfaceImplementationTrait {
         }
         
         // last parameter is the array to be sorted
+        /** @psalm-suppress UnsupportedReferenceUsage */
         $multi_sort_args[] = &$array_to_be_sorted;
         \array_multisort(...$multi_sort_args);
         $sorted_array_with_preserved_keys_with_prefix = \array_pop($multi_sort_args);
@@ -1981,7 +1979,7 @@ trait CollectionInterfaceImplementationTrait {
         return static::makeNew(
             $this->reduce(
                 
-                function($carry, $item) {
+                function(array $carry, $item): array {
 
                     if( !\in_array($item, $carry, true)) {
 
@@ -2299,7 +2297,8 @@ trait CollectionInterfaceImplementationTrait {
         ) {
             $new_collection_class = \get_class($new_collection_class);
         }
-
+        
+        /** @psalm-suppress InvalidStringClass */
         return $new_collection_class::makeNew($this->versatile_collections_items);
     }
     

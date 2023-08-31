@@ -9,7 +9,6 @@ namespace VersatileCollections {
     use ReflectionClass;
     use ReflectionException;
     use RuntimeException;
-    use SebastianBergmann\Exporter\Exporter;
     use stdClass;
     use TypeError;
 
@@ -282,15 +281,16 @@ namespace VersatileCollections {
      *  
      */
     function var_to_string($var): string {
-        
+
         // Start capturing the output
         ob_start();
 
+        /** @psalm-suppress ForbiddenCode */
         var_dump($var);
 
         // Get the captured output, close the buffer & return the captured output
         $output = ob_get_clean();
-        
+
         return ($output === false) ? '' : $output;
     }
 

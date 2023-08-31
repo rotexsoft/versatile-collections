@@ -83,7 +83,7 @@ class NumericsCollection extends ScalarsCollection {
      *  
      * This method should be overridden in sub-classes of this class 
      *  
-     * @param mixed $item an item in this collection
+     * @param int|float $item an item in this collection
      *  
      * @return string representation of an item in this collection
      *
