@@ -22,17 +22,17 @@ EOT;
         $nowdoc = <<<'EOT'
 bar
 EOT;
-        $this->assertEquals('boolean', Utils::gettype(true));
-        $this->assertEquals('integer', Utils::gettype(777));
-        $this->assertEquals('double', Utils::gettype(777.777));
+        $this->assertEquals('bool', Utils::gettype(true));
+        $this->assertEquals('int', Utils::gettype(777));
+        $this->assertEquals('float', Utils::gettype(777.777));
         $this->assertEquals('string', Utils::gettype('777.777'));
         $this->assertEquals('string', Utils::gettype("777.777"));
         $this->assertEquals('string', Utils::gettype($heredoc));
         $this->assertEquals('string', Utils::gettype($nowdoc));
         $this->assertEquals('array', Utils::gettype([]));
         $this->assertEquals(\ArrayObject::class, Utils::gettype(new ArrayObject()));
-        $this->assertEquals('resource', Utils::gettype(tmpfile()));
-        $this->assertEquals('NULL', Utils::gettype(NULL));
+        $this->assertEquals('resource (stream)', Utils::gettype(tmpfile()));
+        $this->assertEquals('null', Utils::gettype(NULL));
     }
     
     public function testThatGetClosureFromCallableWorksAsExpected() {

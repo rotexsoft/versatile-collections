@@ -116,7 +116,7 @@ class MultiSortParameters
     {
         if( \strlen($field_name) <= 0 ) {
             
-            $class = \get_class($this);
+            $class = static::class;
             $function = __FUNCTION__;
             $msg = "Error [{$class}::{$function}(...)]:Missing \$field_name"
                 . " in `{$class}::{$function}(...)` "
@@ -133,7 +133,7 @@ class MultiSortParameters
     {    
         if( !\in_array($sort_direction, static::$valid_sort_directions, true) ) {
             
-            $class = \get_class($this);
+            $class = static::class;
             $function = __FUNCTION__;
             $msg = "Error [{$class}::{$function}(...)]:Invalid \$sort_direction supplied to "
                 . "`{$class}::{$function}(...)` "
@@ -150,7 +150,7 @@ class MultiSortParameters
     {    
         if( !\in_array($sort_type, static::$valid_sort_types, true) ) {
             
-            $class = \get_class($this);
+            $class = static::class;
             $function = __FUNCTION__;
             $msg = "Error [{$class}::{$function}(...)]:Invalid \$sort_type supplied to "
                 . "`{$class}::{$function}(...)` "

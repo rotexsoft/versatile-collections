@@ -944,9 +944,6 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals($collection->getIfExists(0), ['name'=>'Joe', 'age'=>'10',]);
         $this->assertEquals($collection->getIfExists(1), ['name'=>'Jane', 'age'=>'20',]);
         $this->assertEquals($collection->getIfExists(2), null);
-        
-        $this->expectException(\InvalidArgumentException::class);
-        $collection->getIfExists(['non int or string first argument']);
     }
     
     public function testThatColumnWorksAsExpected() {
@@ -1103,22 +1100,6 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
             $collection->column(777, 777)->toArray(), 
             [ 67=>67, 86=>86, 85=>85, 98=>98 ]
         ); // int, int
-    }
-
-    public function testThatColumnWithNonStringAndNonIntColumnKeyWorksAsExpected() {
-
-        $this->expectException(\InvalidArgumentException::class);
-        $data = [];
-        $collection = new \VersatileCollections\GenericCollection(...$data);
-        $collection->column([]);
-    }
-
-    public function testThatColumnWithNonStringAndNonIntIndexKeyWorksAsExpected() {
-
-        $this->expectException(\InvalidArgumentException::class);
-        $data = [];
-        $collection = new \VersatileCollections\GenericCollection(...$data);
-        $collection->column('some_key',[]);
     }
 
     public function testThatColumnOnCollectionWithOneOrMoreNonArrayAndNonObjectItemsWorksAsExpected() {
@@ -1486,7 +1467,6 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         $this->assertTrue($collection->containsKey('item1'));
         $this->assertTrue($collection->containsKey('item2'));
         $this->assertFalse($collection->containsKey('not in collection'));
-        $this->assertFalse($collection->containsKey([]));
     }
     
     public function testThatContainsItemWithKeyWorksAsExpected() {
@@ -1510,7 +1490,6 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         $this->assertFalse($collection->containsItemWithKey('not in collection', $item1));
         $this->assertFalse($collection->containsItemWithKey('item1', 'not in collection'));
         $this->assertFalse($collection->containsItemWithKey('item1', ['name'=>'Jane', 'age'=>'20',]));
-        $this->assertFalse($collection->containsItemWithKey([], $item1));
     }
     
     public function testThatContainsKeysWorksAsExpected() {
@@ -4040,25 +4019,11 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
                 ->getAsNewType(\VersatileCollections\StringsCollection::class);
     }
 
-    public function testGetAsNewTypeWithNonStringAndNonObjectArg() {
-        
-        $this->expectException(\InvalidArgumentException::class);
-        \VersatileCollections\IntsCollection::makeNew([1, 2, 3, 4, 5])
-                ->getAsNewType([]);
-    }
-
     public function testGetAsNewTypeWithStringNonCollectionInterfaceSubClassArg() {
         
         $this->expectException(\InvalidArgumentException::class);
         \VersatileCollections\IntsCollection::makeNew([1, 2, 3, 4, 5])
                 ->getAsNewType('Yay');
-    }
-
-    public function testGetAsNewTypeWithObjectNonCollectionInterfaceSubClassArg() {
-        
-        $this->expectException(\InvalidArgumentException::class);
-        \VersatileCollections\IntsCollection::makeNew([1, 2, 3, 4, 5])
-                ->getAsNewType(new stdClass());
     }
     
     public function testRemoveAll() {

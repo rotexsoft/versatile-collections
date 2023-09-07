@@ -31,7 +31,7 @@ class SortType
             // && 
             $sort_type !== -777
         ) {
-            $class = \get_class($this);
+            $class = static::class;
             $function = __FUNCTION__;
             $msg = "Error [{$class}::{$function}(...)]:Invalid \$sort_type supplied to "
                 . "`{$class}::{$function}(...)` "
@@ -58,7 +58,7 @@ class SortType
     {
         if( !\in_array($sort_type, static::$valid_sort_types, true) ) {
             
-            $class = \get_class($this);
+            $class = static::class;
             $function = __FUNCTION__;
             $msg = "Error [{$class}::{$function}(...)]:Invalid \$sort_type supplied to "
                 . "`{$class}::{$function}(...)` "

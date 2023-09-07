@@ -36,10 +36,9 @@ trait StrictlyTypedCollectionInterfaceImplementationTrait
     }
 
     /** 
-     * @noinspection PhpUnhandledExceptionInspection 
-     * @psalm-suppress MissingParamType
+     * @noinspection PhpUnhandledExceptionInspection
      */
-    public function __construct(...$arr_objs)
+    public function __construct(mixed ...$arr_objs)
     {
         foreach ($arr_objs as $item) {
             
@@ -58,11 +57,11 @@ trait StrictlyTypedCollectionInterfaceImplementationTrait
     public function appendCollection(CollectionInterface $other): CollectionInterface
     {
         if( 
-            \get_class($this) !== \get_class($other)
-            && !\is_subclass_of($other, \get_class($this))
+            $this::class !== $other::class
+            && !\is_subclass_of($other, $this::class)
         ) {
-            $class = \get_class($this);
-            $other_class = \get_class($other);
+            $class = $this::class;
+            $other_class = $other::class;
             $calling_functions_name = __FUNCTION__;
             
             $msg = "Error ({$class}::{$calling_functions_name}):"
@@ -77,12 +76,11 @@ trait StrictlyTypedCollectionInterfaceImplementationTrait
     }
 
     /**
-     * @param mixed $item
      * @throws Exceptions\InvalidItemException
      *
      * @noinspection PhpUnhandledExceptionInspection
      */
-    protected function isRightTypeOrThrowInvalidTypeException($item, string $calling_functions_name): bool 
+    protected function isRightTypeOrThrowInvalidTypeException(mixed $item, string $calling_functions_name): bool 
     {
         if( !$this->checkType($item) ) {
             
@@ -92,7 +90,7 @@ trait StrictlyTypedCollectionInterfaceImplementationTrait
                     ? \implode(' or ', $returned_type->toArray()) 
                     : (($returned_type->count() === 1) ? $returned_type->firstItem() : '');
             
-            $class = \get_class($this);
+            $class = $this::class;
             $msg = "Error ({$class}::{$calling_functions_name}):"
             . " Trying to add an item of type `" . Utils::gettype($item) 
             . "` to a strictly typed collection for items of type(s) `{$type}`"
@@ -113,7 +111,7 @@ trait StrictlyTypedCollectionInterfaceImplementationTrait
      * @noinspection PhpDocSignatureInspection
      * @noinspection PhpUnhandledExceptionInspection
      */
-    public function offsetSet($key, $val): void 
+    public function offsetSet($key, mixed $val): void 
     {
         $this->isRightTypeOrThrowInvalidTypeException($val, __FUNCTION__);
         
@@ -129,11 +127,11 @@ trait StrictlyTypedCollectionInterfaceImplementationTrait
     public function prependCollection(CollectionInterface $other): CollectionInterface 
     {
         if( 
-            \get_class($this) !== \get_class($other)
-            && !\is_subclass_of($other, \get_class($this))
+            $this::class !== $other::class
+            && !\is_subclass_of($other, $this::class)
         ) {
-            $class = \get_class($this);
-            $other_class = \get_class($other);
+            $class = $this::class;
+            $other_class = $other::class;
             $calling_functions_name = __FUNCTION__;
             $msg = "Error ({$class}::{$calling_functions_name}):"
             . " Trying to prepend a collection of type `" .$other_class 
@@ -148,13 +146,10 @@ trait StrictlyTypedCollectionInterfaceImplementationTrait
     /**
      * @see \VersatileCollections\CollectionInterface::prependItem()
      * 
-     * @param mixed $item
-     * @param string|int|null $key
-     *
      * @noinspection PhpDocSignatureInspection
      * @noinspection PhpUnhandledExceptionInspection
      */
-    public function prependItem($item, $key=null): CollectionInterface 
+    public function prependItem(mixed $item, string|int|null $key=null): CollectionInterface 
     {
         $this->isRightTypeOrThrowInvalidTypeException($item, __FUNCTION__);
         

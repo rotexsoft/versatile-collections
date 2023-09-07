@@ -70,7 +70,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate
      *  
      * @title: Retrieves an item associated with a specified key in the collection.
      */
-    public function __get(string $key);
+    public function __get(string $key):mixed;
     
     /**
      * Does the requested key exist?
@@ -122,7 +122,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate
      * 
      * @noinspection PhpParameterNameChangedDuringInheritanceInspection
      */
-    public function offsetExists($key): bool;
+    public function offsetExists(mixed $key): bool;
     
     /**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
      * ArrayAccess: get a key's value.
@@ -150,7 +150,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate
      * 
      * @noinspection PhpParameterNameChangedDuringInheritanceInspection
      */
-    public function offsetSet($key, $val): void;
+    public function offsetSet($key, mixed $val): void;
     
     /**
      * ArrayAccess: unset a key.
@@ -203,7 +203,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate
      * 
      * @title: Returns the first item in the collection or null if the collection is empty.
      */
-    public function firstItem();
+    public function firstItem(): mixed;
     
     /**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
      * Retrieves and returns the last item in this collection.
@@ -214,7 +214,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate
      * 
      * @title: Returns the last item in the collection or null if the collection is empty.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
      */
-    public function lastItem();
+    public function lastItem(): mixed;
     
     /**
      * @return GenericCollection keys to this collection
@@ -230,13 +230,11 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate
      * It set's the specified field in each array or property in each object
      * to the given value.
      * 
-     * @param mixed $field_val
-     * 
      * @used-for: modifying-items
      * 
      * @title: Sets the specified field in each array or object in the collection to a specified value.
      */
-    public function setValForEachItem(string $field_name, $field_val, bool $add_field_if_not_present=false): CollectionInterface;
+    public function setValForEachItem(string $field_name, mixed $field_val, bool $add_field_if_not_present=false): CollectionInterface;
     
     /** 
      * Filter out items in the collection via a callback function and return filtered items in a new collection.
@@ -331,7 +329,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate
      * 
      * @title: Iteratively reduces the collection items to a single value using a callback function.
      */
-    public function reduce(callable $reducer, $initial_value=NULL);
+    public function reduce(callable $reducer, mixed $initial_value=NULL);
     
     /**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
      * Iteratively reduce the collection items to a single value using a callback function.
@@ -350,7 +348,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate
      * 
      * @title: Iteratively reduces the collection items to a single value using a callback function.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
      */
-    public function reduceWithKeyAccess(callable $reducer, $initial_value=NULL);
+    public function reduceWithKeyAccess(callable $reducer, mixed $initial_value=NULL);
     
     /**
      * Reverse order of items in the collection and return the reversed items in a new collection.
@@ -384,16 +382,11 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate
     /**
      * Try to get an item with the specified key ($key) or return $default_value if key does not exist.
      * 
-     * @param string|int $key
-     * @param mixed $default_value
-     * 
-     * @return mixed
-     * 
      * @used-for: accessing-or-extracting-keys-or-items, checking-items-presence
      * 
      * @title: Returns the item in the collection with the specified key (if such an item exists) or the specified default value otherwise.
      */
-    public function getIfExists($key, $default_value=null);
+    public function getIfExists(string|int $key, mixed $default_value=null): mixed;
     
     /**
      * Check if a collection contains an item using strict comparison.
@@ -406,7 +399,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate
      *  
      * @title: Checks if a collection contains a specified item (using strict comparison).
      */
-    public function containsItem($item): bool;
+    public function containsItem(mixed $item): bool;
     
     /**
      * Check if a collection contains an item with the specified key using strict comparison for the item.
@@ -421,7 +414,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate
      *  
      * @title: Checks if a collection contains a specified item (using strict comparison) together with the specified key.
      */
-    public function containsItemWithKey($key, $item): bool;
+    public function containsItemWithKey(int|string$key, mixed $item): bool;
     
     /**
      * Check if all the specified items exist in a collection. 
@@ -448,7 +441,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate
      *  
      * @title: Checks if a collection contains a specified key.
      */
-    public function containsKey($key): bool;
+    public function containsKey(int|string $key): bool;
     
     /**
      * Check if all the specified keys exist in a collection
@@ -475,14 +468,12 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate
     
     /**
      * Appends an $item to the end of $this collection.
-     * 
-     * @param mixed $item
-     * 
+     *  
      * @used-for: adding-items
      * 
      * @title: Appends a specified item to the end of a collection.
      */
-    public function appendItem($item): CollectionInterface;
+    public function appendItem(mixed $item): CollectionInterface;
     
     /**
      * Prepends all items from $other collection to the front of $this collection. 
@@ -497,14 +488,11 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate
     /**
      * Prepends an $item to the front of $this collection.
      * 
-     * @param mixed $item
-     * @param string|int|null $key
-     * 
      * @used-for: adding-items
      * 
      * @title: Prepends a specified item (with a specified key, if specified) to the front of a collection.
      */
-    public function prependItem($item, $key=null): CollectionInterface;
+    public function prependItem(mixed $item, string|int|null $key=null): CollectionInterface;
     
     /**
      * Adds all items from $items to $this collection and returns a new collection
@@ -644,7 +632,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate
      * 
      * @title: Iterates through a collection and executes a callback over each item.
      */
-    public function each(callable $callback, $termination_value=false, bool $bind_callback_to_this=true): CollectionInterface;
+    public function each(callable $callback, mixed $termination_value=false, bool $bind_callback_to_this=true): CollectionInterface;
 
     /**
      * Applies the callback to the items in the collection and returns a new 
@@ -728,57 +716,46 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate
 
     /**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
      * Get and remove the last item from the collection.
-     *
-     * @return mixed
      * 
      * @used-for: accessing-or-extracting-keys-or-items, deleting-items
      * 
      * @title: Removes and returns the last item from a collection.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
      */
-    public function getAndRemoveLastItem();
+    public function getAndRemoveLastItem(): mixed;
     
     /**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
      * Get and remove an item from the collection.
-     *
-     * @param int|string  $key
-     * @param mixed       $default
-     * @return mixed
      * 
      * @used-for: accessing-or-extracting-keys-or-items, deleting-items
      * 
      * @title: Removes and returns the item with the specified key from a collection (if it exists) or returns a default value.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
      */
-    public function pull($key, $default = null);
+    public function pull(int|string $key, mixed $default = null): mixed;
     
     /**
      * Alias of appendItem($item)
-     *
-     * @param mixed  $item
      * 
      * @used-for: adding-items
      * 
      * @title: Appends a specified item to the end of a collection.
      */
-    public function push($item): CollectionInterface;
+    public function push(mixed $item): CollectionInterface;
 
 
     /**
      * Put an item in the collection by key.
-     *
-     * @param int|string  $key
-     * @param mixed       $value
      * 
      * @used-for: adding-items
      * 
      * @title: Adds a specified key and item pair to a collection. If the specified key already exists, the specified item will overwrite the existing item.
      */
-    public function put($key, $value): CollectionInterface;
+    public function put(int|string $key, mixed $value): CollectionInterface;
 
     /**
      * Get one key randomly from the collection.
      * A length exception (\LengthException) should be thrown if this method is called on an empty collection.
      * 
-     * @return mixed a random key from the collection if there is at least an item in the collection
+     * @return int|string a random key from the collection if there is at least an item in the collection
      * 
      * @throws LengthException
      * 
@@ -786,7 +763,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate
      * 
      * @title: Gets one key randomly from a collection.
      */
-    public function randomKey();
+    public function randomKey(): int|string;
     
     /**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
      * Get one item randomly from the collection.
@@ -800,7 +777,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate
      * 
      * @throws LengthException
      */
-    public function randomItem();
+    public function randomItem(): mixed;
 
     /**
      * Get a specified number of unique keys randomly from the collection and return them in a new collection.
@@ -872,7 +849,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate
      * 
      * @title: Searches the collection for a given value and returns the first corresponding key in the collection whose item matches the given value if successful or false if not.
      */
-    public function searchByVal( $value, bool $strict = false );
+    public function searchByVal(mixed $value, bool $strict = false ): mixed;
 
     /**
      * Search the collection for a given value and return an array of all 
@@ -890,7 +867,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate
      * 
      * @title: Searches the collection for a given value and returns an array of all corresponding key(s) in the collection whose item(s) match the given value or else returns false.
      */
-    public function searchAllByVal( $value, bool $strict = false );
+    public function searchAllByVal( mixed $value, bool $strict = false );
 
     /**
      * Search the collection using a callback. The callback will be executed on
@@ -920,13 +897,11 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate
     /**
      * Get and remove the first item from the collection.
      * 
-     * @return mixed
-     * 
      * @used-for: accessing-or-extracting-keys-or-items, deleting-items
      * 
      * @title: Returns and removes the first item in a collection.
      */
-    public function getAndRemoveFirstItem ();
+    public function getAndRemoveFirstItem (): mixed;
     
     /**
      * Extract a slice of the collection.
@@ -1499,7 +1474,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate
      * @throws InvalidArgumentException
      * @throws RuntimeException
      */
-    public function column($column_key, $index_key=null): GenericCollection;
+    public function column(int|string $column_key, int|string|null $index_key=null): GenericCollection;
 
     /**
      * Create a new collection of the specified type with the keys and items in this collection.
@@ -1528,7 +1503,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate
      * @throws InvalidArgumentException if $new_collection_class is not a string and is not an object
      *                                   of if $new_collection_class is not an instanceof \VersatileCollections\CollectionInterface
      */
-    public function getAsNewType($new_collection_class=GenericCollection::class): CollectionInterface;
+    public function getAsNewType(string|CollectionInterface $new_collection_class=GenericCollection::class): CollectionInterface;
 
     /**
      * Remove items from the collection (whose keys are present in $keys) or (all items if $keys is empty)  and return $this.

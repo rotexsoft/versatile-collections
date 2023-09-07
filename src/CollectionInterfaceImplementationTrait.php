@@ -142,7 +142,7 @@ trait CollectionInterfaceImplementationTrait
         bool $has_return_val=false,
         bool $bind_to_this=true
     ): self {
-        if( static::validateMethodName($name, __FUNCTION__, \get_class($this)) ) {
+        if( static::validateMethodName($name, __FUNCTION__, $this::class) ) {
             
             if( $bind_to_this ) {
 
@@ -164,7 +164,7 @@ trait CollectionInterfaceImplementationTrait
     /**
      * @return mixed a string representing the calculated key or false if calculated key does not exist in $methods_array
      */
-    protected static function getKeyForDynamicMethod(string $name, array &$methods_array, bool $search_parent_class_registration=true)
+    protected static function getKeyForDynamicMethod(string $name, array &$methods_array, bool $search_parent_class_registration=true): string|bool
     {
         if( \array_key_exists( static::class.'::'.$name , $methods_array) ) {
             
@@ -238,7 +238,7 @@ trait CollectionInterfaceImplementationTrait
         } else {
             
             $function = __FUNCTION__;
-            $class = \get_class($this);
+            $class = $this::class;
             $name_var = var_to_string($method_name);
             $msg = "Error [{$class}::{$function}(...)]: Trying to call a non-existent dynamic method named `{$name_var}` on a collection";
             throw new Exceptions\BadMethodCallException($msg);
@@ -282,7 +282,7 @@ trait CollectionInterfaceImplementationTrait
         }
     }
     
-    public function __get(string $key) 
+    public function __get(string $key): mixed
     {
         return $this->offsetGet($key);
     }
@@ -295,7 +295,7 @@ trait CollectionInterfaceImplementationTrait
     /**
      * @param mixed $val The value to set it to.
      */
-    public function __set(string $key, $val): void 
+    public function __set(string $key, mixed $val): void 
     {
         $this->offsetSet($key, $val);
     }
@@ -340,9 +340,9 @@ trait CollectionInterfaceImplementationTrait
      *  
      * @param mixed $key The requested key.
      */
-    public function offsetExists($key): bool 
+    public function offsetExists(mixed $key): bool 
     {
-        return \array_key_exists($key, $this->versatile_collections_items);
+        return (is_string($key) || is_int($key)) && \array_key_exists($key, $this->versatile_collections_items);
     }
     
     /**
@@ -358,7 +358,7 @@ trait CollectionInterfaceImplementationTrait
             
         } else {
 
-            throw new NonExistentItemException(\get_class($this)."::offsetGet({$key})");
+            throw new NonExistentItemException($this::class."::offsetGet({$key})");
         }
     }
 
@@ -369,7 +369,7 @@ trait CollectionInterfaceImplementationTrait
      * 
      * @param mixed $val The value to set it to.
      */
-    public function offsetSet($key, $val): void 
+    public function offsetSet($key, mixed $val): void 
     {
         if(\is_null($key) ) {
             
@@ -404,8 +404,6 @@ trait CollectionInterfaceImplementationTrait
     
     /**
      * @see \VersatileCollections\CollectionInterface::getIterator()
-     *
-     * @return \Iterator
      */
     public function getIterator(): Iterator 
     {
@@ -419,11 +417,8 @@ trait CollectionInterfaceImplementationTrait
     {
         return \count($this->versatile_collections_items);
     }
-
-    /**
-     * @param mixed $items
-     */
-    public function __construct(...$items) 
+    
+    public function __construct(mixed ...$items) 
     {
         $this->versatile_collections_items = $items;
     }
@@ -432,11 +427,10 @@ trait CollectionInterfaceImplementationTrait
     ////////// OTHER COLLECTION METHODS ////////////////////////////////////////
     /**
      * @see \VersatileCollections\CollectionInterface::firstItem()
-     *
-     * @return null|mixed
+     * 
      * @psalm-suppress PossiblyNullArrayOffset 
      */
-    public function firstItem() 
+    public function firstItem(): mixed
     {
         return ($this->count() <= 0) ? null : $this->versatile_collections_items[\array_key_first($this->versatile_collections_items)];
     }
@@ -444,10 +438,10 @@ trait CollectionInterfaceImplementationTrait
     /**
      * @see \VersatileCollections\CollectionInterface::lastItem()
      *
-     * @return null|mixed 
+     * @return mixed last item or null if collection is empty
      * @psalm-suppress PossiblyNullArrayOffset
      */
-    public function lastItem() 
+    public function lastItem(): mixed
     {      
         return ( $this->count() <= 0 ) ? null : $this->versatile_collections_items[\array_key_last($this->versatile_collections_items)];
     }
@@ -468,7 +462,7 @@ trait CollectionInterfaceImplementationTrait
      *  
      * @param mixed $field_val value to be set for the field whose name is the value contained in $field_name
      */
-    public function setValForEachItem(string $field_name, $field_val, bool $add_field_if_not_present=false): CollectionInterface
+    public function setValForEachItem(string $field_name, mixed $field_val, bool $add_field_if_not_present=false): CollectionInterface
     {
         foreach ($this->versatile_collections_items as &$item) {
             
@@ -505,7 +499,7 @@ trait CollectionInterfaceImplementationTrait
                 
             } else {
                 
-                $class = \get_class($this);
+                $class = $this::class;
                 $function = __FUNCTION__;
                 $msg = "Error [{$class}::{$function}(...)]:Trying to set a property named `$field_name` on a collection item of type "
                     . "`". Utils::gettype($item)."` "
@@ -614,7 +608,7 @@ trait CollectionInterfaceImplementationTrait
      * 
      * @param mixed $initial_value If the optional initial is available, it will be used at the beginning of the process, or as a final result in case the collection is empty.
      */
-    public function reduce(callable $reducer, $initial_value=NULL) 
+    public function reduce(callable $reducer, mixed $initial_value=NULL) 
     {
         return \array_reduce($this->versatile_collections_items, $reducer, $initial_value);
     }
@@ -624,7 +618,7 @@ trait CollectionInterfaceImplementationTrait
      * 
      * @param mixed $initial_value If the optional initial is available, it will be used at the beginning of the process, or as a final result in case the collection is empty.
      */
-    public function reduceWithKeyAccess(callable $reducer, $initial_value=NULL) 
+    public function reduceWithKeyAccess(callable $reducer, mixed $initial_value=NULL) 
     {
         $reduced_result = $initial_value;
         
@@ -677,25 +671,9 @@ trait CollectionInterfaceImplementationTrait
     
     /**
      * @see \VersatileCollections\CollectionInterface::getIfExists()
-     * 
-     * @param string|int $key
-     * @param mixed $default_value
-     * 
-     * @psalm-suppress DocblockTypeContradiction
      */
-    public function getIfExists($key, $default_value=null) 
-    {
-        if( !\is_int($key) && !\is_string($key) ) {
-            
-            $function = __FUNCTION__;
-            $class = \get_class($this);
-            $key_type = Utils::gettype($key);
-            $msg = "Error [{$class}::{$function}(...)]:"
-            . " You must specify an integer or string as the \$key parameter."
-            . " You supplied a(n) `{$key_type}` with a value of: ". var_to_string($key);
-            throw new InvalidArgumentException($msg);
-        }
-        
+    public function getIfExists(string|int $key, mixed $default_value=null): mixed
+    {        
         return \array_key_exists($key, $this->versatile_collections_items)
                 ?  $this->versatile_collections_items[$key] : $default_value;
     }
@@ -705,7 +683,7 @@ trait CollectionInterfaceImplementationTrait
      * 
      * @param mixed $item item whose existence in the collection is to be checked
      */
-    public function containsItem($item): bool 
+    public function containsItem(mixed $item): bool 
     {
         return \in_array($item, $this->versatile_collections_items, true);
     }
@@ -714,15 +692,9 @@ trait CollectionInterfaceImplementationTrait
      * @see \VersatileCollections\CollectionInterface::containsKey()
      * 
      * @param int|string $key key whose existence in the collection is to be checked
-     * @psalm-suppress DocblockTypeContradiction
      */
-    public function containsKey($key): bool 
+    public function containsKey(int|string $key): bool 
     {
-        if( !\is_int($key) && !\is_string($key) ) {
-            
-            return false; 
-        }
-        
         return \array_key_exists($key, $this->versatile_collections_items);
     }
     
@@ -731,16 +703,9 @@ trait CollectionInterfaceImplementationTrait
      * 
      * @param int|string $key key whose existence in the collection is to be checked
      * @param mixed $item item whose existence in the collection is to be checked
-     * 
-     * @psalm-suppress DocblockTypeContradiction
      */
-    public function containsItemWithKey($key, $item): bool 
+    public function containsItemWithKey(int|string $key, mixed $item): bool 
     {
-        if( !\is_int($key) && !\is_string($key) ) {
-            
-            return false; 
-        }
-        
         return $this->containsKey($key) 
                 && $item === $this->versatile_collections_items[$key];
     }
@@ -803,10 +768,8 @@ trait CollectionInterfaceImplementationTrait
     
     /**
      * @see \VersatileCollections\CollectionInterface::appendItem()
-     * 
-     * @param mixed $item
      */
-    public function appendItem($item): CollectionInterface
+    public function appendItem(mixed $item): CollectionInterface
     {
         $this[] = $item;
         
@@ -861,31 +824,17 @@ trait CollectionInterfaceImplementationTrait
     
     /**
      * @see \VersatileCollections\CollectionInterface::prependItem()
-     * 
-     * @param mixed $item
-     * @param string|int|null $key
-     * 
-     * @psalm-suppress RedundantConditionGivenDocblockType 
      */
-    public function prependItem($item, $key=null): CollectionInterface
+    public function prependItem(mixed $item, string|int|null $key=null): CollectionInterface
     {
         if( \is_null($key) ) {
             
             \array_unshift($this->versatile_collections_items, $item);
             
-        } else if( \is_string($key) || \is_int($key) ) {
+        } else { // \is_string($key) || \is_int($key)
             
             $this->versatile_collections_items = [$key=>$item] + $this->versatile_collections_items;
             
-        } else {
-            
-            $class = \get_class($this);
-            $function = __FUNCTION__;
-            $msg = "Error [{$class}::{$function}(...)]:Trying prepend an item with a non-integer and non-string key on a collection. "
-                . PHP_EOL . " `\$key`: " . var_to_string($key)
-                . PHP_EOL . " `\$item`: " . var_to_string($item);
-            
-            throw new Exceptions\InvalidKeyException($msg);
         }
         
         return $this;
@@ -1003,7 +952,7 @@ trait CollectionInterfaceImplementationTrait
      *                                 should stop.
      */
     public function each(
-        callable $callback, $termination_value=false, bool $bind_callback_to_this=true
+        callable $callback, mixed $termination_value=false, bool $bind_callback_to_this=true
     ): CollectionInterface
     {
         if( $bind_callback_to_this === true ) {
@@ -1114,7 +1063,7 @@ trait CollectionInterfaceImplementationTrait
     /**
      * @see \VersatileCollections\CollectionInterface::getAndRemoveFirstItem()
      */
-    public function getAndRemoveFirstItem() 
+    public function getAndRemoveFirstItem(): mixed
     {    
         return \array_shift($this->versatile_collections_items);
     }
@@ -1122,18 +1071,15 @@ trait CollectionInterfaceImplementationTrait
     /**
      * @see \VersatileCollections\CollectionInterface::getAndRemoveLastItem()
      */
-    public function getAndRemoveLastItem()
+    public function getAndRemoveLastItem(): mixed
     {
         return \array_pop($this->versatile_collections_items);
     }
     
     /**
      * @see \VersatileCollections\CollectionInterface::pull()
-     * 
-     * @param int|string  $key
-     * @param mixed       $default
      */
-    public function pull($key, $default = null) {
+    public function pull(int|string $key, mixed $default = null): mixed {
 
         $item = $this->getIfExists($key, $default);
         unset($this[$key]);
@@ -1143,10 +1089,8 @@ trait CollectionInterfaceImplementationTrait
     
     /**
      * @see \VersatileCollections\CollectionInterface::push()
-     * 
-     * @param mixed  $item
      */
-    public function push($item): CollectionInterface
+    public function push(mixed $item): CollectionInterface
     {
         return $this->appendItem($item);
     }
@@ -1154,10 +1098,8 @@ trait CollectionInterfaceImplementationTrait
     /**
      * @see \VersatileCollections\CollectionInterface::put()
      * 
-     * @param int|string  $key
-     * @param mixed       $value 
      */
-    public function put($key, $value): CollectionInterface
+    public function put(int|string $key, mixed $value): CollectionInterface
     {
         $this->offsetSet($key, $value);
         
@@ -1166,13 +1108,14 @@ trait CollectionInterfaceImplementationTrait
     
     /**
      * @see \VersatileCollections\CollectionInterface::randomKey()
+     * @psalm-suppress InvalidNullableReturnType
      */
-    public function randomKey() 
+    public function randomKey(): int|string 
     { 
         if( $this->count() <= 0 ) {
             
             $function = __FUNCTION__;
-            $class = \get_class($this);
+            $class = $this::class;
             $msg = "Error [{$class}::{$function}(...)]: You cannot request a random key from an empty collection.";
             throw new LengthException($msg);
         }
@@ -1183,12 +1126,12 @@ trait CollectionInterfaceImplementationTrait
     /**
      * @see \VersatileCollections\CollectionInterface::randomItem()
      */
-    public function randomItem() 
+    public function randomItem(): mixed
     {    
         if( $this->count() <= 0 ) {
             
             $function = __FUNCTION__;
-            $class = \get_class($this);
+            $class = $this::class;
             $msg = "Error [{$class}::{$function}(...)]: You cannot request a random item from an empty collection.";
             throw new LengthException($msg);
         }
@@ -1206,7 +1149,7 @@ trait CollectionInterfaceImplementationTrait
         if( $this->count() <= 0 ) {
             
             $function = __FUNCTION__;
-            $class = \get_class($this);
+            $class = $this::class;
             $msg = "Error [{$class}::{$function}(...)]: You cannot request random keys from an empty collection.";
             throw new LengthException($msg);
         }
@@ -1214,7 +1157,7 @@ trait CollectionInterfaceImplementationTrait
         if( $number > $this->count() ) {
             
             $function = __FUNCTION__;
-            $class = \get_class($this);
+            $class = $this::class;
             $msg = "Error [{$class}::{$function}(...)]:"
             . " You requested {$number} key(s), but there are only {$this->count()} keys available.";
             throw new InvalidArgumentException($msg);
@@ -1235,7 +1178,7 @@ trait CollectionInterfaceImplementationTrait
         if( $this->count() <= 0 ) {
             
             $function = __FUNCTION__;
-            $class = \get_class($this);
+            $class = $this::class;
             $msg = "Error [{$class}::{$function}(...)]: You cannot request random items from an empty collection.";
             throw new LengthException($msg);
         }
@@ -1243,7 +1186,7 @@ trait CollectionInterfaceImplementationTrait
         if( $number > $this->count() ) {
             
             $function = __FUNCTION__;
-            $class = \get_class($this);
+            $class = $this::class;
             $msg = "Error [{$class}::{$function}(...)]:"
             . " You requested {$number} item(s), but there are only {$this->count()} items available.";
             throw new InvalidArgumentException($msg);
@@ -1305,7 +1248,7 @@ trait CollectionInterfaceImplementationTrait
      * 
      * @param mixed $value the value to be searched for
      */
-    public function searchByVal( $value, bool $strict = false ) {
+    public function searchByVal( mixed $value, bool $strict = false ): mixed {
         
         return \array_search($value, $this->versatile_collections_items, $strict);
     }
@@ -1315,7 +1258,7 @@ trait CollectionInterfaceImplementationTrait
      * 
      * @param mixed $value the value to be searched for
      */
-    public function searchAllByVal( $value, bool $strict = false ){
+    public function searchAllByVal( mixed $value, bool $strict = false ){
         
         $result = \array_keys($this->versatile_collections_items, $value, $strict);
         
@@ -1438,7 +1381,7 @@ trait CollectionInterfaceImplementationTrait
             } else {
                 
                 $function = __FUNCTION__;
-                $class = \get_class($this);
+                $class = $this::class;
                 $msg = "Error [{$class}::{$function}(...)]:"
                 . " {$class}::{$function}(...) does not work with collections containing items that are"
                 . " not associative arrays or instances of ArrayAccess.";
@@ -1559,7 +1502,7 @@ trait CollectionInterfaceImplementationTrait
         if( \count($param) <= 0 ) {
             
             $function = __FUNCTION__;
-            $class = \get_class($this);
+            $class = $this::class;
             $msg = "Error [{$class}::{$function}(...)]:"
             . " {$class}::{$function}(...) expects at least one parameter of type `". MultiSortParameters::class ."`";
             throw new InvalidArgumentException($msg);
@@ -1646,7 +1589,7 @@ trait CollectionInterfaceImplementationTrait
         if( \count($param) <= 0 ) {
             
             $function = __FUNCTION__;
-            $class = \get_class($this);
+            $class = $this::class;
             $msg = "Error [{$class}::{$function}(...)]:"
             . " {$class}::{$function}(...) expects at least one parameter of type `". MultiSortParameters::class ."`";
             throw new InvalidArgumentException($msg);
@@ -1681,7 +1624,7 @@ trait CollectionInterfaceImplementationTrait
         if( $numberOfGroups > $this->count() ) {
             
             $function = __FUNCTION__;
-            $class = \get_class($this);
+            $class = $this::class;
             $msg = "Error [{$class}::{$function}(...)]:"
             . " You requested {$numberOfGroups} group(s), but there are only {$this->count()} items available.";
             throw new InvalidArgumentException($msg);
@@ -1690,7 +1633,7 @@ trait CollectionInterfaceImplementationTrait
         if( $numberOfGroups < 0 ) {
             
             $function = __FUNCTION__;
-            $class = \get_class($this);
+            $class = $this::class;
             $msg = "Error [{$class}::{$function}(...)]:"
             . " You requested a negative number `{$numberOfGroups}` of group(s).";
             throw new InvalidArgumentException($msg);
@@ -1734,7 +1677,7 @@ trait CollectionInterfaceImplementationTrait
         return static::makeNew(
             $this->reduce(
                 
-                function($carry, $item) {
+                function(array $carry, $item): array {
 
                     if( !\in_array($item, $carry, true)) {
 
@@ -1772,47 +1715,21 @@ trait CollectionInterfaceImplementationTrait
      *  
      * @see \VersatileCollections\CollectionInterface::column()
      * 
-     * @param int|string $column_key name of field in each item to be used as values / items in the collection to be returned
-     * @param int|string|null $index_key
-     *  
-     * @psalm-suppress DocblockTypeContradiction
      * @psalm-suppress MoreSpecificReturnType
      * @psalm-suppress RedundantCondition
      */
-    public function column($column_key, $index_key=null): GenericCollection
+    public function column(int|string $column_key, int|string|null $index_key=null): GenericCollection
     {
         // use GenericCollection because the values 
         // in the column may be of varying types
         $column_2_return = GenericCollection::makeNew();
-        
-        if( !\is_int($column_key) && !\is_string($column_key) ) {
-            
-            $function = __FUNCTION__;
-            $class = \get_class($this);
-            $column_key_type = Utils::gettype($column_key);
-            $msg = "Error [{$class}::{$function}(...)]:"
-            . " You must specify an integer or string as the \$column_key parameter."
-            . " You supplied a(n) `{$column_key_type}` with a value of: ". var_to_string($column_key);
-            throw new InvalidArgumentException($msg);
-        }
-        
-        if( !\is_null($index_key) && !\is_int($index_key) && !\is_string($index_key) ) {
-            
-            $function = __FUNCTION__;
-            $class = \get_class($this);
-            $index_key_type = Utils::gettype($index_key);
-            $msg = "Error [{$class}::{$function}(...)]:"
-            . " You must specify an integer or string as the \$index_key parameter."
-            . " You supplied a(n) `{$index_key_type}` with a value of: ". var_to_string($index_key);
-            throw new InvalidArgumentException($msg);
-        }
 
         foreach ( $this->versatile_collections_items as $coll_key => $item ) {
 
             if( !\is_array($item) && !\is_object($item) ) {
 
                 $function = __FUNCTION__;
-                $class = \get_class($this);
+                $class = $this::class;
                 $item_type = Utils::gettype($item);
                 $msg = "Error [{$class}::{$function}(...)]:"
                 . " This method only works on collections containing only arrays and / or objects."
@@ -1830,7 +1747,7 @@ trait CollectionInterfaceImplementationTrait
                     ( $item instanceof ArrayAccess && !isset($item[$column_key]) )
                 ) {
                     $function = __FUNCTION__;
-                    $class = \get_class($this);
+                    $class = $this::class;
                     $item_type = Utils::gettype($item);
 
                     $msg = "Error [{$class}::{$function}(...)]:"
@@ -1849,7 +1766,7 @@ trait CollectionInterfaceImplementationTrait
                     )
                 ) {
                     $function = __FUNCTION__;
-                    $class = \get_class($this);
+                    $class = $this::class;
                     $item_type = Utils::gettype($item);
 
                     $msg = "Error [{$class}::{$function}(...)]:"
@@ -1876,7 +1793,7 @@ trait CollectionInterfaceImplementationTrait
                         && !\is_int($item[$index_key])
                     ){
                         $function = __FUNCTION__;
-                        $class = \get_class($this);
+                        $class = $this::class;
                         $item_type = Utils::gettype($item[$index_key]);
 
                         $msg = "Error [{$class}::{$function}(...)]:"
@@ -1892,7 +1809,7 @@ trait CollectionInterfaceImplementationTrait
                 } else {
 
                     $function = __FUNCTION__;
-                    $class = \get_class($this);
+                    $class = $this::class;
                     $item_type = Utils::gettype($item);
 
                     $msg = "Error [{$class}::{$function}(...)]:"
@@ -1917,7 +1834,7 @@ trait CollectionInterfaceImplementationTrait
                         && !\is_string($index_key_value)
                     ) {
                         $function = __FUNCTION__;
-                        $class = \get_class($this);
+                        $class = $this::class;
                         $item_type = Utils::gettype($index_key_value);
                         $msg = "Error [{$class}::{$function}(...)]:"
                         . " \$collection['{$coll_key}']->{'{$index_key}'} of type `$item_type`"
@@ -1938,7 +1855,7 @@ trait CollectionInterfaceImplementationTrait
                 } else {
 
                     $function = __FUNCTION__;
-                    $class = \get_class($this);
+                    $class = $this::class;
                     $item_type = Utils::gettype($item);
                     $msg = "Error [{$class}::{$function}(...)]:"
                     . " Error occured while accessing an item of type `$item_type` with the specified index key `$index_key`"
@@ -1996,31 +1913,14 @@ trait CollectionInterfaceImplementationTrait
     
     /**
      * @see \VersatileCollections\CollectionInterface::getAsNewType()
-     * 
-     * @param string|CollectionInterface $new_collection_class
-     * 
-     * @psalm-suppress DocblockTypeContradiction
      */
-    public function getAsNewType($new_collection_class= GenericCollection::class): CollectionInterface 
+    public function getAsNewType(string|CollectionInterface $new_collection_class= GenericCollection::class): CollectionInterface 
     {
-        if( 
-            !\is_string($new_collection_class)
-            && !\is_object($new_collection_class)
-        ) {
-            $function = __FUNCTION__;
-            $class = \get_class($this);
-            $new_collection_class_type = Utils::gettype($new_collection_class);
-            $msg = "Error [{$class}::{$function}(...)]:"
-            . " You must specify an object or string as the \$new_collection_class parameter."
-            . " You supplied a(n) `{$new_collection_class_type}` with a value of: ". var_to_string($new_collection_class);
-            throw new InvalidArgumentException($msg);
-        }
-        
         if( 
             !\is_subclass_of($new_collection_class, CollectionInterface::class)
         ) {
             $function = __FUNCTION__;
-            $class = \get_class($this);
+            $class = $this::class;
             $new_collection_class_type = Utils::gettype($new_collection_class);
             $msg = "Error [{$class}::{$function}(...)]:"
             . " You must specify an object or string that is a sub-class of "
@@ -2029,11 +1929,10 @@ trait CollectionInterfaceImplementationTrait
             throw new InvalidArgumentException($msg);
         }
         
-        if( 
-            \is_object($new_collection_class)
-            && $new_collection_class instanceof CollectionInterface
-        ) {
-            $new_collection_class = \get_class($new_collection_class);
+        if( !is_string($new_collection_class) ) {
+            
+            // $new_collection_class instanceof CollectionInterface
+            $new_collection_class = $new_collection_class::class;
         }
 
         return $new_collection_class::makeNew($this->versatile_collections_items);

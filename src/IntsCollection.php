@@ -54,10 +54,9 @@ class IntsCollection extends NumericsCollection
     }
 
     /**
-     * @param $item
      * @noinspection PhpMissingReturnTypeInspection
      */
-    protected function itemToString($item): string
+    protected function itemToString(float|int $item): string
     {    
         return $item.'';
     }

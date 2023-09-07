@@ -62,7 +62,7 @@ class ObjectsCollection implements StrictlyTypedCollectionInterface
         try {
             return static::parent__call($method_name, $arguments);
             
-        } catch (BadMethodCallException $ex) {
+        } catch (BadMethodCallException) {
 
             // method was not available using 
             //  static::parent__call($method_name, $arguments);
@@ -82,11 +82,11 @@ class ObjectsCollection implements StrictlyTypedCollectionInterface
 
                 } catch (Throwable $err) {
 
-                    $class = \get_class($this);
+                    $class = static::class;
                     $function = __FUNCTION__;
                     $msg = "Error [{$class}::{$function}(...)]:Trying to call a"
                         . " method named `$method_name` on a collection item of type "
-                        . "`". \get_class($object)."` having `{$key_in_collection}`"
+                        . "`". $object::class."` having `{$key_in_collection}`"
                         . " as its key in the collection"
                         . PHP_EOL . " `\$arguments`: " . var_to_string($arguments)
                         . PHP_EOL . " `Original Exception Message`: " . $err->getMessage();

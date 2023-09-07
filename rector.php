@@ -20,28 +20,20 @@ return static function (RectorConfig $rectorConfigurator): void {
     $rectorConfigurator->import(SetList::PHP_80);
     $rectorConfigurator->import(SetList::PHP_81);
     $rectorConfigurator->import(SetList::DEAD_CODE);
-    $rectorConfigurator->import(SetList::PSR_4);
     $rectorConfigurator->import(SetList::TYPE_DECLARATION);
+        
+    $skipables = [
+//        \Rector\CodeQuality\Rector\If_\ShortenElseIfRector::class,
+//        \Rector\CodingStyle\Rector\Catch_\CatchExceptionNameMatchingTypeRector::class,
+//        \Rector\CodingStyle\Rector\Encapsed\EncapsedStringsToSprintfRector::class,
+//        \Rector\CodingStyle\Rector\ClassMethod\UnSpreadOperatorRector::class,
+//        \Rector\DeadCode\Rector\ClassMethod\RemoveUselessParamTagRector::class,
+//        //\Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector::class,
+//        \Rector\DeadCode\Rector\ClassMethod\RemoveUselessReturnTagRector::class,
+//        \Rector\Php71\Rector\FuncCall\CountOnNullRector::class,
+//        //\Rector\TypeDeclaration\Rector\FunctionLike\ParamTypeDeclarationRector::class,
+//        \Rector\DeadCode\Rector\ClassMethod\RemoveUselessParamTagRector::class
+    ];
     
-    $rectorConfigurator->skip([
-        \Rector\DeadCode\Rector\ClassMethod\RemoveUselessParamTagRector::class,
-        //\Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector::class,
-        \Rector\DeadCode\Rector\ClassMethod\RemoveUselessReturnTagRector::class,
-        \Rector\Php71\Rector\FuncCall\CountOnNullRector::class,
-        //\Rector\TypeDeclaration\Rector\FunctionLike\ParamTypeDeclarationRector::class,
-        \Rector\DeadCode\Rector\ClassMethod\RemoveUselessParamTagRector::class
-    ]);
-    
-    // get parameters
-    //$parameters = $rectorConfigurator->parameters();
-
-    // register a single rule
-    //$services = $rectorConfigurator->services();
-    //$services->set(TypedPropertyRector::class);
-    
-    // get services (needed for register a single rule)
-    //$services = $rectorConfigurator->services();
-    
-    //TODO:PHP8 comment once PHP 8 becomes minimum version
-    //$services->remove(Rector\DeadCode\Rector\ClassMethod\RemoveUnusedPromotedPropertyRector::class);
+    $rectorConfigurator->skip($skipables);
 };

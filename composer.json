@@ -31,7 +31,7 @@
         "phpunit/phpunit" : "^10.0",
         "php-coveralls/php-coveralls" : "^2.0",
         "symfony/polyfill-mbstring" : "^1.27",
-        "rector/rector" : "^0.16.0",
+        "rector/rector" : "^0.18.0",
         "vimeo/psalm" : "^5.4.0"
     },
     "autoload" : {
@@ -53,7 +53,8 @@
         "rector" : "vendor/bin/rector process src --dry-run -vvv",
         "rector-clear": "vendor/bin/rector --clear-cache",
         "psalm" : "vendor/bin/psalm --threads=1",
-        "qa" : "composer test && composer rector && composer psalm"
+        "psalm-clear-cache": "vendor/bin/psalm --clear-global-cache && vendor/bin/psalm --clear-cache",
+        "qa": "composer test && composer rector && composer psalm-clear-cache && composer psalm"
     },
     "config" : {
         "allow-plugins" : {

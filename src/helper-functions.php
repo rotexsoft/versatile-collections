@@ -19,10 +19,7 @@ namespace VersatileCollections {
      * Works with \stdClass objects created from arrays with numeric key(s)
      * (the value of the propertie(s) with numeric key(s) in such \stdClass
      * objects will be retrieved by this function).
-     *
-     * @param object $obj
-     * @param string|int $property
-     * @param mixed $default_val
+     * 
      * @param bool $access_private_or_protected true if value associated with private or protected property should be returned.
      *                                          If false is specified and you try to access a private or protected property, a
      *                                          \RuntimeException will be thrown.
@@ -33,20 +30,9 @@ namespace VersatileCollections {
      * @throws ReflectionException
      *
      * @noinspection DuplicatedCode
-     * @psalm-suppress DocblockTypeContradiction
      */
-    function get_object_property_value(object $obj, $property, $default_val=null, bool $access_private_or_protected=false)
+    function get_object_property_value(object $obj, string|int $property, mixed $default_val=null, bool $access_private_or_protected=false)
     {
-        if( !\is_string($property) && !\is_int($property) ) {
-
-            $function = __FUNCTION__;
-            $ns = __NAMESPACE__;
-            $property_type = Utils::gettype($property);
-            $msg = "Error [{$ns}::{$function}(...)]:"
-            . " String or Int expected as second argument, `$property_type` given.";
-            throw new InvalidArgumentException($msg);
-        }
-
         $property = ''.$property;
         $return_val = $default_val;
 
@@ -67,7 +53,7 @@ namespace VersatileCollections {
                 if( $access_private_or_protected ) {
 
                     // use some reflection gymnastics to retrieve the value
-                    $reflection_class = new ReflectionClass(\get_class($obj));
+                    $reflection_class = new ReflectionClass($obj::class);
                     $property = $reflection_class->getProperty($property);
                     $property->setAccessible(true);
                     $return_val = $property->getValue($obj); //$property->setAccessible(false);
@@ -78,7 +64,7 @@ namespace VersatileCollections {
                     // trying to access a private or protected value
                     $function = __FUNCTION__;
                     $ns = __NAMESPACE__;
-                    $obj_type = \get_class($obj);
+                    $obj_type = $obj::class;
                     $msg = "Error [{$ns}::{$function}(...)]:"
                     . " Trying to access a protected or private property named `{$property}` on the instance of `$obj_type` below:" . PHP_EOL . var_to_string($obj)
                     . PHP_EOL . "To access a protected or private property named `{$property}` call `{$ns}::{$function}()` with `true` as the fourth argument.";
@@ -98,27 +84,12 @@ namespace VersatileCollections {
      * A more robust way than property_exists of checking if an instance of a class
      * has a specified property.
      * 
-     * @param object $obj
-     * @param string|int $property
-     * 
-     * 
      * @throws InvalidArgumentException
      *
      * @noinspection PhpMissingReturnTypeInspection
-     * @psalm-suppress DocblockTypeContradiction
      */
-    function object_has_property(object $obj, $property): bool
+    function object_has_property(object $obj, string|int $property): bool
     {
-        if( !\is_string($property) && !\is_int($property) ) {
-
-            $function = __FUNCTION__;
-            $ns = __NAMESPACE__;
-            $property_type = Utils::gettype($property);
-            $msg = "Error [{$ns}::{$function}(...)]:"
-            . " String or Int expected as second argument, `$property_type` given.";
-            throw new InvalidArgumentException($msg);
-        }
-
         $property = ''.$property;
 
         return (
@@ -178,21 +149,21 @@ namespace VersatileCollections {
             $random_index = \random_int( $min, $max );
             $random_key = $keys[$random_index];
 
-        } catch ( TypeError $e) {
+        } catch ( TypeError) {
 
             // random_int: If invalid parameters are given, a TypeError will be thrown.
             // This is okay, so long as `Error` is caught before `Exception`.
             // Probably will never occur since $min and $max above will always be ints.
             $error_occurred = true;
 
-        } catch ( Error $e) {
+        } catch ( Error) {
 
             // random_int: If max is less than min, an Error will be thrown.
             // This is required, if you do not need to do anything just rethrow.
             // Probably will never occur since $min and $max above will always have $min < $max.
             $error_occurred = true;
 
-        } catch ( Exception $e) {
+        } catch ( Exception) {
 
             // random_int: If an appropriate source of randomness cannot be found, an Exception will be thrown.
             // This is optional and maybe omitted if you do not want to handle errors
@@ -236,7 +207,6 @@ namespace VersatileCollections {
             $function = __FUNCTION__;
             $ns = __NAMESPACE__;
             $msg = "Error [{$ns}::{$function}(...)]: You cannot request random keys from an empty array.";
-            
             throw new LengthException($msg);
         }
 
@@ -247,7 +217,6 @@ namespace VersatileCollections {
             $num_items = \count($array);
             $msg = "Error [{$ns}::{$function}(...)]:"
             . " You requested {$number_of_random_keys} key(s), but there are only {$num_items} keys available.";
-            
             throw new InvalidArgumentException($msg);
         }
 
@@ -269,15 +238,13 @@ namespace VersatileCollections {
     }
 
     /**
-     * Generate a (screen/user)-friendly string representation of a variable. 
-     *  
-     * @param mixed $var
+     * Generate a (screen/user)-friendly string representation of a variable.
      *  
      * @return string a (screen / user)-friendly string representation of a variable
      * 
      * @psalm-suppress ForbiddenCode
      */
-    function var_to_string($var): string 
+    function var_to_string(mixed $var): string 
     {
         ob_start(); // Start capturing the output
 
@@ -290,13 +257,11 @@ namespace VersatileCollections {
     }
 
     /**
-     * Generate a (screen/user)-friendly string representation of a variable and print it out to the screen. 
-     *  
-     * @param mixed $var
+     * Generate a (screen/user)-friendly string representation of a variable and print it out to the screen.
      *  
      * @return void
      */
-    function dump_var($var): void 
+    function dump_var(mixed $var): void 
     {
         $line_breaker = (PHP_SAPI === 'cli') ? PHP_EOL : '<br>';
         echo var_to_string($var). $line_breaker . $line_breaker;

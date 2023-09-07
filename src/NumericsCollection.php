@@ -66,7 +66,7 @@ class NumericsCollection extends ScalarsCollection
      */
     protected function itemFromString(string $str)
     {    
-        if( \strpos($str, '.') !== false ) {
+        if( str_contains($str, '.') ) {
             
             return ( (float) ($str.'') );
         }
@@ -77,13 +77,13 @@ class NumericsCollection extends ScalarsCollection
     /**
      * This method should be overridden in sub-classes of this class 
      *  
-     * @param mixed $item an item in this collection
+     * @param float|int $item an item in this collection
      *  
      * @return string representation of an item in this collection
      *
      * @noinspection PhpMissingReturnTypeInspection
      */
-    protected function itemToString($item): string
+    protected function itemToString(float|int $item): string
     {    
         return $item.'';
     }

@@ -180,12 +180,6 @@ class HelperFunctionsTest extends \PHPUnit\Framework\TestCase {
         $this->assertTrue( object_has_property($obj_real_and_dynamic_props_and_no_magic_methods, 'dynamic_property2') ); // dynamically assigned property
         $this->assertFalse( object_has_property($obj_real_and_dynamic_props_and_no_magic_methods, 'non_existent_property') ); // non-existent property
     }
-
-    public function testThat_object_has_property_WithNonStringNonIntSecondArgWorksAsExpected() {
-        
-        $this->expectException(\InvalidArgumentException::class);
-        object_has_property((new stdClass()), []);
-    }
     
     public function testThat_get_object_property_value_WorksAsExpected() {
         
@@ -260,12 +254,6 @@ class HelperFunctionsTest extends \PHPUnit\Framework\TestCase {
         // accessing the private property without passing true as the fourth
         // argument to get_object_property_value() below should throw an exception
         get_object_property_value($obj_protected_and_private_props_and_no_magic_methods, 'private_field');
-    }
-
-    public function testThat_get_object_property_value_WithNonStringNonIntSecondArgWorksAsExpected() {
-        
-        $this->expectException(\InvalidArgumentException::class);
-        get_object_property_value((new stdClass()), []);
     }
     
     public function test_dump_var() {

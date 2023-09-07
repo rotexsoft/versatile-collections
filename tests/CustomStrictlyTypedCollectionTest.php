@@ -671,22 +671,8 @@ class CustomStrictlyTypedCollectionTest extends \PHPUnit\Framework\TestCase {
         $other_item1 = "4";
         $collection->prependItem($other_item1);
     }
-
-    public function testThatPrependItemWorksAsExpected2() {
-                
-        $collection = new \TestValueObjectsCollection(
-            new TestValueObject('Johnny Cash', 50),
-            new TestValueObject('Suzzy Something', 23),
-            new TestValueObject('Jack Bauer', 43),
-            new TestValueObject('Jane Fonda', 55)
-        );
-                
-        $this->expectException(\VersatileCollections\Exceptions\InvalidKeyException::class);
-        $other_item1 = new TestValueObject('Joe Blow', 35);
-        $collection->prependItem($other_item1, 3.0); // non-string & non-int key
-    }
     
-    public function testThatPrependItemWorksAsExpected3() {
+    public function testThatPrependItemWorksAsExpected2() {
         
         $item1 = new TestValueObject('Johnny Cash', 50);
         $item2 = new TestValueObject('Suzzy Something', 23);
