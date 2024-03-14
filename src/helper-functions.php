@@ -21,7 +21,6 @@ namespace VersatileCollections {
      * (the value of the propertie(s) with numeric key(s) in such \stdClass
      * objects will be retrieved by this function).
      *
-     * @param object $obj
      * @param string|int $property
      * @param mixed $default_val
      * @param bool $access_private_or_protected true if value associated with private or protected property should be returned.
@@ -100,7 +99,6 @@ namespace VersatileCollections {
      * A more robust way than property_exists of checking if an instance of a class
      * has a specified property.
      * 
-     * @param object $obj
      * @param string|int $property
      * 
      * 
@@ -296,11 +294,10 @@ namespace VersatileCollections {
 
     /**
      *  
-     * Generate a (screen/user)-friendly string representation of a variable and print it out to the screen. 
+     * Generate a (screen/user)-friendly string representation of a variable and print it out to the screen.
      *  
      * @param mixed $var
-     *  
-     * @return void
+     * 
      * @noRector
      *  
      */

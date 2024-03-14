@@ -725,26 +725,16 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         // to a Closure under the hood, though binding it to $this has no
         // effect in this case.
         $string_keys_and_vals_collection = new \VersatileCollections\GenericCollection();
-        $string_keys_and_vals_collection['5'] = '1';
-        $string_keys_and_vals_collection['4'] = '2';
-        $string_keys_and_vals_collection['3'] = '3';
-        $string_keys_and_vals_collection['2'] = '4';
-        $string_keys_and_vals_collection['1'] = '5';
+        $string_keys_and_vals_collection['5%s'] = '1';
+        $string_keys_and_vals_collection['4%s'] = '2';
+        $string_keys_and_vals_collection['3%s'] = '3';
+        $string_keys_and_vals_collection['2%s'] = '4';
+        $string_keys_and_vals_collection['1%s'] = '5';
 
-        if( PHP_OS_FAMILY === 'Windows' ) {
-            
-            $this->assertEquals(
-                $string_keys_and_vals_collection->map('strcmp', true, true)->toArray(), 
-                [ '5' => 1, '4' => 1, '3' => 0, '2' => -1, '1' => -1, ]
-            );
-            
-        } else {
-            
-            $this->assertEquals(
-                $string_keys_and_vals_collection->map('strcmp', true, true)->toArray(), 
-                [ '5' => 4, '4' => 2, '3' => 0, '2' => -2, '1' => -4, ]
-            );
-        }
+        $this->assertEquals(
+            $string_keys_and_vals_collection->map('sprintf', true, true)->toArray(), 
+            [ '5%s' => '51', '4%s' => '42', '3%s' => '33', '2%s' => '24', '1%s' => '15', ]
+        );
     }
     
     public function testThatToArrayWorksAsExpected() {

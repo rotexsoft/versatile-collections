@@ -121,6 +121,7 @@ trait StrictlyTypedCollectionInterfaceImplementationTrait {
      * @param string|int|null $key The requested key.
      * @param mixed $val The value to set it to.
      *
+     * @psalm-suppress ParamNameMismatch
      * @noinspection PhpDocSignatureInspection
      * @noinspection PhpUnhandledExceptionInspection
      */
