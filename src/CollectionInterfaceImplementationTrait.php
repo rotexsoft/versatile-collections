@@ -368,6 +368,7 @@ trait CollectionInterfaceImplementationTrait
      * @param string|int|null $key The requested key.
      * 
      * @param mixed $val The value to set it to.
+     * @psalm-suppress ParamNameMismatch
      */
     public function offsetSet($key, mixed $val): void 
     {
@@ -1320,13 +1321,12 @@ trait CollectionInterfaceImplementationTrait
     }
 
     /**
-     * @psalm-suppress PossiblyInvalidArgument
      * @psalm-suppress PossiblyInvalidIterator
      * @psalm-suppress UnsupportedReferenceUsage
      * 
      * @return mixed[]
      */
-    protected function performMultiSort(array $array_to_be_sorted, MultiSortParameters ...$param) 
+    protected function performMultiSort(array $array_to_be_sorted, MultiSortParameters ...$param): array
     {
         if(\count($array_to_be_sorted) <= 0) {
             
@@ -1403,6 +1403,7 @@ trait CollectionInterfaceImplementationTrait
         
         // last parameter is the array to be sorted
         $multi_sort_args[] = &$array_to_be_sorted;
+        /** @psalm-suppress ArgumentTypeCoercion */
         \array_multisort(...$multi_sort_args);
         $sorted_array_with_preserved_keys_with_prefix = \array_pop($multi_sort_args);
         $sorted_array_with_preserved_keys = [];

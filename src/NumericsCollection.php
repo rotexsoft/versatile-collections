@@ -42,10 +42,8 @@ class NumericsCollection extends ScalarsCollection
     
     /**
      * This method should be overridden in sub-classes of this class
-     * 
-     * @param mixed $item
      */
-    public function checkType($item): bool
+    public function checkType(mixed $item): bool
     {    
         return \is_float($item) || \is_int($item);
     }
@@ -64,7 +62,7 @@ class NumericsCollection extends ScalarsCollection
      *
      * @noinspection PhpMissingParamTypeInspection
      */
-    protected function itemFromString(string $str)
+    protected function itemFromString(string $str): float|int
     {    
         if( str_contains($str, '.') ) {
             

@@ -110,6 +110,7 @@ trait StrictlyTypedCollectionInterfaceImplementationTrait
      *
      * @noinspection PhpDocSignatureInspection
      * @noinspection PhpUnhandledExceptionInspection
+     * @psalm-suppress ParamNameMismatch
      */
     public function offsetSet($key, mixed $val): void 
     {

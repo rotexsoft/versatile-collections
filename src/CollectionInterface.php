@@ -96,7 +96,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate
      * 
      * @title: Adds an item with a specified key to the collection.
      */
-    public function __set(string $key, $val): void;
+    public function __set(string $key, mixed $val): void;
     
     /**
      * Unset a key.
@@ -148,6 +148,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate
      * 
      * @title: Adds an item with a specified key to the collection.
      * 
+     * @psalm-suppress ParamNameMismatch
      * @noinspection PhpParameterNameChangedDuringInheritanceInspection
      */
     public function offsetSet($key, mixed $val): void;

@@ -107,7 +107,7 @@ class ObjectsCollection implements StrictlyTypedCollectionInterface
         }
     }
     
-    public function checkType($item): bool
+    public function checkType(mixed $item): bool
     {
         return \is_object($item);
     }

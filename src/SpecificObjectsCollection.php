@@ -94,10 +94,9 @@ final class SpecificObjectsCollection extends ObjectsCollection
     }
 
     /**
-     * @param mixed $item
      * @return bool true if $item is of the expected type, else false
      */
-    public function checkType($item): bool 
+    public function checkType(mixed $item): bool 
     {    
         return \is_null($this->class_name)
                 ? parent::checkType($item)

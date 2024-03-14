@@ -32,10 +32,8 @@ class ScalarsCollection implements StrictlyTypedCollectionInterface
 
     /**
      * This method should be overridden in sub-classes of this class
-     * 
-     * @param mixed $item
      */
-    public function checkType($item): bool
+    public function checkType(mixed $item): bool
     {
         return \is_scalar($item);
     }

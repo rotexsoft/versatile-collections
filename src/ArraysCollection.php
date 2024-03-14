@@ -37,11 +37,8 @@ class ArraysCollection implements StrictlyTypedCollectionInterface
     {
         $this->versatile_collections_items = $arrays;
     }
-
-    /**
-     * @param mixed $item
-     */
-    public function checkType($item): bool 
+    
+    public function checkType(mixed $item): bool 
     {    
         return \is_array($item);
     }

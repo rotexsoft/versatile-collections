@@ -30,7 +30,7 @@ class ResourcesCollection implements StrictlyTypedCollectionInterface
 {
     use StrictlyTypedCollectionInterfaceImplementationTrait;
 
-    public function checkType($item): bool 
+    public function checkType(mixed $item): bool 
     {
         return \is_resource($item);
     }

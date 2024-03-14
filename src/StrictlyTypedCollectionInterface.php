@@ -27,10 +27,9 @@ namespace VersatileCollections;
 interface StrictlyTypedCollectionInterface extends CollectionInterface
 {
     /**
-     * @param mixed $item
      * @return bool true if $item is of the expected type, else false
      */
-    public function checkType($item): bool;
+    public function checkType(mixed $item): bool;
     
     /**
      * @return \VersatileCollections\StringsCollection a collection of strings of type name(s) for items acceptable in a collection

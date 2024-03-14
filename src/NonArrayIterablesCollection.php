@@ -33,7 +33,7 @@ class NonArrayIterablesCollection extends ObjectsCollection
         parent::strictlyTypedCollectionTrait__construct(...$iterableObjects);
     }
 
-    public function checkType($item): bool 
+    public function checkType(mixed $item): bool 
     {
         return parent::checkType($item) && \is_iterable($item);
     }

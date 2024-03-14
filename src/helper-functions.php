@@ -258,8 +258,6 @@ namespace VersatileCollections {
 
     /**
      * Generate a (screen/user)-friendly string representation of a variable and print it out to the screen.
-     *  
-     * @return void
      */
     function dump_var(mixed $var): void 
     {

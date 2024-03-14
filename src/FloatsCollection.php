@@ -34,7 +34,7 @@ class FloatsCollection extends NumericsCollection
         $this->versatile_collections_items = $numbers;
     }
     
-    public function checkType($item): bool
+    public function checkType(mixed $item): bool
     {
         return \is_float($item);
     }
