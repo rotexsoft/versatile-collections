@@ -2136,6 +2136,7 @@ trait CollectionInterfaceImplementationTrait
      * @see \VersatileCollections\CollectionInterface::intersectByKeysAndItemsUsingCallbacks()
      *
      * @noinspection PhpUnusedLocalVariableInspection
+     * @psalm-suppress RedundantCondition
      */
     public function intersectByKeysAndItemsUsingCallbacks(array $arr, callable $key_comparator=null, callable $item_comparator=null): CollectionInterface
     {
