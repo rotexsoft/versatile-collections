@@ -66,10 +66,10 @@ class NumericsCollection extends ScalarsCollection
     {    
         if( str_contains($str, '.') ) {
             
-            return ( (float) ($str.'') );
+            return ( (float) ($str) );
         }
         
-        return ( (int) ($str.'') );
+        return ( (int) ($str) );
     }
     
     /**

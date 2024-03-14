@@ -23,7 +23,6 @@ namespace VersatileCollections {
      * @param bool $access_private_or_protected true if value associated with private or protected property should be returned.
      *                                          If false is specified and you try to access a private or protected property, a
      *                                          \RuntimeException will be thrown.
-     * @return mixed
      *
      * @throws InvalidArgumentException
      * @throws RuntimeException
@@ -31,7 +30,7 @@ namespace VersatileCollections {
      *
      * @noinspection DuplicatedCode
      */
-    function get_object_property_value(object $obj, string|int $property, mixed $default_val=null, bool $access_private_or_protected=false)
+    function get_object_property_value(object $obj, string|int $property, mixed $default_val=null, bool $access_private_or_protected=false): mixed
     {
         $property = ''.$property;
         $return_val = $default_val;
@@ -128,7 +127,7 @@ namespace VersatileCollections {
      *  
      * @throws LengthException
      */
-    function random_array_key(array $array)
+    function random_array_key(array $array): string|int|null
     {
         if( \count($array) <= 0 ) {
 
@@ -177,7 +176,7 @@ namespace VersatileCollections {
 
             // fallback to array_rand since an error / exception occurred
             // while trying to use random_int
-            $random_key = \array_rand($array);
+            $random_key = \array_rand($array, 1);
         }
 
         return $random_key;
