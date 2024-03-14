@@ -237,7 +237,7 @@ and more efficient way(s) things could be implemented in this package.
 ## Contributing
 
 As of May 16 2023, version 5.2.0 is the latest stable version with a minimum PHP 7.4 requirement.
-Only bugfixes will be accepted for this version and they should be applied to the 5.2.x branch.
+Only bugfixes will be accepted for this version and they should be applied to the 5.x branch.
 - Bugfixes for version 4.x should be applied to the 4.X branch.
 - Bugfixes for version 3.x should be applied to the 3.X branch.
 - Bugfixes for version 2.x should be applied to the 2.X branch.

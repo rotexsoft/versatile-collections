@@ -38,7 +38,7 @@ class Utils {
                 return $result;
             }
             
-            throw new \Exception();
+            throw new \Exception("Closure::bind returned null");
             
         } catch (Exception $ex) {
             
