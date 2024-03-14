@@ -1259,7 +1259,7 @@ trait CollectionInterfaceImplementationTrait
      * 
      * @param mixed $value the value to be searched for
      */
-    public function searchAllByVal( mixed $value, bool $strict = false ){
+    public function searchAllByVal( mixed $value, bool $strict = false ): array|false {
         
         $result = \array_keys($this->versatile_collections_items, $value, $strict);
         
@@ -1886,14 +1886,13 @@ trait CollectionInterfaceImplementationTrait
      * 
      * @param bool $truthy_value
      */
-    public function whenTrue( 
-        $truthy_value, callable $callback, callable $default=null
-    ) {
+    public function whenTrue($truthy_value, callable $callback, callable $default=null): mixed {
+        
         if ( $truthy_value ) {
             
             return $callback($this);
             
-        } elseif ( !\is_null($default) ) {
+        } elseif ( $default !== null ) {
             
             return $default($this);
         }
@@ -1906,9 +1905,7 @@ trait CollectionInterfaceImplementationTrait
      * 
      * @param bool $falsy_value
      */
-    public function whenFalse( 
-        $falsy_value, callable $callback, callable $default=null
-    ) {
+    public function whenFalse($falsy_value, callable $callback, callable $default=null): mixed {
         return $this->whenTrue( (!$falsy_value) , $callback, $default);
     }
     

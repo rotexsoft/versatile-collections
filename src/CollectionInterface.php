@@ -415,7 +415,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate
      *  
      * @title: Checks if a collection contains a specified item (using strict comparison) together with the specified key.
      */
-    public function containsItemWithKey(int|string$key, mixed $item): bool;
+    public function containsItemWithKey(int|string $key, mixed $item): bool;
     
     /**
      * Check if all the specified items exist in a collection. 
@@ -861,14 +861,14 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate
      * @param bool $strict true if strict comparison should be used when searching, 
      *                          else false for loose comparison
      * 
-     * @return mixed an array of all key(s) in the collection whose item(s) match $value 
-     *               or false if $value is not found in the collection
+     * @return array|false an array of all key(s) in the collection whose item(s) match $value 
+     *                     or false if $value is not found in the collection
      * 
      * @used-for: accessing-or-extracting-keys-or-items, finding-or-searching-for-items
      * 
      * @title: Searches the collection for a given value and returns an array of all corresponding key(s) in the collection whose item(s) match the given value or else returns false.
      */
-    public function searchAllByVal( mixed $value, bool $strict = false );
+    public function searchAllByVal( mixed $value, bool $strict = false ): array|false;
 
     /**
      * Search the collection using a callback. The callback will be executed on
@@ -1385,15 +1385,13 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate
      *                               If $default is null and $truthy_value is not truthy, NULL will
      *                               be returned by this method.
      * 
-     * @return mixed
-     * 
      * @used-for: other-operations
      * 
      * @title: Conditionally executes a specified callback on a collection if first argument is truthy or executes a specified default callback otherwise and returns the value returned by the executed callback. If no callback could be executed, null is returned.
      * 
      * @noinspection PhpMissingParamTypeInspection
      */
-    public function whenTrue($truthy_value, callable $callback, callable $default=null);
+    public function whenTrue($truthy_value, callable $callback, callable $default=null): mixed;
     
     /**
      * Execute $callback on $this and return its return value if $falsy_value is falsy
@@ -1414,15 +1412,13 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate
      *                               If $default is null and $falsy_value is not falsy, NULL will
      *                               be returned by this method.
      * 
-     * @return mixed
-     * 
      * @used-for: other-operations
      * 
      * @title: Conditionally executes a specified callback on a collection if first argument is falsy or executes a specified default callback otherwise and returns the value returned by the executed callback. If no callback could be executed, null is returned.
      * 
      * @noinspection PhpMissingParamTypeInspection
      */
-    public function whenFalse($falsy_value, callable $callback, callable $default=null);
+    public function whenFalse($falsy_value, callable $callback, callable $default=null): mixed;
     
     /**
      * Return the values from a single column in the collection.
