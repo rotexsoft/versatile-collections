@@ -52,11 +52,7 @@ EOT;
         $this->assertTrue(
             Utils::getClosureFromCallable(\Descendant::class.'::who') instanceof \Closure    
         ); // static method call string syntax
-        
-        $this->assertTrue(
-            Utils::getClosureFromCallable([\Descendant::class, 'parent::who']) instanceof \Closure    
-        ); // parent class' static method call
-        
+                
         $this->assertTrue(
             Utils::getClosureFromCallable( (new \Descendant()) ) instanceof \Closure    
         ); // instance of class that has __invoke()

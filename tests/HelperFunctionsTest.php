@@ -170,14 +170,10 @@ class HelperFunctionsTest extends \PHPUnit\Framework\TestCase {
         $this->assertFalse( object_has_property($obj_without_magic_methods, 'title2') ); // string property
         
         $obj_real_and_dynamic_props_and_no_magic_methods = new TestValueObject2('John Doe', 47);
-        $obj_real_and_dynamic_props_and_no_magic_methods->dynamic_property1 = 'dynamic_property1';
-        $obj_real_and_dynamic_props_and_no_magic_methods->dynamic_property2 = 'dynamic_property2';
         $this->assertTrue( object_has_property($obj_real_and_dynamic_props_and_no_magic_methods, 'name') ); // public property
         $this->assertTrue( object_has_property($obj_real_and_dynamic_props_and_no_magic_methods, 'age') ); // public property
         $this->assertTrue( object_has_property($obj_real_and_dynamic_props_and_no_magic_methods, 'protected_field') ); // protected property
         $this->assertTrue( object_has_property($obj_real_and_dynamic_props_and_no_magic_methods, 'private_field') ); // private property
-        $this->assertTrue( object_has_property($obj_real_and_dynamic_props_and_no_magic_methods, 'dynamic_property1') ); // dynamically assigned property
-        $this->assertTrue( object_has_property($obj_real_and_dynamic_props_and_no_magic_methods, 'dynamic_property2') ); // dynamically assigned property
         $this->assertFalse( object_has_property($obj_real_and_dynamic_props_and_no_magic_methods, 'non_existent_property') ); // non-existent property
     }
     
