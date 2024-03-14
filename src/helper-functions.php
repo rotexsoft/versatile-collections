@@ -2,15 +2,13 @@
 declare(strict_types=1);
 namespace VersatileCollections {
 
-    use Error;
-    use Exception;
+    use Throwable;
     use InvalidArgumentException;
     use LengthException;
     use ReflectionClass;
     use ReflectionException;
     use RuntimeException;
     use stdClass;
-    use TypeError;
 
     /**
      * A robust way of retrieving the value of a specified property in
@@ -137,7 +135,6 @@ namespace VersatileCollections {
             throw new LengthException($msg);
         }
 
-        $error_occurred = false;
         $keys = \array_keys($array);
         $random_key = null;
 
@@ -148,31 +145,7 @@ namespace VersatileCollections {
             $random_index = \random_int( $min, $max );
             $random_key = $keys[$random_index];
 
-        } catch ( TypeError) {
-
-            // random_int: If invalid parameters are given, a TypeError will be thrown.
-            // This is okay, so long as `Error` is caught before `Exception`.
-            // Probably will never occur since $min and $max above will always be ints.
-            $error_occurred = true;
-
-        } catch ( Error) {
-
-            // random_int: If max is less than min, an Error will be thrown.
-            // This is required, if you do not need to do anything just rethrow.
-            // Probably will never occur since $min and $max above will always have $min < $max.
-            $error_occurred = true;
-
-        } catch ( Exception) {
-
-            // random_int: If an appropriate source of randomness cannot be found, an Exception will be thrown.
-            // This is optional and maybe omitted if you do not want to handle errors
-            // during generation.
-            // Hard to consistently test this since it's an internal 
-            // random number generator specific logic error.
-            $error_occurred = true;
-        }
-
-        if( $error_occurred ) {
+        } catch ( Throwable) {
 
             // fallback to array_rand since an error / exception occurred
             // while trying to use random_int

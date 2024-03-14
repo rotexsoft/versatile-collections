@@ -2708,6 +2708,12 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
 
     public function testThatSortByMultipleFieldsWorksAsExpected() {
 
+        $collection = new \VersatileCollections\GenericCollection();
+        $sort_param = new \VersatileCollections\MultiSortParameters('volume', SORT_ASC, SORT_NUMERIC);
+        $sort_param2 = new \VersatileCollections\MultiSortParameters('edition', SORT_DESC, SORT_NUMERIC);
+        $sorted_collection_asc_desc = $collection->sortByMultipleFields($sort_param, $sort_param2);
+        self::assertEquals([], $collection->toArray());
+        
         ////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////////////
         // Collection of Arrays
@@ -3247,6 +3253,13 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
 
     public function testThatSortMeByMultipleFieldsWorksAsExpected() {
 
+        $collection = new \VersatileCollections\GenericCollection();
+        $sort_param = new \VersatileCollections\MultiSortParameters('volume', SORT_ASC, SORT_NUMERIC);
+        $sort_param2 = new \VersatileCollections\MultiSortParameters('edition', SORT_DESC, SORT_NUMERIC);
+        $sorted_collection_asc_desc = $collection->sortMeByMultipleFields($sort_param, $sort_param2);
+        self::assertEquals([], $sorted_collection_asc_desc->toArray());
+        
+        
         $data = [];
         $data[0] = [ 'volume' => 67, 'edition' => 2 ];
         $data[1] = [ 'volume' => 86, 'edition' => 2 ];

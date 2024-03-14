@@ -34,18 +34,7 @@ final class SpecificObjectsCollection extends ObjectsCollection
      */
     protected function __construct(object ...$objects) 
     {    
-        if( \is_null($this->class_name) ) {
-            
-            // we don't have a specific class, allow all objects
-            $this->versatile_collections_items = $objects;
-            
-        } else {
-            
-            // we have a specific class, allow only instances of that class
-            // use the strictly typed constructor instead to enforce the
-            // strict typing
-            static::strictlyTypedCollectionTrait__construct(...$objects);
-        }
+        parent::__construct(...$objects);
     }
 
     /**
@@ -69,11 +58,6 @@ final class SpecificObjectsCollection extends ObjectsCollection
      */
     public static function makeNewForSpecifiedClassName(?string $class_name=null, iterable $items =[], bool $preserve_keys=true): StrictlyTypedCollectionInterface
     {
-        if( $class_name === null ) {
-
-            return static::makeNew($items, $preserve_keys); // collection that stores any type of object
-        }
-        
         // Class was specified, create collection for only instances of the specified class
         $new_collection = static::makeNew(); // make an empty collection first
         $new_collection->class_name = $class_name;

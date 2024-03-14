@@ -272,7 +272,7 @@ class SpecificObjectsCollectionTest extends \PHPUnit\Framework\TestCase {
         $this->assertTrue($collection->checkType($item6));
     }
 
-    public function testThatGetTypeWorksAsExpected() {
+    public function testThatGetTypesWorksAsExpected() {
 
         // Create a collection that stores only instances of \ArrayObject
         $collection = \VersatileCollections\SpecificObjectsCollection::makeNewForSpecifiedClassName(

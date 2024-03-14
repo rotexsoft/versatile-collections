@@ -1717,7 +1717,6 @@ trait CollectionInterfaceImplementationTrait
      * @see \VersatileCollections\CollectionInterface::column()
      * 
      * @psalm-suppress MoreSpecificReturnType
-     * @psalm-suppress RedundantCondition
      */
     public function column(int|string $column_key, int|string|null $index_key=null): GenericCollection
     {
@@ -1776,48 +1775,37 @@ trait CollectionInterfaceImplementationTrait
                     . " Collection Items: ". var_to_string($this->versatile_collections_items);
                     throw new RuntimeException($msg);
 
-                } else if( $index_key === null ) {
+                } else { 
+                    // At this point we know that $item has a key or property named after the value in $column_key
+                    // At this point we know that $item has a key or property named after the value in $index_key, if $index_key !== null
 
-                    $column_2_return[] = $item[$column_key];
+                    if( $index_key === null ) {
 
-                } else if(
-                    $index_key !== null
-                    && 
-                    ( 
-                        ( \is_array($item) && \array_key_exists($index_key, $item) )
-                        ||
-                        ( $item instanceof ArrayAccess && isset($item[$index_key]) )
-                    )
-                ) {
-                    if(
-                        !\is_string($item[$index_key])
-                        && !\is_int($item[$index_key])
-                    ){
-                        $function = __FUNCTION__;
-                        $class = $this::class;
-                        $item_type = Utils::gettype($item[$index_key]);
+                        $column_2_return[] = $item[$column_key];
 
-                        $msg = "Error [{$class}::{$function}(...)]:"
-                        . " \$collection['{$coll_key}']['{$index_key}'] of type `$item_type`"
-                        . " has a non-string and non-int value of `". var_to_string($item[$index_key])."`"
-                        . " which cannot be used as a key in the collection to be returned by this method." .PHP_EOL
-                        . " Collection Items: ". var_to_string($this->versatile_collections_items).PHP_EOL .PHP_EOL;
-                        throw new RuntimeException($msg);
+                    } else { 
+                        // For sure $index_key !== null
+                        // and we already know that  $item has a key or property 
+                        // named after the value in $index_key since $index_key !== null
+
+                        if(
+                            !\is_string($item[$index_key])
+                            && !\is_int($item[$index_key])
+                        ) {
+                            $function = __FUNCTION__;
+                            $class = $this::class;
+                            $item_type = Utils::gettype($item[$index_key]);
+
+                            $msg = "Error [{$class}::{$function}(...)]:"
+                            . " \$collection['{$coll_key}']['{$index_key}'] of type `$item_type`"
+                            . " has a non-string and non-int value of `". var_to_string($item[$index_key])."`"
+                            . " which cannot be used as a key in the collection to be returned by this method." .PHP_EOL
+                            . " Collection Items: ". var_to_string($this->versatile_collections_items).PHP_EOL .PHP_EOL;
+                            throw new RuntimeException($msg);
+                        }
+
+                        $column_2_return[$item[$index_key]] = $item[$column_key];
                     }
-
-                    $column_2_return[$item[$index_key]] = $item[$column_key];
-
-                } else {
-
-                    $function = __FUNCTION__;
-                    $class = $this::class;
-                    $item_type = Utils::gettype($item);
-
-                    $msg = "Error [{$class}::{$function}(...)]:"
-                    . " Error occured while accessing an item of type `$item_type` with the specified index key `$index_key`"
-                    . " and specified column key `$column_key` with this key `$coll_key` in the collection." . PHP_EOL
-                    . " Collection Items: ". var_to_string($this->versatile_collections_items).PHP_EOL .PHP_EOL;
-                    throw new RuntimeException($msg);
                 }
 
             } else { // \is_object($item) === true && !($item instanceof ArrayAccess)
