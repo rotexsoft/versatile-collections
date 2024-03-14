@@ -162,7 +162,7 @@ trait CollectionInterfaceImplementationTrait
     }
     
     /**
-     * @return mixed a string representing the calculated key or false if calculated key does not exist in $methods_array
+     * @return string|bool a string representing the calculated key or false if calculated key does not exist in $methods_array
      */
     protected static function getKeyForDynamicMethod(string $name, array &$methods_array, bool $search_parent_class_registration=true): string|bool
     {
@@ -372,7 +372,7 @@ trait CollectionInterfaceImplementationTrait
      */
     public function offsetSet($key, mixed $val): void 
     {
-        if(\is_null($key) ) {
+        if($key === null) {
             
             $this->versatile_collections_items[] = $val;
             
@@ -539,7 +539,7 @@ trait CollectionInterfaceImplementationTrait
         $filtered_items = static::makeNew();
         
         if( 
-            \is_null($max_number_of_filtered_items_to_return)
+            $max_number_of_filtered_items_to_return === null
             || ($max_number_of_filtered_items_to_return) > $this->count()
             || ($max_number_of_filtered_items_to_return) < 0
         ) {
@@ -828,7 +828,7 @@ trait CollectionInterfaceImplementationTrait
      */
     public function prependItem(mixed $item, string|int|null $key=null): CollectionInterface
     {
-        if( \is_null($key) ) {
+        if( $key === null ) {
             
             \array_unshift($this->versatile_collections_items, $item);
             
@@ -1303,11 +1303,11 @@ trait CollectionInterfaceImplementationTrait
         string $sort_function_name_not_requiring_callback='asort',
         string $sort_function_name_requiring_callback='uasort'
     ): void {
-        if( \is_null($callable) ) {
+        if( $callable === null ) {
             
             $sort_type = SORT_REGULAR;
             
-            if( !\is_null($type) ) {
+            if( $type !== null ) {
                 
                 $sort_type = $type->getSortType();
             }
@@ -1609,7 +1609,7 @@ trait CollectionInterfaceImplementationTrait
      */
     public function splice(int $offset, ?int $length=null, array $replacement=[]): CollectionInterface
     {
-        if( \is_null($length) ) {
+        if( $length === null ) {
             
             $length = $this->count();
         }
@@ -1758,7 +1758,7 @@ trait CollectionInterfaceImplementationTrait
                     throw new RuntimeException($msg);
 
                 } else if (
-                    !\is_null($index_key)
+                    $index_key !== null
                     &&
                     (
                         ( \is_array($item) && !\array_key_exists($index_key, $item) )
@@ -1776,12 +1776,12 @@ trait CollectionInterfaceImplementationTrait
                     . " Collection Items: ". var_to_string($this->versatile_collections_items);
                     throw new RuntimeException($msg);
 
-                } else if( \is_null($index_key) ) {
+                } else if( $index_key === null ) {
 
                     $column_2_return[] = $item[$column_key];
 
                 } else if(
-                    !\is_null($index_key)
+                    $index_key !== null
                     && 
                     ( 
                         ( \is_array($item) && \array_key_exists($index_key, $item) )
@@ -1823,7 +1823,7 @@ trait CollectionInterfaceImplementationTrait
             } else { // \is_object($item) === true && !($item instanceof ArrayAccess)
 
                 if( 
-                    !\is_null($index_key)
+                    $index_key !== null
                     && object_has_property($item, $column_key)
                     && object_has_property($item, $index_key)   
                 ) {
@@ -1848,7 +1848,7 @@ trait CollectionInterfaceImplementationTrait
                     $column_2_return[$index_key_value] = $column_key_value;
 
                 } else if(
-                    \is_null($index_key)
+                    $index_key === null
                     && object_has_property($item, $column_key)
                 ) {
                     $column_2_return[] = get_object_property_value($item, $column_key, null, true);
@@ -2141,19 +2141,19 @@ trait CollectionInterfaceImplementationTrait
     {
         $result = [];
         
-        if( !\is_null($key_comparator) && \is_null($item_comparator) ) {
+        if( $key_comparator !== null && $item_comparator === null ) {
             
             $result = \array_intersect_uassoc(
                 $this->versatile_collections_items, $arr, $key_comparator
             );
             
-        } else if( \is_null($key_comparator) && !\is_null($item_comparator) ) {
+        } else if( $key_comparator === null && $item_comparator !== null ) {
             
             $result = \array_uintersect_assoc(
                 $this->versatile_collections_items, $arr, $item_comparator
             );
             
-        } else if( !\is_null($key_comparator) && !\is_null($item_comparator) ) {
+        } else if( $key_comparator !== null && $item_comparator !== null ) {
             
             $result = \array_uintersect_uassoc(
                 $this->versatile_collections_items, $arr, $item_comparator, $key_comparator
