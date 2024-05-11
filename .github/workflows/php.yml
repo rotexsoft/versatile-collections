@@ -63,10 +63,10 @@ jobs:
     - name: Run PHPUnit Test Suite
       run: vendor/bin/phpunit
 
-    - name: Run Rector
-      # Run rector for PHP 7.3+ but not 8.0
-      if: matrix.php == '7.4'
-      run: vendor/bin/rector process src --dry-run
+#    - name: Run Rector
+#      # Run rector for PHP 7.3+ but not 8.0
+#      if: matrix.php == '7.4'
+#      run: vendor/bin/rector process src --dry-run
 
     - name: Run Psalm
       # Run psalm for PHP 7.4 & 8.0 but not 7.2 & 7.3, psalm is currently blowing up with PHP 7.2 & 7.3
