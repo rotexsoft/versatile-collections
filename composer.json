@@ -39,5 +39,10 @@
     },
     "scripts": {
         "test": "vendor/bin/phpunit --coverage-text"
+    },
+    "config": {
+        "allow-plugins": {
+            "rector/rector-installer": true
+        }
     }
 }
