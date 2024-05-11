@@ -2,9 +2,9 @@ name: Run PHP Tests and Code Quality Tools
 
 on:
   push:
-    branches: [ master ]
+    branches: [ 4.X ]
   pull_request:
-    branches: [ master ]
+    branches: [ 4.X ]
   schedule:
       # Also run every day at midnight
       - cron: '0 0 * * *'
@@ -21,12 +21,8 @@ jobs:
 # PHPUnit 8.x is the latest stable release that supports PHP 7.2 and that runs fine
 #            dependency-version: [prefer-lowest, prefer-stable]
             dependency-version: [prefer-stable]
-            os: [ubuntu-18.04, ubuntu-20.04]
+            os: [ubuntu-20.04]
             include:
-                - os: ubuntu-18.04
-                  php: 7.4
-                - os: ubuntu-18.04
-                  php: 8.0
                 - os: ubuntu-20.04
                   php: 7.4
                 - os: ubuntu-20.04
@@ -41,7 +37,7 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
