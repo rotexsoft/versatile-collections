@@ -251,3 +251,4 @@ and more efficient way(s) things could be implemented in this package.
 - Bugfixes for version 4.x should be applied to the 4.X branch.
 - Bugfixes for version 3.x should be applied to the 3.X branch.
 - Bugfixes for version 2.x should be applied to the 2.X branch.
+
