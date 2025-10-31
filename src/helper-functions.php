@@ -136,7 +136,6 @@ namespace VersatileCollections {
         }
 
         $keys = \array_keys($array);
-        //$random_key = null;
 
         try {
             // random_int is more cryptographically secure than array_rand
@@ -236,4 +235,5 @@ namespace VersatileCollections {
         $line_breaker = (PHP_SAPI === 'cli') ? PHP_EOL : '<br>';
         echo var_to_string($var). $line_breaker . $line_breaker;
     }
+    
 } // namespace VersatileCollections
