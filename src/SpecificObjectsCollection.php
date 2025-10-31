@@ -26,7 +26,7 @@ namespace VersatileCollections;
  */
 final class SpecificObjectsCollection extends ObjectsCollection 
 {
-    private ?string $class_name = null;
+    private string|null $class_name = null;
 
     /** 
      * @noinspection PhpMissingParentConstructorInspection
@@ -56,7 +56,7 @@ final class SpecificObjectsCollection extends ObjectsCollection
      * @psalm-suppress MoreSpecificReturnType
      * @psalm-suppress NoInterfaceProperties
      */
-    public static function makeNewForSpecifiedClassName(?string $class_name=null, iterable $items =[], bool $preserve_keys=true): StrictlyTypedCollectionInterface
+    public static function makeNewForSpecifiedClassName(string|null $class_name=null, iterable $items =[], bool $preserve_keys=true): StrictlyTypedCollectionInterface
     {
         // Class was specified, create collection for only instances of the specified class
         $new_collection = static::makeNew(); // make an empty collection first
@@ -80,6 +80,7 @@ final class SpecificObjectsCollection extends ObjectsCollection
     /**
      * @return bool true if $item is of the expected type, else false
      */
+    #[\Override]
     public function checkType(mixed $item): bool 
     {    
         return \is_null($this->class_name)
@@ -87,6 +88,7 @@ final class SpecificObjectsCollection extends ObjectsCollection
                 : ($item instanceof $this->class_name);
     }
     
+    #[\Override]
     public function getTypes(): StringsCollection 
     {    
         return \is_null($this->class_name)

@@ -38,11 +38,13 @@ class ArraysCollection implements StrictlyTypedCollectionInterface
         $this->versatile_collections_items = $arrays;
     }
     
+    #[\Override]
     public function checkType(mixed $item): bool 
     {    
         return \is_array($item);
     }
 
+    #[\Override]
     public function getTypes(): StringsCollection 
     {    
         return new StringsCollection('array');

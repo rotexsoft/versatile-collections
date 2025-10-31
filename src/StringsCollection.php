@@ -32,11 +32,13 @@ class StringsCollection extends ScalarsCollection
         $this->versatile_collections_items = $strings;
     }
     
+    #[\Override]
     public function checkType(mixed $item): bool
     {    
         return \is_string($item);
     }
 
+    #[\Override]
     public function getTypes(): StringsCollection
     {
         return new StringsCollection('string');

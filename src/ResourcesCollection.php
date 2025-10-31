@@ -30,11 +30,13 @@ class ResourcesCollection implements StrictlyTypedCollectionInterface
 {
     use StrictlyTypedCollectionInterfaceImplementationTrait;
 
+    #[\Override]
     public function checkType(mixed $item): bool 
     {
         return \is_resource($item);
     }
 
+    #[\Override]
     public function getTypes(): StringsCollection 
     {
         return new StringsCollection('resource');

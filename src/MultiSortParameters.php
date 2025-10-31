@@ -29,7 +29,7 @@ class MultiSortParameters
     /** 
      * @noinspection PhpUnhandledExceptionInspection
      */
-    public function __construct(string $field_name, ?int $sort_direction=null, ?int $sort_type=null) 
+    public function __construct(string $field_name, int|null $sort_direction=null, int|null $sort_type=null) 
     {    
         if( $this->validateFieldName($field_name) ) {
             

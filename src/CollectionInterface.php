@@ -122,6 +122,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate
      * 
      * @noinspection PhpParameterNameChangedDuringInheritanceInspection
      */
+    #[\Override]
     public function offsetExists(mixed $key): bool;
     
     /**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
@@ -135,6 +136,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate
      * 
      * @noinspection PhpParameterNameChangedDuringInheritanceInspection
      */
+    #[\Override]
     public function offsetGet(mixed $key): mixed;
     
     /**
@@ -151,6 +153,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate
      * @psalm-suppress ParamNameMismatch
      * @noinspection PhpParameterNameChangedDuringInheritanceInspection
      */
+    #[\Override]
     public function offsetSet($key, mixed $val): void;
     
     /**
@@ -164,6 +167,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate
      * 
      * @noinspection PhpParameterNameChangedDuringInheritanceInspection
      */
+    #[\Override]
     public function offsetUnset($key): void;
     
     /**
@@ -182,6 +186,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate
      *  
      * @title: Returns an Iterator object that can be used to iterate through the collection.
      */
+    #[\Override]
     public function getIterator(): Iterator;
     
     /**
@@ -191,6 +196,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate
      *  
      * @title: Returns the number of items in the collection.
      */
+    #[\Override]
     public function count(): int;
     
     ////////////////////////////////////////////////////////////////////////////
@@ -293,7 +299,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate
      *  
      * @title: Filters out the first N items in the collection via a callback function and returns filtered items in a new collection.
      */
-    public function filterFirstN(callable $filterer, ?int $max_number_of_filtered_items_to_return=null, bool $copy_keys=false, bool $bind_callback_to_this=true, bool $remove_filtered_items=false): CollectionInterface;
+    public function filterFirstN(callable $filterer, int|null $max_number_of_filtered_items_to_return=null, bool $copy_keys=false, bool $bind_callback_to_this=true, bool $remove_filtered_items=false): CollectionInterface;
     
     /**
      * Transform each item in the collection via a callback function.
@@ -933,7 +939,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate
      *  
      * @throws InvalidArgumentException if $offset is non-int and / or if $length is non-null and non-int
      */
-    public function slice(int $offset, ?int $length = null): CollectionInterface;
+    public function slice(int $offset, int|null $length = null): CollectionInterface;
 
     /**
      * Sort the collection's items in ascending order while maintaining key association.
@@ -959,7 +965,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate
      *  
      * @title: Sorts a collection's items in ascending order while maintaining key association. A new collection containing the sorted items is returned. The original collection is not modified.
      */
-    public function sort(callable $callable=null, SortType $type=null): CollectionInterface;
+    public function sort(callable|null $callable=null, SortType|null $type=null): CollectionInterface;
 
     /**
      * Sort the collection's items in descending order while maintaining key association.
@@ -985,7 +991,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate
      *  
      * @title: Sorts a collection's items in descending order while maintaining key association. A new collection containing the sorted items is returned. The original collection is not modified.
      */
-    public function sortDesc(callable $callable=null, SortType $type=null): CollectionInterface;
+    public function sortDesc(callable|null $callable=null, SortType|null $type=null): CollectionInterface;
 
     /**
      * Sort the collection's items by keys in ascending order while maintaining key association.
@@ -1011,7 +1017,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate
      *
      * @title: Sorts a collection's items by keys in ascending order while maintaining key association. A new collection containing the sorted items is returned. The original collection is not modified.
      */
-    public function sortByKey(callable $callable=null, SortType $type=null): CollectionInterface;
+    public function sortByKey(callable|null $callable=null, SortType|null $type=null): CollectionInterface;
 
     /**
      * Sort the collection's items by keys in descending order while maintaining key association.
@@ -1037,7 +1043,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate
      *
      * @title: Sorts a collection's items by keys in descending order while maintaining key association. A new collection containing the sorted items is returned. The original collection is not modified.
      */
-    public function sortDescByKey(callable $callable=null, SortType $type=null): CollectionInterface;
+    public function sortDescByKey(callable|null $callable=null, SortType|null $type=null): CollectionInterface;
 
     /**
      * Sort a collection of associative arrays or objects by
@@ -1097,7 +1103,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate
      *
      * @title: Sorts a collection's items in ascending order while maintaining key association. The original collection is modified.
      */
-    public function sortMe(callable $callable=null, SortType $type=null): CollectionInterface;
+    public function sortMe(callable|null $callable=null, SortType|null $type=null): CollectionInterface;
 
     /**
      * Sort the collection's items in descending order while maintaining key association.
@@ -1120,7 +1126,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate
      *
      * @title: Sorts a collection's items in descending order while maintaining key association. The original collection is modified.
      */
-    public function sortMeDesc(callable $callable=null, SortType $type=null): CollectionInterface;
+    public function sortMeDesc(callable|null $callable=null, SortType|null $type=null): CollectionInterface;
 
     /**
      * Sort the collection's items by keys in ascending order while maintaining key association.
@@ -1143,7 +1149,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate
      *
      * @title: Sorts a collection's items by keys in ascending order while maintaining key association. The original collection is modified.
      */
-    public function sortMeByKey(callable $callable=null, SortType $type=null): CollectionInterface;
+    public function sortMeByKey(callable|null $callable=null, SortType|null $type=null): CollectionInterface;
 
     /**
      * Sort the collection's items by keys in descending order while maintaining key association.
@@ -1167,7 +1173,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate
      *
      * @title: Sorts a collection's items by keys in descending order while maintaining key association. The original collection is modified.
      */
-    public function sortMeDescByKey(callable $callable=null, SortType $type=null): CollectionInterface;
+    public function sortMeDescByKey(callable|null $callable=null, SortType|null $type=null): CollectionInterface;
 
     /**
      * Sort a collection of associative arrays or objects by
@@ -1238,7 +1244,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate
      *  
      * @throws InvalidArgumentException if $offset is non-int and / or if $length is non-null and non-int
      */
-    public function splice(int $offset, ?int $length=null, array $replacement=[]): CollectionInterface;
+    public function splice(int $offset, int|null $length=null, array $replacement=[]): CollectionInterface;
 
     /**
      * Split a collection into a certain number of groups.
@@ -1391,7 +1397,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate
      * 
      * @noinspection PhpMissingParamTypeInspection
      */
-    public function whenTrue($truthy_value, callable $callback, callable $default=null): mixed;
+    public function whenTrue($truthy_value, callable $callback, callable|null $default=null): mixed;
     
     /**
      * Execute $callback on $this and return its return value if $falsy_value is falsy
@@ -1418,7 +1424,7 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate
      * 
      * @noinspection PhpMissingParamTypeInspection
      */
-    public function whenFalse($falsy_value, callable $callback, callable $default=null): mixed;
+    public function whenFalse($falsy_value, callable $callback, callable|null $default=null): mixed;
     
     /**
      * Return the values from a single column in the collection.
@@ -1817,5 +1823,5 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate
      *
      * @title: Returns a new collection of items from an existing collection whose keys and corresponding items are present in an array of specified items using one specified callback for testing key presence and another specified callback for testing item presence.
      */
-    public function intersectByKeysAndItemsUsingCallbacks(array $arr, callable $key_comparator=null, callable $item_comparator=null): CollectionInterface;
+    public function intersectByKeysAndItemsUsingCallbacks(array $arr, callable|null $key_comparator=null, callable|null $item_comparator=null): CollectionInterface;
 }

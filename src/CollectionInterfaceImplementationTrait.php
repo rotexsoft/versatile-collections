@@ -1298,8 +1298,8 @@ trait CollectionInterfaceImplementationTrait
 
     protected function performSort(
         array &$items_to_sort,
-        callable $callable=null,
-        SortType $type=null,
+        callable|null $callable=null,
+        SortType|null $type=null,
         string $sort_function_name_not_requiring_callback='asort',
         string $sort_function_name_requiring_callback='uasort'
     ): void {
@@ -1422,7 +1422,7 @@ trait CollectionInterfaceImplementationTrait
     /**
      * @see \VersatileCollections\CollectionInterface::sort()
      */
-    public function sort(callable $callable=null, SortType $type=null): CollectionInterface
+    public function sort(callable|null $callable=null, SortType|null $type=null): CollectionInterface
     {
         // sort a copy
         $items_to_sort = $this->versatile_collections_items;
@@ -1440,7 +1440,7 @@ trait CollectionInterfaceImplementationTrait
     /**
      * @see \VersatileCollections\CollectionInterface::sortDesc()
      */
-    public function sortDesc(callable $callable=null, SortType $type=null): CollectionInterface
+    public function sortDesc(callable|null $callable=null, SortType|null $type=null): CollectionInterface
     {
         // sort a copy
         $items_to_sort = $this->versatile_collections_items;
@@ -1458,7 +1458,7 @@ trait CollectionInterfaceImplementationTrait
     /**
      * @see \VersatileCollections\CollectionInterface::sortByKey()
      */
-    public function sortByKey(callable $callable=null, SortType $type=null): CollectionInterface
+    public function sortByKey(callable|null $callable=null, SortType|null $type=null): CollectionInterface
     {
         // sort a copy
         $items_to_sort = $this->versatile_collections_items;
@@ -1476,7 +1476,7 @@ trait CollectionInterfaceImplementationTrait
     /**
      * @see \VersatileCollections\CollectionInterface::sortDescByKey()
      */
-    public function sortDescByKey(callable $callable=null, SortType $type=null): CollectionInterface
+    public function sortDescByKey(callable|null $callable=null, SortType|null $type=null): CollectionInterface
     {
         // sort a copy
         $items_to_sort = $this->versatile_collections_items;
@@ -1518,7 +1518,7 @@ trait CollectionInterfaceImplementationTrait
     /**
      * @see \VersatileCollections\CollectionInterface::sortMe()
      */
-    public function sortMe(callable $callable=null, SortType $type=null): CollectionInterface
+    public function sortMe(callable|null $callable=null, SortType|null $type=null): CollectionInterface
     {
         $this->performSort(
             $this->versatile_collections_items, 
@@ -1534,7 +1534,7 @@ trait CollectionInterfaceImplementationTrait
     /**
      * @see \VersatileCollections\CollectionInterface::sortMeDesc()
      */
-    public function sortMeDesc(callable $callable=null, SortType $type=null): CollectionInterface
+    public function sortMeDesc(callable|null $callable=null, SortType|null $type=null): CollectionInterface
     {
         $this->performSort(
             $this->versatile_collections_items, 
@@ -1550,7 +1550,7 @@ trait CollectionInterfaceImplementationTrait
     /**
      * @see \VersatileCollections\CollectionInterface::sortMeByKey()
      */
-    public function sortMeByKey(callable $callable=null, SortType $type=null): CollectionInterface
+    public function sortMeByKey(callable|null $callable=null, SortType|null $type=null): CollectionInterface
     {
         $this->performSort(
             $this->versatile_collections_items, 
@@ -1566,7 +1566,7 @@ trait CollectionInterfaceImplementationTrait
     /**
      * @see \VersatileCollections\CollectionInterface::sortMeDescByKey()
      */
-    public function sortMeDescByKey(callable $callable=null, SortType $type=null): CollectionInterface
+    public function sortMeDescByKey(callable|null $callable=null, SortType|null $type=null): CollectionInterface
     {
         $this->performSort(
             $this->versatile_collections_items, 
@@ -1607,7 +1607,7 @@ trait CollectionInterfaceImplementationTrait
     /**
      * @see \VersatileCollections\CollectionInterface::splice()
      */
-    public function splice(int $offset, ?int $length=null, array $replacement=[]): CollectionInterface
+    public function splice(int $offset, int|null $length=null, array $replacement=[]): CollectionInterface
     {
         if( $length === null ) {
             
@@ -1874,7 +1874,7 @@ trait CollectionInterfaceImplementationTrait
      * 
      * @param bool $truthy_value
      */
-    public function whenTrue($truthy_value, callable $callback, callable $default=null): mixed {
+    public function whenTrue($truthy_value, callable $callback, callable|null $default=null): mixed {
         
         if ( $truthy_value ) {
             
@@ -1893,7 +1893,7 @@ trait CollectionInterfaceImplementationTrait
      * 
      * @param bool $falsy_value
      */
-    public function whenFalse($falsy_value, callable $callback, callable $default=null): mixed {
+    public function whenFalse($falsy_value, callable $callback, callable|null $default=null): mixed {
         return $this->whenTrue( (!$falsy_value) , $callback, $default);
     }
     
@@ -2126,7 +2126,7 @@ trait CollectionInterfaceImplementationTrait
      * @noinspection PhpUnusedLocalVariableInspection
      * @psalm-suppress RedundantCondition
      */
-    public function intersectByKeysAndItemsUsingCallbacks(array $arr, callable $key_comparator=null, callable $item_comparator=null): CollectionInterface
+    public function intersectByKeysAndItemsUsingCallbacks(array $arr, callable|null $key_comparator=null, callable|null $item_comparator=null): CollectionInterface
     {
         $result = [];
         

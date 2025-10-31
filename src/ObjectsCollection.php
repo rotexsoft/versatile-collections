@@ -107,11 +107,13 @@ class ObjectsCollection implements StrictlyTypedCollectionInterface
         }
     }
     
+    #[\Override]
     public function checkType(mixed $item): bool
     {
         return \is_object($item);
     }
 
+    #[\Override]
     public function getTypes(): StringsCollection
     {
         return new StringsCollection('object');

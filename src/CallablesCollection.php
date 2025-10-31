@@ -35,11 +35,13 @@ class CallablesCollection implements StrictlyTypedCollectionInterface
         $this->versatile_collections_items = $callables;
     }
 
+    #[\Override]
     public function checkType(mixed $item): bool
     {    
         return \is_callable($item);
     }
 
+    #[\Override]
     public function getTypes(): StringsCollection
     {    
         return new StringsCollection('callable');

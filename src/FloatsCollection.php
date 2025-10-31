@@ -34,11 +34,13 @@ class FloatsCollection extends NumericsCollection
         $this->versatile_collections_items = $numbers;
     }
     
+    #[\Override]
     public function checkType(mixed $item): bool
     {
         return \is_float($item);
     }
 
+    #[\Override]
     public function getTypes(): StringsCollection 
     {    
         return new StringsCollection('float');
@@ -48,6 +50,7 @@ class FloatsCollection extends NumericsCollection
      * @param $str
      * @noinspection PhpMissingReturnTypeInspection
      */
+    #[\Override]
     protected function itemFromString(string $str): float
     {
         return ((float) ($str.''));
@@ -56,6 +59,7 @@ class FloatsCollection extends NumericsCollection
     /**
      * @noinspection PhpMissingReturnTypeInspection
      */
+    #[\Override]
     protected function itemToString(float|int $item): string
     {    
         return $item.'';

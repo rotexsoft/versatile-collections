@@ -35,7 +35,7 @@ class NumericsCollection extends ScalarsCollection
      *  
      * @title: Returns the average of all of the values(a.k.a items) in the collection or null if collection is empty.
      */
-    public function average(): ?float
+    public function average(): float|null
     {
         return ($this->count() > 0) ? ($this->sum() / $this->count()) : null;
     }
@@ -43,11 +43,13 @@ class NumericsCollection extends ScalarsCollection
     /**
      * This method should be overridden in sub-classes of this class
      */
+    #[\Override]
     public function checkType(mixed $item): bool
     {    
         return \is_float($item) || \is_int($item);
     }
 
+    #[\Override]
     public function getTypes(): StringsCollection
     {    
         return new StringsCollection('int', 'float');
@@ -95,7 +97,7 @@ class NumericsCollection extends ScalarsCollection
      * 
      * @psalm-suppress ArgumentTypeCoercion 
      */
-    public function max(): ?float
+    public function max(): float|null
     {    
         return ($this->count() > 0) ? \max($this->versatile_collections_items) : null;
     }
@@ -107,7 +109,7 @@ class NumericsCollection extends ScalarsCollection
      *  
      * @title: Returns the median of all of the values(a.k.a items) in the collection or null if collection is empty.
      */
-    public function median(): ?float
+    public function median(): float|null
     {
         $count = $this->count();
 
@@ -138,7 +140,7 @@ class NumericsCollection extends ScalarsCollection
      * 
      * @psalm-suppress ArgumentTypeCoercion 
      */
-    public function min(): ?float
+    public function min(): float|null
     {
         return ($this->count() > 0) ? \min($this->versatile_collections_items) : null;
     }
@@ -159,7 +161,7 @@ class NumericsCollection extends ScalarsCollection
      * 
      * @psalm-suppress ArgumentTypeCoercion 
      */
-    public function mode(): ?array
+    public function mode(): array|null
     {    
         $counts = [];
         $count = $this->count();

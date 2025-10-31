@@ -121,11 +121,11 @@ namespace VersatileCollections {
      *
      * @param array $array array from which a random key is to be extracted
      *  
-     * @return string|int|null a random key from the specified array
+     * @return string|int a random key from the specified array
      *  
      * @throws LengthException
      */
-    function random_array_key(array $array): string|int|null
+    function random_array_key(array $array): string|int
     {
         if( \count($array) <= 0 ) {
 
@@ -136,7 +136,7 @@ namespace VersatileCollections {
         }
 
         $keys = \array_keys($array);
-        $random_key = null;
+        //$random_key = null;
 
         try {
             // random_int is more cryptographically secure than array_rand
