@@ -39,6 +39,8 @@ Switch to the 4.X branch to read the documentation for the 4.X version.
 
 Switch to the 5.x branch to read the documentation for the 5.x version.
 
+Switch to the 6.x branch to read the documentation for the 6.x version.
+
 Switch to the master branch to read the documentation for the latest version.
 
 
@@ -243,7 +245,8 @@ and more efficient way(s) things could be implemented in this package.
 
 ## Contributing
 
-- master branch currently contains code for the latest version, which as of March 2024 is 6.x
+- master branch currently contains code for the latest version, which as of Oct 2025 is 7.x
+- Bugfixes for version 6.x should be applied to the 6.x branch.
 - Bugfixes for version 5.x should be applied to the 5.x branch.
 - Bugfixes for version 4.x should be applied to the 4.X branch.
 - Bugfixes for version 3.x should be applied to the 3.X branch.
