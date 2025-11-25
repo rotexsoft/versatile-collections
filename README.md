@@ -10,7 +10,7 @@
 ![GitHub commits since latest release (by date) for a branch](https://img.shields.io/github/commits-since/rotexsoft/versatile-collections/latest/master) &nbsp;
 ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/rotexsoft/versatile-collections/master) &nbsp;
 ![GitHub Release Date](https://img.shields.io/github/release-date/rotexsoft/versatile-collections) &nbsp;
-<a href="https://libraries.io/github/rotexsoft/versatile-collections">
+<a href="https://libraries.io/packagist/rotexsoft%2Fversatile-collections">
 <img alt="Libraries.io dependency status for GitHub repo" src="https://img.shields.io/librariesio/github/rotexsoft/versatile-collections">
 </a>
 
