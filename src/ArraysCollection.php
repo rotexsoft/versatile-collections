@@ -25,6 +25,7 @@ namespace VersatileCollections;
  *      - other-operations
  *
  * @author Rotimi Ade
+ * @psalm-suppress ClassMustBeFinal
  */
 class ArraysCollection implements StrictlyTypedCollectionInterface
 {

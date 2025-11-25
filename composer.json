@@ -28,7 +28,7 @@
         "php" : ">=8.2.0"
     },
     "require-dev" : {
-        "phpunit/phpunit" : "^11.0",
+        "phpunit/phpunit" : "^12.0 || ^11.0",
         "php-coveralls/php-coveralls" : "^2.0",
         "rector/rector" : "^2.0.0",
         "vimeo/psalm" : "^6.0.0"
@@ -49,7 +49,7 @@
     },
     "scripts" : {
         "test" : "vendor/bin/phpunit --coverage-text --display-warnings --display-deprecations --display-notices",
-        "rector" : "vendor/bin/rector process src --dry-run -vvv",
+        "rector" : "vendor/bin/rector process src --dry-run",
         "rector-clear": "vendor/bin/rector --clear-cache",
         "psalm" : "vendor/bin/psalm --threads=1",
         "psalm-clear-cache": "vendor/bin/psalm --clear-global-cache && vendor/bin/psalm --clear-cache",

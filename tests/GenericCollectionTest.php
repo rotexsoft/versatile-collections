@@ -1893,8 +1893,8 @@ class GenericCollectionTest extends \PHPUnit\Framework\TestCase {
         );
         
         $this->assertEquals(
-            $array_of_static_methods[$expected_key_for_new_method]['method'], 
-            \Closure::bind($method, $collection)
+            $array_of_static_methods[$expected_key_for_new_method]['method'](), 
+            $collection->count()
         );
         
         $this->assertSame(

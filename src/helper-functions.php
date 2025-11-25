@@ -235,5 +235,5 @@ namespace VersatileCollections {
         $line_breaker = (PHP_SAPI === 'cli') ? PHP_EOL : '<br>';
         echo var_to_string($var). $line_breaker . $line_breaker;
     }
-    
+
 } // namespace VersatileCollections

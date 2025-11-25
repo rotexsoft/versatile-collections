@@ -25,6 +25,7 @@ namespace VersatileCollections;
  *      - other-operations
  *
  * @author rotimi
+ * @psalm-suppress ClassMustBeFinal
  */
 class FloatsCollection extends NumericsCollection 
 {
@@ -62,6 +63,6 @@ class FloatsCollection extends NumericsCollection
     #[\Override]
     protected function itemToString(float|int $item): string
     {    
-        return $item.'';
+        return ((string)$item).'';
     }
 }

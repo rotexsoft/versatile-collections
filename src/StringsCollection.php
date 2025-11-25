@@ -23,6 +23,7 @@ namespace VersatileCollections;
  *      - other-operations
  *  
  * @author rotimi
+ * @psalm-suppress ClassMustBeFinal
  */
 class StringsCollection extends ScalarsCollection
 {

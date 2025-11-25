@@ -150,7 +150,6 @@ interface CollectionInterface extends ArrayAccess, Countable, IteratorAggregate
      * 
      * @title: Adds an item with a specified key to the collection.
      * 
-     * @psalm-suppress ParamNameMismatch
      * @noinspection PhpParameterNameChangedDuringInheritanceInspection
      */
     #[\Override]

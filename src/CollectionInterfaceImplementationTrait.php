@@ -368,7 +368,6 @@ trait CollectionInterfaceImplementationTrait
      * @param string|int|null $key The requested key.
      * 
      * @param mixed $val The value to set it to.
-     * @psalm-suppress ParamNameMismatch
      */
     public function offsetSet($key, mixed $val): void 
     {
@@ -1109,7 +1108,6 @@ trait CollectionInterfaceImplementationTrait
     
     /**
      * @see \VersatileCollections\CollectionInterface::randomKey()
-     * @psalm-suppress InvalidNullableReturnType
      */
     public function randomKey(): int|string 
     { 
@@ -1307,7 +1305,7 @@ trait CollectionInterfaceImplementationTrait
             
             $sort_type = SORT_REGULAR;
             
-            if( $type !== null ) {
+            if( $type instanceof SortType) {
                 
                 $sort_type = $type->getSortType();
             }

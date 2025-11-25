@@ -60,6 +60,8 @@ final class SpecificObjectsCollection extends ObjectsCollection
     {
         // Class was specified, create collection for only instances of the specified class
         $new_collection = static::makeNew(); // make an empty collection first
+        
+        /** @psalm-suppress UndefinedMagicPropertyAssignment */
         $new_collection->class_name = $class_name;
 
         foreach ($items as $key => $val) {

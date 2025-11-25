@@ -7,6 +7,7 @@ use Exception;
  * Description of InvalidItemException
  *
  * @author Rotimi Ade
+ * @psalm-suppress ClassMustBeFinal
  */
 class InvalidKeyException extends Exception {
     

@@ -6,6 +6,7 @@ namespace VersatileCollections;
  * Description of SortParameters
  * 
  * @author Rotimi Ade
+ * @psalm-suppress ClassMustBeFinal
  */
 class MultiSortParameters 
 {    

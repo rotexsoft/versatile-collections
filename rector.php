@@ -21,11 +21,14 @@ return static function (RectorConfig $rectorConfigurator): void {
     $rectorConfigurator->import(SetList::PHP_81);
     $rectorConfigurator->import(SetList::PHP_82);
     $rectorConfigurator->import(SetList::DEAD_CODE);
+    $rectorConfigurator->import(SetList::INSTANCEOF);
     $rectorConfigurator->import(SetList::TYPE_DECLARATION);
+    $rectorConfigurator->import(SetList::TYPE_DECLARATION_DOCBLOCKS);
         
     $skipables = [
         \Rector\DeadCode\Rector\TryCatch\RemoveDeadCatchRector::class,
         \Rector\Php81\Rector\MethodCall\RemoveReflectionSetAccessibleCallsRector::class,
+        \Rector\DeadCode\Rector\Concat\RemoveConcatAutocastRector::class,
 //        \Rector\CodeQuality\Rector\If_\ShortenElseIfRector::class,
 //        \Rector\CodingStyle\Rector\Catch_\CatchExceptionNameMatchingTypeRector::class,
 //        \Rector\CodingStyle\Rector\Encapsed\EncapsedStringsToSprintfRector::class,

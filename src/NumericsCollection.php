@@ -37,7 +37,7 @@ class NumericsCollection extends ScalarsCollection
      */
     public function average(): float|null
     {
-        return ($this->count() > 0) ? ($this->sum() / $this->count()) : null;
+        return ($this->count() > 0) ? \fdiv( $this->sum(), (float)$this->count() ) : null;
     }
     
     /**
@@ -85,7 +85,7 @@ class NumericsCollection extends ScalarsCollection
      */
     protected function itemToString(float|int $item): string
     {    
-        return $item.'';
+        return ((string)$item).'';
     }
     
     /**
@@ -224,6 +224,6 @@ class NumericsCollection extends ScalarsCollection
      */
     public function sum(): float
     {
-        return \array_sum($this->versatile_collections_items);
+        return (float)\array_sum($this->versatile_collections_items);
     }
 }

@@ -11,6 +11,7 @@ use Throwable;
  * Description of Utils
  *
  * @author rotimi
+ * @psalm-suppress ClassMustBeFinal
  */
 class Utils
 {
@@ -29,7 +30,7 @@ class Utils
         try {
             $new_closure = Closure::bind($closure, $newthis);
 
-            if($new_closure === null) {
+            if(!($new_closure instanceof \Closure)) {
 
                 throw new Exception(''); // jump to catch block below
             }
