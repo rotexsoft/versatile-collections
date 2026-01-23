@@ -52,8 +52,7 @@ namespace VersatileCollections {
                     // use some reflection gymnastics to retrieve the value
                     $reflection_class = new ReflectionClass($obj::class);
                     $property = $reflection_class->getProperty($property);
-                    $property->setAccessible(true);
-                    $return_val = $property->getValue($obj); //$property->setAccessible(false);
+                    $return_val = $property->getValue($obj);
 
                 } else {
 

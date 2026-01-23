@@ -48,9 +48,8 @@
         ]
     },
     "scripts" : {
-        "test" : "vendor/bin/phpunit --coverage-text --display-warnings --display-deprecations --display-notices",
+        "test" : "vendor/bin/phpunit --coverage-text --display-all-issues",
         "rector" : "vendor/bin/rector process src --dry-run",
-        "rector-clear": "vendor/bin/rector --clear-cache",
         "psalm" : "vendor/bin/psalm --threads=1",
         "psalm-clear-cache": "vendor/bin/psalm --clear-global-cache && vendor/bin/psalm --clear-cache",
         "qa": "composer test && composer rector && composer psalm-clear-cache && composer psalm"

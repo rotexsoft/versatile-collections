@@ -22,6 +22,7 @@ return static function (RectorConfig $rectorConfigurator): void {
     $rectorConfigurator->import(SetList::PHP_82);
     $rectorConfigurator->import(SetList::DEAD_CODE);
     $rectorConfigurator->import(SetList::INSTANCEOF);
+    //$rectorConfigurator->import(SetList::CODE_QUALITY);
     $rectorConfigurator->import(SetList::TYPE_DECLARATION);
     $rectorConfigurator->import(SetList::TYPE_DECLARATION_DOCBLOCKS);
         
